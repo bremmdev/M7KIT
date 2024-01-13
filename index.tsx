@@ -1,0 +1,1 @@
+export { FolderStructure } from "./src/FolderStructure";
