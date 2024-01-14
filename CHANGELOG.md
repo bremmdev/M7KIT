@@ -9,3 +9,11 @@
 ### Added
 
 - Autodocs for Storybook
+
+0.2.1 - 2024-01-14
+
+### Changed
+
+- Remove internal `Intendation` component for `FolderStructure` component
+- Add indentSize prop to `FolderStructure`
+- General refactoring for `FolderStructure`

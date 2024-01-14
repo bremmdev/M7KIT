@@ -6,10 +6,19 @@ const meta: Meta<typeof FolderStructure> = {
   component: FolderStructure,
   title: "Components/FolderStructure",
   tags: ["autodocs"],
+  argTypes: {
+    indentSize: {
+      control: {
+        type: "select",
+        options: [2, 3, 4],
+      },
+    },
+  },
   parameters: {
     docs: {
       description: {
-        component: 'Component for displaying hierarchical data structures. It uses Folder and File subcomponents to represent nodes in a file-tree hierarchy. It use an Indentation subcomponent to visually represents the depth of each node.',
+        component:
+          "Component for displaying folder structures or file trees.",
       },
     },
   },
@@ -19,22 +28,22 @@ export default meta;
 type Story = StoryObj<typeof FolderStructure>;
 
 /*
-**  Basic: Flat structure with no nesting
-*/
+ **  Basic: Flat structure with no nesting
+ */
 
 export const Basic: Story = {
   args: {
     data: {
-      name: "Indentation",
+      name: "Component",
       children: [
         {
-          name: "Indentation.tsx",
+          name: "Component.tsx",
         },
         {
-          name: "Indentation.types.ts",
+          name: "Component.types.ts",
         },
         {
-          name: "Indentation.stories.tsx",
+          name: "Component.stories.tsx",
         },
       ],
     },
@@ -42,11 +51,12 @@ export const Basic: Story = {
 };
 
 /*
-**  Nested: Nested structure with multiple levels
-*/
+ **  Nested: Nested structure with multiple levels
+ */
 
 export const Nested: Story = {
   args: {
+    indentSize: 2,
     data: {
       name: "src",
       children: [
@@ -54,16 +64,16 @@ export const Nested: Story = {
           name: "FolderStructure",
           children: [
             {
-              name: "Indentation",
+              name: "SubComponent",
               children: [
                 {
-                  name: "Indentation.tsx",
+                  name: "Component.tsx",
                 },
                 {
-                  name: "Indentation.types.ts",
+                  name: "Component.types.ts",
                 },
                 {
-                  name: "Indentation.stories.tsx",
+                  name: "Component.stories.tsx",
                 },
               ],
             },

@@ -1,3 +1,5 @@
+import { ComponentPropsWithRef } from "react";
+
 export interface NamedEntity {
   name: string;
 }
@@ -15,11 +17,25 @@ export interface FileProps {
   level: number;
 }
 
+export type IndentSize = 2 | 3 | 4;
+
 export interface FolderProps {
   folder: FolderType;
   level: number;
+  /**
+   * The amount of space to indent each level of the folder structure,
+   * each unit represents 1 Tailwind CSS space unit (4px)
+   * @default 2
+   */
+  indentSize: IndentSize;
 }
 
-export interface FolderStructureProps {
+export interface FolderStructureProps extends ComponentPropsWithRef<"div"> {
   data: FolderStructureType;
+  /**
+   * The amount of space to indent each level of the folder structure,
+   * each unit represents 1 Tailwind CSS space unit (4px)
+   * @default 2
+   */
+  indentSize?: IndentSize;
 }
