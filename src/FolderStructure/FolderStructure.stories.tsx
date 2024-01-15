@@ -2,6 +2,34 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import { FolderStructure } from "./FolderStructure";
 
+/**
+ * The `FolderStructure` component provides a way for displaying folder structures or file trees. It accepts a data prop which is an object with a name and children property.
+ * The name property is a string that represents the name of the folder or file. The children property is an array of objects with the same structure as the parent object.
+ * The component will recursively render the children of the data object. The component accepts an indentSize prop which is a number that represents the number of indentations for each level.
+ * The component accepts a className prop which can be used to override the default styles.
+ *
+ *
+ * ## Usage
+ * ```
+ * <FolderStructure
+ *    data={{
+ *     name: "Component",
+ *     children: [
+ *       {
+ *         name: "Component.tsx",
+ *       },
+ *       {
+ *         name: "Component.types.ts",
+ *       },
+ *       {
+ *         name: "Component.stories.tsx",
+ *       },
+ *     ],
+ *   }}
+ * />
+ * ```
+ */
+
 const meta: Meta<typeof FolderStructure> = {
   component: FolderStructure,
   title: "Components/FolderStructure",
@@ -11,14 +39,6 @@ const meta: Meta<typeof FolderStructure> = {
       control: {
         type: "select",
         options: [2, 3, 4],
-      },
-    },
-  },
-  parameters: {
-    docs: {
-      description: {
-        component:
-          "Component for displaying folder structures or file trees.",
       },
     },
   },

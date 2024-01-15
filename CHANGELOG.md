@@ -1,6 +1,13 @@
-## 0.3.1 - 2024-01-15
+## 0.4.0 - 2024-01-15
 
-### Changed
+### Added
+
+- Add `SkipLink` component
+- Add JDDoc for stories
+
+## 0.3.0 - 2024-01-15
+
+### Added
 
 - Add clsx and tw-merge to allow class overrides
 
