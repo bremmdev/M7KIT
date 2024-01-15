@@ -5,6 +5,7 @@ import {
   FolderStructureProps,
   FolderType,
 } from "./FolderStructure.types";
+import { cn } from "../utils/cn";
 
 const isFolder = (node: FolderType | FileType): node is FolderType => {
   return "children" in node;
@@ -40,7 +41,7 @@ const Node = ({
   );
 };
 
-const Folder = ({ folder, level, indentSize}: FolderProps) => {
+const Folder = ({ folder, level, indentSize }: FolderProps) => {
   //a unit of margin is equal to 4px
   const marginUnit = indentSize * 4;
 
@@ -72,12 +73,16 @@ const Folder = ({ folder, level, indentSize}: FolderProps) => {
 export const FolderStructure = ({
   data,
   indentSize = 2,
-  ...remainingProps
+  className,
+  ...props
 }: FolderStructureProps) => {
   return (
     <div
-      className="bg-slate-50 dark:bg-slate-800 text-slate-950 dark:text-slate-200 text-sm mx-auto max-w-2xl my-8 rounded-md border border-slate-300"
-      {...remainingProps}
+      className={cn(
+        "bg-slate-50 dark:bg-slate-800 text-slate-950 dark:text-slate-200 text-sm mx-auto max-w-2xl my-8 rounded-md border border-slate-300",
+        className
+      )}
+      {...props}
     >
       <FolderTitle name={data.name} />
       <div className="px-4 py-2 rounded-b-md border-t border-t-slate-300">
