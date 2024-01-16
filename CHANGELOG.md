@@ -1,3 +1,9 @@
+## 0.5.1 - 2024-01-16
+
+### Added
+
+- Add tests for `SkipLink` and `FolderStructure` components
+
 ## 0.5.0 - 2024-01-16
 
 ### Added
