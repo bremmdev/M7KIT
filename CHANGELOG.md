@@ -1,3 +1,14 @@
+## 0.5.0 - 2024-01-16
+
+### Added
+
+- Add jest and react-testing-library for testing
+
+### Fix
+
+- small css fix for `SkipLink` component
+- change storybook preview to fullscreen
+
 ## 0.4.0 - 2024-01-15
 
 ### Added
