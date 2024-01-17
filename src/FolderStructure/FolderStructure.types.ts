@@ -1,5 +1,3 @@
-import { ComponentPropsWithRef } from "react";
-
 export interface NamedEntity {
   name: string;
 }
@@ -30,7 +28,7 @@ export interface FolderProps {
   indentSize: IndentSize;
 }
 
-export interface FolderStructureProps extends ComponentPropsWithRef<"div"> {
+export interface FolderStructureProps extends React.ComponentPropsWithRef<"div"> {
   data: FolderStructureType;
   /**
    * The amount of space to indent each level of the folder structure,

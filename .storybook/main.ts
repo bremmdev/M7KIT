@@ -7,7 +7,8 @@ const config: StorybookConfig = {
     "@storybook/addon-essentials",
     "@storybook/addon-onboarding",
     "@storybook/addon-interactions",
-    'storybook-tailwind-dark-mode'
+    "storybook-tailwind-dark-mode",
+    "@storybook/addon-a11y"
   ],  
   framework: {
     name: "@storybook/react-vite",

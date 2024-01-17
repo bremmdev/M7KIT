@@ -1,3 +1,15 @@
+## 0.6.1 - 2024-01-17
+
+### Added
+
+- Add `Breadcrumbs` component
+- Add addon-a11y
+- Add lucide-react icons
+
+### Changed
+
+- CSS changes for `SkipLink` component
+
 ## 0.5.1 - 2024-01-16
 
 ### Added
