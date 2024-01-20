@@ -1,3 +1,9 @@
+## 0.7.0 - 2024-01-20
+
+### Added
+
+- Add `Slider` component
+
 ## 0.6.1 - 2024-01-17
 
 ### Added

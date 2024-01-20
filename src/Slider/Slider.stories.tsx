@@ -59,6 +59,7 @@ export const Basic: Story = {
     step: 5,
     value: 50,
     label: "Brightness",
+    name: 'brightness',
   },
   render: (props) => (
     <div className="p-12">

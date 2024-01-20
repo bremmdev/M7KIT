@@ -37,7 +37,7 @@ describe("Slider", () => {
       expect(getByRole("textbox")).toBeTruthy();
     });
 
-    it("should render input without name", () => {
+    it("should not render input without name", () => {
       const { queryByRole } = render(<Slider value={50} />);
       expect(queryByRole("textbox")).toBeNull();
     });

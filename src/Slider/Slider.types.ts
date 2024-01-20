@@ -52,3 +52,21 @@ export interface SliderProps extends React.ComponentPropsWithRef<"div"> {
    */
   label?: string;
 }
+
+export interface SlideValueProps {
+  value: number;
+  disabled: boolean;
+  showValue: boolean;
+}
+
+export interface SlideInputHiddenProps {
+  name?: string;
+  value?: number;
+}
+
+export interface SlideTrackFillProps {
+  size: 2 | 3 | 4;
+  disabled: boolean; 
+  currentValue: number | undefined; 
+  max: number;
+}
