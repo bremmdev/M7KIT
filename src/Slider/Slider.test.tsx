@@ -60,6 +60,15 @@ describe("Slider", () => {
       const { getByRole } = render(<Slider label="Score" />);
       expect(getByRole("slider")).toHaveAttribute("aria-labelledby");
     });
+    it("shoud have the correct aria-orientation", () => {
+      const { getByRole } = render(<Slider />);
+      expect(getByRole("slider")).toHaveAttribute("aria-orientation", "horizontal");
+    });
+    it("shoud have the correct aria-orientation", () => {
+      const { getByRole } = render(<Slider orientation="vertical"/>);
+      expect(getByRole("slider")).toHaveAttribute("aria-orientation", "vertical");
+    });
+
   });
 
   describe("Keyboard interaction", () => {

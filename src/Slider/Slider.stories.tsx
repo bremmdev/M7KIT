@@ -2,23 +2,20 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Slider } from "./Slider";
 
 /**
- * The `Slider` component ....
- *
+ * The `Slider` component is an accessible slider component that allows users to select a value from a range of values. It is based on the [W3C Slider pattern](https://www.w3.org/WAI/ARIA/apg/patterns/slider/).
+ * It has several features, such as horizontal and vertical orientation, different sizes, a hidden input field for form submission, and a label.
+ * 
  * ## Accessibility
  *
- * I followed the following guidelines while developing the `Slider` component. These are mostly based on the [W3C Slider pattern guidelines](https://www.w3.org/WAI/ARIA/apg/patterns/slider/):
+ * I followed the following guidelines while developing the `Slider` component:
  * - The element serving as the focusable slider control has role slider.
  * - The slider element has the aria-valuenow property set to a decimal value representing the current value of the slider.
  * - The slider element has the aria-valuemin property set to a decimal value representing the minimum allowed value of the slider.
  * - The slider element has the aria-valuemax property set to a decimal value representing the maximum allowed value of the slider.
  * - If the slider has a visible label, it is referenced by aria-labelledby on the slider element. Otherwise, the slider element has a label provided by aria-label.
- *
- *
- *
- *
- *
  * - If the slider is vertically oriented, it has aria-orientation set to vertical. The default value of aria-orientation for a slider is horizontal.
  *
+
  * ## Keyboard interaction
  *
  * - Right Arrow: Increase the value of the slider by one step.
@@ -56,10 +53,27 @@ export const Basic: Story = {
     size: 3,
     min: 0,
     max: 100,
-    step: 5,
     value: 50,
     label: "Brightness",
-    name: 'brightness',
+    name: "brightness",
+  },
+  render: (props) => (
+    <div className="p-12">
+      <Slider {...props} />
+    </div>
+  ),
+};
+
+export const Vertical: Story = {
+  args: {
+    className: "h-[200px]",
+    size: 3,
+    min: 0,
+    max: 100,
+    value: 50,
+    label: "Volume",
+    name: "volume",
+    orientation: "vertical",
   },
   render: (props) => (
     <div className="p-12">

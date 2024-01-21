@@ -57,6 +57,7 @@ export interface SlideValueProps {
   value: number;
   disabled: boolean;
   showValue: boolean;
+  orientation: "horizontal" | "vertical";
 }
 
 export interface SlideInputHiddenProps {
@@ -69,4 +70,5 @@ export interface SlideTrackFillProps {
   disabled: boolean; 
   currentValue: number | undefined; 
   max: number;
+  orientation: "horizontal" | "vertical";
 }

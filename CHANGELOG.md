@@ -1,3 +1,9 @@
+## 0.7.1 - 2024-01-21
+
+### Added
+
+- Add vertical orientation option to `Slider`
+
 ## 0.7.0 - 2024-01-20
 
 ### Added

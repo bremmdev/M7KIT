@@ -12,12 +12,14 @@ import {
   thumbSizeVariants,
 } from "./slider.utils";
 
-export const SlideValue = ({ value, disabled, showValue }: SlideValueProps) => {
+export const SlideValue = ({ value, disabled, showValue, orientation }: SlideValueProps) => {
   if (!showValue) return null;
   return (
     <span
-      className={cn("absolute -top-5 text-sm font-medium text-slate-950", {
+      className={cn("absolute text-sm font-medium text-slate-950", {
         "opacity-50": disabled,
+        "-top-5": orientation === "horizontal",
+        "-right-6": orientation === "vertical", 
       })}
     >
       {value}
@@ -37,16 +39,24 @@ const TrackFill = ({
   disabled,
   currentValue,
   max,
+  orientation,
 }: SlideTrackFillProps) => {
+  const amount = currentValue || 0 / max;
+
+  const trackStyles =
+    orientation === "horizontal"
+      ? { width: amount + "%" }
+      : { bottom: 0, height: amount + "%" };
+
   return (
     <span
       className={cn(
-        `${trackSizeVariants[size]} absolute inline-block w-full rounded-full bg-slate-400 dark:bg-slate-950`,
+        `${trackSizeVariants[orientation][size]} absolute inline-block w-full rounded-full bg-slate-400 dark:bg-slate-950`,
         {
           "pointer-events-none opacity-50 cursor-not-allowed": disabled,
         }
       )}
-      style={{ width: (currentValue || 0 / max) + "%" }}
+      style={trackStyles}
     ></span>
   );
 };
@@ -59,6 +69,7 @@ export const Slide = (props: SliderProps) => {
     value = 0,
     showValue = true,
     onValueChange,
+    orientation = "horizontal",
     size = 3,
     disabled = false,
     label,
@@ -86,21 +97,25 @@ export const Slide = (props: SliderProps) => {
       const thumb = thumbRef.current;
 
       if (!track || !thumb) return;
-      const { width: trackWidth } = track.getBoundingClientRect();
+      const { width: trackWidth, height: trackHeight } =
+        track.getBoundingClientRect();
       const { width: thumbWidth } = thumb.getBoundingClientRect();
+
+      const trackDimension =
+        orientation === "horizontal" ? trackWidth : trackHeight;
 
       //calculate the offset of the thumb, keep it between 0 and trackWidth - thumbWidth to prevent the thumb from going outside the track
       const offset = Math.max(
         0,
         Math.min(
-          (value / max) * trackWidth - thumbWidth / 2,
-          trackWidth - thumbWidth
+          (value / max) * trackDimension - thumbWidth / 2,
+          trackDimension - thumbWidth
         )
       );
 
       return offset;
     },
-    [max]
+    [max, orientation]
   );
 
   const handleTrackClick = React.useCallback(
@@ -108,28 +123,38 @@ export const Slide = (props: SliderProps) => {
       const track = trackRef.current;
       const thumb = thumbRef.current;
       if (!track || !thumb) return;
-      const { left: trackLeft, width: trackWidth } =
-        track.getBoundingClientRect();
+      const {
+        left: trackLeft,
+        width: trackWidth,
+        bottom: trackBottom,
+        height: trackHeight,
+      } = track.getBoundingClientRect();
       const { width: thumbWidth } = thumb.getBoundingClientRect();
 
       //determine the position of the click relative to the track, basis for the new value and offset
-      const position = e.clientX - trackLeft;
+      const position =
+        orientation === "horizontal"
+          ? e.clientX - trackLeft
+          : trackBottom - e.clientY;
+
+      const trackDimension =
+        orientation === "horizontal" ? trackWidth : trackHeight;
 
       //prevent the thumb from going outside the track using the mouse
-      if (position < 0 || position > trackWidth) return;
-      const newValue = Math.round((position / trackWidth) * max);
+      if (position < 0 || position > trackDimension) return;
+      const newValue = Math.round((position / trackDimension) * max);
       setCurrentValue(newValue);
       onValueChange && onValueChange(newValue);
 
       //calculate the offset of the thumb, keep it between 0 and trackWidth - thumbWidth to prevent the thumb from going outside the track
       const offset = Math.max(
         0,
-        Math.min(position - thumbWidth / 2, trackWidth - thumbWidth)
+        Math.min(position - thumbWidth / 2, trackDimension - thumbWidth)
       );
 
       setOffset(offset);
     },
-    [max, onValueChange]
+    [max, onValueChange, orientation]
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
@@ -200,11 +225,14 @@ export const Slide = (props: SliderProps) => {
     setOffset(offset);
   }, [currentValue, calculateOffset]);
 
+  const thumbPositionStyles =
+    orientation === "horizontal" ? { left: offset } : { bottom: offset };
+
   return (
     <>
       <span
         className={cn(
-          `${trackSizeVariants[size]} relative inline-block w-full rounded-full bg-slate-200 dark:bg-slate-500`,
+          `${trackSizeVariants[orientation][size]} relative inline-block rounded-full bg-slate-200 dark:bg-slate-500`,
           {
             "pointer-events-none opacity-50": disabled,
           }
@@ -218,6 +246,7 @@ export const Slide = (props: SliderProps) => {
           disabled={disabled}
           currentValue={currentValue}
           size={size}
+          orientation={orientation}
         />
       </span>
       <span
@@ -227,12 +256,13 @@ export const Slide = (props: SliderProps) => {
         aria-valuemin={min}
         aria-valuemax={max}
         aria-valuenow={currentValue}
+        aria-orientation={orientation}
         ref={thumbRef}
-        style={{ left: offset }}
+        style={thumbPositionStyles}
         aria-labelledby={label ? `${label}-label` : undefined}
         onKeyDown={handleKeyDown}
         className={cn(
-          `${thumbSizeVariants[size]} absolute left-0 flex justify-center rounded-full cursor-pointer outline-none bg-slate-600 dark:bg-slate-300 focus:bg-amber-300 focus:dark:bg-amber-300 focus:outline-2 focus:outline-offset-0 focus:outline-slate-950`,
+          `${thumbSizeVariants[orientation][size]} absolute left-0 flex justify-center rounded-full cursor-pointer outline-none bg-slate-600 dark:bg-slate-300 focus:bg-amber-300 focus:dark:bg-amber-300 focus:outline-2 focus:outline-offset-0 focus:outline-slate-950`,
           {
             "pointer-events-none bg-slate-400": disabled,
           }
@@ -242,6 +272,7 @@ export const Slide = (props: SliderProps) => {
           value={currentValue || 0}
           disabled={disabled}
           showValue={showValue}
+          orientation={orientation}
         />
       </span>
       <SlideHiddenInput name={name} value={currentValue} />
