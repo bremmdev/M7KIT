@@ -1,79 +1,35 @@
 import React from "react";
 import { cn } from "../utils/cn";
-import {
-  SlideValueProps,
-  SliderProps,
-  SlideInputHiddenProps,
-  SlideTrackFillProps,
-} from "./Slider.types";
-import {
-  determineDefaultValue,
-  trackSizeVariants,
-  thumbSizeVariants,
-} from "./slider.utils";
+import { SliderPropsExtended } from "./Slider.types";
+import { SliderContext } from "./slide-context";
+import { determineDefaultValue, thumbSizeVariants } from "./slider.utils";
+import { SlideTrack } from "./SlideTrack/SlideTrack";
+import { SlideValue } from "./SlideValue/SlideValue";
+import { SlideHiddenInput } from "./SlideHiddenInput/SlideHiddenInput";
 
-export const SlideValue = ({ value, disabled, showValue, orientation }: SlideValueProps) => {
-  if (!showValue) return null;
-  return (
-    <span
-      className={cn("absolute text-sm font-medium text-slate-950", {
-        "opacity-50": disabled,
-        "-top-5": orientation === "horizontal",
-        "-right-6": orientation === "vertical", 
-      })}
-    >
-      {value}
-    </span>
-  );
-};
+// Define interaction keys as a constant
+const INTERACTION_KEYS = [
+  "ArrowLeft",
+  "ArrowRight",
+  "ArrowDown",
+  "ArrowUp",
+  "Home",
+  "End",
+];
 
-export const SlideHiddenInput = ({ name, value }: SlideInputHiddenProps) => {
-  if (!name) return null;
-  return (
-    <input type="text" className="hidden" name={name} value={value} readOnly />
-  );
-};
-
-const TrackFill = ({
-  size,
-  disabled,
-  currentValue,
-  max,
-  orientation,
-}: SlideTrackFillProps) => {
-  const amount = currentValue || 0 / max;
-
-  const trackStyles =
-    orientation === "horizontal"
-      ? { width: amount + "%" }
-      : { bottom: 0, height: amount + "%" };
-
-  return (
-    <span
-      className={cn(
-        `${trackSizeVariants[orientation][size]} absolute inline-block w-full rounded-full bg-slate-400 dark:bg-slate-950`,
-        {
-          "pointer-events-none opacity-50 cursor-not-allowed": disabled,
-        }
-      )}
-      style={trackStyles}
-    ></span>
-  );
-};
-
-export const Slide = (props: SliderProps) => {
+export const Slide = (props: SliderPropsExtended) => {
   const {
     min = 0,
     max = 100,
     step = 1,
     value = 0,
     showValue = true,
-    onValueChange,
+    onValueChange = () => {},
     orientation = "horizontal",
     size = 3,
     disabled = false,
-    label,
-    name,
+    label = "",
+    name = "",
   } = props;
 
   if (min > max) throw new Error("min cannot be greater than max");
@@ -140,13 +96,13 @@ export const Slide = (props: SliderProps) => {
       const trackDimension =
         orientation === "horizontal" ? trackWidth : trackHeight;
 
-      //prevent the thumb from going outside the track using the mouse
+      // Prevent thumb from exceeding track bounds
       if (position < 0 || position > trackDimension) return;
       const newValue = Math.round((position / trackDimension) * max);
       setCurrentValue(newValue);
-      onValueChange && onValueChange(newValue);
+      onValueChange(newValue);
 
-      //calculate the offset of the thumb, keep it between 0 and trackWidth - thumbWidth to prevent the thumb from going outside the track
+      // Calculate thumb offset, keep within track bounds
       const offset = Math.max(
         0,
         Math.min(position - thumbWidth / 2, trackDimension - thumbWidth)
@@ -158,14 +114,6 @@ export const Slide = (props: SliderProps) => {
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
-    const interactionKeys = [
-      "ArrowLeft",
-      "ArrowRight",
-      "ArrowDown",
-      "ArrowUp",
-      "Home",
-      "End",
-    ];
     const interActionToValue = {
       ArrowLeft: -step,
       ArrowRight: step,
@@ -173,7 +121,7 @@ export const Slide = (props: SliderProps) => {
       ArrowUp: step,
     };
     const { key } = e;
-    if (!interactionKeys.includes(key)) return;
+    if (!INTERACTION_KEYS.includes(key)) return;
     e.preventDefault();
 
     if (key === "Home" || key === "End") {
@@ -228,54 +176,54 @@ export const Slide = (props: SliderProps) => {
   const thumbPositionStyles =
     orientation === "horizontal" ? { left: offset } : { bottom: offset };
 
+  const SliderContextValue = {
+    min,
+    max,
+    step,
+    value,
+    showValue,
+    onValueChange,
+    orientation,
+    size,
+    disabled,
+    label,
+    name,
+    currentValue,
+  };
+
+  const thumbStyles = cn(
+    `${thumbSizeVariants[orientation][size]} absolute left-0 flex justify-center rounded-full cursor-pointer outline-none bg-slate-600 dark:bg-slate-300 focus:bg-amber-300 focus:dark:bg-amber-300 focus:outline-2 focus:outline-offset-0 focus:outline-slate-950`,
+    {
+      "pointer-events-none bg-slate-400": disabled,
+    }
+  );
+
+  // Extract ARIA properties
+  const ariaProps = {
+    role: "slider",
+    "aria-valuemin": min,
+    "aria-valuemax": max,
+    "aria-valuenow": currentValue,
+    "aria-orientation": orientation,
+    "aria-labelledby": label ? `${label}-label` : undefined,
+  };
+
   return (
-    <>
+    <SliderContext.Provider value={SliderContextValue}>
+      <SlideTrack ref={trackRef} handleTrackClick={handleTrackClick} />
+      {/* SlideThumb */}
       <span
-        className={cn(
-          `${trackSizeVariants[orientation][size]} relative inline-block rounded-full bg-slate-200 dark:bg-slate-500`,
-          {
-            "pointer-events-none opacity-50": disabled,
-          }
-        )}
-        ref={trackRef}
-        data-testid="track"
-        onClick={(e) => handleTrackClick(e)}
-      >
-        <TrackFill
-          max={max}
-          disabled={disabled}
-          currentValue={currentValue}
-          size={size}
-          orientation={orientation}
-        />
-      </span>
-      <span
-        role="slider"
+        {...ariaProps}
         tabIndex={disabled ? -1 : 0}
-        onMouseDown={handleMouseDown}
-        aria-valuemin={min}
-        aria-valuemax={max}
-        aria-valuenow={currentValue}
-        aria-orientation={orientation}
         ref={thumbRef}
         style={thumbPositionStyles}
-        aria-labelledby={label ? `${label}-label` : undefined}
         onKeyDown={handleKeyDown}
-        className={cn(
-          `${thumbSizeVariants[orientation][size]} absolute left-0 flex justify-center rounded-full cursor-pointer outline-none bg-slate-600 dark:bg-slate-300 focus:bg-amber-300 focus:dark:bg-amber-300 focus:outline-2 focus:outline-offset-0 focus:outline-slate-950`,
-          {
-            "pointer-events-none bg-slate-400": disabled,
-          }
-        )}
+        onMouseDown={handleMouseDown}
+        className={thumbStyles}
       >
-        <SlideValue
-          value={currentValue || 0}
-          disabled={disabled}
-          showValue={showValue}
-          orientation={orientation}
-        />
+        <SlideValue />
       </span>
-      <SlideHiddenInput name={name} value={currentValue} />
-    </>
+      <SlideHiddenInput />
+    </SliderContext.Provider>
   );
 };

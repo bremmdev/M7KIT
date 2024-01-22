@@ -1,6 +1,7 @@
-import { SliderProps } from "./Slider.types";
+
 import { cn } from "../utils/cn";
 import { Slide } from "./Slide";
+import { SliderPropsExtended } from "./Slider.types";
 
 const LabelText = ({ label }: { label?: string }) => {
   if (!label) return null;
@@ -14,7 +15,7 @@ const LabelText = ({ label }: { label?: string }) => {
   );
 };
 
-export const Slider = ({ className, ...remainingProps }: SliderProps) => {
+export const Slider = ({ className, ...remainingProps }: SliderPropsExtended) => {
   return (
     <div className={cn("w-full h-full text-slate-950", className)}>
       <LabelText label={remainingProps.label} />

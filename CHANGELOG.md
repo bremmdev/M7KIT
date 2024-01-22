@@ -1,3 +1,13 @@
+## 0.7.2 - 2024-01-22
+
+### Changed
+
+- Refactor `Slider`, break out smaller components and use React Context
+
+### Added
+
+- Add vertical orientation option to `Slider`
+
 ## 0.7.1 - 2024-01-21
 
 ### Added

@@ -1,4 +1,4 @@
-export interface SliderProps extends React.ComponentPropsWithRef<"div"> {
+export interface SliderPropsType {
   /**
    * The minimum value of the slider
    * @default 0
@@ -53,22 +53,4 @@ export interface SliderProps extends React.ComponentPropsWithRef<"div"> {
   label?: string;
 }
 
-export interface SlideValueProps {
-  value: number;
-  disabled: boolean;
-  showValue: boolean;
-  orientation: "horizontal" | "vertical";
-}
-
-export interface SlideInputHiddenProps {
-  name?: string;
-  value?: number;
-}
-
-export interface SlideTrackFillProps {
-  size: 2 | 3 | 4;
-  disabled: boolean; 
-  currentValue: number | undefined; 
-  max: number;
-  orientation: "horizontal" | "vertical";
-}
+export interface SliderPropsExtended extends React.ComponentPropsWithRef<"div">, SliderPropsType {}
