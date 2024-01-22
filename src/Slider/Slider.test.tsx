@@ -41,6 +41,16 @@ describe("Slider", () => {
       const { queryByRole } = render(<Slider value={50} />);
       expect(queryByRole("textbox")).toBeNull();
     });
+
+    it("should render without decimal places", () => {
+      const { getByText } = render(<Slider value={50.6} />);
+      expect(getByText("51")).toBeTruthy();
+    });	
+
+    it("should render with decimal places", () => {
+      const { getByText } = render(<Slider value={50.6} decimalPlaces={2} />);
+      expect(getByText("50.60")).toBeTruthy();
+    });
   });
 
   describe("Accessibility", () => {

@@ -81,3 +81,22 @@ export const Vertical: Story = {
     </div>
   ),
 };
+
+export const Decimals: Story = {
+  args: {
+    className: "w-[500px]",
+    size: 3,
+    min: 0,
+    max: 1,
+    step: 0.01,
+    value: 0.72,
+    decimalPlaces: 2,
+    label: "Brightness",
+    name: "brightness",
+  },
+  render: (props) => (
+    <div className="p-12">
+      <Slider {...props} />
+    </div>
+  ),
+};

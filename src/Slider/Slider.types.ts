@@ -20,6 +20,11 @@ export interface SliderPropsType {
    */
   value?: number;
   /**
+   * Number of decimal places to round the value to, used for display and onValueChange
+   * @default 0
+   */
+  decimalPlaces?: number;
+  /**
    * Show the value of the slider
    * @default true
    */
@@ -53,4 +58,6 @@ export interface SliderPropsType {
   label?: string;
 }
 
-export interface SliderPropsExtended extends React.ComponentPropsWithRef<"div">, SliderPropsType {}
+export interface SliderPropsExtended
+  extends React.ComponentPropsWithRef<"div">,
+    SliderPropsType {}

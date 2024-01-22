@@ -13,7 +13,7 @@ export const SlideTrack = React.forwardRef(
     const { max, disabled, orientation, currentValue, size } =
       useSliderContext();
 
-    const amount = currentValue || 0 / max;
+    const amount = currentValue ? (currentValue / max) * 100 : 0;
 
     const slideTrackClasses = cn(
       `${trackSizeVariants[orientation][size]} relative inline-block rounded-full bg-slate-200 dark:bg-slate-500`,

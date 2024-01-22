@@ -1,3 +1,9 @@
+## 0.7.3 - 2024-01-22
+
+### Added
+
+- Add decimal support to `Slider`
+
 ## 0.7.2 - 2024-01-22
 
 ### Changed

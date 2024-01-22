@@ -23,6 +23,7 @@ export const Slide = (props: SliderPropsExtended) => {
     max = 100,
     step = 1,
     value = 0,
+    decimalPlaces = 0,
     showValue = true,
     onValueChange = () => {},
     orientation = "horizontal",
@@ -98,9 +99,16 @@ export const Slide = (props: SliderPropsExtended) => {
 
       // Prevent thumb from exceeding track bounds
       if (position < 0 || position > trackDimension) return;
-      const newValue = Math.round((position / trackDimension) * max);
+      const newValue = (position / trackDimension) * max;
       setCurrentValue(newValue);
-      onValueChange(newValue);
+
+      // Round the value to the nearest whole number or decimal place
+      const roundedValue =
+        decimalPlaces === 0
+          ? Math.round(newValue)
+          : Number(newValue.toFixed(decimalPlaces));
+
+      onValueChange(roundedValue);
 
       // Calculate thumb offset, keep within track bounds
       const offset = Math.max(
@@ -110,7 +118,7 @@ export const Slide = (props: SliderPropsExtended) => {
 
       setOffset(offset);
     },
-    [max, onValueChange, orientation]
+    [max, onValueChange, orientation, decimalPlaces]
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
@@ -128,7 +136,14 @@ export const Slide = (props: SliderPropsExtended) => {
       const newValue = key === "Home" ? min : max;
       if (newValue < min || newValue > max) return;
       setCurrentValue(newValue);
-      onValueChange && onValueChange(newValue);
+
+      // Round the value to the nearest whole number or decimal place
+      const roundedValue =
+        decimalPlaces === 0
+          ? Math.round(newValue)
+          : Number(newValue.toFixed(decimalPlaces));
+
+      onValueChange && onValueChange(roundedValue);
       const offset = calculateOffset(newValue);
       if (offset) {
         setOffset(offset);
@@ -181,6 +196,7 @@ export const Slide = (props: SliderPropsExtended) => {
     max,
     step,
     value,
+    decimalPlaces,
     showValue,
     onValueChange,
     orientation,
