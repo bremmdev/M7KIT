@@ -6,6 +6,7 @@ import { determineDefaultValue, thumbSizeVariants } from "./slider.utils";
 import { SlideTrack } from "./SlideTrack/SlideTrack";
 import { SlideValue } from "./SlideValue/SlideValue";
 import { SlideHiddenInput } from "./SlideHiddenInput/SlideHiddenInput";
+import { useThrottle } from "../utils/hooks/useThrottle";
 
 // Define interaction keys as a constant
 const INTERACTION_KEYS = [
@@ -167,20 +168,26 @@ export const Slide = (props: SliderPropsExtended) => {
     }
   };
 
+  const handleMouseMove = React.useCallback(
+    (e: MouseEvent) => {
+      if (!dragging) return;
+      handleTrackClick(e);
+    },
+    [dragging, handleTrackClick]
+  );
+
+  const throttledMouseMove = useThrottle(handleMouseMove, 100);
+
   React.useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (dragging) {
-        handleTrackClick(e);
-      }
-    };
-    document.addEventListener("mousemove", handleMouseMove);
+  
+    document.addEventListener("mousemove", throttledMouseMove);
     document.addEventListener("mouseup", () => setDragging(false));
 
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mousemove", throttledMouseMove);
       document.removeEventListener("mouseup", () => setDragging(false));
     };
-  }, [dragging, handleTrackClick]);
+  }, [dragging, handleTrackClick, throttledMouseMove]);
 
   //set the initial offset
   React.useEffect(() => {

@@ -1,3 +1,9 @@
+## 0.7.4 - 2024-01-23
+
+### Changed
+
+- Throttle `Slider` mouseMove event
+
 ## 0.7.3 - 2024-01-22
 
 ### Added
