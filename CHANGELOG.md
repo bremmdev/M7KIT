@@ -1,3 +1,9 @@
+## 0.8.0 - 2024-01-29
+
+### Added
+
+- Added `Rating` component
+
 ## 0.7.4 - 2024-01-23
 
 ### Changed
