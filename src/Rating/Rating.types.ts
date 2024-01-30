@@ -15,8 +15,8 @@ export type RatingProps = React.ComponentPropsWithRef<"div"> & {
   */
   size?: number;
   /**
-   * The color of the rating
-   * @default gold
+   * Variant of the rating, defaults to 'star'
+   * @default star
    */
-  color?: 'gold' | 'black' | 'gray';
+  variant?: 'star' | 'heart' | 'circle-black' | 'circle-gray';
 };

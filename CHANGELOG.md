@@ -1,3 +1,9 @@
+## 0.8.2 - 2024-01-30
+
+### Added
+
+- Add variants to `Rating` component
+
 ## 0.8.1 - 2024-01-30
 
 ### Fixed

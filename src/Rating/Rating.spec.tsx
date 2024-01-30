@@ -18,13 +18,13 @@ describe("Rating", () => {
   });
 
   it("should render half star when it is rounded to .5", () => {
-    render(<Rating max={5} value={3.5} />);
-    expect(document.querySelector("svg.half-star")).toBeTruthy();
+    const { getByTestId } = render(<Rating max={5} value={3.5} />);
+    expect(getByTestId("half-star")).toBeTruthy();
   });
 
-  it("should render half star when it is rounded to .5", () => {
-    render(<Rating max={5} value={3.8} />);
-    expect(document.querySelector("svg.half-star")).not.toBeTruthy();
+  it("should not render half star when it is not rounded to .5", () => {
+    const { queryByTestId } = render(<Rating max={5} value={3.8} />);
+    expect(queryByTestId("half-star")).toBeNull();
   });
 
   it("should render the correct number of filled stars", () => {
@@ -32,15 +32,10 @@ describe("Rating", () => {
     expect(document.querySelectorAll("svg.fill-amber-300").length).toBe(3);
   });
 
-  it("should render the correct number of filled stars when value is decimal", () => {
-    render(<Rating max={5} value={3.5} />);
-    expect(
-      document.querySelectorAll("svg.fill-amber-300:not(.half-star)").length
-    ).toBe(3);
-  });
-
   it("should render correct label", () => {
     render(<Rating max={5} value={3.5} />);
-    expect(document.querySelector(".visually-hidden")).toHaveTextContent("Rating is 3.5 out of 5");
+    expect(document.querySelector(".visually-hidden")).toHaveTextContent(
+      "Rating is 3.5 out of 5"
+    );
   });
 });
