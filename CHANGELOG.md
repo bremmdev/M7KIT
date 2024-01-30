@@ -1,3 +1,9 @@
+## 0.8.1 - 2024-01-30
+
+### Fixed
+
+- Fixed rounding errors in `Rating` component
+
 ## 0.8.0 - 2024-01-29
 
 ### Added

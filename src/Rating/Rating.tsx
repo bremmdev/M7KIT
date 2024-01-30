@@ -24,16 +24,21 @@ export const Rating = (props: RatingProps) => {
     value = 0,
     size = 24,
     color = "gold",
+    className,
     ...remainingProps
   } = props;
 
-  const val = value < 0 ? 0 : value;
+  let val = value;
+  if (value > max) val = max;
+  if (value < 0) val = 0;
 
   const hasHalfStar = roundToHalf(val % 1) === 0.5;
 
   const renderFilledStars = () => {
     // keep value between 0 and max
-    const amount = Math.min(Math.floor(val), max);
+    const roundedVal =
+      roundToHalf(val % 1) <= 0.5 ? Math.floor(val) : Math.ceil(val);
+    const amount = Math.min(roundedVal, max);
 
     return Array.from({ length: amount }, (_, i) => {
       const classes = starColors[color];
@@ -69,8 +74,12 @@ export const Rating = (props: RatingProps) => {
   };
 
   const renderEmptyStars = () => {
+    const amount =
+      roundToHalf(val % 1) < 0.5 ? Math.ceil(max - val) : Math.floor(max - val);
     return Array.from(
-      { length: hasHalfStar ? max - val : Math.ceil(max - val) },
+      {
+        length: amount,
+      },
       (_, i) => {
         const classes = starColors[color];
         return (
@@ -88,17 +97,11 @@ export const Rating = (props: RatingProps) => {
   const accessibilityLabel = `Rating is ${val} out of ${max}`;
 
   return (
-    <div
-      className="flex "
-      aria-describedby="rating-description"
-      {...remainingProps}
-    >
+    <div className={cn("flex", className)} {...remainingProps}>
       {renderFilledStars()}
       {hasHalfStar && renderHalfStar()}
       {renderEmptyStars()}
-      <span id="rating-description" className="visually-hidden">
-        {accessibilityLabel}
-      </span>
+      <span className="visually-hidden">{accessibilityLabel}</span>
     </div>
   );
 };

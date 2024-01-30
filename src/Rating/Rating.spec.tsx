@@ -38,4 +38,9 @@ describe("Rating", () => {
       document.querySelectorAll("svg.fill-amber-300:not(.half-star)").length
     ).toBe(3);
   });
+
+  it("should render correct label", () => {
+    render(<Rating max={5} value={3.5} />);
+    expect(document.querySelector(".visually-hidden")).toHaveTextContent("Rating is 3.5 out of 5");
+  });
 });
