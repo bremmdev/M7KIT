@@ -1,3 +1,13 @@
+## 0.8.3 - 2024-02-03
+
+### Changed
+
+- Refactor logic for calculating value and offset in `Slider` component
+
+### Added
+
+- Add pageUp and pageDown keyboard support to `Slider` component
+
 ## 0.8.2 - 2024-01-30
 
 ### Added

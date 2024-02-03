@@ -16,6 +16,8 @@ const INTERACTION_KEYS = [
   "ArrowUp",
   "Home",
   "End",
+  "PageUp",
+  "PageDown",
 ];
 
 export const Slide = (props: SliderPropsExtended) => {
@@ -76,6 +78,32 @@ export const Slide = (props: SliderPropsExtended) => {
     [max, orientation]
   );
 
+  const updateValueAndOffset = React.useCallback(
+    (newValue: number) => {
+      // Ensure newValue is within min and max
+      newValue = Math.max(Math.min(newValue, max), min);
+
+      // Round the value to the nearest whole number or decimal place
+      const roundedValue =
+        decimalPlaces === 0
+          ? Math.round(newValue)
+          : Number(newValue.toFixed(decimalPlaces));
+
+      setCurrentValue(roundedValue);
+      // If the value has not changed, do not call onValueChange
+      if (roundedValue === currentValue) return;
+
+      onValueChange && onValueChange(roundedValue);
+
+      const offset = calculateOffset(newValue);
+
+      if (offset) {
+        setOffset(offset);
+      }
+    },
+    [calculateOffset, currentValue, decimalPlaces, max, min, onValueChange]
+  );
+
   const handleTrackClick = React.useCallback(
     (e: React.MouseEvent<HTMLSpanElement> | MouseEvent) => {
       const track = trackRef.current;
@@ -87,7 +115,6 @@ export const Slide = (props: SliderPropsExtended) => {
         bottom: trackBottom,
         height: trackHeight,
       } = track.getBoundingClientRect();
-      const { width: thumbWidth } = thumb.getBoundingClientRect();
 
       //determine the position of the click relative to the track, basis for the new value and offset
       const position =
@@ -101,25 +128,9 @@ export const Slide = (props: SliderPropsExtended) => {
       // Prevent thumb from exceeding track bounds
       if (position < 0 || position > trackDimension) return;
       const newValue = (position / trackDimension) * max;
-      setCurrentValue(newValue);
-
-      // Round the value to the nearest whole number or decimal place
-      const roundedValue =
-        decimalPlaces === 0
-          ? Math.round(newValue)
-          : Number(newValue.toFixed(decimalPlaces));
-
-      onValueChange(roundedValue);
-
-      // Calculate thumb offset, keep within track bounds
-      const offset = Math.max(
-        0,
-        Math.min(position - thumbWidth / 2, trackDimension - thumbWidth)
-      );
-
-      setOffset(offset);
+      updateValueAndOffset(newValue);
     },
-    [max, onValueChange, orientation, decimalPlaces]
+    [max, orientation, updateValueAndOffset]
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
@@ -128,45 +139,27 @@ export const Slide = (props: SliderPropsExtended) => {
       ArrowRight: step,
       ArrowDown: -step,
       ArrowUp: step,
+      PageUp: Math.min(step * 10, max / 2),
+      PageDown: -Math.min(step * 10, max / 2),
     };
     const { key } = e;
     if (!INTERACTION_KEYS.includes(key)) return;
     e.preventDefault();
 
+    let newValue;
+
     if (key === "Home" || key === "End") {
-      const newValue = key === "Home" ? min : max;
-      if (newValue < min || newValue > max) return;
-      setCurrentValue(newValue);
-
-      // Round the value to the nearest whole number or decimal place
-      const roundedValue =
-        decimalPlaces === 0
-          ? Math.round(newValue)
-          : Number(newValue.toFixed(decimalPlaces));
-
-      onValueChange && onValueChange(roundedValue);
-      const offset = calculateOffset(newValue);
-      if (offset) {
-        setOffset(offset);
-      }
-      return;
+      newValue = key === "Home" ? min : max;
+    } else {
+      newValue =
+        (currentValue || 0) +
+        interActionToValue[key as keyof typeof interActionToValue];
     }
 
-    const newValue =
-      (currentValue || 0) +
-      interActionToValue[key as keyof typeof interActionToValue];
-
-    if (newValue < min || newValue > max) return;
-
-    setCurrentValue(newValue);
-    onValueChange && onValueChange(newValue);
-
-    const offset = calculateOffset(newValue);
-
-    if (offset) {
-      setOffset(offset);
-    }
+    updateValueAndOffset(newValue);
   };
+
+  const throttledKeyDown = useThrottle(handleKeyDown, 50);
 
   const handleMouseMove = React.useCallback(
     (e: MouseEvent) => {
@@ -179,7 +172,6 @@ export const Slide = (props: SliderPropsExtended) => {
   const throttledMouseMove = useThrottle(handleMouseMove, 100);
 
   React.useEffect(() => {
-  
     document.addEventListener("mousemove", throttledMouseMove);
     document.addEventListener("mouseup", () => setDragging(false));
 
@@ -194,9 +186,6 @@ export const Slide = (props: SliderPropsExtended) => {
     const offset = calculateOffset(currentValue || 0) || 0;
     setOffset(offset);
   }, [currentValue, calculateOffset]);
-
-  const thumbPositionStyles =
-    orientation === "horizontal" ? { left: offset } : { bottom: offset };
 
   const SliderContextValue = {
     min,
@@ -231,6 +220,9 @@ export const Slide = (props: SliderPropsExtended) => {
     "aria-labelledby": label ? `${label}-label` : undefined,
   };
 
+  const thumbPositionStyles =
+    orientation === "horizontal" ? { left: offset } : { bottom: offset };
+
   return (
     <SliderContext.Provider value={SliderContextValue}>
       <SlideTrack ref={trackRef} handleTrackClick={handleTrackClick} />
@@ -240,7 +232,7 @@ export const Slide = (props: SliderPropsExtended) => {
         tabIndex={disabled ? -1 : 0}
         ref={thumbRef}
         style={thumbPositionStyles}
-        onKeyDown={handleKeyDown}
+        onKeyDown={throttledKeyDown}
         onMouseDown={handleMouseDown}
         className={thumbStyles}
       >

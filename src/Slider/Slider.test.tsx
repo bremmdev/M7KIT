@@ -45,7 +45,7 @@ describe("Slider", () => {
     it("should render without decimal places", () => {
       const { getByText } = render(<Slider value={50.6} />);
       expect(getByText("51")).toBeTruthy();
-    });	
+    });
 
     it("should render with decimal places", () => {
       const { getByText } = render(<Slider value={50.6} decimalPlaces={2} />);
@@ -72,16 +72,30 @@ describe("Slider", () => {
     });
     it("shoud have the correct aria-orientation", () => {
       const { getByRole } = render(<Slider />);
-      expect(getByRole("slider")).toHaveAttribute("aria-orientation", "horizontal");
+      expect(getByRole("slider")).toHaveAttribute(
+        "aria-orientation",
+        "horizontal"
+      );
     });
     it("shoud have the correct aria-orientation", () => {
-      const { getByRole } = render(<Slider orientation="vertical"/>);
-      expect(getByRole("slider")).toHaveAttribute("aria-orientation", "vertical");
+      const { getByRole } = render(<Slider orientation="vertical" />);
+      expect(getByRole("slider")).toHaveAttribute(
+        "aria-orientation",
+        "vertical"
+      );
     });
-
   });
 
   describe("Keyboard interaction", () => {
+    beforeEach(() => {
+      jest.useFakeTimers({ advanceTimers: 100});
+    });
+  
+    afterEach(() => {
+      jest.clearAllTimers();
+      jest.useRealTimers();
+    });
+  
     it("should be focusable", async () => {
       const user = userEvent.setup();
       const { getByRole } = render(<Slider />);
@@ -112,6 +126,13 @@ describe("Slider", () => {
       expect(getByRole("slider")).toHaveAttribute("aria-valuenow", "76");
     });
 
+    it("should increase by 10 times the step when page up is pressed", async () => {
+      const user = userEvent.setup();
+      const { getByRole } = render(<Slider value={0} step={1} max={100} />);
+      await user.keyboard("{tab}{pageup}");
+      expect(getByRole("slider")).toHaveAttribute("aria-valuenow", "10");
+    });
+
     it("should decrease value when left arrow is pressed", async () => {
       const user = userEvent.setup();
       const { getByRole } = render(<Slider value={34} />);
@@ -124,6 +145,13 @@ describe("Slider", () => {
       const { getByRole } = render(<Slider value={75} />);
       await user.keyboard("{tab}{arrowdown}");
       expect(getByRole("slider")).toHaveAttribute("aria-valuenow", "74");
+    });
+
+    it("should decrease by 10 times the step when page down is pressed", async () => {
+      const user = userEvent.setup();
+      const { getByRole } = render(<Slider value={90} step={1} max={100} />);
+      await user.keyboard("{tab}{pagedown}");
+      expect(getByRole("slider")).toHaveAttribute("aria-valuenow", "80");
     });
 
     it("should set value to minimum when home is pressed", async () => {
