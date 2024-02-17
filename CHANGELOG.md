@@ -1,3 +1,13 @@
+## 0.9.0 - 2024-02-17
+
+### Added
+
+- Add `PageScollIndicator` component
+
+### Fixed
+
+- Fixed exports for `Rating` component
+
 ## 0.8.3 - 2024-02-03
 
 ### Changed

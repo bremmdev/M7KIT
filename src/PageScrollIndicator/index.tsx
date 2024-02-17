@@ -1,0 +1,1 @@
+export { PageScrollIndicator } from "./PageScrollIndicator";
