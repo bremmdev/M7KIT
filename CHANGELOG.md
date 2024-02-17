@@ -1,3 +1,9 @@
+## 0.9.1 - 2024-02-18
+
+### Added
+
+- Add darkmode to `PageScollIndicator` component
+
 ## 0.9.0 - 2024-02-17
 
 ### Added

@@ -14,7 +14,7 @@ export const PageScrollIndicator = (props: PageScrollIndicatorProps) => {
   return (
     <div
       style={style}
-      className={cn("fixed left-0 w-screen h-1 bg-slate-900", className)}
+      className={cn("fixed left-0 w-screen h-1 bg-slate-900 dark:bg-slate-50", className)}
     />
   );
 };
