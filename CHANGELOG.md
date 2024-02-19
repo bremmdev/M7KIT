@@ -1,3 +1,9 @@
+## 0.10.0 - 2024-02-19
+
+### Added
+
+- Add `Masonry` component
+
 ## 0.9.1 - 2024-02-18
 
 ### Added
