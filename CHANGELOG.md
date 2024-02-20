@@ -1,3 +1,10 @@
+## 0.10.1 - 2024-02-20
+
+### Changes
+
+- Improve vertical ordering of `Masonry` component
+- Use local image for `Masonry` component
+
 ## 0.10.0 - 2024-02-19
 
 ### Added
