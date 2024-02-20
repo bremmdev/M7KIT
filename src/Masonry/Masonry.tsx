@@ -32,9 +32,9 @@ export const Masonry = (props: MasonryProps) => {
   return (
     <div className={cn(`flex justify-center`)} style={styles}>
       {orderedColumns.map((orderedColumn, idx) => (
-        <div key={idx} className="flex flex-col" style={childStyles}>
+        <div key={idx} className="flex flex-col" data-testid="column" style={childStyles}>
           {orderedColumn.map((item, idx) => (
-            <div className="[&>*]:w-full" key={idx}>
+            <div key={idx}>
               {item}
             </div>
           ))}

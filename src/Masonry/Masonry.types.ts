@@ -8,7 +8,7 @@ export type MasonryProps = React.ComponentPropsWithRef<"div"> & {
   /**
    * The spacing between the columns and rows
    */
-  spacing: number;
+  spacing?: number;
   /**
    * The order of the columns.
    * With `horizontal` the columns will be filled from left to right

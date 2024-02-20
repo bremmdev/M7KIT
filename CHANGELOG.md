@@ -1,6 +1,16 @@
+## 0.10.2 - 2024-02-20
+
+### Added
+
+- Added tests for `Masonry` component
+
+### Changed
+
+- Make spacing prop optional for `Masonry` component
+
 ## 0.10.1 - 2024-02-20
 
-### Changes
+### Changed
 
 - Improve vertical ordering of `Masonry` component
 - Use local image for `Masonry` component
