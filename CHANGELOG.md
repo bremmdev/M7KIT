@@ -1,3 +1,9 @@
+## 0.10.3 - 2024-02-21
+
+### Added
+
+- Added responsiveness to `Masonry` component
+
 ## 0.10.2 - 2024-02-20
 
 ### Added

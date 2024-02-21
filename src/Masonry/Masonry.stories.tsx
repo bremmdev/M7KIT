@@ -12,6 +12,7 @@ import { Masonry } from "./Masonry";
  * - Supports horizontal and vertical column order
  * - Supports custom spacing
  * - Items can have different aspect ratios or sizes
+ * - Responsive columns based on breakpoints
  *
  * ## Known limitations
  * - There is an empty column when there is no remainder from the division and we have an extra column to fill, i.e when we have 16 items and the user wants 5 columns. In this situation
@@ -21,7 +22,7 @@ import { Masonry } from "./Masonry";
  * ## Usage
  * ```
  * <Masonry
- *    columns={3}
+ *    columns: { sm:2, md:3, lg:4},
  *    spacing={16}
  * >{children}
  * </Masonry>
@@ -55,9 +56,10 @@ export default meta;
 
 type Story = StoryObj<typeof Masonry>;
 
-export const Horizontal: Story = {
+export const Responsive: Story = {
   args: {
-    columns: 3,
+    columns: { sm: 2, md: 3, lg: 4 },
+    columnOrder: "horizontal",
   },
   render: (props) => (
     <div className="bg slate-50 dark:bg-slate-900 dark:text-slate-50 p-2">
@@ -68,7 +70,7 @@ export const Horizontal: Story = {
 
 export const Vertical: Story = {
   args: {
-    columns: 4,
+    columns: { sm: 2, md: 3, lg: 4 },
     columnOrder: "vertical",
   },
   render: (props) => (
