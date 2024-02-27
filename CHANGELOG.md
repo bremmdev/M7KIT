@@ -1,3 +1,9 @@
+## 0.11.0 - 2024-02-27
+
+### Added
+
+- Added `OTPInput` component
+
 ## 0.10.3 - 2024-02-21
 
 ### Added
