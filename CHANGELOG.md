@@ -1,3 +1,10 @@
+## 0.11.1 - 2024-02-28
+
+### Added
+
+- Add keyboard support to `OTPInput`
+- Add aria-label and name to `OTPInput`
+
 ## 0.11.0 - 2024-02-27
 
 ### Added
