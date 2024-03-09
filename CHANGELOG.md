@@ -1,3 +1,9 @@
+## 0.12.0 - 2024-03-09
+
+### Added
+
+- Add `Timeline` component
+
 ## 0.11.1 - 2024-02-28
 
 ### Added
