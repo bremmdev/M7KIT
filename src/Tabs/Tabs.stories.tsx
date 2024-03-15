@@ -77,7 +77,7 @@ export const Basic: Story = {
             components using your favorite JavaScript framework, or just HTML
             and CSS, and then renders your site as static HTML at build time.
             <a
-              className="block w-fit underlinetext-blue-600 focus-visible:outline-blue-600"
+              className="block w-fit underline text-blue-600 focus-visible:outline-blue-600"
               href="https://astro.build"
             >
               Astro
