@@ -6,4 +6,5 @@ export { PageScrollIndicator } from "./src/PageScrollIndicator";
 export { Rating } from "./src/Rating";
 export { SkipLink } from "./src/SkipLink";
 export { Slider } from "./src/Slider";
+export { Tabs } from "./src/Tabs";
 export { Timeline } from "./src/Timeline";
