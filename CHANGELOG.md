@@ -1,3 +1,9 @@
+## 0.13.0 - 2024-03-15
+
+### Changed
+
+- Upgrade to Storybook 8
+
 ## 0.12.0 - 2024-03-09
 
 ### Added
