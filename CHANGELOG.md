@@ -1,3 +1,9 @@
+## 0.14.1 - 2024-03-16
+
+### Added
+
+- Added controlled mode to `Tabs` component
+
 ## 0.14.0 - 2024-03-15
 
 ### Added

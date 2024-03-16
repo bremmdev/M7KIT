@@ -2,10 +2,13 @@ import { render } from "@testing-library/react";
 import { Tabs } from "./Tabs";
 import userEvent from "@testing-library/user-event";
 
-const createTabsComponent = (defaultSelected: string) => (
+const createTabsComponent = (
+  defaultSelected: string,
+  onValueChange?: () => void
+) => (
   <>
     <h2 id="tabs-title">Tabs title</h2>
-    <Tabs.Root defaultSelected={defaultSelected}>
+    <Tabs.Root value={defaultSelected} onValueChange={onValueChange}>
       <Tabs.List className="TabsList" aria-labelledby="tabs-title">
         <Tabs.Tab className="TabsTrigger" label="first">
           Tab 1
@@ -123,6 +126,12 @@ describe("Tabs", () => {
       const { getAllByRole } = render(TabsComponent);
       expect(getAllByRole("tabpanel")[0]).toHaveAttribute("tabindex", "0");
     });
+
+    it("should set first tab active if no defaultSelected is provided", () => {
+      const { getAllByRole } = render(createTabsComponent(""));
+      expect(getAllByRole("tab")[0]).toHaveAttribute("aria-selected", "true");
+      expect(getAllByRole("tabpanel")[0]).not.toHaveClass("hidden");
+    });
   });
 
   describe("Keyboard interaction", () => {
@@ -156,6 +165,54 @@ describe("Tabs", () => {
       const { getAllByRole } = render(TabsComponent2);
       await userEvent.keyboard("{tab}{end}");
       expect(getAllByRole("tab")[2]).toHaveFocus();
+    });
+  });
+
+  describe("Value change", () => {
+    it("should call onValueChange when clicked", async () => {
+      const onValueChange = jest.fn();
+      const { getAllByRole } = render(
+        createTabsComponent("first", onValueChange)
+      );
+      await userEvent.click(getAllByRole("tab")[1]);
+      expect(onValueChange).toHaveBeenCalledWith("second");
+    });
+
+    it("should not call onValueChange when clicked if already selected", async () => {
+      const onValueChange = jest.fn();
+      const { getAllByRole } = render(
+        createTabsComponent("first", onValueChange)
+      );
+      await userEvent.click(getAllByRole("tab")[0]);
+      expect(onValueChange).not.toHaveBeenCalled();
+    });
+
+    it("should call onValueChange when arrow right", async () => {
+      const onValueChange = jest.fn();
+      render(createTabsComponent("first", onValueChange));
+      await userEvent.keyboard("{tab}{arrowright}");
+      expect(onValueChange).toHaveBeenCalledWith("second");
+    });
+
+    it("should call onValueChange when arrow left", async () => {
+      const onValueChange = jest.fn();
+      render(createTabsComponent("second", onValueChange));
+      await userEvent.keyboard("{tab}{arrowleft}");
+      expect(onValueChange).toHaveBeenCalledWith("first");
+    });
+
+    it("should call onValueChange when home", async () => {
+      const onValueChange = jest.fn();
+      render(createTabsComponent("second", onValueChange));
+      await userEvent.keyboard("{tab}{home}");
+      expect(onValueChange).toHaveBeenCalledWith("first");
+    });
+
+    it("should call onValueChange when end", async () => {
+      const onValueChange = jest.fn();
+      render(createTabsComponent("second", onValueChange));
+      await userEvent.keyboard("{tab}{end}");
+      expect(onValueChange).toHaveBeenCalledWith("third");
     });
   });
 });

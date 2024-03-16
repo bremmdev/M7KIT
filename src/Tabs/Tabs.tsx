@@ -10,16 +10,51 @@ import { cn } from "../utils/cn";
 type TabsContext = {
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  onValueChange?: (value: string) => void;
 };
 
 const TabsContext = React.createContext<TabsContext | undefined>(undefined);
 
-export const Tabs = ({ className, defaultSelected, children }: TabsProps) => {
-  const [activeTab, setActiveTab] = React.useState(defaultSelected);
+export const Tabs = ({
+  className,
+  defaultValue = "",
+  value = "",
+  onValueChange,
+  children,
+}: TabsProps) => {
+  if (value && defaultValue) {
+    throw new Error(
+      "Using both value and defaultValue is not recommended. Use value and onValueChange for controlled component, or defaultValue for uncontrolled component."
+    );
+  }
+
+  const tabsRef = React.useRef<HTMLDivElement>(null);
+
+  const [activeTab, setActiveTab] = React.useState(value || defaultValue);
+
+  //Update the active tab when the value prop changes in a controlled component
+  React.useEffect(() => {
+    if (value && value !== activeTab && !defaultValue) {
+      setActiveTab(value);
+    }
+  }, [value, activeTab, defaultValue]);
+
+  //Set the first tab as active if there are no tabs with the active state
+  React.useEffect(() => {
+    if (value === "" && defaultValue === "" && activeTab === "") {
+      const tabs = tabsRef.current?.querySelectorAll('button[role="tab"]');
+      if (tabs && tabs.length > 0) {
+        const firstTab = tabs[0] as HTMLButtonElement;
+        setActiveTab(firstTab.dataset.tablabel!);
+      }
+    }
+  }, [tabsRef, activeTab, value, defaultValue]);
 
   return (
-    <TabsContext.Provider value={{ activeTab, setActiveTab }}>
-      <div className={cn("text-slate-950", className)}>{children}</div>
+    <TabsContext.Provider value={{ activeTab, setActiveTab, onValueChange }}>
+      <div className={cn("text-slate-950", className)} ref={tabsRef}>
+        {children}
+      </div>
     </TabsContext.Provider>
   );
 };
@@ -27,7 +62,7 @@ export const Tabs = ({ className, defaultSelected, children }: TabsProps) => {
 Tabs.Root = Tabs;
 
 const TabList = ({ className, children, ...props }: TabListProps) => {
-  const { activeTab, setActiveTab } = React.useContext(
+  const { activeTab, setActiveTab, onValueChange } = React.useContext(
     TabsContext
   ) as TabsContext;
 
@@ -56,6 +91,9 @@ const TabList = ({ className, children, ...props }: TabListProps) => {
         tabs[(currentIndex + direction + tabs.length) % tabs.length];
       setActiveTab(nextTab.dataset.tablabel!);
       nextTab.focus();
+      if (onValueChange) {
+        onValueChange(nextTab.dataset.tablabel!);
+      }
     }
 
     if (key === "Home" || key === "End") {
@@ -65,6 +103,9 @@ const TabList = ({ className, children, ...props }: TabListProps) => {
       const newTab = tabs[indexToFocus];
       setActiveTab(newTab.dataset.tablabel!);
       newTab.focus();
+      if (onValueChange && newTab.dataset.tablabel !== activeTab) {
+        onValueChange(newTab.dataset.tablabel!);
+      }
     }
   };
 
@@ -84,14 +125,18 @@ const TabList = ({ className, children, ...props }: TabListProps) => {
 Tabs.List = TabList;
 
 const Tab = ({ className, label, children }: TabProps) => {
-  const { activeTab, setActiveTab } = React.useContext(
+  const { activeTab, setActiveTab, onValueChange } = React.useContext(
     TabsContext
   ) as TabsContext;
 
   const tabRef = React.useRef<HTMLButtonElement>(null);
 
   const handleOnClick = () => {
+    if (activeTab === label) return;
     setActiveTab(label);
+    if (onValueChange) {
+      onValueChange(label);
+    }
   };
 
   return (

@@ -9,11 +9,12 @@ import { Tabs } from "./Tabs";
  * - Conforms to the WAI-ARIA Tab Panel Design Pattern
  * - Supports keyboard navigation
  * - allows a default selected tab
+ * - allows controlled and uncontrolled usage
  *
  * ## Usage
  *
  * ```tsx
- * <Tabs.Root defaultSelected="second">
+ * <Tabs.Root defaultValue="second">
  *  <Tabs.List>
  *   <Tabs.Tab label="first">First</Tabs.Tab>
  *   <Tabs.Tab label="second">Second</Tabs.Tab>
@@ -48,7 +49,7 @@ export const Basic: Story = {
       <h2 id="tabs-title" className="text-lg font-medium my-4">
         Frontend frameworks
       </h2>
-      <Tabs.Root defaultSelected="astro">
+      <Tabs.Root defaultValue="astro" onValueChange={(val:string) => console.log(val)}>
         <Tabs.List aria-labelledby="tabs-title">
           <Tabs.Tab label="react">React</Tabs.Tab>
           <Tabs.Tab label="astro">Astro</Tabs.Tab>
