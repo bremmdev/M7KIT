@@ -10,3 +10,41 @@
   position: absolute;
   white-space: nowrap;
 }
+
+@keyframes slideAndBack {
+  0% {
+    transform: translateX(0);
+    z-index: 0;
+  }
+  50% {
+    transform: translateX(120%);
+    z-index: 0;
+  }
+  75% {
+    transform: translateX(120%);
+    z-index: -1;
+  }
+  100% {
+    transform: translateX(0);
+    z-index: -1;
+  }
+}
+
+@keyframes slideAndBackMirrored {
+  0% {
+    transform: translateX(0);
+    z-index: -1;
+  }
+  50% {
+    transform: translateX(+120%);
+    z-index: -1;
+  }
+  75% {
+    transform: translateX(+120%);
+    z-index: 1;
+  }
+  100% {
+    transform: translateX(0);
+    z-index: 1;
+  }
+}

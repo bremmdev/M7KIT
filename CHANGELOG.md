@@ -1,3 +1,13 @@
+## 0.15.0 - 2024-04-06
+
+### Added
+
+- Added `GalleryStack` component
+
+### Changed
+
+- Update dependencies
+
 ## 0.14.1 - 2024-03-16
 
 ### Added

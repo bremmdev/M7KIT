@@ -1,5 +1,6 @@
 export { Breadcrumbs } from "./src/Breadcrumbs";
 export { FolderStructure } from "./src/FolderStructure";
+export { GalleryStack } from "./src/GalleryStack";
 export { Masonry } from "./src/Masonry";
 export { OTPInput } from "./src/OTPInput";
 export { PageScrollIndicator } from "./src/PageScrollIndicator";

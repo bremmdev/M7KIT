@@ -35,6 +35,8 @@ const meta: Meta<typeof Masonry> = {
   tags: ["autodocs"],
 };
 
+export default meta;
+
 const MasonryImage = ({ idx }: { idx: number }) => (
   <div className="relative">
     <img
@@ -52,7 +54,6 @@ const MasonryData = Array(12)
   .fill(0)
   .map((_, idx) => <MasonryImage idx={idx} key={idx} />);
 
-export default meta;
 
 type Story = StoryObj<typeof Masonry>;
 
