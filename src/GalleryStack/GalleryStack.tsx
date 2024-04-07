@@ -98,7 +98,7 @@ export const GalleryStack = (props: GalleryStackProps) => {
             }
           : {
               transform: `rotate(${calculatedRotation}deg) translateX(0)`,
-              zIndex: 0,
+              zIndex: animationDirection ==="backward" ? - 1 : 0
             };
         return (
           <div
