@@ -1,4 +1,5 @@
 export { Breadcrumbs } from "./src/Breadcrumbs";
+export { DiamondGrid } from "./src/DiamondGrid";
 export { FolderStructure } from "./src/FolderStructure";
 export { GalleryStack } from "./src/GalleryStack";
 export { Masonry } from "./src/Masonry";

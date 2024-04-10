@@ -1,3 +1,9 @@
+## 0.16.0 - 2024-04-10
+
+### Added
+
+- Added `DiamondGrid` component
+
 ## 0.15.0 - 2024-04-06
 
 ### Added
