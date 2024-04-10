@@ -17,6 +17,11 @@ const preview: Preview = {
       },
     },
     layout: "fullscreen",
+    options: {
+      storySort: {
+        order: ['Components', ['DiamondGrid', ['Overview']]],
+      },
+    },
   },
 };
 
