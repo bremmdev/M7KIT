@@ -1,3 +1,9 @@
+## 0.16.1 - 2024-04-11
+
+### Added
+
+- Added hover effect to `DiamondGrid` component
+
 ## 0.16.0 - 2024-04-10
 
 ### Added
