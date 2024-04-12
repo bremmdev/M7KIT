@@ -16,6 +16,11 @@
   transition: filter 300ms ease-in-out;
 }
 
+.showcase:has(img:hover) img:not(:hover) {
+  filter: brightness(0.5) saturate(0.5);
+  transition: filter 500ms ease-in-out;
+}
+
 @keyframes slideAndBack {
   0% {
     transform: translateX(0);

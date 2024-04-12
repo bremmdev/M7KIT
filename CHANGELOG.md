@@ -1,3 +1,9 @@
+## 0.17.0 - 2024-04-12
+
+### Added
+
+- Added `ImageShowcase` component
+
 ## 0.16.1 - 2024-04-11
 
 ### Added

@@ -29,7 +29,6 @@ export const DiamondGrid = (props: DiamondGridProps) => {
     <div
       className={cn("flex gap-2 diamond-gallery", className)}
       style={{ paddingLeft: itemWidth / 2 }}
-      data-testid="gallery-stack"
       {...remainingProps}
     >
       {groups.map((group, idx) => {
