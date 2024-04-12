@@ -2,19 +2,19 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import { DiamondGrid } from "./DiamondGrid";
 
-import image001 from "./data/picture001.jpg";
-import image002 from "./data/picture002.jpg";
-import image003 from "./data/picture003.jpg";
-import image004 from "./data/picture004.jpg";
-import image005 from "./data/picture005.jpg";
-import image006 from "./data/picture006.jpg";
-import image007 from "./data/picture007.jpg";
-import image008 from "./data/picture008.jpg";
-import image009 from "./data/picture009.jpg";
-import image010 from "./data/picture010.jpg";
-import image011 from "./data/picture011.jpg";
-import image012 from "./data/picture012.jpg";
-import image013 from "./data/picture013.jpg";
+import image001 from "../_data/images/picture001.jpg";
+import image002 from "../_data/images/picture002.jpg";
+import image003 from "../_data/images/picture003.jpg";
+import image004 from "../_data/images/picture004.jpg";
+import image005 from "../_data/images/picture005.jpg";
+import image006 from "../_data/images/picture006.jpg";
+import image007 from "../_data/images/picture007.jpg";
+import image008 from "../_data/images/picture008.jpg";
+import image009 from "../_data/images/picture009.jpg";
+import image010 from "../_data/images/picture010.jpg";
+import image011 from "../_data/images/picture011.jpg";
+import image012 from "../_data/images/picture012.jpg";
+import image013 from "../_data/images/picture013.jpg";
 
 /**
  * The `DiamondGrid` component is used to create a gallery layout. It arranges all children in a grid layout and creates diamond shapes items using a clip-path. Hovering over the items will reveal the full image.

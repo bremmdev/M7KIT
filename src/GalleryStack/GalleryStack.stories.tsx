@@ -2,10 +2,10 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import { GalleryStack } from "./GalleryStack";
 
-import image001 from "./data/picture001.jpg";
-import image002 from "./data/picture002.jpg";
-import image003 from "./data/picture003.jpg";
-import image004 from "./data/picture004.jpg";
+import image001 from "../_data/images/picture001.jpg";
+import image002 from "../_data/images/picture002.jpg";
+import image003 from "../_data/images/picture003.jpg";
+import image004 from "../_data/images/picture004.jpg";
 
 /**
  * The `GalleryStack` component is used to create a gallery layout in the form of a stack. It arranges all children on top of each other in a stack and allows the user to click the stack to rotate the items.
