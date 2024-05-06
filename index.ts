@@ -1,3 +1,5 @@
+import "./src/index.css";
+
 export { Breadcrumbs } from "./src/Breadcrumbs";
 export { DiamondGrid } from "./src/DiamondGrid";
 export { FolderStructure } from "./src/FolderStructure";

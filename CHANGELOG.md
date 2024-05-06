@@ -1,3 +1,9 @@
+## 0.18.0 - 2024-05-06
+
+### Changed
+
+- Changed tsconfig and viteconfig for publishing to npm
+
 ## 0.17.0 - 2024-04-12
 
 ### Added
