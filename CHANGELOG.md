@@ -1,3 +1,9 @@
+## 0.18.2 - 2024-05-07
+
+### Added
+
+- Add Github Action for publishing to npm
+
 ## 0.18.1 - 2024-05-07
 
 ### Added
