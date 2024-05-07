@@ -13,11 +13,11 @@ import { Rating } from "./Rating";
  * ## Usage
  * ```
  * <Rating
- *    max: 5,
- *    value: 3.5,
- *    size: 32,
- *    color: "gold",
- *    variant: "star",
+ *    max={5}
+ *    value={3.5}
+ *    size={32}
+ *    color="gold"
+ *    variant="star"
  * />
  * ```
  */

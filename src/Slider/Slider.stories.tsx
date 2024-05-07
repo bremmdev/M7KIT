@@ -33,8 +33,9 @@ import { Slider } from "./Slider";
  *  min={0}
  *  max={10}
  *  step={1}
- *  value={50},
- *  label: "Brightness",
+ *  value={50}
+ *  label="Brightness"
+ * />
  * ```
  */
 

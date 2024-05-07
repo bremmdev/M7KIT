@@ -11,9 +11,9 @@ import { PageScrollIndicator } from "./PageScrollIndicator";
  *
  * ## Usage
  * ```
- * <ProgressIndicator
- *    className: "bg-blue-500 rounded-full h-2",
- * />
+ *  <PageScrollIndicator
+ *    className="bg-blue-500 rounded-full h-2"
+ *  />
  * ```
  */
 

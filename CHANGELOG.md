@@ -1,3 +1,12 @@
+## 0.18.3 - 2024-05-07
+
+### Fix
+
+- Fix classNames prop for `DsBreadcrumbs` component
+- Fix top position for `PageScrollIndicator` component
+- Properly export `ImageShowcase` component
+- Stories fixes
+
 ## 0.18.2 - 2024-05-07
 
 ### Added

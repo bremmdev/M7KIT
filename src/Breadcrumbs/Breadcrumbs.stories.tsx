@@ -31,7 +31,7 @@ import { Breadcrumbs } from "./Breadcrumbs";
  *       text: "Installation",
  *       href: "/getting-started/installation",
  *     },
- *   ], 
+ *   ]}
  * />
  * ```
  */

@@ -1,4 +1,5 @@
 import { BreadCrumbProps, BreadCrumbType } from "./Breadcrumbs.types";
+import { cn } from "../utils/cn";
 import { ChevronRight } from "lucide-react";
 
 const Breadcrumb = ({
@@ -28,12 +29,12 @@ const Breadcrumb = ({
   );
 };
 
-export const Breadcrumbs = ({ breadcrumbs, ...props }: BreadCrumbProps) => {
+export const Breadcrumbs = ({ breadcrumbs, className, ...props }: BreadCrumbProps) => {
   const ariaLabel = props["aria-label"] || "breadcrumbs";
 
   return (
     <nav aria-label={ariaLabel}>
-      <ol className="flex gap-2 items-center flex-wrap text-slate-950 dark:text-slate-200">
+      <ol className={cn("flex gap-2 items-center flex-wrap text-slate-950 dark:text-slate-200", className)}>
         {breadcrumbs?.map((breadcrumb, index) => (
           <Breadcrumb
             key={index}
