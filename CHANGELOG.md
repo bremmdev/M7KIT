@@ -1,3 +1,14 @@
+## 0.18.4 - 2024-05-08
+
+### Fix
+
+- Fix SSR hydration errors `Masonry` component
+- Add `key` prop to `ImageShowcase` children
+
+## Removed
+
+- Remove sourcemaps from build
+
 ## 0.18.3 - 2024-05-07
 
 ### Fix

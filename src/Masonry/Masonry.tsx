@@ -15,8 +15,13 @@ export const Masonry = (props: MasonryProps) => {
     children,
   } = props;
 
+  //don't show the component until the breakpoint is calculated, so don't render on the server
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => {
+    if (!mounted) setMounted(true);
+  }, [mounted]);
+
   const breakpoint = useMediaQuery();
-  if (!breakpoint) return;
 
   //checks if the columns prop is valid and throws an error if it's not
   validateColumns(columns);
@@ -33,7 +38,7 @@ export const Masonry = (props: MasonryProps) => {
 
   const columnCount = !hasResponsiveColumns
     ? columns
-    : breakpointToColumns[breakpoint as Breakpoint];
+    : breakpointToColumns[breakpoint as Breakpoint] || 3;
 
   const orderedColumns = orderItems(
     React.Children.toArray(children).filter(React.isValidElement),
@@ -52,18 +57,21 @@ export const Masonry = (props: MasonryProps) => {
 
   return (
     <div className={cn(`flex justify-center`)} style={styles}>
-      {orderedColumns.map((orderedColumn, idx) => (
-        <div
-          key={idx}
-          className="flex flex-col"
-          data-testid="column"
-          style={childStyles}
-        >
-          {orderedColumn.map((item, idx) => (
-            <div key={idx}>{item}</div>
-          ))}
-        </div>
-      ))}
+      {mounted &&
+        orderedColumns.map((orderedColumn, idx) => (
+          <div
+            key={idx}
+            className="flex flex-col"
+            data-testid="column"
+            style={childStyles}
+          >
+            {orderedColumn.map((item, idx) => (
+              <div key={idx} className="[&>*]:w-full">
+                {item}
+              </div>
+            ))}
+          </div>
+        ))}
     </div>
   );
 };

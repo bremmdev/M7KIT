@@ -16,15 +16,17 @@ export const ImageShowcase = (props: ImageShowcaseProps) => {
     2.5: "hover:flex-[2.5]",
     3: "hover:flex-[3]",
   }[growFactor];
-  
 
   return (
     <div
       className={cn("w-full flex gap-2 h-80 showcase", className)}
       {...remainingProps}
     >
-      {children.map((child) => (
-        <div className={`min-w-0 flex-1 *:rounded-md  *:w-full *:h-full *:object-cover ${flexGrow} transition-all duration-500`}>
+      {children.map((child, idx) => (
+        <div
+          className={`min-w-0 flex-1 *:rounded-md  *:w-full *:h-full *:object-cover ${flexGrow} transition-all duration-500`}
+          key={idx}
+        >
           {child}
         </div>
       ))}

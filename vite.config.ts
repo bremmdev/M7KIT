@@ -25,9 +25,7 @@ export default defineConfig({
         },
       },
     },
-    //Generates sourcemaps for the built files,
-    //aiding in debugging.
-    sourcemap: true,
+    sourcemap: false,
     //Clears the output directory before building.
     emptyOutDir: true,
   },

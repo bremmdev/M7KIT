@@ -56,7 +56,6 @@ export function getBreakpointColumns(columns: BreakpointColumns) {
   );
 
   //check all keys to see if there are not undefined and if so derive the value from any of the previous breakpoints that has a value
-
   const keys = Object.keys(breakpointObj) as Array<keyof typeof breakpointObj>;
   for (let i = keys.length - 1; i >= 0; i--) {
     const key = keys[i];
