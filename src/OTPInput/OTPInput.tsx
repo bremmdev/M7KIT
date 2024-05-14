@@ -15,6 +15,7 @@ export const OTPInput = (props: OTPInputProps) => {
     onComplete,
     ariaLabel = "One Time Password",
     className,
+    ...rest
   } = props;
 
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -95,6 +96,7 @@ export const OTPInput = (props: OTPInputProps) => {
     <div
       data-otp-container="true"
       className={cn("flex text-3xl relative w-fit", className)}
+      {...rest}
     >
       {Array.from({ length: maxLength }).map((_, idx) => {
         const isAtEmptyPosition = idx === otp.length && idx === cursorPosition;

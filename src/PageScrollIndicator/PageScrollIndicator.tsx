@@ -3,7 +3,7 @@ import { cn } from "../utils/cn";
 import useScrollPosition from "../utils/hooks/useScrollPosition";
 
 export const PageScrollIndicator = (props: PageScrollIndicatorProps) => {
-  const { className } = props;
+  const { className, ...rest } = props;
 
   const { scrollPercent } = useScrollPosition();
 
@@ -15,6 +15,7 @@ export const PageScrollIndicator = (props: PageScrollIndicatorProps) => {
     <div
       style={style}
       className={cn("fixed left-0 top-0 w-screen h-1 bg-slate-900 dark:bg-slate-50", className)}
+      {...rest}
     />
   );
 };

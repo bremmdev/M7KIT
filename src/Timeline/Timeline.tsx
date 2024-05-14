@@ -33,13 +33,13 @@ const TimelineLine = ({
 };
 
 const TimelineItem = (props: TimelineItemProps) => {
-  const { children, bullet, lineClassName, className, ...remainingProps } =
+  const { children, bullet, lineClassName, className, ...rest } =
     props;
 
   return (
     <article
       className={cn("relative flex flex-col gap-2 pb-4", className)}
-      {...remainingProps}
+      {...rest}
     >
       <TimelineLine bullet={bullet} className={lineClassName} />
       {children}
@@ -48,10 +48,10 @@ const TimelineItem = (props: TimelineItemProps) => {
 };
 
 export const Timeline = (props: TimelineProps) => {
-  const { children, className, ...remainingProps } = props;
+  const { children, className, ...rest } = props;
 
   return (
-    <section className={cn("", className)} {...remainingProps}>
+    <section className={cn("", className)} {...rest}>
       {children}
     </section>
   );

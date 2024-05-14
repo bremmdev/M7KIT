@@ -29,8 +29,8 @@ const Breadcrumb = ({
   );
 };
 
-export const Breadcrumbs = ({ breadcrumbs, className, ...props }: BreadCrumbProps) => {
-  const ariaLabel = props["aria-label"] || "breadcrumbs";
+export const Breadcrumbs = ({ breadcrumbs, className, ...rest }: BreadCrumbProps) => {
+  const ariaLabel = rest["aria-label"] || "breadcrumbs";
 
   return (
     <nav aria-label={ariaLabel}>

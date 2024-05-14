@@ -27,7 +27,7 @@ export const Rating = (props: RatingProps) => {
     size = 24,
     className,
     variant = "star",
-    ...remainingProps
+    ...rest
   } = props;
 
   let val = value;
@@ -106,7 +106,7 @@ export const Rating = (props: RatingProps) => {
   const accessibilityLabel = `Rating is ${val} out of ${max}`;
 
   return (
-    <div className={cn("flex", className)} {...remainingProps}>
+    <div className={cn("flex", className)} {...rest}>
       {renderFilledRatingItem()}
       {hasHalfRating && renderHalfRatingItem()}
       {renderEmptyRatingItem()}

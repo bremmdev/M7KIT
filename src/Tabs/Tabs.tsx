@@ -61,7 +61,7 @@ export const Tabs = ({
 
 Tabs.Root = Tabs;
 
-const TabList = ({ className, children, ...props }: TabListProps) => {
+const TabList = ({ className, children, ...rest }: TabListProps) => {
   const { activeTab, setActiveTab, onValueChange } = React.useContext(
     TabsContext
   ) as TabsContext;
@@ -112,7 +112,7 @@ const TabList = ({ className, children, ...props }: TabListProps) => {
   return (
     <div
       role="tablist"
-      {...props}
+      {...rest}
       onKeyDown={handleKeyDown}
       className={cn("border-b border-b-slate-300 mb-1", className)}
       ref={tabListRef}
@@ -170,7 +170,7 @@ const TabContent = ({
   className,
   label,
   children,
-  ...props
+  ...rest
 }: TabContentProps) => {
   const { activeTab } = React.useContext(TabsContext) as TabsContext;
 
@@ -187,7 +187,7 @@ const TabContent = ({
           hidden: activeTab !== label,
         }
       )}
-      {...props}
+      {...rest}
     >
       {children}
     </div>

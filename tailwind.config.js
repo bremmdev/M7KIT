@@ -13,10 +13,20 @@ export default {
           "0%": { opacity: 0 },
           "100%": { opacity: 1 },
         },
+        slideDown: {
+          "0%": { transform: "translateY(-100%)", opacity: 1 },
+          "100%": { transform: "translateY(0)", opacity: 0.25},
+        },
+        slideUp: {
+          "0%": { transform: "translateY(100%)", opacity: 1 },
+          "100%": { transform: "translateY(0)", opacity: 0.25},
+        },
       },
       animation: {
         "blink": "blink 1s ease-in infinite",
         "fade-in": "fade-in 0.3s ease-in",
+        "slide-down": "slideDown ease-in",
+        "slide-up": "slideUp ease-in",
       },
     },
   },

@@ -10,7 +10,7 @@ export const DiamondGrid = (props: DiamondGridProps) => {
     className,
     itemWidth = 250,
     maxItemsInGroup = 2,
-    ...remainingProps
+    ...rest
   } = props;
 
   if (!Array.isArray(children)) {
@@ -29,7 +29,7 @@ export const DiamondGrid = (props: DiamondGridProps) => {
     <div
       className={cn("flex gap-2 diamond-gallery", className)}
       style={{ paddingLeft: itemWidth / 2 }}
-      {...remainingProps}
+      {...rest}
     >
       {groups.map((group, idx) => {
         const { shouldCenter, amountToAdjust } = getPositioning(

@@ -74,7 +74,7 @@ export const FolderStructure = ({
   data,
   indentSize = 2,
   className,
-  ...props
+  ...rest
 }: FolderStructureProps) => {
   return (
     <div
@@ -82,7 +82,7 @@ export const FolderStructure = ({
         "bg-slate-50 dark:bg-slate-800 text-slate-950 dark:text-slate-200 text-sm mx-auto max-w-2xl my-8 rounded-md border border-slate-300",
         className
       )}
-      {...props}
+      {...rest}
     >
       <FolderTitle name={data.name} />
       <div className="px-4 py-2 rounded-b-md border-t border-t-slate-300">

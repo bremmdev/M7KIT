@@ -13,6 +13,7 @@ export const Masonry = (props: MasonryProps) => {
     spacing = 16,
     columnOrder = "horizontal",
     children,
+    ...rest
   } = props;
 
   //don't show the component until the breakpoint is calculated, so don't render on the server
@@ -56,7 +57,7 @@ export const Masonry = (props: MasonryProps) => {
   };
 
   return (
-    <div className={cn(`flex justify-center`)} style={styles}>
+    <div className={cn(`flex justify-center`)} style={styles} {...rest}>
       {mounted &&
         orderedColumns.map((orderedColumn, idx) => (
           <div

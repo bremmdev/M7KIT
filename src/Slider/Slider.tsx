@@ -15,16 +15,16 @@ const LabelText = ({ label }: { label?: string }) => {
   );
 };
 
-export const Slider = ({ className, ...remainingProps }: SliderPropsExtended) => {
+export const Slider = ({ className, ...rest }: SliderPropsExtended) => {
   return (
     <div className={cn("w-full h-full text-slate-950", className)}>
-      <LabelText label={remainingProps.label} />
+      <LabelText label={rest.label} />
       <div
         className={cn("relative", {
-          "h-full": remainingProps.orientation === "vertical",
+          "h-full": rest.orientation === "vertical",
         })}
       >
-        <Slide {...remainingProps} />
+        <Slide {...rest} />
       </div>
     </div>
   );

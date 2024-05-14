@@ -41,7 +41,7 @@ export const GalleryStack = (props: GalleryStackProps) => {
     rotationAmount = 3,
     reversed = false,
     animationDuration = 2000,
-    ...remainingProps
+    ...rest
   } = props;
 
   //if children is not an array, throw an error
@@ -85,7 +85,7 @@ export const GalleryStack = (props: GalleryStackProps) => {
         className
       )}
       data-testid="gallery-stack"
-      {...remainingProps}
+      {...rest}
     >
       {items.map((child, idx) => {
         const isAnimating =

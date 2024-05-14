@@ -1,3 +1,13 @@
+## 0.19.0 - 2024-05-14
+
+### Added
+
+- Add `TextReveal` component
+
+### Changed
+
+- rename '...remainingProps' to '...rest' for consistency
+
 ## 0.18.4 - 2024-05-08
 
 ### Fix

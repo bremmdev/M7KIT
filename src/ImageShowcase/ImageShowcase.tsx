@@ -2,7 +2,7 @@ import { cn } from "../utils/cn";
 import { ImageShowcaseProps } from "./ImageShowcase.types";
 
 export const ImageShowcase = (props: ImageShowcaseProps) => {
-  const { children, className, growFactor = 2, ...remainingProps } = props;
+  const { children, className, growFactor = 2, ...rest } = props;
 
   if (!Array.isArray(children)) {
     throw new Error(
@@ -20,7 +20,7 @@ export const ImageShowcase = (props: ImageShowcaseProps) => {
   return (
     <div
       className={cn("w-full flex gap-2 h-80 showcase", className)}
-      {...remainingProps}
+      {...rest}
     >
       {children.map((child, idx) => (
         <div
