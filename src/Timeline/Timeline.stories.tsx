@@ -42,7 +42,7 @@ export default meta;
 
 type Story = StoryObj<typeof Timeline>;
 
-export const Basic: Story = {
+export const Default: Story = {
   args: {},
   render: (props) => (
     <div className="p-12">

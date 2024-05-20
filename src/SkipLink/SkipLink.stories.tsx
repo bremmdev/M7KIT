@@ -51,7 +51,7 @@ const render = (props: SkipLinkProps) => (
  * This skiplink will skip to the main content of the page, skipping over the header.
  */
 
-export const Basic: Story = {
+export const Default: Story = {
   args: {
     text: "Skip to content",
     targetId: "main",

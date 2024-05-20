@@ -45,7 +45,7 @@ export default meta;
 
 type Story = StoryObj<typeof Breadcrumbs>;
 
-export const Basic: Story = {
+export const Default: Story = {
   args: {
     breadcrumbs: [
       {

@@ -48,7 +48,7 @@ export default meta;
 
 type Story = StoryObj<typeof Slider>;
 
-export const Basic: Story = {
+export const Default: Story = {
   args: {
     className: "w-[500px]",
     size: 3,

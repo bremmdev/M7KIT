@@ -1,3 +1,14 @@
+## 0.20.0 - 2024-05-20
+
+### Added
+
+- Add `Marquee` component
+
+### Changed
+
+- rename 'Basic' to 'Default' for storybook stories
+- change keyframes for `TextReveal` component
+
 ## 0.19.0 - 2024-05-14
 
 ### Added

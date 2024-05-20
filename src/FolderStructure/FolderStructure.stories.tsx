@@ -48,10 +48,10 @@ export default meta;
 type Story = StoryObj<typeof FolderStructure>;
 
 /*
- **  Basic: Flat structure with no nesting
+ ** Flat structure with no nesting
  */
 
-export const Basic: Story = {
+export const Default: Story = {
   args: {
     data: {
       name: "Component",

@@ -35,7 +35,7 @@ export default meta;
 
 type Story = StoryObj<typeof TextReveal>;
 
-export const Basic: Story = {
+export const Default: Story = {
   args: {
     defaultVisibleIndex: 0,
     className: "",

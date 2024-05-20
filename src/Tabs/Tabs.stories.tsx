@@ -42,7 +42,7 @@ export default meta;
 
 type Story = StoryObj<typeof Tabs>;
 
-export const Basic: Story = {
+export const Default: Story = {
   args: {},
   render: () => (
     <div className="p-4">
