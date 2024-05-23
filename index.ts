@@ -10,6 +10,7 @@ export { Masonry } from "./src/Masonry";
 export { OTPInput } from "./src/OTPInput";
 export { PageScrollIndicator } from "./src/PageScrollIndicator";
 export { Rating } from "./src/Rating";
+export { ShimmerImage } from "./src/ShimmerImage";
 export { SkipLink } from "./src/SkipLink";
 export { Slider } from "./src/Slider";
 export { TextReveal } from "./src/TextReveal";

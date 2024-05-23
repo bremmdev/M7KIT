@@ -1,3 +1,9 @@
+## 0.21.0 - 2024-05-23
+
+### Added
+
+- Add `ShimmerImage` component
+
 ## 0.20.0 - 2024-05-20
 
 ### Added
