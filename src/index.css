@@ -21,6 +21,15 @@
   transition: filter 500ms ease-in-out;
 }
 
+/* Custom styles for the details element */
+details > summary::before {
+  transform: rotate(-90deg) translate(2px, -0px); /* Align the triangle with the text */
+}
+
+details[open] > summary::before {
+  transform: rotate(0deg) translate(0, -2px);
+}
+
 @keyframes slideAndBack {
   0% {
     transform: translateX(0);

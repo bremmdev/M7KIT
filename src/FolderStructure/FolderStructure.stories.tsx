@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { FolderStructure } from "./FolderStructure";
 
 /**
- * The `FolderStructure` component provides a way for displaying folder structures or file trees. It accepts a data prop which is an object with a name and children property.
+ * The `FolderStructure` component provides a way for displaying folder structures or file trees. It accepts a data prop which is an array with objects. Every object represents a file or a folder.
  * The name property is a string that represents the name of the folder or file. The children property is an array of objects with the same structure as the parent object.
  * The component will recursively render the children of the data object. The component accepts an indentSize prop which is a number that represents the number of indentations for each level.
  * The component accepts a className prop which can be used to override the default styles.
@@ -12,9 +12,10 @@ import { FolderStructure } from "./FolderStructure";
  * ## Usage
  * ```
  * <FolderStructure
- *    data={{
- *     name: "Component",
- *     children: [
+ *    data={[
+ *    {
+ *      name: "Folder",
+ *      children: [
  *       {
  *         name: "Component.tsx",
  *       },
@@ -25,7 +26,11 @@ import { FolderStructure } from "./FolderStructure";
  *         name: "Component.stories.tsx",
  *       },
  *     ],
- *   }}
+ *    },
+ *    {
+ *      name: "file.txt",
+ *    }
+ *   ]}
  * />
  * ```
  */
@@ -34,14 +39,7 @@ const meta: Meta<typeof FolderStructure> = {
   component: FolderStructure,
   title: "Components/FolderStructure",
   tags: ["autodocs"],
-  argTypes: {
-    indentSize: {
-      control: {
-        type: "select",
-        options: [2, 3, 4],
-      },
-    },
-  },
+
 };
 export default meta;
 
@@ -53,20 +51,17 @@ type Story = StoryObj<typeof FolderStructure>;
 
 export const Default: Story = {
   args: {
-    data: {
-      name: "Component",
-      children: [
-        {
-          name: "Component.tsx",
-        },
-        {
-          name: "Component.types.ts",
-        },
-        {
-          name: "Component.stories.tsx",
-        },
-      ],
-    },
+    data: [
+      {
+        name: "Component.tsx",
+      },
+      {
+        name: "Component.types.ts",
+      },
+      {
+        name: "Component.stories.tsx",
+      },
+    ],
   },
 };
 
@@ -76,42 +71,67 @@ export const Default: Story = {
 
 export const Nested: Story = {
   args: {
-    indentSize: 2,
-    data: {
-      name: "src",
-      children: [
-        {
-          name: "FolderStructure",
-          children: [
-            {
-              name: "SubComponent",
-              children: [
-                {
-                  name: "Component.tsx",
-                },
-                {
-                  name: "Component.types.ts",
-                },
-                {
-                  name: "Component.stories.tsx",
-                },
-              ],
-            },
-            {
-              name: "FolderStructure.tsx",
-            },
-            {
-              name: "FolderStructure.types.ts",
-            },
-            {
-              name: "FolderStructure.stories.tsx",
-            },
-          ],
-        },
-        {
-          name: "index.tsx",
-        },
-      ],
-    },
+    indent: "normal",
+    trailingSlash: true,
+    data: [
+      {
+        name: "src",
+        children: [
+          {
+            name: "Component",
+            children: [
+              {
+                name: "Component.tsx",
+              },
+              {
+                name: "Component.types.ts",
+              },
+              {
+                name: "Component.stories.tsx",
+              },
+              {
+                name: "SubComponent",
+                children: [
+                  {
+                    name: "SubComponent.tsx",
+                  },
+                  {
+                    name: "SubComponent.types.ts",
+                  },
+                ],
+              }
+            ],
+          },
+          {
+            name: "Component2",
+            children: [
+              {
+                name: "Component2.tsx",
+              },
+              {
+                name: "Component2.types.ts",
+              },
+              {
+                name: "Component2.stories.tsx",
+              },
+            ],
+          },
+          {
+            name: "index.ts",
+          },
+        ],
+      },
+      {
+        name: "lib",
+        children: [
+          {
+            name: "types.ts",
+          },
+          {
+            name: "utils.ts",
+          },
+        ],
+      },
+    ],
   },
 };

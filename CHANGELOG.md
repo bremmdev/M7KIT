@@ -1,3 +1,12 @@
+## 0.22.0 - 2024-07-25
+
+### Changed
+
+- Refactor `FolderStructure` component
+- Add folder icon to `FolderStructure` component
+- Add trailingSlash and open prop to `FolderStructure` component
+- Change indentation for `FolderStructure` component
+
 ## 0.21.0 - 2024-05-23
 
 ### Added

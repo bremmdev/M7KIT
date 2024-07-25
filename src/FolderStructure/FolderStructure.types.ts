@@ -2,38 +2,61 @@ export interface NamedEntity {
   name: string;
 }
 
+/**
+ * Represents a file in the folder structure.
+ */
 export interface FileType extends NamedEntity {}
 
+/**
+ * Represents a folder, which can contain files and/or other folders.
+ */
 export interface FolderType extends NamedEntity {
   children: ReadonlyArray<FileType | FolderType>;
 }
 
-export interface FolderStructureType extends FolderType {}
+export type Indent = 'normal' | 'small';
+
+/**
+ * Represents the root of the folder structure.
+ */
+export type FolderStructureType = ReadonlyArray<FileType | FolderType>;
 
 export interface FileProps {
   name: string;
   level: number;
 }
 
-export type IndentSize = 2 | 3 | 4;
-
 export interface FolderProps {
   folder: FolderType;
-  level: number;
+   /**
+   * The amount of space to indent each level of the folder structure
+   * @default "normal"
+   */ 
+  indent?: Indent;
+  open: boolean;
   /**
-   * The amount of space to indent each level of the folder structure,
-   * each unit represents 1 Tailwind CSS space unit (4px)
-   * @default 2
-   */
-  indentSize: IndentSize;
+   * Add a slash to the end of the folder name
+   * @default false
+  */
+  trailingSlash?: boolean;
 }
 
-export interface FolderStructureProps extends React.ComponentPropsWithRef<"div"> {
+export interface FolderStructureProps
+  extends React.ComponentPropsWithRef<"div"> {
   data: FolderStructureType;
   /**
-   * The amount of space to indent each level of the folder structure,
-   * each unit represents 1 Tailwind CSS space unit (4px)
-   * @default 2
+   * The amount of space to indent each level of the folder structure
+   * @default "normal"
+   */ 
+  indent?: Indent;
+  /**
+   * Whether the folder structure should be open by default
+   * @default true
    */
-  indentSize?: IndentSize;
+  open?: boolean;
+  /**
+   * Add a slash to the end of the folder name
+   * @default false
+   */
+  trailingSlash?: boolean;
 }
