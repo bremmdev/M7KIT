@@ -37,17 +37,15 @@ type Story = StoryObj<typeof ImageShowcase>;
 
 export const Default: Story = {
   render: (props) => (
-    <div className="dark:text-slate-50 p-2">
-      <ImageShowcase {...props}>
-        <img src={image001} alt="image001" width={300} height={300} />
-        <img src={image002} alt="image002" width={300} height={300} />
-        <img src={image003} alt="image003" width={600} height={600} />
-        <img src={image004} alt="image004" width={300} height={300} />
-        <img src={image005} alt="image005" width={300} height={300} />
-        <img src={image006} alt="image006" width={300} height={300} />
-        <img src={image007} alt="image007" width={300} height={300} />
-        <img src={image008} alt="image008" width={300} height={300} />
-      </ImageShowcase>
-    </div>
+    <ImageShowcase {...props}>
+      <img src={image001} alt="image001" width={300} height={300} />
+      <img src={image002} alt="image002" width={300} height={300} />
+      <img src={image003} alt="image003" width={600} height={600} />
+      <img src={image004} alt="image004" width={300} height={300} />
+      <img src={image005} alt="image005" width={300} height={300} />
+      <img src={image006} alt="image006" width={300} height={300} />
+      <img src={image007} alt="image007" width={300} height={300} />
+      <img src={image008} alt="image008" width={300} height={300} />
+    </ImageShowcase>
   ),
 };

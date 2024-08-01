@@ -30,7 +30,7 @@ export const Default: Story = {
     onValueChange: (value: string) => console.log(value),
   },
   render: (props) => (
-    <div className="dark:bg-slate-800 dark:text-slate-50 p-8">
+    <div className="p-8">
       <OTPInput {...props} />
     </div>
   ),

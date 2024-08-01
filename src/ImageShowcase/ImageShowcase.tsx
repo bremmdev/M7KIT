@@ -19,7 +19,7 @@ export const ImageShowcase = (props: ImageShowcaseProps) => {
 
   return (
     <div
-      className={cn("w-full flex gap-2 h-80 showcase", className)}
+      className={cn("w-full p-4 flex gap-2 h-80 showcase", className)}
       {...rest}
     >
       {children.map((child, idx) => (

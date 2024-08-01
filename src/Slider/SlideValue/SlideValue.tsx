@@ -18,7 +18,7 @@ export const SlideValue = () => {
 
   return (
     <span
-      className={cn("absolute text-sm font-medium text-slate-950", {
+      className={cn("absolute text-sm font-medium text-clr-text", {
         "opacity-50": disabled,
         "-top-5": orientation === "horizontal",
         "-right-6": orientation === "vertical",

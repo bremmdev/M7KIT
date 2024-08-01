@@ -199,7 +199,7 @@ type Story = StoryObj<typeof PageScrollIndicator>;
 
 export const Default: Story = {
   render: (props) => (
-    <div className="bg slate-50 dark:bg-slate-900 dark:text-slate-50">
+    <div className="text-clr-text">
       <PageScrollIndicator {...props} />
       <p className="px-8">{content}</p>
     </div>
@@ -208,9 +208,9 @@ export const Default: Story = {
 
 export const CustomTop: Story = {
   render: (props) => (
-    <div className="bg slate-50 dark:bg-slate-900 dark:text-slate-50">
-      <nav className="fixed top-0 left-0 w-screen">
-        <ul className="m-0 flex gap-4 justify-center items-center bg-slate-300 dark:bg-slate-800 px-4 mb-4 h-12">
+    <div className="text-clr-text">
+      <nav className="fixed top-0 left-0 w-screen text-clr-text">
+        <ul className="m-0 flex gap-4 justify-center items-center bg-clr-border px-4 mb-4 h-12">
           <li>
             <a href="#">Home</a>
           </li>
@@ -222,7 +222,7 @@ export const CustomTop: Story = {
           </li>
         </ul>
       </nav>
-      <PageScrollIndicator {...props} className="top-12"/>
+      <PageScrollIndicator {...props} className="top-12" />
       <p className="px-8 py-16">{content}</p>
     </div>
   ),
@@ -230,8 +230,11 @@ export const CustomTop: Story = {
 
 export const CustomStyles: Story = {
   render: (props) => (
-    <div className="bg slate-50 dark:bg-slate-900 dark:text-slate-50">
-      <PageScrollIndicator className="bg-blue-500 dark:bg-amber-300 rounded-full h-2" {...props} />
+    <div className="text-clr-text">
+      <PageScrollIndicator
+        className="bg-emerald-400 rounded-full h-2"
+        {...props}
+      />
       <p className="px-8">{content}</p>
     </div>
   ),

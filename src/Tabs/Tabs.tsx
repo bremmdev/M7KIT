@@ -52,7 +52,7 @@ export const Tabs = ({
 
   return (
     <TabsContext.Provider value={{ activeTab, setActiveTab, onValueChange }}>
-      <div className={cn("text-slate-950", className)} ref={tabsRef}>
+      <div className={cn("text-clr-text", className)} ref={tabsRef}>
         {children}
       </div>
     </TabsContext.Provider>
@@ -114,7 +114,7 @@ const TabList = ({ className, children, ...rest }: TabListProps) => {
       role="tablist"
       {...rest}
       onKeyDown={handleKeyDown}
-      className={cn("border-b border-b-slate-300 mb-1", className)}
+      className={cn("border-b border-b-clr-border mb-1", className)}
       ref={tabListRef}
     >
       {children}
@@ -151,9 +151,9 @@ const Tab = ({ className, label, children }: TabProps) => {
       data-tablabel={label}
       ref={tabRef}
       className={cn(
-        "py-2 px-4 mb-[2px] focus-visible:outline-blue-600 focus-visible:-outline-offset-1 hover:bg-blue-50 mr-1",
+        "py-2 px-4 mb-[2px] outline-accent hover:bg-clr-accent/10 mr-1",
         {
-          "border-b-2 border-b-blue-600 font-medium bg-blue-50":
+          "border-b-2 border-clr-accent font-medium bg-clr-accent/10":
             activeTab === label,
         },
         className
@@ -180,13 +180,9 @@ const TabContent = ({
       id={`panel-${label}`}
       aria-labelledby={`tab-${label}`}
       tabIndex={0}
-      className={cn(
-        "animate-fade-in p-4 focus-visible:outline-blue-600",
-        className,
-        {
-          hidden: activeTab !== label,
-        }
-      )}
+      className={cn("animate-fade-in p-4 outline-accent", className, {
+        hidden: activeTab !== label,
+      })}
       {...rest}
     >
       {children}

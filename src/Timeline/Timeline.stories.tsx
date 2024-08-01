@@ -45,64 +45,60 @@ type Story = StoryObj<typeof Timeline>;
 export const Default: Story = {
   args: {},
   render: (props) => (
-    <div className="p-12">
-      <Timeline {...props}>
-        <Timeline.Item>
-          <h2 className="text-xl font-bold -my-1">Heading 1</h2>
-          <p>Content 1</p>
-        </Timeline.Item>
-        <Timeline.Item>
-          <h2 className="text-xl font-bold -my-1">Heading 2</h2>
-          <img
-            src={image}
-            width="200"
-            height="300"
-            alt="image"
-            className="my-2"
-          />
-        </Timeline.Item>
-        <Timeline.Item>
-          <h2 className="text-xl font-bold -my-1">Heading 3</h2>
-          <p>Content 3</p>
-        </Timeline.Item>
-      </Timeline>
-    </div>
+    <Timeline {...props}>
+      <Timeline.Item>
+        <h2 className="text-xl font-bold -my-1">Heading 1</h2>
+        <p>Content 1</p>
+      </Timeline.Item>
+      <Timeline.Item>
+        <h2 className="text-xl font-bold -my-1">Heading 2</h2>
+        <img
+          src={image}
+          width="200"
+          height="300"
+          alt="image"
+          className="my-2"
+        />
+      </Timeline.Item>
+      <Timeline.Item>
+        <h2 className="text-xl font-bold -my-1">Heading 3</h2>
+        <p>Content 3</p>
+      </Timeline.Item>
+    </Timeline>
   ),
 };
 
 export const CustomBullet: Story = {
   args: {},
   render: (props) => (
-    <div className="p-12">
-      <Timeline {...props}>
-        <Timeline.Item
-          lineClassName="bg-purple-300"
-          bullet={<CircleDashed color="#d8b4fe" size={24} />}
-        >
-          <h2 className="text-xl font-bold -my-[2px]">Heading 1</h2>
-          <p>Content 1</p>
-        </Timeline.Item>
-        <Timeline.Item
-          bullet={<CircleDashed color="#d8b4fe" size={24} />}
-          lineClassName="bg-purple-300"
-        >
-          <h2 className="text-xl font-bold -my-[2px]">Heading 2</h2>
-          <img
-            src={image}
-            width="200"
-            height="300"
-            alt="image"
-            className="my-2"
-          />
-        </Timeline.Item>
-        <Timeline.Item
-          bullet={<CircleDashed color="#d8b4fe" size={24} />}
-          lineClassName="bg-purple-300"
-        >
-          <h2 className="text-xl font-bold -my-[2px]">Heading 3</h2>
-          <p>Content 3</p>
-        </Timeline.Item>
-      </Timeline>
-    </div>
+    <Timeline {...props}>
+      <Timeline.Item
+        lineClassName="bg-purple-300"
+        bullet={<CircleDashed color="#d8b4fe" size={24} />}
+      >
+        <h2 className="text-xl font-bold -my-[2px]">Heading 1</h2>
+        <p>Content 1</p>
+      </Timeline.Item>
+      <Timeline.Item
+        bullet={<CircleDashed color="#d8b4fe" size={24} />}
+        lineClassName="bg-purple-300"
+      >
+        <h2 className="text-xl font-bold -my-[2px]">Heading 2</h2>
+        <img
+          src={image}
+          width="200"
+          height="300"
+          alt="image"
+          className="my-2"
+        />
+      </Timeline.Item>
+      <Timeline.Item
+        bullet={<CircleDashed color="#d8b4fe" size={24} />}
+        lineClassName="bg-purple-300"
+      >
+        <h2 className="text-xl font-bold -my-[2px]">Heading 3</h2>
+        <p>Content 3</p>
+      </Timeline.Item>
+    </Timeline>
   ),
 };

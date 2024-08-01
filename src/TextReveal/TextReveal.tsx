@@ -40,7 +40,7 @@ export const TextReveal = (props: TextRevealProps) => {
     <div
       {...rest}
       className={cn(
-        "grid [&>*]:[grid-column:1] [&>*]:[grid-row:1] w-fit mx-auto text-center",
+        "text-clr-text grid [&>*]:[grid-column:1] [&>*]:[grid-row:1] w-fit mx-auto text-center",
         className
       )}
     >

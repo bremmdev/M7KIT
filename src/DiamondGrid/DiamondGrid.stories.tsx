@@ -56,18 +56,16 @@ export const Default: Story = {
     maxItemsInGroup: 2,
   },
   render: (props) => (
-    <div className="dark:text-slate-50 p-2">
-      <DiamondGrid {...props}>
-        <img src={image001} alt="image001" width={300} height={300} />
-        <img src={image002} alt="image002" width={300} height={300} />
-        <img src={image003} alt="image003" width={300} height={300} />
-        <img src={image004} alt="image004" width={300} height={300} />
-        <img src={image005} alt="image005" width={300} height={300} />
-        <img src={image006} alt="image006" width={300} height={300} />
-        <img src={image007} alt="image007" width={300} height={300} />
-        <img src={image008} alt="image008" width={300} height={300} />
-      </DiamondGrid>
-    </div>
+    <DiamondGrid {...props}>
+      <img src={image001} alt="image001" width={300} height={300} />
+      <img src={image002} alt="image002" width={300} height={300} />
+      <img src={image003} alt="image003" width={300} height={300} />
+      <img src={image004} alt="image004" width={300} height={300} />
+      <img src={image005} alt="image005" width={300} height={300} />
+      <img src={image006} alt="image006" width={300} height={300} />
+      <img src={image007} alt="image007" width={300} height={300} />
+      <img src={image008} alt="image008" width={300} height={300} />
+    </DiamondGrid>
   ),
 };
 
@@ -77,22 +75,20 @@ export const ThreeRows: Story = {
     maxItemsInGroup: 3,
   },
   render: (props) => (
-    <div className="dark:text-slate-50 p-2">
-      <DiamondGrid {...props}>
-        <img src={image001} alt="image001" width={300} height={300} />
-        <img src={image002} alt="image002" width={300} height={300} />
-        <img src={image003} alt="image003" width={300} height={300} />
-        <img src={image004} alt="image004" width={300} height={300} />
-        <img src={image005} alt="image005" width={300} height={300} />
-        <img src={image006} alt="image006" width={300} height={300} />
-        <img src={image007} alt="image007" width={300} height={300} />
-        <img src={image008} alt="image008" width={300} height={300} />
-        <img src={image009} alt="image009" width={300} height={300} />
-        <img src={image010} alt="image010" width={300} height={300} />
-        <img src={image011} alt="image011" width={300} height={300} />
-        <img src={image012} alt="image012" width={300} height={300} />
-        <img src={image013} alt="image013" width={300} height={300} />
-      </DiamondGrid>
-    </div>
+    <DiamondGrid {...props}>
+      <img src={image001} alt="image001" width={300} height={300} />
+      <img src={image002} alt="image002" width={300} height={300} />
+      <img src={image003} alt="image003" width={300} height={300} />
+      <img src={image004} alt="image004" width={300} height={300} />
+      <img src={image005} alt="image005" width={300} height={300} />
+      <img src={image006} alt="image006" width={300} height={300} />
+      <img src={image007} alt="image007" width={300} height={300} />
+      <img src={image008} alt="image008" width={300} height={300} />
+      <img src={image009} alt="image009" width={300} height={300} />
+      <img src={image010} alt="image010" width={300} height={300} />
+      <img src={image011} alt="image011" width={300} height={300} />
+      <img src={image012} alt="image012" width={300} height={300} />
+      <img src={image013} alt="image013" width={300} height={300} />
+    </DiamondGrid>
   ),
 };

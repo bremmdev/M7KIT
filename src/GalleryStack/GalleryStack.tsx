@@ -10,25 +10,31 @@ const NavigationButtons = (props: NavigationButtonProps) => {
   return (
     <div
       className={cn(
-        "absolute left-1/2 -translate-x-[100%] -bottom-2",
+        "absolute left-1/2 -translate-x-[100%] -bottom-2 flex gap-2",
         className
       )}
     >
       <button
-        className="mx-auto rounded-full p-1 hover:bg-slate-100 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50 disabled:bg-transparent"
+        className="mx-auto rounded-full outline-none focus:outline-none focus-visible:outline-clr-accent focus-visible:outline-2 disabled:opacity-50 disabled:bg-transparent"
         disabled={animationDirection !== "idle"}
         aria-label="previous item"
         onClick={() => onNavigate(0)}
       >
-        <CircleArrowLeft size={32} className="stroke-slate-500" />
+        <CircleArrowLeft
+          size={32}
+          className="stroke-clr-text hover:stroke-clr-accent"
+        />
       </button>
       <button
-        className="mx-auto rounded-full p-1 hover:bg-slate-100 outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50 disabled:bg-transparent"
+        className="mx-auto rounded-full outline-none focus:outline-none focus-visible:outline-clr-accent focus-visible:outline-2 disabled:opacity-50 disabled:bg-transparent"
         disabled={animationDirection !== "idle"}
         aria-label="next item"
         onClick={() => onNavigate(lastItemIdx)}
       >
-        <CircleArrowRight size={32} className="stroke-slate-500 " />
+        <CircleArrowRight
+          size={32}
+          className="stroke-clr-text hover:stroke-clr-accent"
+        />
       </button>
     </div>
   );
@@ -98,7 +104,7 @@ export const GalleryStack = (props: GalleryStackProps) => {
             }
           : {
               transform: `rotate(${calculatedRotation}deg) translateX(0)`,
-              zIndex: animationDirection ==="backward" ? - 1 : 0
+              zIndex: animationDirection === "backward" ? -1 : 0,
             };
         return (
           <div

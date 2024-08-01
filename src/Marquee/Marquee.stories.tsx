@@ -71,7 +71,7 @@ const items = [
 export const Default: Story = {
   args: {
     pauseOnHover: true,
-    className: "bg-slate-50 max-w-[800px] mx-auto",
+    className: "max-w-[800px] mx-auto",
   },
 
   render: (props) => (
@@ -84,7 +84,7 @@ export const Default: Story = {
 export const Vertical: Story = {
   args: {
     direction: "down",
-    className: "bg-slate-50 max-h-[360px]",
+    className: "max-h-[360px]",
   },
   argTypes: {
     direction: {

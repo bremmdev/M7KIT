@@ -42,7 +42,7 @@ export const Default: Story = {
   },
   render: (props) => (
     <div className="p-12">
-      <h1 className="text-blue-700 font-bold text-2xl my-4 text-center">
+      <h1 className="text-clr-accent font-bold text-2xl my-4 text-center">
         Hi, I am Matt!
       </h1>
       <TextReveal {...props}>

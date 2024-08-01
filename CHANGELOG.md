@@ -1,3 +1,13 @@
+## 0.23.0 - 2024-08-01
+
+### Changed
+
+- Changed global theming
+- Add full support for dark mode
+- Add CSS variables for theming
+- Add theme toggle addon to Storybook
+- Change styling for several components to use CSS variables
+
 ## 0.22.0 - 2024-07-25
 
 ### Changed

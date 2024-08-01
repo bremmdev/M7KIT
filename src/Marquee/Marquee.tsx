@@ -30,7 +30,7 @@ export const Marquee = (props: MarqueeProps) => {
     <div
       {...rest}
       className={cn(
-        "flex overflow-hidden gap-8 p-8 group",
+        "flex overflow-hidden gap-8 p-8 group bg-clr-bg",
         className,
         {
           "flex-col w-fit": isVertical,

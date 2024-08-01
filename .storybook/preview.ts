@@ -1,11 +1,29 @@
 import "../src/index.css";
 
 import type { Preview } from "@storybook/react";
+import { useTheme } from "./useTheme";
 
 const preview: Preview = {
+  decorators: [useTheme],
   globalTypes: {
-    darkMode: {
-      defaultValue: false, // Enable dark mode by default on all stories
+    theme: {
+      name: "Theme",
+      description: "Set global theme for components",
+      defaultValue: "light",
+      toolbar: {
+        items: [
+          {
+            value: "light",
+            title: "☀️ Light ",
+          },
+          {
+            value: "dark",
+            title: "🌙 Dark",
+          },
+        ],
+        // Change title based on selected value
+        dynamicTitle: true,
+      },
     },
   },
   parameters: {
@@ -19,7 +37,7 @@ const preview: Preview = {
     layout: "fullscreen",
     options: {
       storySort: {
-        order: ['Components', ['DiamondGrid', ['Overview']]],
+        order: ["Components", ["DiamondGrid", ["Overview"]]],
       },
     },
   },

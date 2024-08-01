@@ -3,11 +3,11 @@ import { cn } from "../utils/cn";
 
 const Bullet = ({ bullet }: { bullet: TimelineItemProps["bullet"] }) => {
   return (
-    <div className="absolute left-[50%] -translate-x-[50%] bg-white inline-block py-[2px]">
+    <div className="absolute left-[50%] -translate-x-[50%] bg-clr-bg inline-block py-[2px]">
       {bullet ? (
         bullet
       ) : (
-        <div className="w-5 h-5 border-2 border-slate-300 rounded-full bg-white" />
+        <div className="w-5 h-5 border-2 border-clr-border rounded-full bg-inherit" />
       )}
     </div>
   );
@@ -23,7 +23,7 @@ const TimelineLine = ({
   return (
     <div
       className={cn(
-        "absolute -left-6 top-0 w-1 h-full bg-slate-300",
+        "absolute -left-6 top-0 w-1 h-full bg-clr-border",
         className
       )}
     >
@@ -33,8 +33,7 @@ const TimelineLine = ({
 };
 
 const TimelineItem = (props: TimelineItemProps) => {
-  const { children, bullet, lineClassName, className, ...rest } =
-    props;
+  const { children, bullet, lineClassName, className, ...rest } = props;
 
   return (
     <article
@@ -51,7 +50,7 @@ export const Timeline = (props: TimelineProps) => {
   const { children, className, ...rest } = props;
 
   return (
-    <section className={cn("", className)} {...rest}>
+    <section className={cn("p-8 pl-12 text-clr-text", className)} {...rest}>
       {children}
     </section>
   );

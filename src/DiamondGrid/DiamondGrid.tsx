@@ -42,7 +42,7 @@ export const DiamondGrid = (props: DiamondGridProps) => {
         return (
           <div
             key={`group-${idx}`}
-            className={`flex flex-col gap-1 ${shouldCenter ? "justify-center" : "justify-start"} shrink-0 has-[:hover]:z-10 `}
+            className={`flex flex-col gap-1 ${shouldCenter ? "justify-center" : "justify-start"} shrink-0 has-[:hover]:z-10`}
           >
             {group.map((child, idx) => (
               <div

@@ -1,12 +1,27 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
-  darkMode: "class",
+  darkMode: "selector",
   theme: {
     extend: {
+      animation: {
+        blink: "blink 1s ease-in infinite",
+        "fade-in": "fade-in 0.3s ease-in",
+        "marquee-horizontal": "marquee-horizontal linear infinite",
+        "marquee-vertical": "marquee-vertical linear infinite",
+        shimmer: "shimmer 2.5s linear infinite",
+        "slide-down": "slideDown ease-in",
+        "slide-up": "slideUp ease-in",
+      },
       backgroundImage: {
         shimmer:
           "linear-gradient(-45deg, rgba(255,255,255,0) 43%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 57%)",
+      },
+      colors: {
+        "clr-accent": "rgb(var(--clr-accent) / <alpha-value>)",
+        "clr-bg": "rgb(var(--clr-bg) / <alpha-value>)",
+        "clr-border": "rgb(var(--clr-border) / <alpha-value>)",
+        "clr-text": "rgb(var(--clr-text) / <alpha-value>)",
       },
       keyframes: {
         blink: {
@@ -40,16 +55,24 @@ export default {
           "100%": { transform: "translateY(0)", opacity: 0 },
         },
       },
-      animation: {
-        blink: "blink 1s ease-in infinite",
-        "fade-in": "fade-in 0.3s ease-in",
-        "marquee-horizontal": "marquee-horizontal linear infinite",
-        "marquee-vertical": "marquee-vertical linear infinite",
-        shimmer: "shimmer 2.5s linear infinite",
-        "slide-down": "slideDown ease-in",
-        "slide-up": "slideUp ease-in",
-      },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      const newUtilities = {
+        ".outline-accent": {
+          outline: "none",
+          "&:focus": {
+            outline: "none",
+          },
+          "&:focus-visible": {
+            outline: "2px solid rgb(var(--clr-accent))",
+            "outline-offset": "2px",
+            borderRadius: "0.25rem", // equivalent to rounded-md
+          },
+        },
+      };
+      addUtilities(newUtilities, ["responsive", "hover"]);
+    },
+  ],
 };

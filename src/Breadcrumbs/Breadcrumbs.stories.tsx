@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Breadcrumbs } from "./Breadcrumbs";
 
 /**
- * The `Breadcrumbs` component helps the user to visualize how content has been structured and how to navigate back to previous web pages, and may identify the current location within a series of web pages. 
+ * The `Breadcrumbs` component helps the user to visualize how content has been structured and how to navigate back to previous web pages, and may identify the current location within a series of web pages.
  *
  * ## Design Guidelines
  *
@@ -62,9 +62,5 @@ export const Default: Story = {
       },
     ],
   },
-  render: (props) => (
-    <div className="h-screen bg slate-50 dark:bg-slate-900 p-4">
-      <Breadcrumbs {...props} />
-    </div>
-  ),
+  render: (props) => <Breadcrumbs {...props} />,
 };

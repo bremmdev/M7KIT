@@ -17,7 +17,7 @@ const Breadcrumb = ({
     <li className="flex items-center gap-2">
       <a
         href={href}
-        className="text-sky-700 dark:text-sky-300 font-medium underline underline-offset-4 focus-visible:outline-sky-700 outline-none focus-visible:outline-2 focus-visible:outline-offset-4 dark:focus-visible:outline-amber-300 p-1"
+        className="text-clr-text font-medium underline underline-offset-4 outline-accent p-1 hover:text-clr-accent"
         aria-current={ariaCurrent}
       >
         {text}
@@ -29,12 +29,21 @@ const Breadcrumb = ({
   );
 };
 
-export const Breadcrumbs = ({ breadcrumbs, className, ...rest }: BreadCrumbProps) => {
+export const Breadcrumbs = ({
+  breadcrumbs,
+  className,
+  ...rest
+}: BreadCrumbProps) => {
   const ariaLabel = rest["aria-label"] || "breadcrumbs";
 
   return (
-    <nav aria-label={ariaLabel}>
-      <ol className={cn("flex gap-2 items-center flex-wrap text-slate-950 dark:text-slate-200", className)}>
+    <nav aria-label={ariaLabel} className="p-4">
+      <ol
+        className={cn(
+          "flex gap-2 items-center flex-wrap text-clr-text",
+          className
+        )}
+      >
         {breadcrumbs?.map((breadcrumb, index) => (
           <Breadcrumb
             key={index}

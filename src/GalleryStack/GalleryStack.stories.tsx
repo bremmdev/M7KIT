@@ -45,13 +45,11 @@ export const Default: Story = {
     reversed: false,
   },
   render: (props) => (
-    <div className="bg slate-50 dark:bg-slate-900 dark:text-slate-50 p-2">
-      <GalleryStack {...props}>
-        <img src={image001} alt="image001" width={300} height={300} />
-        <img src={image002} alt="image002" width={300} height={300} />
-        <img src={image003} alt="image003" width={300} height={300} />
-        <img src={image004} alt="image004" width={300} height={300} />
-      </GalleryStack>
-    </div>
+    <GalleryStack {...props}>
+      <img src={image001} alt="image001" width={300} height={300} />
+      <img src={image002} alt="image002" width={300} height={300} />
+      <img src={image003} alt="image003" width={300} height={300} />
+      <img src={image004} alt="image004" width={300} height={300} />
+    </GalleryStack>
   ),
 };

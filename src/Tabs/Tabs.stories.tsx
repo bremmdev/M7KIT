@@ -46,10 +46,13 @@ export const Default: Story = {
   args: {},
   render: () => (
     <div className="p-4">
-      <h2 id="tabs-title" className="text-lg font-medium my-4">
+      <h2 id="tabs-title" className="text-lg font-medium my-4 text-clr-text">
         Frontend frameworks
       </h2>
-      <Tabs.Root defaultValue="astro" onValueChange={(val:string) => console.log(val)}>
+      <Tabs.Root
+        defaultValue="astro"
+        onValueChange={(val: string) => console.log(val)}
+      >
         <Tabs.List aria-labelledby="tabs-title">
           <Tabs.Tab label="react">React</Tabs.Tab>
           <Tabs.Tab label="astro">Astro</Tabs.Tab>

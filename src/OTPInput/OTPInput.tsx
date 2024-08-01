@@ -3,9 +3,7 @@ import { OTPInputProps } from "./OTPInput.types";
 import { cn } from "../utils/cn";
 import { validateValue } from "./OTPInput.utils";
 
-const Cursor = () => (
-  <div className="animate-blink w-px h-8 bg-slate-950 dark:bg-white" />
-);
+const Cursor = () => <div className="animate-blink w-px h-8 bg-clr-bg" />;
 
 export const OTPInput = (props: OTPInputProps) => {
   const {
@@ -95,7 +93,7 @@ export const OTPInput = (props: OTPInputProps) => {
   return (
     <div
       data-otp-container="true"
-      className={cn("flex text-3xl relative w-fit", className)}
+      className={cn("flex text-3xl relative w-fit text-clr-text", className)}
       {...rest}
     >
       {Array.from({ length: maxLength }).map((_, idx) => {
@@ -105,9 +103,9 @@ export const OTPInput = (props: OTPInputProps) => {
           <div
             key={idx}
             className={cn(
-              "flex justify-center items-center border border-slate-300 border-r-0 w-12 h-16 first-of-type:rounded-s-md last-of-type:rounded-e-md last-of-type:border-r bg-slate-50 dark:border-slate-500 dark:bg-slate-950",
+              "flex justify-center items-center border border-clr-border border-r-0 w-12 h-16 first-of-type:rounded-s-md last-of-type:rounded-e-md last-of-type:border-r bg-clr-bg",
               {
-                "border-2 border-slate-950 last-of-type:border- dark:border-white":
+                "border-2 border-clr-accent last-of-type:border-r-2":
                   cursorPosition === idx && isFocused,
               }
             )}
