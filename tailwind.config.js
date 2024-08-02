@@ -59,19 +59,32 @@ export default {
   },
   plugins: [
     function ({ addUtilities }) {
-      const newUtilities = {
-        ".outline-accent": {
+      const baseRing = {
+        outline: "none",
+        "&:focus": {
           outline: "none",
-          "&:focus": {
-            outline: "none",
-          },
+        },
+      };
+
+      const newUtilities = {
+        ".focus-ring": {
+          ...baseRing,
           "&:focus-visible": {
             outline: "2px solid rgb(var(--clr-accent))",
             "outline-offset": "2px",
             borderRadius: "0.25rem", // equivalent to rounded-md
           },
         },
+        ".focus-ring-inner": {
+          ...baseRing,
+          "&:focus-visible": {
+            outline: "2px solid rgb(var(--clr-accent))",
+            "outline-offset": "-1px",
+            borderRadius: "0.25rem", // equivalent to rounded-md
+          },
+        },
       };
+
       addUtilities(newUtilities, ["responsive", "hover"]);
     },
   ],

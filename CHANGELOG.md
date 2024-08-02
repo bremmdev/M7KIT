@@ -1,3 +1,12 @@
+## 0.24.0 - 2024-08-02
+
+### Changed
+
+- Refactor `Breadcrumb` component into subcomponents
+- Add separator prop to `Breadcrumb` component
+- Add `BreadcrumbMenu` component to collapse some breadcrumbs into a dropdown
+- Add focus ring utilities to Tailwind config
+
 ## 0.23.0 - 2024-08-01
 
 ### Changed

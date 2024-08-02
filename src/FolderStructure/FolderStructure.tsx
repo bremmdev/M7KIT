@@ -23,7 +23,7 @@ const Folder = ({ folder, indent, open, trailingSlash }: FolderProps) => {
         }
       )}
     >
-      <summary className="list-none before:content-['\25BC'] before:inline-block before:mr-1 before:w-3 before:mx-1 cursor-pointer outline-accent">
+      <summary className="list-none before:content-['\25BC'] before:inline-block before:mr-1 before:w-3 before:mx-1 cursor-pointer focus-ring">
         <span className="mt-[2px] font-bold inline-flex gap-1 items-center cursor-pointer hover:text-clr-accent">
           <FolderIcon className="size-4" />
           <span>

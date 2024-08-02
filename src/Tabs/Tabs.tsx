@@ -151,7 +151,7 @@ const Tab = ({ className, label, children }: TabProps) => {
       data-tablabel={label}
       ref={tabRef}
       className={cn(
-        "py-2 px-4 mb-[2px] outline-accent hover:bg-clr-accent/10 mr-1",
+        "py-2 px-4 mb-[2px] focus-ring hover:bg-clr-accent/10 mr-1",
         {
           "border-b-2 border-clr-accent font-medium bg-clr-accent/10":
             activeTab === label,
@@ -180,7 +180,7 @@ const TabContent = ({
       id={`panel-${label}`}
       aria-labelledby={`tab-${label}`}
       tabIndex={0}
-      className={cn("animate-fade-in p-4 outline-accent", className, {
+      className={cn("animate-fade-in p-4 focus-ring", className, {
         hidden: activeTab !== label,
       })}
       {...rest}

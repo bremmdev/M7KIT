@@ -1,6 +1,6 @@
 import "./src/index.css";
 
-export { Breadcrumbs } from "./src/Breadcrumbs";
+export { Breadcrumbs, BreadcrumbItem, BreadcrumbMenu } from "./src/Breadcrumbs";
 export { DiamondGrid } from "./src/DiamondGrid";
 export { FolderStructure } from "./src/FolderStructure";
 export { GalleryStack } from "./src/GalleryStack";
