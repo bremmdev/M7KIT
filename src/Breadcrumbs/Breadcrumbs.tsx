@@ -26,7 +26,7 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
   const [show, setShow] = React.useState(false);
   const menuRef = React.useRef<HTMLUListElement>(null);
   const menuButtonRef = React.useRef<HTMLButtonElement>(null);
-  useOnClickOutside(menuRef, () => setShow(false));
+  useOnClickOutside(menuButtonRef, () => setShow(false));
   const { children, className, ...rest } = props;
 
   function handleMenuClick() {
@@ -53,19 +53,14 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
     }
 
     // focus the next link is there is one
-    if (e.key === "ArrowDown") {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
       e.preventDefault();
-      const nextLink = document.activeElement
-        ?.nextElementSibling as HTMLAnchorElement;
-      nextLink && nextLink.focus();
-    }
-
-    // focus the previous link is there is one
-    if (e.key === "ArrowUp") {
-      e.preventDefault();
-      const prevLink = document.activeElement
-        ?.previousElementSibling as HTMLAnchorElement;
-      prevLink && prevLink.focus();
+      const sibling =
+        e.key === "ArrowDown"
+          ? document.activeElement?.parentElement?.nextElementSibling
+          : document.activeElement?.parentElement?.previousElementSibling;
+      const nextLink = sibling?.querySelector("a") as HTMLAnchorElement;
+      if (nextLink) nextLink.focus();
     }
   }
 
@@ -105,7 +100,11 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
         )}
       >
         {React.Children.map(children, (child, idx) => {
-          return <li className="block" key={idx}>{child}</li>;
+          return (
+            <li key={idx}>
+              {child}
+            </li>
+          );
         })}
       </ul>
     </div>

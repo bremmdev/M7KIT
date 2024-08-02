@@ -1,3 +1,10 @@
+## 0.24.1 - 2024-08-02
+
+### Fixed
+
+- Fix `Breadcrumb` click outside dropdown to close
+- Fix `Breadcrumb` arrowUp and arrowDown keyboard navigation
+
 ## 0.24.0 - 2024-08-02
 
 ### Changed
