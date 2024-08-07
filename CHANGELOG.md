@@ -1,3 +1,10 @@
+## 0.25.0 - 2024-08-07
+
+### Added
+
+- Add `LineClamp` component
+- Add `useReizeWindow` hook
+
 ## 0.24.1 - 2024-08-02
 
 ### Fixed

@@ -5,6 +5,7 @@ export { DiamondGrid } from "./src/DiamondGrid";
 export { FolderStructure } from "./src/FolderStructure";
 export { GalleryStack } from "./src/GalleryStack";
 export { ImageShowcase } from "./src/ImageShowcase";
+export { LineClamp, LineClampRoot, LineClampTrigger } from "./src/LineClamp";
 export { Marquee } from "./src/Marquee";
 export { Masonry } from "./src/Masonry";
 export { OTPInput } from "./src/OTPInput";
