@@ -1,3 +1,9 @@
+## 0.25.2 - 2024-08-08
+
+### Changed
+
+- Changed stories for `LineClamp` component
+
 ## 0.25.1 - 2024-08-08
 
 ### Changed

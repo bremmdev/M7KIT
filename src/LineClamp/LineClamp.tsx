@@ -72,7 +72,7 @@ export const LineClamp = <T extends keyof JSX.IntrinsicElements = "p">(
     ) {
       setHideTrigger(true);
     }
-  }, []);
+  }, [setHideTrigger]);
 
   React.useEffect(() => {
     if (lineClampRef.current && animate) {
