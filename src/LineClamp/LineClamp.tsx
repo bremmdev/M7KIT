@@ -16,13 +16,13 @@ export const LineClampTrigger = (props: LineClampTriggerProps) => {
     showMoreText = "Read More",
   } = props;
 
-  const { clamped, setClamped } = useLineClampContext();
+  const { clamped, setClamped, hideTrigger } = useLineClampContext();
 
   const handleTriggerClick = () => {
     setClamped((prev) => !prev);
   };
 
-  return (
+  return !hideTrigger ? (
     <button
       className={cn(
         "text-clr-text font-medium underline underline-offset-4 p-1 hover:text-clr-accent focus-ring-inner",
@@ -32,7 +32,7 @@ export const LineClampTrigger = (props: LineClampTriggerProps) => {
     >
       {clamped ? showMoreText : showLessText}
     </button>
-  );
+  ) : null;
 };
 
 export const LineClamp = <T extends keyof JSX.IntrinsicElements = "p">(
@@ -40,7 +40,7 @@ export const LineClamp = <T extends keyof JSX.IntrinsicElements = "p">(
 ) => {
   const { animate = true, as = "p", children, className, lines = 3 } = props;
 
-  const { clamped } = useLineClampContext();
+  const { clamped, setHideTrigger } = useLineClampContext();
   const lineClampRef = React.useRef<HTMLElement>(null);
   const [height, setHeight] = React.useState<string>("auto");
   const [isAnimating, setIsAnimating] = React.useState(false);
@@ -62,6 +62,18 @@ export const LineClamp = <T extends keyof JSX.IntrinsicElements = "p">(
 
   const LineClampComponent = as as React.ElementType;
 
+  // Check if the content is clamped by comparing the height of the content with the height of the container,
+  // if the content is not clamped, hide the trigger button
+  React.useEffect(() => {
+    const clampElement = lineClampRef.current;
+    if (
+      clampElement &&
+      clampElement.scrollHeight <= clampElement.clientHeight
+    ) {
+      setHideTrigger(true);
+    }
+  }, []);
+
   React.useEffect(() => {
     if (lineClampRef.current && animate) {
       // Get the height of the content
@@ -82,11 +94,39 @@ export const LineClamp = <T extends keyof JSX.IntrinsicElements = "p">(
     }
   }, [clamped, lines, animate]);
 
+
+  //When resizing the window, check if the content is clamped or not
   //in the not clamped state, the height must be recalculated on window resize
+  //additionally check if the content is overflowing or not and hide the trigger button accordingly
   useResizeWindow(() => {
-    if (lineClampRef.current && !clamped && height !== "auto") {
+    if (!lineClampRef.current) return;
+    if (!clamped && height !== "auto") {
       //set height to get the "natural" height of the content
       setHeight("auto");
+    }
+
+    //if the content is clamped, hide the trigger button if there is no overflow
+    if (
+      clamped &&
+      lineClampRef.current.scrollHeight <= lineClampRef.current.clientHeight
+    ) {
+      setHideTrigger(true);
+    } else {
+      setHideTrigger(false);
+    }
+
+    //if not clamped, hide the trigger button if the content is not overflowing
+    if (!clamped) {
+      const lineHeight = parseFloat(
+        getComputedStyle(lineClampRef.current).lineHeight
+      );
+      const clampedHeight = lines * lineHeight;
+
+      if (lineClampRef.current.scrollHeight <= clampedHeight) {
+        setHideTrigger(true);
+      } else {
+        setHideTrigger(false);
+      }
     }
   });
 

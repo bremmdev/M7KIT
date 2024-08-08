@@ -1,3 +1,9 @@
+## 0.25.1 - 2024-08-08
+
+### Changed
+
+- Only show `LineClampTrigger` when needed
+
 ## 0.25.0 - 2024-08-07
 
 ### Added

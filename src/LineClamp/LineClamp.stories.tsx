@@ -35,30 +35,6 @@ type Story = StoryObj<typeof LineClamp>;
 
 export const Default: Story = {
   render: (props) => (
-    <div className="p-8">
-    <LineClampRoot>
-      <LineClamp lines={3} {...props}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
-        adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-        in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-        qui officia deserunt mollit anim id est laborum.
-      </LineClamp>
-    </LineClampRoot>
-    </div>
-  ),
-};
-
-export const WithTrigger: Story = {
-  render: (props) => (
     <div className="space-y-4 p-8">
       <LineClampRoot>
         <LineClamp lines={3} {...props}>
@@ -67,15 +43,7 @@ export const WithTrigger: Story = {
           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
           aliquip ex ea commodo consequat. Duis aute irure dolor in
           reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum
-          dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-          velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-          occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-          mollit anim id est laborum.
+          pariatur. Excepteur sint occaecat cupidatat non proident,
         </LineClamp>
         <LineClampTrigger />
       </LineClampRoot>
@@ -83,7 +51,7 @@ export const WithTrigger: Story = {
   ),
 };
 
-export const WithCustomTriggerText: Story = {
+export const CustomTriggerText: Story = {
   render: (props) => (
     <div className="space-y-4 p-8">
       <LineClampRoot>
