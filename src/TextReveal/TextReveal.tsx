@@ -30,7 +30,7 @@ export const TextReveal = (props: TextRevealProps) => {
   }, [animationDuration, children]);
 
   const animationClass =
-    direction === "up" ? "animate-slide-up" : "animate-slide-down";
+    direction === "up" ? "animate-slide-up-fade" : "animate-slide-down-fade";
   const pausedClass =
     direction === "up"
       ? "animate-none opacity-0 translate-y-0"

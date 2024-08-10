@@ -1,3 +1,11 @@
+## 0.26.0 - 2024-08-10
+
+### Added
+
+- Add `Drawer` component
+- Add `usePreventScroll` hook
+- Add CSS variables clr-text-inverted and clr-bg-surface
+
 ## 0.25.2 - 2024-08-08
 
 ### Changed
@@ -15,7 +23,7 @@
 ### Added
 
 - Add `LineClamp` component
-- Add `useReizeWindow` hook
+- Add `useResizeWindow` hook
 
 ## 0.24.1 - 2024-08-02
 

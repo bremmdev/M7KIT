@@ -10,8 +10,12 @@ export default {
         "marquee-horizontal": "marquee-horizontal linear infinite",
         "marquee-vertical": "marquee-vertical linear infinite",
         shimmer: "shimmer 2.5s linear infinite",
-        "slide-down": "slideDown ease-in",
-        "slide-up": "slideUp ease-in",
+        "slide-down": "slideDown ease-in 0.3s",
+        "slide-down-fade": "slideDownFade ease-in",
+        "slide-left": "slideLeft linear 0.3s",
+        "slide-right": "slideRight linear 0.3s",
+        "slide-up": "slideUp ease-in 0.3s",
+        "slide-up-fade": "slideUpFade ease-in",
       },
       backgroundImage: {
         shimmer:
@@ -20,8 +24,10 @@ export default {
       colors: {
         "clr-accent": "rgb(var(--clr-accent) / <alpha-value>)",
         "clr-bg": "rgb(var(--clr-bg) / <alpha-value>)",
+        "clr-bg-surface": "rgb(var(--clr-bg-surface) / <alpha-value>)",
         "clr-border": "rgb(var(--clr-border) / <alpha-value>)",
         "clr-text": "rgb(var(--clr-text) / <alpha-value>)",
+        "clr-text-inverted": "rgb(var(--clr-text-inverted) / <alpha-value>)",
       },
       keyframes: {
         blink: {
@@ -45,11 +51,27 @@ export default {
           "100%": { "background-position-x": "0%" },
         },
         slideDown: {
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(0)" },
+        },
+        slideDownFade: {
           "0%": { transform: "translateY(-100%)", opacity: 1 },
           "90%": { transform: "translateY(0)", opacity: 0.25 },
           "100%": { transform: "translateY(0)", opacity: 0 },
         },
+        slideLeft: {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+        slideRight: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
         slideUp: {
+          "0%": { transform: "translateY(100%)" },
+          "100%": { transform: "translateY(0)" },
+        },
+        slideUpFade: {
           "0%": { transform: "translateY(100%)", opacity: 1 },
           "90%": { transform: "translateY(0)", opacity: 0.25 },
           "100%": { transform: "translateY(0)", opacity: 0 },

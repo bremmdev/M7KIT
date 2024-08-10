@@ -2,6 +2,7 @@ import "./src/index.css";
 
 export { Breadcrumbs, BreadcrumbItem, BreadcrumbMenu } from "./src/Breadcrumbs";
 export { DiamondGrid } from "./src/DiamondGrid";
+export { Drawer, DrawerRoot, DrawerContent, DrawerTrigger } from "./src/Drawer";
 export { FolderStructure } from "./src/FolderStructure";
 export { GalleryStack } from "./src/GalleryStack";
 export { ImageShowcase } from "./src/ImageShowcase";
