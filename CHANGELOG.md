@@ -1,3 +1,11 @@
+## 0.26.1 - 2024-08-11
+
+### Added
+
+- Add `resetScroll` prop to `Drawer` component
+- Add `onOpen` and `onClose` props to `Drawer` component for callbacks
+- Add FocusTrap to `Drawer` component
+
 ## 0.26.0 - 2024-08-10
 
 ### Added

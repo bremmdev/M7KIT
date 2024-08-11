@@ -2,9 +2,10 @@ import React from "react";
 
 type DrawerContext = {
   isOpen: boolean;
-  onOpen: () => void;
-  onClose: () => void;
+  open: () => void;
+  close: () => void;
   drawerRef: React.RefObject<HTMLDialogElement>;
+  triggerRef: React.RefObject<HTMLButtonElement>;
 };
 
 export const DrawerContext = React.createContext<DrawerContext | undefined>(
@@ -18,18 +19,24 @@ export const DrawerProvider = ({
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const drawerRef = React.useRef<HTMLDialogElement>(null);
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
 
-  function onOpen() {
+  function open() {
     setIsOpen(true);
     drawerRef.current?.showModal();
   }
-  function onClose() {
+  function close() {
     setIsOpen(false);
     drawerRef.current?.close();
+    setTimeout(() => {
+      triggerRef.current?.focus();
+    }, 0);
   }
 
   return (
-    <DrawerContext.Provider value={{ isOpen, onOpen, onClose, drawerRef }}>
+    <DrawerContext.Provider
+      value={{ isOpen, open, close, drawerRef, triggerRef }}
+    >
       {children}
     </DrawerContext.Provider>
   );

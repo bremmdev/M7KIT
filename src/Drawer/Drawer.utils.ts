@@ -10,7 +10,7 @@ export function getPositionClasses(placement: Placement) {
     right: `${baseWidth} left-0 sm:left-1/3 lg:left-1/2 h-svh animate-slide-left`,
     left: `${baseWidth} right-0 sm:right-1/3 lg:right-1/2 h-svh animate-slide-right`,
     top: `${baseHeight} top-0 bottom-[25svh] overflow-y-auto animate-slide-down`,
-    bottom: `${baseHeight} bottom-0 top-[25svh] overflow-y-auto animate-slide-up`, 
+    bottom: `${baseHeight} bottom-0 top-[25svh] overflow-y-auto animate-slide-up`,
   }[placement];
 }
 
@@ -25,7 +25,7 @@ export function useDrawer() {
 }
 
 export function useDrawerEvents() {
-  const { drawerRef, isOpen, onClose } = useDrawer();
+  const { drawerRef, isOpen, close } = useDrawer();
 
   React.useEffect(() => {
     const drawer = drawerRef.current;
@@ -33,7 +33,7 @@ export function useDrawerEvents() {
     if (drawer) {
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
-          onClose();
+          close();
         }
       };
 
@@ -45,7 +45,7 @@ export function useDrawerEvents() {
           e.clientY < rect.top ||
           e.clientY > rect.bottom
         ) {
-          onClose();
+          close();
         }
       };
 
@@ -57,5 +57,5 @@ export function useDrawerEvents() {
         drawer.removeEventListener("click", handleClickOutside);
       };
     }
-  }, [drawerRef, onClose, isOpen]);
+  }, [drawerRef, close, isOpen]);
 }

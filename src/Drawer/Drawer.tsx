@@ -9,9 +9,10 @@ import { getPositionClasses, useDrawer, useDrawerEvents } from "./Drawer.utils";
 import { DrawerProvider } from "./DrawerContext";
 import { X } from "lucide-react";
 import { usePreventScroll } from "../_hooks/usePreventScroll";
+import { useFocusTrap } from "../_hooks/useFocusTrap";
 
 const DrawerClose = () => {
-  const { onClose } = useDrawer();
+  const { close } = useDrawer();
 
   return (
     <div
@@ -21,7 +22,7 @@ const DrawerClose = () => {
     >
       <button
         className="focus-ring-inner hover:bg-clr-accent/10 rounded-md transition-colors p-1"
-        onClick={onClose}
+        onClick={close}
         aria-label="close drawer"
       >
         <X className="size-7 stroke-clr-text" />
@@ -32,13 +33,13 @@ const DrawerClose = () => {
 
 export const DrawerTrigger = (props: DrawerTriggerProps) => {
   const { children, className, hideTriggerWhenOpen = false, ...rest } = props;
-  const { onOpen, isOpen } = useDrawer();
+  const { open, isOpen, triggerRef } = useDrawer();
 
   return isOpen && hideTriggerWhenOpen ? null : (
-    <button className={cn("", className)} onClick={onOpen} {...rest}>
+    <button className={cn("", className)} onClick={open} {...rest} ref={triggerRef}>
       {children}
     </button>
-  )
+  );
 };
 
 export const DrawerContent = (props: DrawerContentProps) => {
@@ -48,21 +49,51 @@ export const DrawerContent = (props: DrawerContentProps) => {
 };
 
 export const Drawer = (props: DrawerProps) => {
-  const { children, className, placement = "right", ...rest } = props;
+  const {
+    children,
+    className,
+    onClose,
+    onOpen,
+    placement = "right",
+    resetScroll = true,
+    ...rest
+  } = props;
 
   const { drawerRef, isOpen } = useDrawer();
+  const firstMountRef = React.useRef(true);
 
   useDrawerEvents();
   usePreventScroll({
     enabled: isOpen,
   });
+  useFocusTrap(drawerRef);
 
   React.useEffect(() => {
     if (isOpen && drawerRef.current) {
-      drawerRef.current.scrollTop = 0;
+      // Reset scroll position when the drawer is opened
+      if(resetScroll) {
+        drawerRef.current.scrollTop = 0;
+      }
       drawerRef.current.focus();
     }
-  }, [isOpen, drawerRef]);
+  }, [isOpen, drawerRef, resetScroll]);
+
+  React.useEffect(() => {
+    if (firstMountRef.current) return;
+    if (isOpen && onOpen) {
+      onOpen();
+    }
+    if (!isOpen && onClose) {
+      onClose();
+    }
+  }, [isOpen, onOpen, onClose]);
+
+  React.useEffect(() => {
+    if (firstMountRef.current) {
+      firstMountRef.current = false;
+      return;
+    }
+  }, [isOpen]);
 
   return (
     <dialog

@@ -48,7 +48,11 @@ export const Default: Story = {
           <DrawerTrigger className="px-4 py-2 flex justify-center text-clr-text-inverted bg-clr-text hover:opacity-90 transition-all rounded-md font-medium w-fit focus-ring">
             Open Modal
           </DrawerTrigger>
-          <Drawer {...props}>
+          <Drawer
+            {...props}
+            onOpen={() => console.log("Drawer opened")}
+            onClose={() => console.log("Drawer closed")}
+          >
             <DrawerContent>
               <div className="space-y-5 leading-7 text-clr-text">
                 <h1 className="text-3xl font-bold">Drawer</h1>
@@ -107,9 +111,9 @@ export const Default: Story = {
                 </p>
                 <h2 className="text-2xl font-bold">Placement</h2>
                 <p>
-                  The Drawer can be placed on the left, right, top or bottom of the
-                  screen using the <strong>placement</strong> prop. The default
-                  placement is right.
+                  The Drawer can be placed on the left, right, top or bottom of
+                  the screen using the <strong>placement</strong> prop. The
+                  default placement is right.
                 </p>
 
                 <h2 className="text-2xl font-bold">Scrolling</h2>
