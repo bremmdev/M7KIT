@@ -1,3 +1,9 @@
+## 0.27.0 - 2024-08-12
+
+### Added
+
+- Add `TextAnimation` component
+
 ## 0.26.1 - 2024-08-11
 
 ### Added

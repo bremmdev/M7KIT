@@ -6,7 +6,8 @@ export default {
     extend: {
       animation: {
         blink: "blink 1s ease-in infinite",
-        "fade-in": "fade-in 0.3s ease-in",
+        "fade-in": "fade-in 0.3s ease-in forwards",
+        "fade-in-blur": "fade-in-blur 0.3s ease-in forwards",
         "marquee-horizontal": "marquee-horizontal linear infinite",
         "marquee-vertical": "marquee-vertical linear infinite",
         shimmer: "shimmer 2.5s linear infinite",
@@ -37,6 +38,10 @@ export default {
         "fade-in": {
           "0%": { opacity: 0 },
           "100%": { opacity: 1 },
+        },
+        "fade-in-blur": {
+          "0%": { opacity: 0, filter: "blur(1rem)" },
+          "100%": { opacity: 1, filter: "blur(0)" },
         },
         "marquee-horizontal": {
           "0%": { transform: "translateX(0%)" },
