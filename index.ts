@@ -1,5 +1,6 @@
 import "./src/index.css";
 
+export { AnimatedCount } from "./src/AnimatedCount";
 export { Breadcrumbs, BreadcrumbItem, BreadcrumbMenu } from "./src/Breadcrumbs";
 export { DiamondGrid } from "./src/DiamondGrid";
 export { Drawer, DrawerRoot, DrawerContent, DrawerTrigger } from "./src/Drawer";

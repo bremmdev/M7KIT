@@ -1,3 +1,9 @@
+## 0.28.0 - 2024-08-14
+
+### Added
+
+- Add `AnimatedCount` component
+
 ## 0.27.0 - 2024-08-12
 
 ### Added
