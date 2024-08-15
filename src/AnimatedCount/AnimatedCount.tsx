@@ -11,8 +11,9 @@ export const AnimatedCount = <T extends keyof JSX.IntrinsicElements>(
     count,
     duration = 2000,
     slowDownAt,
-    slowDownFactor = 5,
+    slowDownFactor = 10,
     start = 0,
+    step = 1,
   } = props;
 
   const [currentCount, setCurrentCount] = React.useState(start);
@@ -20,33 +21,56 @@ export const AnimatedCount = <T extends keyof JSX.IntrinsicElements>(
   // Function to calculate dynamic interval
   const calculateInterval = React.useCallback(
     (currentCount: number, slowDownAt?: number) => {
-      const baseInterval = duration / (count - start);
+      const direction = count > start ? 1 : -1;
+      const baseInterval = duration / Math.abs((count - start) / step);
       if (!slowDownAt) return baseInterval;
 
       // Start with baseInterval and increase it only when near the end
-      const slowed = currentCount >= slowDownAt ? slowDownFactor : 1;
+      const isSlowed =
+        direction > 0 ? currentCount >= slowDownAt : currentCount <= slowDownAt;
+      const slowed = isSlowed ? slowDownFactor : 1;
 
       return baseInterval * slowed;
     },
-    [count, duration, slowDownFactor, start]
+    [count, duration, slowDownFactor, start, step]
   );
 
   React.useEffect(() => {
-    if (currentCount < count) {
+    const direction = count > start ? 1 : -1;
+    const continueCounting =
+      direction > 0 ? currentCount < count : currentCount > count;
+
+    if (continueCounting) {
       const interval = calculateInterval(currentCount, slowDownAt);
       const timer = setTimeout(() => {
-        setCurrentCount((prev) => prev + 1);
+        setCurrentCount((prev) => prev + step);
       }, interval);
 
       // Clean up the timeout
       return () => clearTimeout(timer);
     }
-  }, [currentCount, count, calculateInterval, duration, slowDownAt]);
+  }, [
+    currentCount,
+    count,
+    calculateInterval,
+    duration,
+    slowDownAt,
+    step,
+    start,
+  ]);
 
   const Element = as as keyof JSX.IntrinsicElements;
 
+  //prevent layout shift by setting width to the max number of digits
+  const styles = {
+    width: `${Math.max(count.toString().length, start.toString().length)}ch`,
+  };
+
   return (
-    <Element className={cn("w-fit", className)}>
+    <Element
+      style={styles}
+      className={cn("inline-block text-center", className)}
+    >
       {currentCount}
     </Element>
   );

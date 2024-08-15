@@ -22,7 +22,7 @@ export type AnimatedCountProps<T extends keyof JSX.IntrinsicElements = "span"> =
     slowDownAt?: number;
     /**
      * Factor to slow down the animation by when it reaches `slowDownAt`
-     * @default 5
+     * @default 10
      */
     slowDownFactor?: number;
     /**
@@ -30,4 +30,9 @@ export type AnimatedCountProps<T extends keyof JSX.IntrinsicElements = "span"> =
      * @default 0
      */
     start?: number;
+    /**
+     * The step to increment the count by, can be negative
+     * @default 1
+     */
+    step?: number;
   };

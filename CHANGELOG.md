@@ -1,3 +1,10 @@
+## 0.28.1 - 2024-08-15
+
+### Changed
+
+- Add `step` prop to `AnimatedCount` component
+- Prevent layout shift in `AnimatedCount` component
+
 ## 0.28.0 - 2024-08-14
 
 ### Added

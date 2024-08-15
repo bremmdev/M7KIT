@@ -29,7 +29,7 @@ export const Default: Story = {
   },
   render: (props) => {
     return (
-      <div className="p-12">
+      <div className="p-8">
         <AnimatedCount {...props} />
       </div>
     );
@@ -45,22 +45,23 @@ export const SlowDown: Story = {
   },
   render: (props) => {
     return (
-      <div className="p-12">
+      <div className="p-8">
         <AnimatedCount {...props} />
       </div>
     );
   },
 };
 
-export const StartAt: Story = {
+export const CountDown: Story = {
   args: {
-    count: 100,
-    start: 50,
+    count: 0,
+    start: 100,
+    step: -1,
     className: "text-2xl font-bold text-clr-text",
   },
   render: (props) => {
     return (
-      <div className="p-12">
+      <div className="p-8">
         <AnimatedCount {...props} />
       </div>
     );
