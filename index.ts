@@ -8,6 +8,7 @@ export { FolderStructure } from "./src/FolderStructure";
 export { GalleryStack } from "./src/GalleryStack";
 export { ImageShowcase } from "./src/ImageShowcase";
 export { LineClamp, LineClampRoot, LineClampTrigger } from "./src/LineClamp";
+export { LoadingButton } from "./src/LoadingButton";
 export { Marquee } from "./src/Marquee";
 export { Masonry } from "./src/Masonry";
 export { OTPInput } from "./src/OTPInput";

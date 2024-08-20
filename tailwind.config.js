@@ -110,6 +110,14 @@ export default {
             borderRadius: "0.25rem", // equivalent to rounded-md
           },
         },
+        ".focus-ring-neutral": {
+          ...baseRing,
+          "&:focus-visible": {
+            outline: "2px solid rgb(var(--clr-text))",
+            "outline-offset": "2px",
+            borderRadius: "0.25rem", // equivalent to rounded-md
+          },
+        },
       };
 
       addUtilities(newUtilities, ["responsive", "hover"]);

@@ -1,3 +1,9 @@
+## 0.29.0 - 2024-08-20
+
+### Added
+
+- Add `LoadingButton` component
+
 ## 0.28.1 - 2024-08-15
 
 ### Changed
