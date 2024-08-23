@@ -1,3 +1,9 @@
+## 0.30.0 - 2024-08-23
+
+### Added
+
+- Add `SegmentedControl` component
+
 ## 0.29.0 - 2024-08-20
 
 ### Added

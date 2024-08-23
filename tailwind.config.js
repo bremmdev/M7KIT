@@ -25,6 +25,7 @@ export default {
       colors: {
         "clr-accent": "rgb(var(--clr-accent) / <alpha-value>)",
         "clr-bg": "rgb(var(--clr-bg) / <alpha-value>)",
+        "clr-bg-muted": "rgb(var(--clr-bg-muted) / <alpha-value>)",
         "clr-bg-surface": "rgb(var(--clr-bg-surface) / <alpha-value>)",
         "clr-border": "rgb(var(--clr-border) / <alpha-value>)",
         "clr-text": "rgb(var(--clr-text) / <alpha-value>)",
@@ -115,6 +116,14 @@ export default {
           "&:focus-visible": {
             outline: "2px solid rgb(var(--clr-text))",
             "outline-offset": "2px",
+            borderRadius: "0.25rem", // equivalent to rounded-md
+          },
+        },
+        ".focus-ring-neutral-inner": {
+          ...baseRing,
+          "&:focus-visible": {
+            outline: "2px solid rgb(var(--clr-text))",
+            "outline-offset": "-1px",
             borderRadius: "0.25rem", // equivalent to rounded-md
           },
         },
