@@ -21,7 +21,7 @@ const DrawerClose = () => {
       )}
     >
       <button
-        className="focus-ring-inner hover:bg-clr-accent/10 rounded-md transition-colors p-1"
+        className="focus-ring-inner hover:bg-clr-accent-muted rounded-md transition-colors p-1"
         onClick={close}
         aria-label="close drawer"
       >

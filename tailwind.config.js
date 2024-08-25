@@ -24,6 +24,7 @@ export default {
       },
       colors: {
         "clr-accent": "rgb(var(--clr-accent) / <alpha-value>)",
+        "clr-accent-muted": "rgb(var(--clr-accent-muted) / <alpha-value>)",
         "clr-bg": "rgb(var(--clr-bg) / <alpha-value>)",
         "clr-bg-muted": "rgb(var(--clr-bg-muted) / <alpha-value>)",
         "clr-bg-surface": "rgb(var(--clr-bg-surface) / <alpha-value>)",

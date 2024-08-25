@@ -151,9 +151,9 @@ const Tab = ({ className, label, children }: TabProps) => {
       data-tablabel={label}
       ref={tabRef}
       className={cn(
-        "py-2 px-4 mb-[2px] focus-ring hover:bg-clr-accent/10 mr-1",
+        "py-2 px-4 mb-[2px] focus-ring hover:bg-clr-accent-muted mr-1",
         {
-          "border-b-2 border-clr-accent font-medium bg-clr-accent/10":
+          "border-b-2 border-clr-accent font-medium bg-clr-accent-muted":
             activeTab === label,
         },
         className

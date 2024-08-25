@@ -1,3 +1,10 @@
+
+## 0.31.0 - 2024-08-25
+
+### Add
+
+- Add css variable for muted background color
+
 ## 0.30.0 - 2024-08-23
 
 ### Added

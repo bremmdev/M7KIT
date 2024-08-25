@@ -93,7 +93,7 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
         aria-labelledby="breadcrumb-list-button"
         id="breadcrumb-list"
         className={cn(
-          "absolute top-8 bg-clr-bg left-0 border border-clr-border rounded-md flex flex-col [&_a]:no-underline [&_a]:py-2 [&_a]:px-4 [&_a:hover]:bg-clr-accent/10 [&_a]:focus-ring-inner [&_a]:block",
+          "absolute top-8 bg-clr-bg left-0 border border-clr-border rounded-md flex flex-col [&_a]:no-underline [&_a]:py-2 [&_a]:px-4 [&_a:hover]:bg-clr-accent-muted [&_a:hover]:rounded-md [&_a]:focus-ring-inner [&_a]:block",
           {
             hidden: !show,
           }

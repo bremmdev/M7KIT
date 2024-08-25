@@ -5,6 +5,7 @@
 @layer base {
   :root {
     --clr-accent: 37 99 235; /* blue-600 */
+    --clr-accent-muted: 233 239 253; /* blue-600/10 */
     --clr-bg: 248 250 252; /* slate-50 */
     --clr-bg-muted: 226 232 240; /* slate-200 */
     --clr-bg-surface: 255 255 255; /* white */
@@ -15,6 +16,7 @@
 
   :root[data-theme="dark"] {
     --clr-accent: 253 230 138; /* amber-200 */
+    --clr-accent-muted: 39 44 52; /* amber-200/10 */
     --clr-bg: 15 23 42 /* slate-900 */;
     --clr-bg-muted: 51 65 85; /* slate-700 */
     --clr-bg-surface: 15 23 42; /* slate-900 */
