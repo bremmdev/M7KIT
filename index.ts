@@ -21,4 +21,5 @@ export { Slider } from "./src/Slider";
 export { TextAnimation } from "./src/TextAnimation";
 export { TextReveal } from "./src/TextReveal";
 export { Tabs } from "./src/Tabs";
+export { Tierlist } from "./src/Tierlist";
 export { Timeline } from "./src/Timeline";
