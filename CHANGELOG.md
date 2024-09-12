@@ -1,4 +1,15 @@
 
+## 0.32.1 - 2024-09-12
+
+### Changed
+
+- Add customizable classes to `Tierlist`
+- Add mobile touch support to `Tierlist`
+
+### Fixed
+
+- Fix mobile scrolling for `Tierlist`
+
 ## 0.32.0 - 2024-09-11
 
 ### Added

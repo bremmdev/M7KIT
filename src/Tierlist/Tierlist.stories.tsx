@@ -11,8 +11,16 @@ import TypeScriptIcon from "../_data/icons/typescript.svg";
 
 /**
  * `Tierlist` is a component that allows you to create a tierlist of items. It accepts a list of items (HTML / JSX elements) as children and allows you to drag and drop them into different tiers.
- * Items can be dragged and dropped into different tiers. Items can also be dragged back to the list to unrank them. Labels and colors can be customized.
+ * Items can be dragged and dropped into different tiers.
  *
+ * ## Features
+ * 
+ * - Drag and drop items into different tiers
+ * - Drag and drop items back to the list to unrank them
+ * - Customize labels and colors
+ * - Customizable classnames for items, labels, and tiers
+ * - Mobile touch support for drag and drop
+ * 
  * ## Usage
  *
  * ```
@@ -60,7 +68,7 @@ export const Default: Story = {
   render: (props) => {
     return (
       <div className="space-y-4 p-8">
-        <Tierlist {...props} aria-label="frontend technologies">
+        <Tierlist {...props} aria-label="frontend technologies" onTierDrop={(rank: string) => console.log('dropped in tier', rank)}>
           {tierlistItems}
         </Tierlist>
       </div>

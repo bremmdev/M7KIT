@@ -23,16 +23,45 @@ export type TierlistProps = React.ComponentPropsWithoutRef<"div"> & {
   /**
    * Callback fired when an item is dropped into a tier
    */
-  onDrop?: (rank: string) => void;
+  onTierDrop?: (rank: string) => void;
+  /**
+   * className to apply to the tierlist items container
+   */
+  itemsClasses?: string;
+  /**
+   * className to apply to the tierlist label
+   */
+  labelClasses?: string;
+  /**
+   * className to apply to the tierlist tier
+   */
+  tierClasses?: string;
 };
 
-export type TierListRankProps = React.ComponentPropsWithRef<"div"> & {
+export type TierListTierProps = React.ComponentPropsWithRef<"div"> & {
+  idx: number;
   items: RankedItems[number];
   onDrop: React.DragEventHandler<HTMLDivElement>;
+  /**
+   * Callback fired when an item is dragged over a tier by touch event on mobile
+   */
+  onTouchDrop: (rankIdx: number, itemId: number) => void;
+  /**
+   * Callback fired when an item is dropped back into the tierlist to unrank it
+   */
+  onUnrankDrop: (itemId: number) => void;
+  /**
+   * className to apply to the tierlist tier
+   */
+  tierClasses?: string;
 };
 
 export type TierListLabelProps = React.ComponentPropsWithRef<"div"> & {
   color: string;
+  /**
+   * className to apply to the tierlist label
+   */
+  labelClasses?: string;
 };
 
 export type TierListItemsProps = React.ComponentPropsWithRef<"div"> & {
@@ -40,5 +69,13 @@ export type TierListItemsProps = React.ComponentPropsWithRef<"div"> & {
   /**
    * Callback fired when an item is dropped back into the tierlist to unrank it
    */
-  onUnrankDrop: React.DragEventHandler<HTMLDivElement>;
+  onUnrankDrop: (itemId: number) => void;
+  /**
+   * Callback fired when an item is dragged over a tier by touch event on mobile
+   */
+  onTouchDrop: (rankIdx: number, itemId: number) => void;
+  /**
+   * className to apply to the tierlist items container
+   */
+  itemsClasses?: string;
 };
