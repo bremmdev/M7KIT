@@ -11,7 +11,7 @@ export const LoadingButton = (props: LoadingButtonProps) => {
     <button
       disabled={loading}
       className={cn(
-        "relative flex border-none justify-center items-center px-4 py-2 bg-clr-accent text-clr-text-inverted rounded-md font-medium w-fit hover:bg-opacity-90 transition-colors focus-ring-neutral",
+        "relative flex border-none justify-center items-center px-6 py-2.5 bg-clr-accent text-clr-text-inverted rounded-md font-medium w-fit hover:bg-opacity-90 transition-colors focus-ring-neutral",
         className
       )}
       {...rest}
