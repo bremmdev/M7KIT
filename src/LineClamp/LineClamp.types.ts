@@ -1,4 +1,5 @@
 export type LineClampRootProps = React.ComponentPropsWithoutRef<"div">;
+import { type JSX } from "react";
 
 export type LineClampProps<
   T extends keyof JSX.IntrinsicElements = "p",

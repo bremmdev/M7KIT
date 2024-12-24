@@ -1,3 +1,5 @@
+import type { JSX } from "react";
+
 export type TextAnimationProps<T extends keyof JSX.IntrinsicElements = "p"> =
   React.ComponentPropsWithoutRef<T> & {
     /**

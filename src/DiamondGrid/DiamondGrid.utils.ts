@@ -1,5 +1,7 @@
+import React from "react";
+
 export function divideIntoGroups(arr: React.ReactNode[], maxInGroup: number) {
-  const groups = [];
+  const groups: Array<Array<React.ReactNode>> = [];
   let currentGroup: React.ReactNode[] = [];
   let maxItemsInGroup = maxInGroup; // Start with the max amount of items in the first group
 

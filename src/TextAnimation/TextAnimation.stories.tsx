@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import { TextAnimation } from "./TextAnimation";
 import { TextAnimationProps } from "./TextAnimation.types";
+import { type JSX } from "react";
 
 const meta: Meta<typeof TextAnimation> = {
   component: TextAnimation,

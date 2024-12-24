@@ -18,8 +18,8 @@ export const DrawerProvider = ({
   children: React.ReactElement;
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const drawerRef = React.useRef<HTMLDialogElement>(null);
-  const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const drawerRef = React.useRef<HTMLDialogElement>(null) as React.RefObject<HTMLDialogElement>;
+  const triggerRef = React.useRef<HTMLButtonElement>(null) as React.RefObject<HTMLButtonElement>;
 
   function open() {
     setIsOpen(true);

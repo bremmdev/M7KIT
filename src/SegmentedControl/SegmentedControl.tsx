@@ -77,9 +77,14 @@ export const SegmentedControl = (props: SegmentedControlProps) => {
 
   //set the ignoreChangeRef to false if there is no default selected button
   React.useEffect(() => {
-    const hasDefaultSelected = React.Children.toArray(children).some(
-      (child) => (child as React.ReactElement).props.defaultSelected
+    if(!children || !Array.isArray(children)){
+      return;
+    }
+
+    const hasDefaultSelected = children?.some(
+      (child) => child.props.defaultSelected
     );
+        
     if (!hasDefaultSelected) {
       ignoreChangeRef.current = false;
     }

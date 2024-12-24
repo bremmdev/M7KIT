@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type JSX } from "react";
 import { TextAnimationProps } from "./TextAnimation.types";
 import { cn } from "../utils/cn";
 

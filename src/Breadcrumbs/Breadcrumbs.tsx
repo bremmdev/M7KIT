@@ -26,7 +26,7 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
   const [show, setShow] = React.useState(false);
   const menuRef = React.useRef<HTMLUListElement>(null);
   const menuButtonRef = React.useRef<HTMLButtonElement>(null);
-  useOnClickOutside(menuButtonRef, () => setShow(false));
+  useOnClickOutside(menuButtonRef as React.RefObject<HTMLButtonElement>, () => setShow(false));
   const { children, className, ...rest } = props;
 
   function handleMenuClick() {
@@ -128,7 +128,7 @@ export const BreadcrumbItem = (props: BreadcrumbItemProps) => {
   );
 
   // If asChild is true, we want to render a custom link component instead of an anchor tag
-  // in this case,BreadcrumbItem can only have one child
+  // in this case, BreadcrumbItem can only have one child
   if (asChild) {
     if (!React.isValidElement(children)) {
       console.warn(
@@ -136,8 +136,9 @@ export const BreadcrumbItem = (props: BreadcrumbItemProps) => {
       );
       return null;
     }
+
     // Clone the custom Link element and pass the props and classes
-    return React.cloneElement(children as React.ReactElement, {
+    return React.cloneElement(children as React.ReactElement<any>, {
       className: linkClassNames,
       "aria-current": isCurrentPage ? "page" : undefined,
       ...rest,

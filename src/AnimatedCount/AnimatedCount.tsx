@@ -1,6 +1,7 @@
 import React from "react";
 import { AnimatedCountProps } from "./AnimatedCount.types";
 import { cn } from "../utils/cn";
+import { JSX } from "react";
 
 export const AnimatedCount = <T extends keyof JSX.IntrinsicElements>(
   props: AnimatedCountProps<T>
