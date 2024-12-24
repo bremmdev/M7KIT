@@ -2,7 +2,7 @@
   "name": "m7kit",
   "description": "React component library featuring less common UI components",
   "private": false,
-  "version": "0.34.0-alpha-1",
+  "version": "0.34.0-alpha-2",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
@@ -13,7 +13,7 @@
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js"
     },
-    "./css": "./dist/style.css"
+    "./css": "./dist/m7kit.css"
   },
   "files": [
     "dist"
