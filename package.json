@@ -2,7 +2,7 @@
   "name": "m7kit",
   "description": "React component library featuring less common UI components",
   "private": false,
-  "version": "0.33.0",
+  "version": "0.34.0-alpha-1",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
@@ -11,13 +11,12 @@
     ".": {
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js",
-      "types": "./dist/index.d.ts",
-      "styles": "./dist/style.css"
+      "types": "./dist/index.d.ts"
     },
     "./css": "./dist/style.css"
   },
   "files": [
-    "/dist"
+    "dist"
   ],
   "publishConfig": {
     "access": "public"
@@ -30,6 +29,10 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "jest"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0 <20.0.0 || >=19.0.0 <20.0.0",
+    "react-dom": ">=18.0.0 <20.0.0 || >=19.0.0 <20.0.0"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^8.0.0",
@@ -46,8 +49,8 @@
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.5.2",
     "@types/jest": "^29.5.11",
-    "@types/react": "^18.2.43",
-    "@types/react-dom": "^18.2.17",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",
@@ -62,8 +65,8 @@
     "lucide-react": "^0.414.0",
     "npm": "^10.3.0",
     "postcss": "^8.4.33",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "storybook": "^8.0.0",
     "tailwind-merge": "^2.2.0",
     "tailwindcss": "^3.4.7",
