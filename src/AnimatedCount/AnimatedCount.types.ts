@@ -1,4 +1,5 @@
 import React from "react";
+import { JSX } from "react";
 
 export type AnimatedCountProps<T extends keyof JSX.IntrinsicElements = "span"> =
   React.ComponentPropsWithoutRef<T> & {

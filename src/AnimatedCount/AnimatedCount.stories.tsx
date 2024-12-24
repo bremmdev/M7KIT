@@ -25,7 +25,7 @@ type Story = StoryObj<typeof AnimatedCount>;
 export const Default: Story = {
   args: {
     count: 100,
-    className: "text-2xl font-bold text-clr-text",
+    // className: "text-2xl font-bold text-clr-text",
   },
   render: (props) => {
     return (
@@ -41,7 +41,7 @@ export const SlowDown: Story = {
     count: 100,
     slowDownAt: 95,
     slowDownFactor: 10,
-    className: "text-2xl font-bold text-clr-text",
+    // className: "text-2xl font-bold text-clr-text",
   },
   render: (props) => {
     return (
@@ -57,7 +57,7 @@ export const CountDown: Story = {
     count: 0,
     start: 100,
     step: -1,
-    className: "text-2xl font-bold text-clr-text",
+    // className: "text-2xl font-bold text-clr-text",
   },
   render: (props) => {
     return (
