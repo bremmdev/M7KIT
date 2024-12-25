@@ -4,6 +4,14 @@ import { TextAnimation } from "./TextAnimation";
 import { TextAnimationProps } from "./TextAnimation.types";
 import { type JSX } from "react";
 
+/**
+ * ```
+ * <TextAnimation as="div" animation="fade-in-blur">
+ *   This is a simple text animation example.
+ * </TextAnimation>
+ * ```
+ */
+
 const meta: Meta<typeof TextAnimation> = {
   component: TextAnimation,
   title: "Components/TextAnimation",

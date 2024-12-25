@@ -21,7 +21,7 @@ import image008 from "../_data/images/picture008.jpg";
  *  <img src={image002} alt="image002" width={300} height={300} />
  *  <img src={image003} alt="image003" width={300} height={300} />
  *  <img src={image004} alt="image004" width={300} height={300} />
- * /ImageShowcase>
+ * </ImageShowcase>
  * ```
  */
 

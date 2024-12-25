@@ -1,3 +1,10 @@
+# 0.34.0 - 2024-12-25
+
+- Upgrade to React 19
+- Fix `OTPInput` cursor
+- Remove `Slider` component
+- Fix several stories and tests
+
 # 0.33.0 - 2024-11-13
 
 ### Added

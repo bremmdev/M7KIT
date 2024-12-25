@@ -64,7 +64,7 @@ describe("TextReveal", () => {
 
     const el = container.querySelector(".grid > div");
 
-    expect(el).toHaveClass("animate-slide-up");
+    expect(el).toHaveClass("animate-slide-up-fade");
   });
 
   it("should set correct animation duration", () => {

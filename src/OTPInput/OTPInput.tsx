@@ -3,7 +3,7 @@ import { OTPInputProps } from "./OTPInput.types";
 import { cn } from "../utils/cn";
 import { validateValue } from "./OTPInput.utils";
 
-const Cursor = () => <div className="animate-blink w-px h-8 bg-clr-bg" />;
+const Cursor = () => <div className="animate-blink w-px h-8 bg-clr-text" />;
 
 export const OTPInput = (props: OTPInputProps) => {
   const {

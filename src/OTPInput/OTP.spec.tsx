@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { OTPInput } from "./OTPInput";
-import { act } from "react-dom/test-utils";
+import { act } from 'react';
 
 describe("OTPInput", () => {
   it("should render the correct number of fields - default", () => {

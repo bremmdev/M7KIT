@@ -27,6 +27,11 @@ import image004 from "../_data/images/picture004.jpg";
  *  rotationAmount={10}
  *  animationDuration={2000}
  * >
+ *   <img src={image001} alt="image001" width={300} height={300} />
+ *   <img src={image002} alt="image002" width={300} height={300} />
+ *   <img src={image003} alt="image003" width={300} height={300} />
+ *   <img src={image004} alt="image004" width={300} height={300} />
+ * </GalleryStack>
  * ```
  */
 
