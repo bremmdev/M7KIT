@@ -26,7 +26,7 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
   const [show, setShow] = React.useState(false);
   const menuRef = React.useRef<HTMLUListElement>(null);
   const menuButtonRef = React.useRef<HTMLButtonElement>(null);
-  useOnClickOutside(menuButtonRef as React.RefObject<HTMLButtonElement>, () => setShow(false));
+  useOnClickOutside(menuButtonRef as React.RefObject<HTMLButtonElement | null>, () => setShow(false));
   const { children, className, ...rest } = props;
 
   function handleMenuClick() {

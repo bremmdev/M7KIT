@@ -14,7 +14,7 @@ export const LineClampContext = React.createContext<LineClampContextType | undef
 export const LineClampProvider = ({
   children,
 }: {
-  children: React.ReactElement;
+  children: React.ReactElement<any>;
 }) => {
   const [clamped, setClamped] = React.useState(true);
   const [hideTrigger, setHideTrigger] = React.useState(false);

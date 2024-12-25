@@ -1,7 +1,7 @@
 import React from "react";
 
 export function useFocusTrap<T extends HTMLElement>(
-  element: React.RefObject<T>
+  element: React.RefObject<T | null>
 ) {
   React.useEffect(() => {
     if (!element.current) return;

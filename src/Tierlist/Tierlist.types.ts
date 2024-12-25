@@ -7,7 +7,7 @@ export const defaultLabelColors = [
   "#bbf7d0",
 ];
 
-export type RankedItems = Array<Array<React.ReactElement>>;
+export type RankedItems = Array<Array<React.ReactElement<any>>>;
 
 export type TierlistProps = React.ComponentPropsWithoutRef<"div"> & {
   /**

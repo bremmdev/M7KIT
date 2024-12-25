@@ -3,11 +3,11 @@ import { breakpoints, Breakpoint } from "../utils/breakpoints";
 import { ColumnCount } from "./Masonry.types";
 
 export function orderItems(
-  items: Array<React.ReactElement>,
+  items: Array<React.ReactElement<any>>,
   columns: number,
   columnOrder: "horizontal" | "vertical"
 ) {
-  const orderedColumns: Array<Array<React.ReactElement>> = Array.from(
+  const orderedColumns: Array<Array<React.ReactElement<any>>> = Array.from(
     { length: columns },
     () => []
   );

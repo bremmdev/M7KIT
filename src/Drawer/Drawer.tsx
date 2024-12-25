@@ -115,7 +115,7 @@ export const Drawer = (props: DrawerProps) => {
 export const DrawerRoot = ({
   children,
 }: {
-  children: Array<React.ReactElement>;
+  children: Array<React.ReactElement<any>>;
 }) => {
   return (
     <DrawerProvider>
