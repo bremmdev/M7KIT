@@ -2,7 +2,7 @@ import React from "react";
 
 export type BreadcrumbProps = React.ComponentPropsWithRef<"nav"> & {
   /**
-   * The separator to be used between breadcrumbs.
+   * The separator to be used in breadcrumb
    * @default "chevron"
    */
   separator?: "chevron" | "dash" | "slash";
@@ -18,7 +18,8 @@ export type BreadcrumbItemProps = React.ComponentPropsWithRef<"a"> & {
   asChild?: boolean;
   /**
    * Whether the item represents the current page.
-   *  @default false
+   * @default false
+   * Automatically set to true when using BreadcrumbCurrentItem instead of BreadcrumbItem
    * */
   isCurrentPage?: boolean;
 };

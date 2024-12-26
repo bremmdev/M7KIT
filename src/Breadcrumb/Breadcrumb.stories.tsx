@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Breadcrumbs, BreadcrumbItem, BreadcrumbMenu } from "./Breadcrumbs";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbCurrentItem, BreadcrumbMenu } from "./Breadcrumb";
 
 /**
- * The `Breadcrumbs` component helps the user to visualize how content has been structured and how to navigate back to previous web pages, and may identify the current location within a series of web pages.
+ * The `Breadcrumb` component helps the user to visualize how content has been structured and how to navigate back to previous web pages, and may identify the current location within a series of web pages.
  *
  * ## Design Guidelines
  *
- * I followed the following guidelines while developing the `Breadcrumbs` component. These are mostly based on the [W3C breadcrumb design guidelines](https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/examples/breadcrumb/):
+ * I followed the following guidelines while developing the `Breadcrumb` component. These are mostly based on the [W3C breadcrumb design guidelines](https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/examples/breadcrumb/):
  * - Use a `nav` element with a unique label to make it a navigation landmark so that it is easy to locate.
- * - Use an ordered list to provide context to users about a given breadcrumb’s position in a list and of the total number of breadcrumbs.
+ * - Use an ordered list to provide context to users about a given breadcrumb’s position in a list and of the total number of items.
  * - Prevent screen reader from announcing the visual separators between links.
  * - Add `aria-current="page"` to the last item. This represents the current item within a container or set of related elements.
  * - Color or weight are not used as the only means of conveying it is a link
@@ -17,18 +17,18 @@ import { Breadcrumbs, BreadcrumbItem, BreadcrumbMenu } from "./Breadcrumbs";
  * ## Features
  *
  * - Use the asChild prop to render a custom link component instead of an anchor tag
- * - Wrap BreadcrumbItem components in BreadcrumbMenu to create a dropdown menu to hide some breadcrumbs for long breadcrumb lists
- * - isCurrentPage indicates the current page
+ * - Wrap BreadcrumbItem components in BreadcrumbMenu to create a dropdown menu to hide some items in long breadcrumb lists
  * - Choose between different separators: chevron, dash, or slash
+ * - Use BreadcrumbCurrentItem to indicate the current page
  *
  * ## Usage
  *
  * ```
- * <Breadcrumbs>
+ * <Breadcrumb>
  *   <BreadcrumbItem href="/">Home</BreadcrumbItem>
  *   <BreadcrumbItem href="/getting-started">Getting started</BreadcrumbItem>
- *   <BreadcrumbItem isCurrentPage>Installation</BreadcrumbItem>
- * </Breadcrumbs
+ *   <BreadcrumbCurrentItem>Installation</BreadcrumbItem>
+ * </Breadcrumb
  * ```
  * ### Using a custom Link component
  *
@@ -38,36 +38,36 @@ import { Breadcrumbs, BreadcrumbItem, BreadcrumbMenu } from "./Breadcrumbs";
  * ```
  * import Link from "next/link";
  *
- * <Breadcrumbs>
+ * <Breadcrumb>
  *    <BreadcrumbItem asChild>
  *      <Link href="/">Home</Link>
  *    </BreadcrumbItem>
  *    <BreadcrumbItem asChild>
  *      <Link href="/getting-started">Getting started</Link>
  *    </BreadcrumbItem>
- *    <BreadcrumbItem isCurrentPage>
+ *    <BreadcrumbCurrentItem>
  *      Installation
- *    </BreadcrumbItem>
- * </Breadcrumbs>
+ *    </BreadcrumbCurrentItem>
+ * </Breadcrumb>
  *```
  */
 
-const meta: Meta<typeof Breadcrumbs> = {
-  component: Breadcrumbs,
-  title: "Components/Breadcrumbs",
+const meta: Meta<typeof Breadcrumb> = {
+  component: Breadcrumb,
+  title: "Components/Breadcrumb",
   tags: ["autodocs"],
 };
 export default meta;
 
-type Story = StoryObj<typeof Breadcrumbs>;
+type Story = StoryObj<typeof Breadcrumb>;
 
 export const Default: Story = {
   render: (props) => (
-    <Breadcrumbs {...props}>
+    <Breadcrumb {...props}>
       <BreadcrumbItem href="/">Home</BreadcrumbItem>
       <BreadcrumbItem href="/getting-started">Getting started</BreadcrumbItem>
-      <BreadcrumbItem isCurrentPage>Installation</BreadcrumbItem>
-    </Breadcrumbs>
+      <BreadcrumbCurrentItem>Installation</BreadcrumbCurrentItem>
+    </Breadcrumb>
   ),
 };
 
@@ -76,24 +76,24 @@ export const SlashSeparator: Story = {
     separator: "slash",
   },
   render: (props) => (
-    <Breadcrumbs {...props}>
+    <Breadcrumb {...props}>
       <BreadcrumbItem href="/">Home</BreadcrumbItem>
       <BreadcrumbItem href="/getting-started">Getting started</BreadcrumbItem>
-      <BreadcrumbItem isCurrentPage>Installation</BreadcrumbItem>
-    </Breadcrumbs>
+      <BreadcrumbCurrentItem>Installation</BreadcrumbCurrentItem>
+    </Breadcrumb>
   ),
 };
 
 export const BreadcrumbWithMenu: Story = {
   render: (props) => (
-    <Breadcrumbs {...props}>
+    <Breadcrumb {...props}>
       <BreadcrumbItem href="/">Home</BreadcrumbItem>
       <BreadcrumbMenu>
         <BreadcrumbItem href="#">Server</BreadcrumbItem>
         <BreadcrumbItem href="/server/overview">Overview</BreadcrumbItem>
       </BreadcrumbMenu>
       <BreadcrumbItem href="/server/overview/routing">Routing</BreadcrumbItem>
-      <BreadcrumbItem isCurrentPage>API reference</BreadcrumbItem>
-    </Breadcrumbs>
+      <BreadcrumbCurrentItem>API reference</BreadcrumbCurrentItem>
+    </Breadcrumb>
   ),
 };

@@ -1,9 +1,11 @@
+"use client";
+
 import React, { useEffect } from "react";
 import {
   BreadcrumbProps,
   BreadcrumbItemProps,
   BreadcrumbMenuProps,
-} from "./Breadcrumbs.types";
+} from "./Breadcrumb.types";
 import { cn } from "../utils/cn";
 import { ChevronRight, Ellipsis, Minus, Slash } from "lucide-react";
 import { useOnClickOutside } from "../_hooks/useOnClickOutside";
@@ -26,30 +28,29 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
   const [show, setShow] = React.useState(false);
   const menuRef = React.useRef<HTMLUListElement>(null);
   const menuButtonRef = React.useRef<HTMLButtonElement>(null);
-  useOnClickOutside(menuButtonRef as React.RefObject<HTMLButtonElement | null>, () => setShow(false));
+  useOnClickOutside(menuButtonRef as React.RefObject<HTMLButtonElement | null>, handleOnClickOutside);
   const { children, className, ...rest } = props;
 
   function handleMenuClick() {
     setShow((prev) => !prev);
   }
 
+  function handleOnClickOutside(e: Event | React.KeyboardEvent) {
+    if (!show) return;
+    e.preventDefault();
+    setShow(false);
+    menuButtonRef.current?.focus();
+  }
+
   function handleMenuKeydown(e: React.KeyboardEvent) {
-    if (e.key === "Escape") {
-      setShow(false);
-      menuButtonRef.current?.focus();
+    if(e.key === "Tab") {
+      e.preventDefault();
+      return;
     }
 
-    if (e.key === "Tab") {
-      const isFirstElement =
-        document.activeElement === menuRef.current?.querySelector("a");
-      const isLastElement =
-        document.activeElement ===
-        menuRef.current?.querySelector("a:last-child");
-
-      // Close menu when tabbing out of the menu
-      if ((isFirstElement && e.shiftKey) || (isLastElement && !e.shiftKey)) {
-        setShow(false);
-      }
+    // Close menu on escape key and focus the menu button
+    if (e.key === "Escape") {
+      handleOnClickOutside(e);
     }
 
     // focus the next link is there is one
@@ -71,6 +72,8 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
     }
   }, [show]);
 
+  const menuId = React.useId();
+
   return (
     <div
       className={cn("flex gap-2 items-center relative", className)}
@@ -78,22 +81,25 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
     >
       <button
         className="focus-ring"
-        id="breadcrumb-list-button"
-        aria-label="additional breadcrumbs"
+        type="button"
+        id={`${menuId}-trigger`}
+        aria-haspopup="menu"
+        aria-controls={`${menuId}-content`}
         aria-expanded={show}
+        aria-label="additional breadcrumbs"
         ref={menuButtonRef}
         onClick={handleMenuClick}
       >
         <Ellipsis />
       </button>
-
       <ul
         ref={menuRef}
+        id={`${menuId}-content`}
+        role="menu"
+        aria-labelledby={`${menuId}-trigger`}	
         onKeyDown={handleMenuKeydown}
-        aria-labelledby="breadcrumb-list-button"
-        id="breadcrumb-list"
         className={cn(
-          "absolute top-8 bg-clr-bg left-0 border border-clr-border rounded-md flex flex-col [&_a]:no-underline [&_a]:py-2 [&_a]:px-4 [&_a:hover]:bg-clr-accent-muted [&_a:hover]:rounded-md [&_a]:focus-ring-inner [&_a]:block",
+          "w-max absolute top-8 bg-clr-bg left-0 border border-clr-border rounded-md flex flex-col [&_a]:no-underline [&_a]:py-2 [&_a]:px-4 [&_a:hover]:bg-clr-accent-muted [&_a:hover]:rounded-md [&_a]:focus-ring-inner [&_a]:block [&_a:focus]:relative",
           {
             hidden: !show,
           }
@@ -101,7 +107,7 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
       >
         {React.Children.map(children, (child, idx) => {
           return (
-            <li key={idx}>
+            <li key={idx} role="menuitem">
               {child}
             </li>
           );
@@ -116,16 +122,19 @@ export const BreadcrumbItem = (props: BreadcrumbItemProps) => {
     asChild = false,
     children,
     className,
-    isCurrentPage = false,
+    isCurrentPage,
     href,
     ...rest
   } = props;
+
   const isLink = href ? true : false;
 
   const linkClassNames = cn(
-    "text-clr-text font-medium underline underline-offset-4 p-1 hover:text-clr-accent focus-ring",
+    "text-clr-text font-medium underline underline-offset-4 p-1 hover:text-clr-accent focus-ring cursor-pointer",
     className
   );
+
+  const spanClassNames = cn("text-clr-text", className);
 
   // If asChild is true, we want to render a custom link component instead of an anchor tag
   // in this case, BreadcrumbItem can only have one child
@@ -155,17 +164,21 @@ export const BreadcrumbItem = (props: BreadcrumbItemProps) => {
       {children}
     </a>
   ) : (
-    <span aria-current={isCurrentPage ? "page" : undefined}>{children}</span>
+    <span className={spanClassNames} aria-current={isCurrentPage ? "page" : undefined}>{children}</span>
   );
 };
 
-export const Breadcrumbs = ({
+export const BreadcrumbCurrentItem = (props: BreadcrumbItemProps) => {
+  return <BreadcrumbItem {...props} isCurrentPage />;
+}
+
+export const Breadcrumb = ({
   children,
   className,
   separator = "chevron",
   ...rest
 }: BreadcrumbProps) => {
-  const ariaLabel = rest["aria-label"] || "breadcrumbs";
+  const ariaLabel = rest["aria-label"] || "breadcrumb";
 
   return (
     <nav aria-label={ariaLabel} className="p-4">
@@ -176,10 +189,11 @@ export const Breadcrumbs = ({
         )}
       >
         {React.Children.map(children, (child, idx) => {
+          const isLast = idx === React.Children.count(children) - 1;
           return (
             <li className="flex items-center gap-2" key={idx}>
               {child}
-              {idx !== React.Children.count(children) - 1 && (
+              {!isLast && (
                 <BreadcrumbSeparator separator={separator} />
               )}
             </li>

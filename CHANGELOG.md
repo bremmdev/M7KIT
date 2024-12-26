@@ -1,3 +1,10 @@
+# 0.35.0 - 2024-12-26
+
+- Rename `Breadcrumbs` to `Breadcrumb`
+- Use useId in `Breadcrumb` for better accessibility
+- Add `BreadcrumbCurrentItem` for current breadcrumb item
+- Refactor `BreadcrumbMenu`
+
 # 0.34.0 - 2024-12-25
 
 - Upgrade to React 19
