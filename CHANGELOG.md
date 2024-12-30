@@ -1,3 +1,7 @@
+# 0.36.0 - 2024-12-30
+
+- Add `Tooltip` component
+
 # 0.35.0 - 2024-12-26
 
 - Rename `Breadcrumbs` to `Breadcrumb`

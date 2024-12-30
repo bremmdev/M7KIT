@@ -23,3 +23,4 @@ export { TextReveal } from "./src/TextReveal";
 export { Tabs } from "./src/Tabs";
 export { Tierlist } from "./src/Tierlist";
 export { Timeline } from "./src/Timeline";
+export { Tooltip, TooltipContent, TooltipTrigger } from "./src/Tooltip";
