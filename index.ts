@@ -1,7 +1,12 @@
 import "./src/index.css";
 
 export { AnimatedCount } from "./src/AnimatedCount";
-export { Breadcrumb, BreadcrumbCurrentItem, BreadcrumbItem, BreadcrumbMenu } from "./src/Breadcrumb";
+export {
+  Breadcrumb,
+  BreadcrumbCurrentItem,
+  BreadcrumbItem,
+  BreadcrumbMenu,
+} from "./src/Breadcrumb";
 export { CTAButton } from "./src/CTAButton";
 export { DiamondGrid } from "./src/DiamondGrid";
 export { Drawer, DrawerRoot, DrawerContent, DrawerTrigger } from "./src/Drawer";
@@ -18,6 +23,7 @@ export { Rating } from "./src/Rating";
 export { SegmentedControl } from "./src/SegmentedControl";
 export { ShimmerImage } from "./src/ShimmerImage";
 export { SkipLink } from "./src/SkipLink";
+export { SortableList } from "./src/SortableList";
 export { TextAnimation } from "./src/TextAnimation";
 export { TextReveal } from "./src/TextReveal";
 export { Tabs } from "./src/Tabs";
