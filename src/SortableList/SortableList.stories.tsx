@@ -78,7 +78,32 @@ export const Default: Story = {
     onReorder: (newOrder) => {
       console.log("New order:", newOrder);
     },
+    "aria-label": "Sortable list of fruits",
+  },
+  render: (props) => render(props),
+};
+
+export const WithTitle: Story = {
+  args: {
     title: "Favorite Fruits",
+    titleElement: "h3",
+    items: ["Apple", "Banana", "Mango", "Orange", "Pineapple"],
+    onReorder: (newOrder) => {
+      console.log("New order:", newOrder);
+    },
+  },
+  render: (props) => render(props),
+};
+
+export const HandleAtEnd: Story = {
+  args: {
+    title: "Favorite Fruits",
+    titleElement: "h3",
+    handlePosition: "end",
+    items: ["Apple", "Banana", "Mango", "Orange", "Pineapple"],
+    onReorder: (newOrder) => {
+      console.log("New order:", newOrder);
+    },
   },
   render: (props) => render(props),
 };

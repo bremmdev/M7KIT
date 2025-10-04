@@ -264,7 +264,9 @@ export const SortableList = ({
               />
             ) : (
               <GripVertical
-                className={`inline-block cursor-grab`}
+                className={cn(`inline-block cursor-grab`, {
+                  "ml-auto": handlePosition === "end",
+                })}
                 aria-hidden="true"
               />
             )}
