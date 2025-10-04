@@ -2,6 +2,7 @@ import React from "react";
 import { cn } from "../utils/cn";
 import { SortableListProps } from "./SortableList.types";
 import { ChevronsUpDown, GripVertical, Settings } from "lucide-react";
+import { validateItems, getItemsWithIds } from "./SortableList.utils";
 
 const ReorderButton = ({
   handlePosition,
@@ -30,13 +31,6 @@ const ReorderButton = ({
   </button>
 );
 
-function getItemsWithIds(items: Array<React.ReactNode>) {
-  return items.map((item) => ({
-    id: crypto.randomUUID(),
-    value: item,
-  }));
-}
-
 export const SortableList = ({
   className,
   handlePosition = "start",
@@ -49,10 +43,7 @@ export const SortableList = ({
   // Generate stable IDs for each item on first render
   const itemsWithIds = React.useMemo(
     () => {
-      if (!items || !Array.isArray(items) || items.length === 0) {
-        console.warn(
-          "The 'items' prop should be a non-empty array. Did you forget to pass it?"
-        );
+      if (!validateItems(items)) {
         return [];
       }
 
@@ -79,17 +70,15 @@ export const SortableList = ({
 
   React.useEffect(() => {
     // Reset sorted items if the items prop changes
+    if (!validateItems(items)) {
+      setSortedItems([]);
+      return;
+    }
+
     if (items && Array.isArray(items) && items.length > 0) {
       setSortedItems(getItemsWithIds(items));
     }
   }, [items]);
-
-  if (!items || !Array.isArray(items) || items.length === 0) {
-    console.warn(
-      "The 'items' prop should be a non-empty array. Did you forget to pass it?"
-    );
-    return null;
-  }
 
   function handleDragStart(e: React.DragEvent, index: number) {
     // only allow dragging if started from the grip handle
@@ -99,12 +88,6 @@ export const SortableList = ({
     // Set drag data (required for drop to work)
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("text/plain", index.toString());
-
-    // Tell the browser to "carry" the list item and set mouse pointer to center of it
-    const li = (e.target as HTMLElement).closest("li");
-    if (li) {
-      e.dataTransfer.setDragImage(li, li.clientWidth / 2, li.clientHeight / 2);
-    }
   }
 
   function handleDragOver(e: React.DragEvent, index: number) {
@@ -153,14 +136,6 @@ export const SortableList = ({
   }
 
   function handleKeyDown(e: React.KeyboardEvent, index: number) {
-    if (e.key === "Escape") {
-      // Exit edit mode on Escape
-      setEditMode(false);
-      setLastAnnouncement("Exited edit mode");
-      editModeButtonRef.current?.focus();
-      return;
-    }
-
     if (e.key === "ArrowUp" || e.key === "ArrowDown") {
       // Prevent page scrolling when pressing arrow keys
       e.preventDefault();
