@@ -57,8 +57,14 @@ export const SortableList = ({
   );
 
   const [sortedItems, setSortedItems] = React.useState(itemsWithIds);
-
+  const [dragStartIndex, setDragStartIndex] = React.useState<number | null>(
+    null
+  );
   const [draggedItemIndex, setDraggedItemIndex] = React.useState<number | null>(
+    null
+  );
+
+  const [lastAnnouncement, setLastAnnouncement] = React.useState<string | null>(
     null
   );
 
@@ -77,6 +83,7 @@ export const SortableList = ({
   }
   function handleDragStart(e: React.DragEvent, index: number) {
     // only allow dragging if started from the grip handle
+    setDragStartIndex(index);
     setDraggedItemIndex(index);
 
     // Set drag data (required for drop to work)
@@ -93,9 +100,7 @@ export const SortableList = ({
   function handleDragOver(e: React.DragEvent, index: number) {
     e.preventDefault(); // allow dropping
 
-    const draggedOverItemIndex = index;
-    if (draggedItemIndex === null || draggedOverItemIndex === draggedItemIndex)
-      return;
+    if (draggedItemIndex === null || index === draggedItemIndex) return;
 
     // Set drop effect for proper cursor feedback
     e.dataTransfer.dropEffect = "move";
@@ -104,16 +109,31 @@ export const SortableList = ({
     const updated = [...sortedItems];
     const draggedItem = updated[draggedItemIndex];
     updated.splice(draggedItemIndex, 1);
-    updated.splice(draggedOverItemIndex, 0, draggedItem);
+    updated.splice(index, 0, draggedItem);
     setSortedItems(updated);
-    setDraggedItemIndex(draggedOverItemIndex);
+    // update the dragged item index to the new position to prevent flipping
+    setDraggedItemIndex(index);
   }
 
   function handleDrop(e: React.DragEvent) {
-    console.log("drop");
     e.preventDefault();
 
-    // notify parent component of new order
+    // only announce if dropped inside a valid zone AND order changed
+    if (
+      dragStartIndex !== null &&
+      draggedItemIndex !== null &&
+      dragStartIndex !== draggedItemIndex
+    ) {
+      const message = `Moved ${
+        sortedItems[draggedItemIndex].value
+      } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
+      setLastAnnouncement(message);
+    }
+
+    setDraggedItemIndex(null);
+    setDragStartIndex(null);
+
+    // Notify parent
     onReorder && onReorder(sortedItems.map((item) => item.value));
   }
 
@@ -123,39 +143,44 @@ export const SortableList = ({
   }
 
   return (
-    <ul className={cn("w-fit space-y-2", className)} {...rest}>
-      {sortedItems.map((item, index) => (
-        <li
-          key={index}
-          className={cn(
-            "flex items-center gap-4 px-4 py-2 bg-clr-bg border border-clr-border rounded-md",
-            {
-              "border-clr-accent bg-clr-accent-muted":
-                index === draggedItemIndex && draggedItemIndex !== null,
-            }
-          )}
-          onDragOver={(e) => handleDragOver(e, index)}
-          onDrop={(e) => handleDrop(e)}
-        >
-          {handlePosition === "start" && (
-            <GripHandle
-              index={index}
-              onDragStart={handleDragStart}
-              onDragEnd={handleDragEnd}
-              handlePosition="start"
-            />
-          )}
-          {item.value}
-          {handlePosition === "end" && (
-            <GripHandle
-              index={index}
-              onDragStart={handleDragStart}
-              onDragEnd={handleDragEnd}
-              handlePosition="end"
-            />
-          )}
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className={cn("w-fit space-y-2", className)} {...rest}>
+        {sortedItems.map((item, index) => (
+          <li
+            key={index}
+            className={cn(
+              "flex items-center gap-4 px-4 py-2 bg-clr-bg border border-clr-border rounded-md",
+              {
+                "border-clr-accent bg-clr-accent-muted":
+                  index === draggedItemIndex && draggedItemIndex !== null,
+              }
+            )}
+            onDragOver={(e) => handleDragOver(e, index)}
+            onDrop={(e) => handleDrop(e)}
+          >
+            {handlePosition === "start" && (
+              <GripHandle
+                index={index}
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+                handlePosition="start"
+              />
+            )}
+            {item.value}
+            {handlePosition === "end" && (
+              <GripHandle
+                index={index}
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+                handlePosition="end"
+              />
+            )}
+          </li>
+        ))}
+      </ul>
+      <div aria-live="assertive" className="sr-only">
+        {lastAnnouncement}
+      </div>
+    </>
   );
 };

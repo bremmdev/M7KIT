@@ -40,7 +40,7 @@ const render = (props: SortableListProps) => (
 
 export const Default: Story = {
   args: {
-    items: [],
+    items: ["Apple", "Banana", "Mango", "Orange", "Pineapple"],
     onReorder: (newOrder) => {
       console.log("New order:", newOrder);
     },
