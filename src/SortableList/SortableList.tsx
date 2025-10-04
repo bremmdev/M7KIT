@@ -75,6 +75,7 @@ export const SortableList = ({
   const dragHandleRefs = React.useRef<Array<HTMLButtonElement>>([]);
   const [editMode, setEditMode] = React.useState<boolean>(false);
   const editModeButtonRef = React.useRef<HTMLButtonElement | null>(null);
+  const containerRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     // Reset sorted items if the items prop changes
@@ -192,7 +193,66 @@ export const SortableList = ({
   function handleEditModeSwitch() {
     setEditMode(!editMode);
     setLastAnnouncement(editMode ? "Exited edit mode" : "Entered edit mode");
+    if (!editMode) {
+      // focus first drag handle when entering edit mode
+      setTimeout(() => {
+        dragHandleRefs.current[0]?.focus();
+      }, 0);
+    }
   }
+
+  React.useEffect(() => {
+    if (!editMode) return;
+
+    function handleFocusTrap(e: KeyboardEvent) {
+      // Exit focus trap on Escape
+      if (e.key === "Escape") {
+        setEditMode(false);
+        setLastAnnouncement("Exited edit mode");
+        editModeButtonRef.current?.focus();
+        return;
+      }
+
+      if (e.key !== "Tab" || !containerRef.current) return;
+
+      const focusableElements = Array.from(
+        containerRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => !el.hasAttribute("disabled"));
+
+      if (focusableElements.length === 0) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+      const isShiftTab = e.shiftKey;
+      const activeEl = document.activeElement as HTMLElement | null;
+
+      // focus loop logic
+      if (!containerRef.current.contains(activeEl)) {
+        // If focus leaves the container (e.g., via modals or OS shortcuts)
+        firstElement.focus();
+        e.preventDefault();
+        return;
+      }
+
+      if (!isShiftTab && activeEl === lastElement) {
+        // Tabbing forward past last moves to first
+        e.preventDefault();
+        firstElement.focus();
+      } else if (isShiftTab && activeEl === firstElement) {
+        // Shift-Tabbing backward past first moves to last
+        e.preventDefault();
+        lastElement.focus();
+      }
+    }
+
+    document.addEventListener("keydown", handleFocusTrap, true);
+
+    return () => {
+      document.removeEventListener("keydown", handleFocusTrap, true);
+    };
+  }, [editMode]);
 
   const TitleElement = titleElement || "h2";
 
@@ -200,6 +260,7 @@ export const SortableList = ({
     <div
       className={cn("flex flex-col gap-4 w-fit", className)}
       role={editMode ? "application" : undefined}
+      ref={containerRef}
     >
       <div className="flex flex-col gap-4">
         {title && (
