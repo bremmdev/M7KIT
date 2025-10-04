@@ -1,29 +1,32 @@
 import React from "react";
 import { cn } from "../utils/cn";
 import { SortableListProps } from "./SortableList.types";
-import { GripVertical } from "lucide-react";
+import { ChevronsUpDown, GripVertical, Settings } from "lucide-react";
 
-const GripHandle = ({
+const ReorderButton = ({
   handlePosition,
   index,
-  onDragStart,
-  onDragEnd,
+  totalItems,
+  label,
+  onKeyDown,
+  ref,
 }: {
   handlePosition: "start" | "end";
   index: number;
-  onDragStart: (e: React.DragEvent, index: number) => void;
-  onDragEnd: (e: React.DragEvent) => void;
+  totalItems: number;
+  label: string;
+  onKeyDown: (e: React.KeyboardEvent) => void;
+  ref: (el: HTMLButtonElement) => void;
 }) => (
   <button
-    aria-label="Drag handle"
-    draggable="true"
-    onDragStart={(e) => onDragStart(e, index)}
-    onDragEnd={onDragEnd}
+    aria-label={`Reorder ${label}. Item ${index + 1} of ${totalItems}.`}
+    onKeyDown={onKeyDown}
+    ref={ref}
     className={cn("focus-ring grid place-items-center", {
       "ml-auto": handlePosition === "end",
     })}
   >
-    <GripVertical className={`inline-block cursor-grab`} />
+    <ChevronsUpDown className={`inline-block cursor-grab`} />
   </button>
 );
 
@@ -37,8 +40,10 @@ function getItemsWithIds(items: Array<React.ReactNode>) {
 export const SortableList = ({
   className,
   handlePosition = "start",
-  onReorder = () => {},
   items,
+  onReorder = () => {},
+  title = "",
+  titleElement = "h2",
   ...rest
 }: SortableListProps) => {
   // Generate stable IDs for each item on first render
@@ -67,6 +72,9 @@ export const SortableList = ({
   const [lastAnnouncement, setLastAnnouncement] = React.useState<string | null>(
     null
   );
+  const dragHandleRefs = React.useRef<Array<HTMLButtonElement>>([]);
+  const [editMode, setEditMode] = React.useState<boolean>(false);
+  const editModeButtonRef = React.useRef<HTMLButtonElement | null>(null);
 
   React.useEffect(() => {
     // Reset sorted items if the items prop changes
@@ -81,6 +89,7 @@ export const SortableList = ({
     );
     return null;
   }
+
   function handleDragStart(e: React.DragEvent, index: number) {
     // only allow dragging if started from the grip handle
     setDragStartIndex(index);
@@ -142,45 +151,130 @@ export const SortableList = ({
     setDraggedItemIndex(null);
   }
 
+  function handleKeyDown(e: React.KeyboardEvent, index: number) {
+    if (e.key === "Escape") {
+      // Exit edit mode on Escape
+      setEditMode(false);
+      setLastAnnouncement("Exited edit mode");
+      editModeButtonRef.current?.focus();
+      return;
+    }
+
+    if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+      // Prevent page scrolling when pressing arrow keys
+      e.preventDefault();
+
+      //reorder items
+      const newIndex = e.key === "ArrowDown" ? index + 1 : index - 1;
+      if (newIndex < 0 || newIndex >= sortedItems.length) return; // out of bounds
+
+      const updated = [...sortedItems];
+      const [movedItem] = updated.splice(index, 1);
+      updated.splice(newIndex, 0, movedItem);
+      setSortedItems(updated);
+
+      onReorder && onReorder(updated.map((item) => item.value));
+
+      // Announce the move
+      const message = `Moved ${movedItem.value} to position ${
+        newIndex + 1
+      } of ${sortedItems.length}`;
+      setLastAnnouncement(message);
+
+      // Move focus to the next/previous item
+      const nextIndex = e.key === "ArrowDown" ? index + 1 : index - 1;
+      if (dragHandleRefs.current[nextIndex]) {
+        dragHandleRefs.current[nextIndex].focus();
+      }
+    }
+  }
+
+  function handleEditModeSwitch() {
+    setEditMode(!editMode);
+    setLastAnnouncement(editMode ? "Exited edit mode" : "Entered edit mode");
+  }
+
+  const TitleElement = titleElement || "h2";
+
   return (
-    <>
-      <ul className={cn("w-fit space-y-2", className)} {...rest}>
+    <div
+      className={cn("flex flex-col gap-4 w-fit", className)}
+      role={editMode ? "application" : undefined}
+    >
+      <div className="flex flex-col gap-4">
+        {title && (
+          <TitleElement
+            className="text-lg font-medium"
+            id="sortable-list-title"
+          >
+            {title}
+          </TitleElement>
+        )}
+        <button
+          onClick={handleEditModeSwitch}
+          ref={editModeButtonRef}
+          className={cn(
+            "shrink-0 cursor-pointer relative flex gap-2 border-none justify-center items-center px-4 py-2 bg-clr-text text-clr-text-inverted rounded-md w-fit transition-colors focus-ring hover:bg-clr-text/90"
+          )}
+        >
+          {editMode ? "Exit Edit Mode" : "Enter Edit Mode"}
+          <Settings aria-hidden="true" />
+        </button>
+      </div>
+      <div id="sortable-list-instructions" className="sr-only">
+        {editMode
+          ? "Use the arrow buttons to reorder items. Tab to cycle through items. Press Escape to exit edit mode."
+          : "You are not in edit mode. Press the button above to enter edit mode and reorder items."}
+      </div>
+      <ul
+        className="space-y-2"
+        {...rest}
+        aria-roledescription="Sortable List"
+        aria-describedby="sortable-list-instructions"
+        aria-labelledby={title ? "sortable-list-title" : undefined}
+        role="list"
+      >
         {sortedItems.map((item, index) => (
           <li
             key={index}
+            draggable={true}
             className={cn(
-              "flex items-center gap-4 px-4 py-2 bg-clr-bg border border-clr-border rounded-md",
+              "flex items-center gap-4 px-4 py-2 bg-clr-bg border border-clr-border rounded-md cursor-grab",
               {
                 "border-clr-accent bg-clr-accent-muted":
                   index === draggedItemIndex && draggedItemIndex !== null,
               }
             )}
             onDragOver={(e) => handleDragOver(e, index)}
+            onDragStart={(e) => handleDragStart(e, index)}
+            onDragEnd={handleDragEnd}
             onDrop={(e) => handleDrop(e)}
           >
-            {handlePosition === "start" && (
-              <GripHandle
+            {handlePosition === "end" && <>{item.value}</>}
+            {editMode ? (
+              <ReorderButton
                 index={index}
-                onDragStart={handleDragStart}
-                onDragEnd={handleDragEnd}
-                handlePosition="start"
+                totalItems={sortedItems.length}
+                onKeyDown={(e) => handleKeyDown(e, index)}
+                handlePosition={handlePosition}
+                label={`${item.value}`}
+                ref={(el: HTMLButtonElement) =>
+                  (dragHandleRefs.current[index] = el)
+                }
+              />
+            ) : (
+              <GripVertical
+                className={`inline-block cursor-grab`}
+                aria-hidden="true"
               />
             )}
-            {item.value}
-            {handlePosition === "end" && (
-              <GripHandle
-                index={index}
-                onDragStart={handleDragStart}
-                onDragEnd={handleDragEnd}
-                handlePosition="end"
-              />
-            )}
+            {handlePosition === "start" && <>{item.value}</>}
           </li>
         ))}
       </ul>
       <div aria-live="assertive" className="sr-only">
         {lastAnnouncement}
       </div>
-    </>
+    </div>
   );
 };

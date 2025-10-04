@@ -12,4 +12,12 @@ export interface SortableListProps extends React.ComponentPropsWithRef<"ul"> {
    * It receives the new order of items as an argument.
    */
   onReorder?: (newOrder: Array<React.ReactNode>) => void;
+  /**
+   * Title for the list, displayed above the list for context.
+   */
+  title?: string;
+  /**
+   * DOM node for the title element. Defaults to 'h2'.
+   */
+  titleElement?: React.ElementType;
 }
