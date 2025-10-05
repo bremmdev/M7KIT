@@ -112,25 +112,46 @@ export const WithReactNodes: Story = {
   args: {
     items: [
       <span className="flex items-center gap-2" key="cat">
-        Cat <Cat />
+        Cat <Cat aria-hidden="true" />
       </span>,
       <span className="flex items-center gap-2" key="dog">
-        Dog <Dog />
+        Dog <Dog aria-hidden="true" />
       </span>,
       <span className="flex items-center gap-2" key="fish">
-        Fish <Fish />
+        Fish <Fish aria-hidden="true" />
       </span>,
       <span className="flex items-center gap-2" key="rabbit">
-        Rabbit <Rabbit />
+        Rabbit <Rabbit aria-hidden="true" />
       </span>,
       <span className="flex items-center gap-2" key="squirrel">
-        Squirrel <Squirrel />
+        Squirrel <Squirrel aria-hidden="true" />
       </span>,
     ],
     onReorder: (newOrder) => {
       console.log("New order:", newOrder);
     },
     "aria-label": "Sortable list of animals with icons",
+  },
+  render: (props) => render(props),
+};
+
+export const WithNestedReactNodes: Story = {
+  args: {
+    items: [
+      <div key="item1">
+        This is a <em>nested</em> React node
+      </div>,
+      <div key="item2">
+        This is another <em>nested</em> React node
+      </div>,
+      <div key="item3">
+        Yet another <em>nested</em> React node
+      </div>,
+    ],
+    onReorder: (newOrder) => {
+      console.log("New order:", newOrder);
+    },
+    "aria-label": "Sortable list of nested React nodes",
   },
   render: (props) => render(props),
 };

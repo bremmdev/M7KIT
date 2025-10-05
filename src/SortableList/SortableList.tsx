@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "../utils/cn";
 import { SortableListProps } from "./SortableList.types";
 import { ChevronsUpDown, GripVertical, Settings } from "lucide-react";
-import { validateItems, getItemsWithIds } from "./SortableList.utils";
+import { validateItems, getItemsWithIdsAndLabels } from "./SortableList.utils";
 
 const ReorderButton = ({
   handlePosition,
@@ -47,7 +47,7 @@ export const SortableList = ({
         return [];
       }
 
-      return getItemsWithIds(items);
+      return getItemsWithIdsAndLabels(items);
     },
     [items] // Regenerate if items prop changes
   );
@@ -76,7 +76,7 @@ export const SortableList = ({
     }
 
     if (items && Array.isArray(items) && items.length > 0) {
-      setSortedItems(getItemsWithIds(items));
+      setSortedItems(getItemsWithIdsAndLabels(items));
     }
   }, [items]);
 
@@ -118,7 +118,7 @@ export const SortableList = ({
       dragStartIndex !== draggedItemIndex
     ) {
       const message = `Moved ${
-        sortedItems[draggedItemIndex].value
+        sortedItems[draggedItemIndex].label
       } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
       setLastAnnouncement(message);
     }
@@ -152,7 +152,7 @@ export const SortableList = ({
       onReorder && onReorder(updated.map((item) => item.value));
 
       // Announce the move
-      const message = `Moved ${movedItem.value} to position ${
+      const message = `Moved ${movedItem.label} to position ${
         newIndex + 1
       } of ${sortedItems.length}`;
       setLastAnnouncement(message);
@@ -293,7 +293,7 @@ export const SortableList = ({
                 totalItems={sortedItems.length}
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 handlePosition={handlePosition}
-                label={`${item.value}`}
+                label={`${item.label}`}
                 ref={(el: HTMLButtonElement) =>
                   (dragHandleRefs.current[index] = el)
                 }
