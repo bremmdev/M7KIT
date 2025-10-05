@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "../utils/cn";
 import { SortableListProps } from "./SortableList.types";
 import { ChevronsUpDown, GripVertical, Settings } from "lucide-react";
-import { validateItems, getItemsWithIdsAndLabels } from "./SortableList.utils";
+import { getItemsWithIdsAndLabels } from "./SortableList.utils";
 
 const ReorderButton = ({
   handlePosition,
@@ -43,10 +43,6 @@ export const SortableList = ({
   // Generate stable IDs for each item on first render
   const itemsWithIds = React.useMemo(
     () => {
-      if (!validateItems(items)) {
-        return [];
-      }
-
       return getItemsWithIdsAndLabels(items);
     },
     [items] // Regenerate if items prop changes
@@ -70,10 +66,6 @@ export const SortableList = ({
 
   React.useEffect(() => {
     // Reset sorted items if the items prop changes
-    if (!validateItems(items)) {
-      setSortedItems([]);
-      return;
-    }
 
     if (items && Array.isArray(items) && items.length > 0) {
       setSortedItems(getItemsWithIdsAndLabels(items));
@@ -160,7 +152,10 @@ export const SortableList = ({
       // Move focus to the next/previous item
       const nextIndex = e.key === "ArrowDown" ? index + 1 : index - 1;
       if (dragHandleRefs.current[nextIndex]) {
-        dragHandleRefs.current[nextIndex].focus();
+        // Focus after React updates the DOM
+        requestAnimationFrame(() => {
+          dragHandleRefs.current[nextIndex]?.focus();
+        });
       }
     }
   }
@@ -272,7 +267,7 @@ export const SortableList = ({
       >
         {sortedItems.map((item, index) => (
           <li
-            key={index}
+            key={item.id}
             draggable={true}
             className={cn(
               "flex items-center gap-4 px-4 py-2 bg-clr-bg border border-clr-border rounded-md cursor-grab",

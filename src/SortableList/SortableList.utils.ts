@@ -1,4 +1,5 @@
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export function validateItems(items: Array<React.ReactNode>) {
   if (!Array.isArray(items) || items.length === 0) {
@@ -11,10 +12,14 @@ export function validateItems(items: Array<React.ReactNode>) {
 }
 
 export function getItemsWithIdsAndLabels(items: Array<React.ReactNode>) {
+  if (!validateItems(items)) {
+    return [];
+  }
+
   return items.map((item) => ({
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     value: item,
-    label: extractTextFromNode(item).trimEnd(),
+    label: extractTextFromNode(item).trim(),
   }));
 }
 
@@ -22,7 +27,7 @@ export function getItemsWithIdsAndLabels(items: Array<React.ReactNode>) {
 // This prevents screenreaders from reading out [object Object] for complex nodes
 function extractTextFromNode(node: React.ReactNode): string {
   if (typeof node === "string" || typeof node === "number") {
-    return String(node);
+    return String(node).trim();
   }
 
   if (node == null || typeof node === "boolean") {
@@ -49,7 +54,7 @@ function extractTextFromNode(node: React.ReactNode): string {
 
     // Recursively extract from children
     if (props.children) {
-      return extractTextFromNode(props.children);
+      return extractTextFromNode(props.children).trim();
     }
   }
 

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
 
 import { SortableList } from "./SortableList";
 import { SortableListProps } from "./SortableList.types";
@@ -21,6 +22,7 @@ import { Cat, Dog, Fish, Rabbit, Squirrel } from "lucide-react";
  * - **Customizable layout**: Determines whether the drag handle appears at the start or end of each item via the `handlePosition` prop.
  * - **Optional title and heading level**: Use the `title` and `titleElement` to provide a title of the desired heading level. If not used, using `aria-label` on the component is recommended for accessibility.
  * - **Stable IDs**: Each item is assigned a unique, stable ID using `crypto.randomUUID()` to ensure consistent rendering and behavior.
+ * - **Screenreader friendly labels**: When passing React nodes as items, the component extracts text content for better screen reader announcements.
  * - **Callback on reorder**: The `onReorder` prop allows parent components to respond to changes in item order.
  *
  * ## Accessibility
@@ -32,6 +34,7 @@ import { Cat, Dog, Fish, Rabbit, Squirrel } from "lucide-react";
  * - The Edit Mode toggle button allows users to easily enter or exit keyboard reordering.
  * - Escape key exits Edit Mode and returns focus to the toggle button.
  * - Hidden instructions (`aria-describedby`) explain how to operate the list in edit mode.
+ * - Focus trap within the list when in Edit Mode to prevent focus loss.
  *
  * ## Usage
  * ```tsx
@@ -75,9 +78,7 @@ const render = (props: SortableListProps) => (
 export const Default: Story = {
   args: {
     items: ["Apple", "Banana", "Mango", "Orange", "Pineapple"],
-    onReorder: (newOrder) => {
-      console.log("New order:", newOrder);
-    },
+    onReorder: action("onReorder"),
     "aria-label": "Sortable list of fruits",
   },
   render: (props) => render(props),
@@ -88,9 +89,7 @@ export const WithTitle: Story = {
     title: "Favorite Fruits",
     titleElement: "h3",
     items: ["Apple", "Banana", "Mango", "Orange", "Pineapple"],
-    onReorder: (newOrder) => {
-      console.log("New order:", newOrder);
-    },
+    onReorder: action("onReorder"),
   },
   render: (props) => render(props),
 };
@@ -101,9 +100,7 @@ export const HandleAtEnd: Story = {
     titleElement: "h3",
     handlePosition: "end",
     items: ["Apple", "Banana", "Mango", "Orange", "Pineapple"],
-    onReorder: (newOrder) => {
-      console.log("New order:", newOrder);
-    },
+    onReorder: action("onReorder"),
   },
   render: (props) => render(props),
 };
@@ -127,9 +124,7 @@ export const WithReactNodes: Story = {
         Squirrel <Squirrel aria-hidden="true" />
       </span>,
     ],
-    onReorder: (newOrder) => {
-      console.log("New order:", newOrder);
-    },
+    onReorder: action("onReorder"),
     "aria-label": "Sortable list of animals with icons",
   },
   render: (props) => render(props),
@@ -148,9 +143,7 @@ export const WithNestedReactNodes: Story = {
         Yet another <em>nested</em> React node
       </div>,
     ],
-    onReorder: (newOrder) => {
-      console.log("New order:", newOrder);
-    },
+    onReorder: action("onReorder"),
     "aria-label": "Sortable list of nested React nodes",
   },
   render: (props) => render(props),
