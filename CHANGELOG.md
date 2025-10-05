@@ -1,3 +1,7 @@
+# 0.37.0 - 2025-10-05
+
+- Add `SortableList` component
+
 # 0.36.0 - 2024-12-30
 
 - Add `Tooltip` component
