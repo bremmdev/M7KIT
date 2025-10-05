@@ -59,6 +59,8 @@ export const SortableList = ({
   const [lastAnnouncement, setLastAnnouncement] = React.useState<string | null>(
     null
   );
+
+  const [touchStartY, setTouchStartY] = React.useState<number | null>(null);
   const dragHandleRefs = React.useRef<Array<HTMLButtonElement>>([]);
   const [editMode, setEditMode] = React.useState<boolean>(false);
   const editModeButtonRef = React.useRef<HTMLButtonElement | null>(null);
@@ -171,6 +173,56 @@ export const SortableList = ({
     }
   }
 
+  function handleTouchStart(e: React.TouchEvent, index: number) {
+    setTouchStartY(e.touches[0].clientY);
+    setDragStartIndex(index);
+    setDraggedItemIndex(index);
+  }
+
+  function handleTouchMove(e: React.TouchEvent) {
+    if (draggedItemIndex === null || touchStartY === null) return;
+
+    e.preventDefault(); // Prevent scrolling while dragging
+
+    const touch = e.touches[0];
+    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+    const listItem = element?.closest("li");
+
+    if (!listItem) return;
+
+    const allItems = Array.from(
+      containerRef.current?.querySelectorAll("li") || []
+    );
+    const newIndex = allItems.indexOf(listItem as HTMLLIElement);
+
+    if (newIndex !== -1 && newIndex !== draggedItemIndex) {
+      const updated = [...sortedItems];
+      const draggedItem = updated[draggedItemIndex];
+      updated.splice(draggedItemIndex, 1);
+      updated.splice(newIndex, 0, draggedItem);
+      setSortedItems(updated);
+      setDraggedItemIndex(newIndex);
+    }
+  }
+
+  function handleTouchEnd() {
+    if (
+      dragStartIndex !== null &&
+      draggedItemIndex !== null &&
+      dragStartIndex !== draggedItemIndex
+    ) {
+      const message = `Moved ${
+        sortedItems[draggedItemIndex].label
+      } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
+      setLastAnnouncement(message);
+      onReorder && onReorder(sortedItems.map((item) => item.value));
+    }
+
+    setDraggedItemIndex(null);
+    setDragStartIndex(null);
+    setTouchStartY(null);
+  }
+
   React.useEffect(() => {
     if (!editMode) return;
 
@@ -280,6 +332,9 @@ export const SortableList = ({
             onDragStart={(e) => handleDragStart(e, index)}
             onDragEnd={handleDragEnd}
             onDrop={(e) => handleDrop(e)}
+            onTouchStart={(e) => handleTouchStart(e, index)}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
             {handlePosition === "end" && <>{item.value}</>}
             {editMode ? (
