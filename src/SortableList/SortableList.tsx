@@ -32,6 +32,7 @@ const ReorderButton = ({
 );
 
 export const SortableList = ({
+  "aria-label": ariaLabel,
   className,
   handlePosition = "start",
   items,
@@ -55,7 +56,6 @@ export const SortableList = ({
   const [draggedItemIndex, setDraggedItemIndex] = React.useState<number | null>(
     null
   );
-
   const [lastAnnouncement, setLastAnnouncement] = React.useState<string | null>(
     null
   );
@@ -68,7 +68,6 @@ export const SortableList = ({
 
   React.useEffect(() => {
     // Reset sorted items if the items prop changes
-
     if (items && Array.isArray(items) && items.length > 0) {
       setSortedItems(getItemsWithIdsAndLabels(items));
     }
@@ -278,6 +277,13 @@ export const SortableList = ({
 
   const TitleElement = titleElement || "h2";
 
+  // hidden text for screen readers on the edit mode toggle button for context
+  const editModeButtonSRtext = title
+    ? `for ${title}`
+    : ariaLabel
+    ? `for ${ariaLabel}`
+    : "";
+
   return (
     <div
       className={cn("flex flex-col gap-4 w-fit", className)}
@@ -296,17 +302,19 @@ export const SortableList = ({
         <button
           onClick={handleEditModeSwitch}
           ref={editModeButtonRef}
+          title="Use arrow keys to reorder items"
           className={cn(
             "shrink-0 cursor-pointer relative flex gap-2 border-none justify-center items-center px-4 py-2 bg-clr-text text-clr-text-inverted rounded-md w-fit transition-colors focus-ring hover:bg-clr-text/90"
           )}
         >
-          {editMode ? "Exit Edit Mode" : "Enter Edit Mode"}
+          {editMode ? `Exit Edit Mode` : "Enter Edit Mode"}
+          <span className="sr-only">{editModeButtonSRtext}</span>
           <Settings aria-hidden="true" />
         </button>
       </div>
       <div id="sortable-list-instructions" className="sr-only">
         {editMode
-          ? "Use the arrow buttons to reorder items. Tab to cycle through items. Press Escape to exit edit mode."
+          ? "Use the arrow up and down keys to reorder items. Tab to select items. Press Escape to exit edit mode."
           : "You are not in edit mode. Press the button above to enter edit mode and reorder items."}
       </div>
       <ul
@@ -316,6 +324,7 @@ export const SortableList = ({
         aria-describedby="sortable-list-instructions"
         aria-labelledby={title ? "sortable-list-title" : undefined}
         role="list"
+        aria-label={ariaLabel ?? undefined}
       >
         {sortedItems.map((item, index) => (
           <li

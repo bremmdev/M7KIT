@@ -355,7 +355,7 @@ describe("SortableList", () => {
       fireEvent.click(screen.getByText("Enter Edit Mode"));
 
       expect(
-        screen.getByText(/Use the arrow buttons to reorder/)
+        screen.getByText(/Use the arrow up and down keys to reorder items/)
       ).toBeInTheDocument();
     });
 

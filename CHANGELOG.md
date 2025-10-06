@@ -1,3 +1,8 @@
+# 0.37.1 - 2025-10-06
+
+- Add title attr to edit mode button in `SortableList` component
+- Add screenreader text to edit mode button in `SortableList` component
+
 # 0.37.0 - 2025-10-05
 
 - Add `SortableList` component
