@@ -1,3 +1,7 @@
+# 0.37.2 - 2025-10-10
+
+- Refactor `useFocusTrap` and use it in `Drawer` and `SortableList`
+
 # 0.37.1 - 2025-10-06
 
 - Add title attr to edit mode button in `SortableList` component

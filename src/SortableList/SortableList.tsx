@@ -3,6 +3,7 @@ import { cn } from "../utils/cn";
 import { SortableListProps } from "./SortableList.types";
 import { ChevronsUpDown, GripVertical, Settings } from "lucide-react";
 import { getItemsWithIdsAndLabels } from "./SortableList.utils";
+import { useFocusTrap } from "../_hooks/useFocusTrap";
 
 const ReorderButton = ({
   handlePosition,
@@ -65,6 +66,14 @@ export const SortableList = ({
   const [editMode, setEditMode] = React.useState<boolean>(false);
   const editModeButtonRef = React.useRef<HTMLButtonElement | null>(null);
   const containerRef = React.useRef<HTMLDivElement | null>(null);
+
+  useFocusTrap(containerRef, {
+    condition: editMode,
+    onEscape: () => {
+      setEditMode(false);
+      setLastAnnouncement("Exited edit mode");
+    },
+  });
 
   React.useEffect(() => {
     // Reset sorted items if the items prop changes
@@ -221,59 +230,6 @@ export const SortableList = ({
     setDragStartIndex(null);
     setTouchStartY(null);
   }
-
-  React.useEffect(() => {
-    if (!editMode) return;
-
-    function handleFocusTrap(e: KeyboardEvent) {
-      // Exit focus trap on Escape
-      if (e.key === "Escape") {
-        setEditMode(false);
-        setLastAnnouncement("Exited edit mode");
-        editModeButtonRef.current?.focus();
-        return;
-      }
-
-      if (e.key !== "Tab" || !containerRef.current) return;
-
-      const focusableElements = Array.from(
-        containerRef.current.querySelectorAll<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        )
-      ).filter((el) => !el.hasAttribute("disabled"));
-
-      if (focusableElements.length === 0) return;
-
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
-      const isShiftTab = e.shiftKey;
-      const activeEl = document.activeElement as HTMLElement | null;
-
-      // focus loop logic
-      if (!containerRef.current.contains(activeEl)) {
-        // If focus leaves the container (e.g., via modals or OS shortcuts)
-        firstElement.focus();
-        e.preventDefault();
-        return;
-      }
-
-      if (!isShiftTab && activeEl === lastElement) {
-        // Tabbing forward past last moves to first
-        e.preventDefault();
-        firstElement.focus();
-      } else if (isShiftTab && activeEl === firstElement) {
-        // Shift-Tabbing backward past first moves to last
-        e.preventDefault();
-        lastElement.focus();
-      }
-    }
-
-    document.addEventListener("keydown", handleFocusTrap, true);
-
-    return () => {
-      document.removeEventListener("keydown", handleFocusTrap, true);
-    };
-  }, [editMode]);
 
   const TitleElement = titleElement || "h2";
 

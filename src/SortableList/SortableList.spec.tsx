@@ -173,12 +173,18 @@ describe("SortableList", () => {
     it("exits edit mode on Escape key", async () => {
       render(<SortableList {...defaultProps} />);
 
+      // Enter edit mode
       const editButton = screen.getByText("Enter Edit Mode");
       fireEvent.click(editButton);
 
       expect(screen.getByText("Exit Edit Mode")).toBeInTheDocument();
 
-      fireEvent.keyDown(document, { key: "Escape" });
+      // Find the focus-trapped container (e.g. modal, editable list wrapper)
+      // Adjust selector to match your component DOM structure
+      const container = screen.getByRole("list");
+
+      // Fire Escape on the container instead of document
+      fireEvent.keyDown(container, { key: "Escape" });
 
       await waitFor(() => {
         expect(screen.getByText("Enter Edit Mode")).toBeInTheDocument();

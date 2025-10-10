@@ -128,11 +128,6 @@ export const Default: Story = {
             </DrawerContent>
           </Drawer>
         </DrawerRoot>
-        <p className="text-clr-text h-screen my-4">Page content</p>
-        <input
-          type="text"
-          className="border border-gray-300 rounded-md px-4 py-1 focus-ring min-w-16 shrink max-w-[200px] text-slate-700"
-        />
       </div>
     );
   },

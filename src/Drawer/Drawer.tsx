@@ -36,7 +36,12 @@ export const DrawerTrigger = (props: DrawerTriggerProps) => {
   const { open, isOpen, triggerRef } = useDrawer();
 
   return isOpen && hideTriggerWhenOpen ? null : (
-    <button className={cn("", className)} onClick={open} {...rest} ref={triggerRef}>
+    <button
+      className={cn("", className)}
+      onClick={open}
+      {...rest}
+      ref={triggerRef}
+    >
       {children}
     </button>
   );
@@ -66,15 +71,18 @@ export const Drawer = (props: DrawerProps) => {
   usePreventScroll({
     enabled: isOpen,
   });
-  useFocusTrap(drawerRef);
+  useFocusTrap(drawerRef, {
+    condition: isOpen,
+    initialFocusElement: "container",
+  });
 
   React.useEffect(() => {
     if (isOpen && drawerRef.current) {
       // Reset scroll position when the drawer is opened
-      if(resetScroll) {
+      if (resetScroll) {
         drawerRef.current.scrollTop = 0;
       }
-      drawerRef.current.focus();
+      // drawerRef.current.focus();
     }
   }, [isOpen, drawerRef, resetScroll]);
 
@@ -98,7 +106,9 @@ export const Drawer = (props: DrawerProps) => {
   return (
     <dialog
       className={cn(
-        `${getPositionClasses(placement)} fixed backdrop:bg-black/70 focus-visible:outline-none focus:outline-none bg-clr-bg-surface`,
+        `${getPositionClasses(
+          placement
+        )} fixed backdrop:bg-black/70 focus-visible:outline-none focus:outline-none bg-clr-bg-surface`,
         className
       )}
       ref={drawerRef}
