@@ -28,7 +28,10 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
   const [show, setShow] = React.useState(false);
   const menuRef = React.useRef<HTMLUListElement>(null);
   const menuButtonRef = React.useRef<HTMLButtonElement>(null);
-  useOnClickOutside(menuButtonRef as React.RefObject<HTMLButtonElement | null>, handleOnClickOutside);
+  useOnClickOutside(
+    menuButtonRef as React.RefObject<HTMLButtonElement | null>,
+    handleOnClickOutside
+  );
   const { children, className, ...rest } = props;
 
   function handleMenuClick() {
@@ -43,7 +46,7 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
   }
 
   function handleMenuKeydown(e: React.KeyboardEvent) {
-    if(e.key === "Tab") {
+    if (e.key === "Tab") {
       e.preventDefault();
       return;
     }
@@ -96,10 +99,10 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
         ref={menuRef}
         id={`${menuId}-content`}
         role="menu"
-        aria-labelledby={`${menuId}-trigger`}	
+        aria-labelledby={`${menuId}-trigger`}
         onKeyDown={handleMenuKeydown}
         className={cn(
-          "w-max absolute top-8 bg-clr-bg left-0 border border-clr-border rounded-md flex flex-col [&_a]:no-underline [&_a]:py-2 [&_a]:px-4 [&_a:hover]:bg-clr-accent-muted [&_a:hover]:rounded-md [&_a]:focus-ring-inner [&_a]:block [&_a:focus]:relative",
+          "w-max absolute top-8 bg-surface-subtle left-0 border border-neutral rounded-md flex flex-col [&_a]:no-underline [&_a]:py-2 [&_a]:px-4 [&_a:hover]:bg-accent-muted [&_a:hover]:rounded-md [&_a]:focus-ring-inner [&_a]:block [&_a:focus]:relative",
           {
             hidden: !show,
           }
@@ -130,11 +133,11 @@ export const BreadcrumbItem = (props: BreadcrumbItemProps) => {
   const isLink = href ? true : false;
 
   const linkClassNames = cn(
-    "text-clr-text font-medium underline underline-offset-4 p-1 hover:text-clr-accent focus-ring cursor-pointer",
+    "text-foreground font-medium underline underline-offset-4 p-1 hover:text-accent focus-ring cursor-pointer",
     className
   );
 
-  const spanClassNames = cn("text-clr-text", className);
+  const spanClassNames = cn("text-foreground", className);
 
   // If asChild is true, we want to render a custom link component instead of an anchor tag
   // in this case, BreadcrumbItem can only have one child
@@ -164,13 +167,18 @@ export const BreadcrumbItem = (props: BreadcrumbItemProps) => {
       {children}
     </a>
   ) : (
-    <span className={spanClassNames} aria-current={isCurrentPage ? "page" : undefined}>{children}</span>
+    <span
+      className={spanClassNames}
+      aria-current={isCurrentPage ? "page" : undefined}
+    >
+      {children}
+    </span>
   );
 };
 
 export const BreadcrumbCurrentItem = (props: BreadcrumbItemProps) => {
   return <BreadcrumbItem {...props} isCurrentPage />;
-}
+};
 
 export const Breadcrumb = ({
   children,
@@ -184,7 +192,7 @@ export const Breadcrumb = ({
     <nav aria-label={ariaLabel} className="p-4">
       <ol
         className={cn(
-          "flex gap-2 items-center flex-wrap text-clr-text",
+          "flex gap-2 items-center flex-wrap text-foreground",
           className
         )}
       >
@@ -193,9 +201,7 @@ export const Breadcrumb = ({
           return (
             <li className="flex items-center gap-2" key={idx}>
               {child}
-              {!isLast && (
-                <BreadcrumbSeparator separator={separator} />
-              )}
+              {!isLast && <BreadcrumbSeparator separator={separator} />}
             </li>
           );
         })}

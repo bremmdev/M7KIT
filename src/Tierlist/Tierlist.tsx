@@ -74,7 +74,7 @@ const TierListItems = (props: TierListItemsProps) => {
   return (
     <div
       className={cn(
-        "flex flex-wrap gap-2 select-none items-center rounded-md p-8 my-4 border border-clr-border border-dashed",
+        "flex flex-wrap gap-2 select-none items-center rounded-md p-8 my-4 border border-neutral border-dashed",
         itemsClasses
       )}
       data-id="tierlist-items"
@@ -88,7 +88,8 @@ const TierListItems = (props: TierListItemsProps) => {
           rankedItems
             .flat()
             .findIndex(
-              (item: React.ReactElement<any>) => item.props["data-id"] === child.props["data-id"]
+              (item: React.ReactElement<any>) =>
+                item.props["data-id"] === child.props["data-id"]
             ) !== -1;
 
         return (
@@ -224,24 +225,27 @@ export const Tierlist = (props: TierlistProps) => {
      * if the item is already in a rank, remove it from the rank first
      * then add it to the new rank
      **/
-    const newItems = rankedItems.map((items: React.ReactElement<any>[], idx) => {
-      if (idx === rankIdx) {
-        // Check if the item already exists in the target rank
-        const itemExists = items.some(
-          (item) => item.props["data-id"] === itemId
-        );
-        if (!itemExists) {
-          return [...items, draggedItem];
+    const newItems = rankedItems.map(
+      (items: React.ReactElement<any>[], idx) => {
+        if (idx === rankIdx) {
+          // Check if the item already exists in the target rank
+          const itemExists = items.some(
+            (item) => item.props["data-id"] === itemId
+          );
+          if (!itemExists) {
+            return [...items, draggedItem];
+          }
+          return items;
+        } else {
+          return items.filter((item) => item.props["data-id"] !== itemId);
         }
-        return items;
-      } else {
-        return items.filter((item) => item.props["data-id"] !== itemId);
       }
-    });
+    );
 
     //call the onDrop callback if the item was dropped into a different rank
-    const currentRankIdx = rankedItems.findIndex((items: React.ReactElement<any>[]) =>
-      items.some((item) => item.props["data-id"] === itemId)
+    const currentRankIdx = rankedItems.findIndex(
+      (items: React.ReactElement<any>[]) =>
+        items.some((item) => item.props["data-id"] === itemId)
     );
 
     if (currentRankIdx !== rankIdx && onTierDrop) {
@@ -274,12 +278,12 @@ export const Tierlist = (props: TierlistProps) => {
   }
 
   return (
-    <div className={cn("text-clr-text select-none", className)} {...rest}>
-      <div className="flex flex-col border border-clr-border">
+    <div className={cn("text-foreground select-none", className)} {...rest}>
+      <div className="flex flex-col border border-neutral">
         {labels.map((label, idx) => {
           return (
             <div
-              className="flex justify-between items-center border-b border-b-clr-border last-of-type:border-b-0"
+              className="flex justify-between items-center border-b border-b-neutral last-of-type:border-b-0"
               key={label}
             >
               <TierListLabel

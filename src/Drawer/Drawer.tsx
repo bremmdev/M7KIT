@@ -21,11 +21,11 @@ const DrawerClose = () => {
       )}
     >
       <button
-        className="focus-ring-inner hover:bg-clr-accent-muted rounded-md transition-colors p-1"
+        className="focus-ring-inner hover:bg-accent-muted rounded-md transition-colors p-1"
         onClick={close}
         aria-label="close drawer"
       >
-        <X className="size-7 stroke-clr-text" />
+        <X className="size-7 stroke-foreground" />
       </button>
     </div>
   );
@@ -108,7 +108,7 @@ export const Drawer = (props: DrawerProps) => {
       className={cn(
         `${getPositionClasses(
           placement
-        )} fixed backdrop:bg-black/70 focus-visible:outline-hidden focus:outline-hidden bg-clr-bg-surface`,
+        )} fixed backdrop:bg-black/70 focus-visible:outline-hidden focus:outline-hidden bg-surface`,
         className
       )}
       ref={drawerRef}

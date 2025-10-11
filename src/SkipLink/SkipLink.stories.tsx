@@ -32,13 +32,13 @@ export default meta;
 type Story = StoryObj<typeof SkipLink>;
 
 const render = (props: SkipLinkProps) => (
-  <div className="relative flex flex-col text-clr-text">
+  <div className="relative flex flex-col text-foreground">
     <SkipLink {...props} />
     <header className="basis-96 flex justify-center items-center shrin">
       <h1 className="text-center text-2xl">Header</h1>
     </header>
     <main
-      className="h-screen border-t border-t-clr-border flex justify-center items-center"
+      className="h-screen border-t border-t-neutral flex justify-center items-center"
       id="main"
     >
       <h2 className="text-center text-2xl">Main content</h2>

@@ -1,6 +1,8 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @config '../tailwind.config.js';
+
+@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
@@ -20,28 +22,72 @@
   }
 }
 
-@layer base {
-  :root {
-    --clr-accent: 37 99 235; /* blue-600 */
-    --clr-accent-muted: 233 239 253; /* blue-600/10 */
-    --clr-bg: 248 250 252; /* slate-50 */
-    --clr-bg-muted: 226 232 240; /* slate-200 */
-    --clr-bg-surface: 255 255 255; /* white */
-    --clr-border: 148 163 184; /* slate-400 */
-    --clr-text: 51 65 85; /* slate-700 */
-    --clr-text-inverted: 226 232 240; /* slate-200 */
+@theme {
+  --color-accent: oklch(54.6% 0.245 262.881); /* blue-600 */
+  --color-accent-muted: oklch(0.9517 0.0199 267.29); /* blue-600/10 */
+  --color-surface-subtle: oklch(98.4% 0.003 247.858); /* slate-50 */
+  --color-surface-muted: oklch(92.9% 0.013 255.508); /* slate-200 */
+  --color-surface: oklch(1 0 0); /* white */
+  --color-neutral: oklch(70.4% 0.04 256.788); /* slate-400 */
+  --color-foreground: oklch(37.2% 0.044 257.287); /* slate-700 */
+  --color-foreground-inverse: oklch(92.9% 0.013 255.508); /* slate-200 */
+}
+
+@layer theme {
+  :root,
+  :host {
+    @variant dark {
+      --color-accent: oklch(92.4% 0.12 95.746); /* amber-200 */
+      --color-accent-muted: oklch(0.2916 0.0163 259.79); /* amber-200/10 */
+      --color-surface-subtle: oklch(20.8% 0.042 265.755); /* slate-900 */
+      --color-surface-muted: oklch(37.2% 0.044 257.287); /* slate-700 */
+      --color-surface: oklch(20.8% 0.042 265.755); /* slate-900 */
+      --color-neutral: oklch(55.4% 0.046 257.417); /* slate-500 */
+      --color-foreground: oklch(92.9% 0.013 255.508); /* slate-200 */
+      --color-foreground-inverse: oklch(37.2% 0.044 257.287); /* slate-700 */
+    }
+  }
+}
+
+@layer utilities {
+  .focus-ring,
+  .focus-ring-inner,
+  .focus-ring-neutral,
+  .focus-ring-neutral-inner {
+    outline: none;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      border-radius: 0.25rem;
+    }
   }
 
-  :root[data-theme="dark"] {
-    --clr-accent: 253 230 138; /* amber-200 */
-    --clr-accent-muted: 39 44 52; /* amber-200/10 */
-    --clr-bg: 15 23 42 /* slate-900 */;
-    --clr-bg-muted: 51 65 85; /* slate-700 */
-    --clr-bg-surface: 15 23 42; /* slate-900 */
-    --clr-border: 100 116 139; /* slate-500 */
-    --clr-text: 226 232 240; /* slate-200 */
-    --clr-text-inverted: 51 65 85; /* slate-700 */
+  .focus-ring:focus-visible,
+  .focus-ring-inner:focus-visible {
+    outline: 2px solid var(--color-accent);
   }
+
+  .focus-ring-neutral:focus-visible,
+  .focus-ring-neutral-inner:focus-visible {
+    outline: 2px solid var(--color-foreground);
+  }
+
+  .focus-ring:focus-visible,
+  .focus-ring-neutral:focus-visible {
+    outline-offset: 2px;
+  }
+
+  .focus-ring-inner:focus-visible,
+  .focus-ring-neutral-inner:focus-visible {
+    outline-offset: -1px;
+  }
+}
+
+button {
+  cursor: pointer;
 }
 
 .visually-hidden:not(:focus):not(:active) {

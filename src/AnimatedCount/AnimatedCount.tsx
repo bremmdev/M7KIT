@@ -70,7 +70,7 @@ export const AnimatedCount = <T extends keyof JSX.IntrinsicElements>(
   return (
     <Element
       style={styles}
-      className={cn("inline-block text-center", className)}
+      className={cn("inline-block text-center text-foreground", className)}
     >
       {currentCount}
     </Element>

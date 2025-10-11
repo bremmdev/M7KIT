@@ -45,7 +45,7 @@ export const Default: Story = {
     return (
       <div className="p-12">
         <DrawerRoot>
-          <DrawerTrigger className="px-4 py-2 flex justify-center text-clr-text-inverted bg-clr-text hover:opacity-90 transition-all rounded-md font-medium w-fit focus-ring">
+          <DrawerTrigger className="px-4 py-2 flex justify-center text-foreground-inverse bg-foreground hover:opacity-90 transition-all rounded-md font-medium w-fit focus-ring">
             Open Modal
           </DrawerTrigger>
           <Drawer
@@ -54,7 +54,7 @@ export const Default: Story = {
             onClose={() => console.log("Drawer closed")}
           >
             <DrawerContent>
-              <div className="space-y-5 leading-7 text-clr-text">
+              <div className="space-y-5 leading-7 text-foreground">
                 <h1 className="text-3xl font-bold">Drawer</h1>
                 <p>
                   This is a drawer. You can put anything you want in the
@@ -69,7 +69,10 @@ export const Default: Story = {
                   are in a focus trap and can be navigated using the keyboard.
                 </p>
                 <div className="flex flex-col gap-4">
-                  <label htmlFor="input" className="text-clr-text font-medium">
+                  <label
+                    htmlFor="input"
+                    className="text-foreground font-medium"
+                  >
                     Focusable input
                   </label>
                   <input
@@ -78,7 +81,7 @@ export const Default: Story = {
                     id="input"
                     className="border border-gray-300 rounded-md px-4 py-1 focus-ring min-w-16 shrink max-w-[200px] text-slate-700"
                   />
-                  <button className="px-4 py-2 flex justify-center text-clr-text-inverted bg-clr-text hover:opacity-90 transition-all rounded-md font-medium w-fit focus-ring">
+                  <button className="px-4 py-2 flex justify-center text-foreground-inverse bg-foreground hover:opacity-90 transition-all rounded-md font-medium w-fit focus-ring">
                     Fosusable button
                   </button>
                 </div>

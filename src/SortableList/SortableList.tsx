@@ -271,7 +271,7 @@ export const SortableList = ({
 
   return (
     <div
-      className={cn("flex flex-col gap-4 w-fit", className)}
+      className={cn("flex flex-col gap-4 w-fit text-foreground", className)}
       role={editMode ? "application" : undefined}
       ref={containerRef}
     >
@@ -289,7 +289,7 @@ export const SortableList = ({
           ref={editModeButtonRef}
           title="Use arrow keys to reorder items"
           className={cn(
-            "shrink-0 cursor-pointer relative flex gap-2 border-none justify-center items-center px-4 py-2 bg-clr-text text-clr-text-inverted rounded-md w-fit transition-colors focus-ring hover:bg-clr-text/90"
+            "shrink-0 cursor-pointer relative flex gap-2 border-none justify-center items-center px-4 py-2 bg-foreground text-foreground-inverse rounded-md w-fit transition-colors focus-ring hover:bg-foreground/90"
           )}
         >
           {editMode ? `Exit Edit Mode` : "Enter Edit Mode"}
@@ -316,9 +316,9 @@ export const SortableList = ({
             key={item.label}
             draggable={true}
             className={cn(
-              "flex items-center gap-4 px-4 py-2 bg-clr-bg border border-clr-border rounded-md cursor-grab",
+              "flex items-center gap-4 px-4 py-2 bg-surface-subtle border border-neutral rounded-md cursor-grab",
               {
-                "border-clr-accent bg-clr-accent-muted":
+                "border-accent bg-accent-muted":
                   index === draggedItemIndex && draggedItemIndex !== null,
               }
             )}

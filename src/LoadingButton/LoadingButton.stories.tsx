@@ -4,7 +4,7 @@ import React from "react";
 import { LoadingButton } from "./LoadingButton";
 
 /**
- * Button component that displays a loading spinner overlayed on the text content of a button when the `loading` prop is true. 
+ * Button component that displays a loading spinner overlayed on the text content of a button when the `loading` prop is true.
  * By overlaying the spinner on the text content, the button maintains its original size and layout when transitioning to the loading state.
  * The button is disabled when in the loading state.
  *
@@ -37,8 +37,12 @@ export const Default: Story = {
 
     return (
       <div className="space-y-4 p-8">
-        <p className="text-clr-text">Click the button to activate the loading state.</p>
-        <LoadingButton {...props} loading={loading} onClick={handleClick}>Submit</LoadingButton>
+        <p className="text-foreground">
+          Click the button to activate the loading state.
+        </p>
+        <LoadingButton {...props} loading={loading} onClick={handleClick}>
+          Submit
+        </LoadingButton>
       </div>
     );
   },

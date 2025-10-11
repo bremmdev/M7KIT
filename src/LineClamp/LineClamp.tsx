@@ -25,7 +25,7 @@ export const LineClampTrigger = (props: LineClampTriggerProps) => {
   return !hideTrigger ? (
     <button
       className={cn(
-        "text-clr-text font-medium underline underline-offset-4 p-1 hover:text-clr-accent focus-ring-inner",
+        "text-foreground font-medium underline underline-offset-4 p-1 hover:text-accent focus-ring-inner",
         className
       )}
       onClick={handleTriggerClick}
@@ -94,7 +94,6 @@ export const LineClamp = <T extends keyof JSX.IntrinsicElements = "p">(
     }
   }, [clamped, lines, animate]);
 
-
   //When resizing the window, check if the content is clamped or not
   //in the not clamped state, the height must be recalculated on window resize
   //additionally check if the content is overflowing or not and hide the trigger button accordingly
@@ -150,7 +149,7 @@ export const LineClampRoot = (props: LineClampRootProps) => {
 
   return (
     <LineClampProvider>
-      <div className={cn("text-clr-text", className)}>{children}</div>
+      <div className={cn("text-foreground", className)}>{children}</div>
     </LineClampProvider>
   );
 };

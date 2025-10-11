@@ -22,7 +22,7 @@ const NavigationButtons = (props: NavigationButtonProps) => {
       >
         <CircleArrowLeft
           size={32}
-          className="stroke-clr-text hover:stroke-clr-accent"
+          className="stroke-foreground hover:stroke-accent"
         />
       </button>
       <button
@@ -33,7 +33,7 @@ const NavigationButtons = (props: NavigationButtonProps) => {
       >
         <CircleArrowRight
           size={32}
-          className="stroke-clr-text hover:stroke-clr-accent"
+          className="stroke-foreground hover:stroke-accent"
         />
       </button>
     </div>

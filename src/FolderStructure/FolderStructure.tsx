@@ -16,7 +16,7 @@ const Folder = ({ folder, indent, open, trailingSlash }: FolderProps) => {
     <details
       open={open}
       className={cn(
-        "group py-[2px] relative before:content-[''] before:absolute before:top-6 before:bottom-1 before:left-7 before:w-px before:bg-clr-text",
+        "group py-[2px] relative before:content-[''] before:absolute before:top-6 before:bottom-1 before:left-7 before:w-px before:bg-foreground",
         {
           "[&_details]:ml-8": indent !== "normal",
           "[&_details]:ml-10": indent === "normal",
@@ -24,7 +24,7 @@ const Folder = ({ folder, indent, open, trailingSlash }: FolderProps) => {
       )}
     >
       <summary className="list-none before:content-['\25BC'] before:inline-block before:mr-1 before:w-3 before:mx-1 cursor-pointer focus-ring">
-        <span className="mt-[2px] font-bold inline-flex gap-1 items-center cursor-pointer hover:text-clr-accent">
+        <span className="mt-[2px] font-bold inline-flex gap-1 items-center cursor-pointer hover:text-accent">
           <FolderIcon className="size-4" />
           <span>
             {folder.name}
@@ -64,7 +64,7 @@ export const FolderStructure = ({
   return (
     <div
       className={cn(
-        "text-sm mx-auto max-w-2xl my-8 text-clr-text bg-clr-bg border border-clr-border rounded-md",
+        "text-sm mx-auto max-w-2xl my-8 text-foreground bg-surface-suble border border-neutral rounded-md",
         className
       )}
       {...rest}

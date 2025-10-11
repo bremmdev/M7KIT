@@ -13,7 +13,7 @@ export const CTAButton = (props: CTAButtonProps) => {
   return (
     <CTA
       className={cn(
-        "group overflow-hidden cursor-pointer relative flex gap-2 border-none justify-center items-center px-6 py-2.5 bg-clr-accent text-clr-text-inverted rounded-md font-medium w-fit transition-colors focus-ring hover:ring-2 hover:ring-offset-2 hover:ring-offset-current hover:ring-clr-accent",
+        "group overflow-hidden cursor-pointer relative flex gap-2 border-none justify-center items-center px-6 py-2.5 bg-accent text-foreground-inverse rounded-md font-medium w-fit transition-colors focus-ring hover:ring-2 hover:ring-offset-2 hover:ring-offset-current hover:ring-accent",
         className
       )}
       href={href}

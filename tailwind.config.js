@@ -22,16 +22,6 @@ export default {
         shimmer:
           "linear-gradient(-45deg, rgba(255,255,255,0) 43%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 57%)",
       },
-      colors: {
-        "clr-accent": "rgb(var(--clr-accent) / <alpha-value>)",
-        "clr-accent-muted": "rgb(var(--clr-accent-muted) / <alpha-value>)",
-        "clr-bg": "rgb(var(--clr-bg) / <alpha-value>)",
-        "clr-bg-muted": "rgb(var(--clr-bg-muted) / <alpha-value>)",
-        "clr-bg-surface": "rgb(var(--clr-bg-surface) / <alpha-value>)",
-        "clr-border": "rgb(var(--clr-border) / <alpha-value>)",
-        "clr-text": "rgb(var(--clr-text) / <alpha-value>)",
-        "clr-text-inverted": "rgb(var(--clr-text-inverted) / <alpha-value>)",
-      },
       keyframes: {
         blink: {
           "0%, 100%": { opacity: 1 },
@@ -86,51 +76,4 @@ export default {
       },
     },
   },
-  plugins: [
-    function ({ addUtilities }) {
-      const baseRing = {
-        outline: "none",
-        "&:focus": {
-          outline: "none",
-        },
-      };
-
-      const newUtilities = {
-        ".focus-ring": {
-          ...baseRing,
-          "&:focus-visible": {
-            outline: "2px solid rgb(var(--clr-accent))",
-            "outline-offset": "2px",
-            borderRadius: "0.25rem", // equivalent to rounded-md
-          },
-        },
-        ".focus-ring-inner": {
-          ...baseRing,
-          "&:focus-visible": {
-            outline: "2px solid rgb(var(--clr-accent))",
-            "outline-offset": "-1px",
-            borderRadius: "0.25rem", // equivalent to rounded-md
-          },
-        },
-        ".focus-ring-neutral": {
-          ...baseRing,
-          "&:focus-visible": {
-            outline: "2px solid rgb(var(--clr-text))",
-            "outline-offset": "2px",
-            borderRadius: "0.25rem", // equivalent to rounded-md
-          },
-        },
-        ".focus-ring-neutral-inner": {
-          ...baseRing,
-          "&:focus-visible": {
-            outline: "2px solid rgb(var(--clr-text))",
-            "outline-offset": "-1px",
-            borderRadius: "0.25rem", // equivalent to rounded-md
-          },
-        },
-      };
-
-      addUtilities(newUtilities, ["responsive", "hover"]);
-    },
-  ],
 };

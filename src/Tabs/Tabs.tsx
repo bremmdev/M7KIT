@@ -52,7 +52,7 @@ export const Tabs = ({
 
   return (
     <TabsContext.Provider value={{ activeTab, setActiveTab, onValueChange }}>
-      <div className={cn("text-clr-text", className)} ref={tabsRef}>
+      <div className={cn("text-foreground", className)} ref={tabsRef}>
         {children}
       </div>
     </TabsContext.Provider>
@@ -114,7 +114,7 @@ const TabList = ({ className, children, ...rest }: TabListProps) => {
       role="tablist"
       {...rest}
       onKeyDown={handleKeyDown}
-      className={cn("border-b border-b-clr-border mb-1", className)}
+      className={cn("border-b border-b-neutral mb-1", className)}
       ref={tabListRef}
     >
       {children}
@@ -151,9 +151,9 @@ const Tab = ({ className, label, children }: TabProps) => {
       data-tablabel={label}
       ref={tabRef}
       className={cn(
-        "py-2 px-4 mb-[2px] focus-ring hover:bg-clr-accent-muted mr-1",
+        "py-2 px-4 mb-[2px] focus-ring hover:bg-accent-muted mr-1",
         {
-          "border-b-2 border-clr-accent font-medium bg-clr-accent-muted":
+          "border-b-2 border-accent font-medium bg-accent-muted":
             activeTab === label,
         },
         className

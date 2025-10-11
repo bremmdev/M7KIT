@@ -51,14 +51,14 @@ Colors are defined using CSS variables, allowing you to customize the appearance
 ```
 @layer base {
   :root {
-    --clr-accent: 37 99 235; /* blue-600 */
+    --accent: 37 99 235; /* blue-600 */
     --clr-bg: 248 250 252; /* slate-50 */
     --clr-border: 148 163 184; /* slate-400 */
     --clr-text: 51 65 85; /* slate-700 */
   }
 
   :root[data-theme="dark"] {
-    --clr-accent: 253 230 138; /* amber-200 */
+    --accent: 253 230 138; /* amber-200 */
     --clr-bg: 15 23 42 /* slate-900 */;
     --clr-border: 100 116 139; /* slate-500 */
     --clr-text: 226 232 240; /* slate-200 */

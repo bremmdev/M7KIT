@@ -40,7 +40,7 @@ export const TextReveal = (props: TextRevealProps) => {
     <div
       {...rest}
       className={cn(
-        "text-clr-text grid *:col-1 *:row-1 w-fit mx-auto text-center",
+        "text-foreground grid *:col-1 *:row-1 w-fit mx-auto text-center",
         className
       )}
     >
@@ -53,7 +53,9 @@ export const TextReveal = (props: TextRevealProps) => {
             <div
               key={idx}
               className={cn(
-                `${idx === animatingIdx ? `${animationClass}` : `${pausedClass}`}`
+                `${
+                  idx === animatingIdx ? `${animationClass}` : `${pausedClass}`
+                }`
               )}
               style={styles}
             >

@@ -46,7 +46,7 @@ export const Default: Story = {
   args: {},
   render: () => (
     <div className="p-4">
-      <h2 id="tabs-title" className="text-lg font-medium my-4 text-clr-text">
+      <h2 id="tabs-title" className="text-lg font-medium my-4 text-foreground">
         Frontend frameworks
       </h2>
       <Tabs.Root

@@ -70,7 +70,7 @@ export default meta;
 type Story = StoryObj<typeof SortableList>;
 
 const render = (props: SortableListProps) => (
-  <div className="relative flex flex-col text-clr-text items-center my-8">
+  <div className="relative flex flex-col items-center my-8">
     <SortableList {...props} className="w-96" />
   </div>
 );

@@ -39,9 +39,9 @@ export const SegmentedControlButton = (props: SegmentedControlButtonProps) => {
     <li className="[&:first-of-type>button]:rounded-l-md [&:last-of-type>button]:rounded-r-md">
       <button
         className={cn(
-          "relative px-4 py-2 bg-clr-bg-muted hover:bg-opacity-70 transition-colors border-transparent text-clr-text focus-ring-neutral-inner focus-visible:z-10 focus-visible:rounded-md",
+          "relative px-4 py-2 bg-surface-muted hover:bg-surface-muted/70 transition-colors border-transparent text-foreground focus-ring-neutral-inner focus-visible:z-10 focus-visible:rounded-md",
           {
-            "border border-clr-text font-medium rounded-md bg-clr-bg":
+            "border border-foreground font-medium rounded-md bg-surface-subtle hover:bg-surface-subtle":
               selected === buttonValue,
           },
           className
@@ -77,14 +77,14 @@ export const SegmentedControl = (props: SegmentedControlProps) => {
 
   //set the ignoreChangeRef to false if there is no default selected button
   React.useEffect(() => {
-    if(!children || !Array.isArray(children)){
+    if (!children || !Array.isArray(children)) {
       return;
     }
 
     const hasDefaultSelected = children?.some(
       (child) => child.props.defaultSelected
     );
-        
+
     if (!hasDefaultSelected) {
       ignoreChangeRef.current = false;
     }

@@ -38,7 +38,7 @@ export const TextAnimation = <T extends keyof JSX.IntrinsicElements = "p">(
 
   return (
     <Element
-      className={cn("whitespace-pre-wrap text-clr-text", className)}
+      className={cn("whitespace-pre-wrap text-foreground", className)}
       {...rest}
     >
       {items.map((i, idx) => {

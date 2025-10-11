@@ -1,7 +1,12 @@
 "use client";
 
 import React from "react";
-import { Placement, TooltipProps, TooltipTriggerProps, TooltipContentProps } from "./Tooltip.types";
+import {
+  Placement,
+  TooltipProps,
+  TooltipTriggerProps,
+  TooltipContentProps,
+} from "./Tooltip.types";
 import { cn } from "../utils/cn";
 import { getPlacementClasses, determinePlacement } from "./Tooltip.utils";
 
@@ -112,11 +117,15 @@ export const Tooltip = ({
     throw new Error("Warning: Tooltip must contain a TooltipContent component");
   }
 
-  const { className: triggerClassName, ...triggerRestProps } = (triggerContent as React.ReactElement<any>).props;
-  const { className: contentClassName, ...contentRestProps } = (tooltipContent as React.ReactElement<any>).props;
+  const { className: triggerClassName, ...triggerRestProps } = (
+    triggerContent as React.ReactElement<any>
+  ).props;
+  const { className: contentClassName, ...contentRestProps } = (
+    tooltipContent as React.ReactElement<any>
+  ).props;
 
   return (
-    <div className={cn("relative w-fit", className)} {...rest}>
+    <div className={cn("relative w-fit text-foreground", className)} {...rest}>
       <button
         type="button"
         aria-controls={tooltipId}
@@ -141,7 +150,7 @@ export const Tooltip = ({
           role="tooltip"
           ref={tooltipContentRef}
           className={cn(
-            "absolute w-64 bg-clr-bg border border-clr-border rounded-md p-2 my-1",
+            "absolute w-64 bg-surface-subtle border border-neutral rounded-md p-2 my-1",
             {
               "animate-fade-in": fade,
             },
