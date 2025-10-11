@@ -10,12 +10,12 @@ const NavigationButtons = (props: NavigationButtonProps) => {
   return (
     <div
       className={cn(
-        "absolute left-1/2 -translate-x-[100%] -bottom-2 flex gap-2",
+        "absolute left-1/2 -translate-x-full -bottom-2 flex gap-2",
         className
       )}
     >
       <button
-        className="mx-auto rounded-full outline-none focus:outline-none focus-visible:outline-clr-accent focus-visible:outline-2 disabled:opacity-50 disabled:bg-transparent"
+        className="mx-auto rounded-full focus-ring disabled:opacity-50 disabled:bg-transparent"
         disabled={animationDirection !== "idle"}
         aria-label="previous item"
         onClick={() => onNavigate(0)}
@@ -26,7 +26,7 @@ const NavigationButtons = (props: NavigationButtonProps) => {
         />
       </button>
       <button
-        className="mx-auto rounded-full outline-none focus:outline-none focus-visible:outline-clr-accent focus-visible:outline-2 disabled:opacity-50 disabled:bg-transparent"
+        className="mx-auto rounded-full focus-ring disabled:opacity-50 disabled:bg-transparent"
         disabled={animationDirection !== "idle"}
         aria-label="next item"
         onClick={() => onNavigate(lastItemIdx)}
@@ -87,7 +87,7 @@ export const GalleryStack = (props: GalleryStackProps) => {
   return (
     <div
       className={cn(
-        "grid place-items-center place-content-center [&>*]:[grid-column:1] [&>*]:[grid-row:1] cursor-pointer p-16 w-fit relative z-10",
+        "grid place-items-center place-content-center *:col-1 *:row-1 cursor-pointer p-16 w-fit relative z-10",
         className
       )}
       data-testid="gallery-stack"
@@ -100,7 +100,11 @@ export const GalleryStack = (props: GalleryStackProps) => {
         const calculatedRotation = (items.length - idx - 1) * rotationAmount;
         const styles = isAnimating
           ? {
-              animation: `${animationDuration}ms ${animationDirection === "forward" ? "slideAndBack" : "slideAndBackMirrored"} ease-in-out`,
+              animation: `${animationDuration}ms ${
+                animationDirection === "forward"
+                  ? "slideAndBack"
+                  : "slideAndBackMirrored"
+              } ease-in-out`,
             }
           : {
               transform: `rotate(${calculatedRotation}deg) translateX(0)`,

@@ -7,7 +7,7 @@ export const ShimmerImage = (props: ShimmerImageProps) => {
   return (
     <div
       className={cn(
-        "relative w-fit after:absolute after:inset-0 after:content-[''] after:bg-shimmer after:bg-[size:200%] after:animate-shimmer",
+        "relative w-fit after:absolute after:inset-0 after:content-[''] after:bg-shimmer after:bg-size-[200%] after:animate-shimmer",
         {
           "after:rounded-full": rounded,
         }

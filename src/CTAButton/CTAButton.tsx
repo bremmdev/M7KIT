@@ -21,7 +21,7 @@ export const CTAButton = (props: CTAButtonProps) => {
     >
       {children}
       <MoveRight className="size-5 group-hover:translate-x-1 transition-transform ease-in-out" />
-      <span className="inline-block absolute -top-4 -bottom-4 -left-[50%] bg-white opacity-50 w-5 z-10 rotate-[35deg] transition-all group-hover:left-[125%] duration-1000" />
+      <span className="inline-block absolute -top-4 -bottom-4 -left-[50%] bg-white opacity-50 w-5 z-10 rotate-35 transition-all group-hover:left-[125%] duration-1000" />
     </CTA>
   );
 };

@@ -67,7 +67,7 @@ export const Masonry = (props: MasonryProps) => {
             style={childStyles}
           >
             {orderedColumn.map((item, idx) => (
-              <div key={idx} className="[&>*]:w-full">
+              <div key={idx} className="*:w-full">
                 {item}
               </div>
             ))}

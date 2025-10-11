@@ -12,9 +12,9 @@ export const ImageShowcase = (props: ImageShowcaseProps) => {
 
   const flexGrow = {
     1.5: "hover:flex-[1.5]",
-    2: "hover:flex-[2]",
+    2: "hover:flex-2",
     2.5: "hover:flex-[2.5]",
-    3: "hover:flex-[3]",
+    3: "hover:flex-3",
   }[growFactor];
 
   return (

@@ -108,7 +108,7 @@ export const Drawer = (props: DrawerProps) => {
       className={cn(
         `${getPositionClasses(
           placement
-        )} fixed backdrop:bg-black/70 focus-visible:outline-none focus:outline-none bg-clr-bg-surface`,
+        )} fixed backdrop:bg-black/70 focus-visible:outline-hidden focus:outline-hidden bg-clr-bg-surface`,
         className
       )}
       ref={drawerRef}

@@ -47,7 +47,7 @@ export const DiamondGrid = (props: DiamondGridProps) => {
             {group.map((child, idx) => (
               <div
                 key={`item-${idx}`}
-                className={`[clip-path:polygon(50%_0%,100%_50%,50%_100%,_0%_50%)] [&>img]:w-full [&>img]:aspect-square [&>img]:object-cover [&>img]:rounded-md hover:[clip-path:polygon(0_0,100%_0,100%_100%,0_100%)] transition-all duration-300`}
+                className={`[clip-path:polygon(50%_0%,100%_50%,50%_100%,0%_50%)] [&>img]:w-full [&>img]:aspect-square [&>img]:object-cover [&>img]:rounded-md hover:[clip-path:polygon(0_0,100%_0,100%_100%,0_100%)] transition-all duration-300`}
                 style={{
                   marginLeft: -itemWidth / 2,
                   width: itemWidth,
