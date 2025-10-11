@@ -32,6 +32,7 @@ export function useFocusTrap<T extends HTMLElement>(
   }
 ) {
   const previousActiveElement = React.useRef<HTMLElement | null>(null);
+  const hasSetInitialFocus = React.useRef(false);
   const {
     condition = true,
     onEscape,
@@ -41,46 +42,61 @@ export function useFocusTrap<T extends HTMLElement>(
 
   React.useEffect(() => {
     const container = el.current;
-    // Guard: only run when active and container exists
-    if (!container || !condition) return;
+
+    // When condition becomes false, restore focus and reset
+    if (!container || !condition) {
+      if (
+        autoRestoreFocus &&
+        previousActiveElement.current &&
+        previousActiveElement.current.isConnected
+      ) {
+        previousActiveElement.current.focus();
+        previousActiveElement.current = null; // Clear after restore
+      }
+      hasSetInitialFocus.current = false;
+      return;
+    }
 
     // Store the element that had focus before trap
     previousActiveElement.current = document.activeElement as HTMLElement;
 
-    const getFocusableElements = () => {
-      if (!el.current) return [];
+    // Only set initial focus once per activation
+    if (!hasSetInitialFocus.current) {
+      hasSetInitialFocus.current = true;
 
-      return Array.from(
-        el.current.querySelectorAll<HTMLElement>(
-          'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable]'
-        )
-      ).filter(
-        (element) =>
-          !element.hasAttribute("disabled") &&
-          !element.hasAttribute("hidden") &&
-          element.offsetParent !== null &&
-          getComputedStyle(element).visibility !== "hidden"
-      );
-    };
+      const getFocusableElements = () => {
+        if (!el.current) return [];
+        return Array.from(
+          el.current.querySelectorAll<HTMLElement>(
+            'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable]'
+          )
+        ).filter(
+          (element) =>
+            !element.hasAttribute("disabled") &&
+            !element.hasAttribute("hidden") &&
+            element.offsetParent !== null &&
+            getComputedStyle(element).visibility !== "hidden"
+        );
+      };
 
-    // Determine what to focus
-    const setInitialFocus = () => {
-      if (initialFocusElement === "container") {
-        el.current?.focus();
-      } else if (initialFocusElement === "first") {
-        const focusable = getFocusableElements();
-        focusable[0]?.focus();
-      } else if (initialFocusElement && initialFocusElement.current) {
-        initialFocusElement.current.focus();
-      }
-    };
+      const setInitialFocus = () => {
+        if (initialFocusElement === "container") {
+          el.current?.focus();
+        } else if (initialFocusElement === "first") {
+          const focusables = getFocusableElements();
+          focusables[0]?.focus();
+        } else if (initialFocusElement && initialFocusElement.current) {
+          initialFocusElement.current.focus();
+        }
+      };
 
-    setTimeout(setInitialFocus, 0); // Delay to ensure element is rendered
+      // Delay to ensure rendering is done
+      setTimeout(setInitialFocus, 0);
+    }
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!el.current) return;
 
-      // Handle Escape
       if (e.key === "Escape" && onEscape) {
         onEscape();
         return;
@@ -88,25 +104,34 @@ export function useFocusTrap<T extends HTMLElement>(
 
       if (e.key !== "Tab") return;
 
-      const focusableElements = getFocusableElements();
-      if (focusableElements.length === 0) return;
+      const focusables = Array.from(
+        el.current.querySelectorAll<HTMLElement>(
+          'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable]'
+        )
+      ).filter(
+        (el) =>
+          !el.hasAttribute("disabled") &&
+          !el.hasAttribute("hidden") &&
+          el.offsetParent !== null &&
+          getComputedStyle(el).visibility !== "hidden"
+      );
 
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
-      const activeEl = document.activeElement as HTMLElement;
+      if (focusables.length === 0) return;
 
-      // Shift + Tab
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement as HTMLElement;
+
+      // Tab loop logic
       if (e.shiftKey) {
-        if (activeEl === firstElement) {
+        if (active === first) {
           e.preventDefault();
-          lastElement.focus();
+          last.focus();
         }
-      }
-      // Tab
-      else {
-        if (activeEl === lastElement) {
+      } else {
+        if (active === last) {
           e.preventDefault();
-          firstElement.focus();
+          first.focus();
         }
       }
     };
@@ -115,15 +140,6 @@ export function useFocusTrap<T extends HTMLElement>(
 
     return () => {
       container.removeEventListener("keydown", handleKeyDown);
-
-      // Optionally restore focus
-      if (
-        autoRestoreFocus &&
-        previousActiveElement.current &&
-        previousActiveElement.current.isConnected // Ensure it's still in the DOM
-      ) {
-        previousActiveElement.current.focus();
-      }
     };
-  }, [el, options?.condition, options?.onEscape, options?.initialFocusElement]);
+  }, [el, condition, onEscape, initialFocusElement]);
 }

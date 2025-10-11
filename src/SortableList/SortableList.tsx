@@ -2,7 +2,10 @@ import React from "react";
 import { cn } from "../utils/cn";
 import { SortableListProps } from "./SortableList.types";
 import { ChevronsUpDown, GripVertical, Settings } from "lucide-react";
-import { getItemsWithIdsAndLabels } from "./SortableList.utils";
+import {
+  getItemsWithIdsAndLabels,
+  extractTextFromNode,
+} from "./SortableList.utils";
 import { useFocusTrap } from "../_hooks/useFocusTrap";
 
 const ReorderButton = ({
@@ -42,15 +45,10 @@ export const SortableList = ({
   titleElement = "h2",
   ...rest
 }: SortableListProps) => {
-  // Generate stable IDs for each item on first render
-  const itemsWithIds = React.useMemo(
-    () => {
-      return getItemsWithIdsAndLabels(items);
-    },
-    [items] // Regenerate if items prop changes
+  const [sortedItems, setSortedItems] = React.useState(() =>
+    getItemsWithIdsAndLabels(items)
   );
 
-  const [sortedItems, setSortedItems] = React.useState(itemsWithIds);
   const [dragStartIndex, setDragStartIndex] = React.useState<number | null>(
     null
   );
@@ -67,20 +65,47 @@ export const SortableList = ({
   const editModeButtonRef = React.useRef<HTMLButtonElement | null>(null);
   const containerRef = React.useRef<HTMLDivElement | null>(null);
 
-  useFocusTrap(containerRef, {
-    condition: editMode,
-    onEscape: () => {
-      setEditMode(false);
-      setLastAnnouncement("Exited edit mode");
-    },
-  });
+  const handleEscapeCallback = React.useCallback(() => {
+    setEditMode(false);
+    setLastAnnouncement("Exited edit mode");
+  }, []);
+
+  // Stable reference for useFocusTrap to prevent focus trap re-initialization
+  const focusTrapOptions = React.useMemo(
+    () => ({
+      condition: editMode,
+      onEscape: handleEscapeCallback,
+    }),
+    [editMode, handleEscapeCallback]
+  );
+
+  useFocusTrap(containerRef, focusTrapOptions);
+
+  // we only want to recalculate this when items change from the parent, not when sortedItems change due to reordering
+  // we use a memoized string of all labels to compare sortedItems vs items for changes
+  const parentLabels = React.useMemo(
+    () => items.map(extractTextFromNode).join("|"),
+    [items]
+  );
 
   React.useEffect(() => {
-    // Reset sorted items if the items prop changes
-    if (items && Array.isArray(items) && items.length > 0) {
-      setSortedItems(getItemsWithIdsAndLabels(items));
+    // Compare current vs incoming based on labels
+    const localLabels = sortedItems.map((i) => i.label).join("|");
+
+    // Only reset if parent items are truly different, not when just a new array instance with same content
+    if (localLabels !== parentLabels) {
+      console.log("resetting items from parent change");
+      setSortedItems((prev) => {
+        const newItems = getItemsWithIdsAndLabels(items);
+
+        // Preserve matching items by label to keep DOM/node identity and focus
+        return newItems.map((newItem) => {
+          const existing = prev.find((p) => p.label === newItem.label);
+          return existing ?? newItem;
+        });
+      });
     }
-  }, [items]);
+  }, [parentLabels]);
 
   function handleDragStart(e: React.DragEvent, index: number) {
     // only allow dragging if started from the grip handle
@@ -138,36 +163,40 @@ export const SortableList = ({
   }
 
   function handleKeyDown(e: React.KeyboardEvent, index: number) {
-    if (e.key === "ArrowUp" || e.key === "ArrowDown") {
-      // Prevent page scrolling when pressing arrow keys
-      e.preventDefault();
+    if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
 
-      //reorder items
-      const newIndex = e.key === "ArrowDown" ? index + 1 : index - 1;
-      if (newIndex < 0 || newIndex >= sortedItems.length) return; // out of bounds
+    e.preventDefault(); // prevent scroll
 
-      const updated = [...sortedItems];
-      const [movedItem] = updated.splice(index, 1);
-      updated.splice(newIndex, 0, movedItem);
-      setSortedItems(updated);
+    const newIndex = e.key === "ArrowDown" ? index + 1 : index - 1;
+    if (newIndex < 0 || newIndex >= sortedItems.length) return;
 
-      onReorder && onReorder(updated.map((item) => item.value));
+    // Reorder items
+    const updated = [...sortedItems];
+    const [movedItem] = updated.splice(index, 1);
+    updated.splice(newIndex, 0, movedItem);
+    setSortedItems(updated);
 
-      // Announce the move
-      const message = `Moved ${movedItem.label} to position ${
-        newIndex + 1
-      } of ${sortedItems.length}`;
-      setLastAnnouncement(message);
+    onReorder?.(updated.map((item) => item.value));
 
-      // Move focus to the next/previous item
-      const nextIndex = e.key === "ArrowDown" ? index + 1 : index - 1;
-      if (dragHandleRefs.current[nextIndex]) {
-        // Focus after React updates the DOM
-        requestAnimationFrame(() => {
-          dragHandleRefs.current[nextIndex]?.focus();
-        });
-      }
-    }
+    // Announce change (for screen readers)
+    const message = `Moved ${movedItem.label} to position ${newIndex + 1} of ${
+      sortedItems.length
+    }`;
+    setLastAnnouncement(message);
+
+    // We'll ensure that DOM and refs are stable before moving focus
+    const focusTargetIndex = newIndex;
+
+    // Safari sometimes needs one paint *plus* a microtask
+    Promise.resolve().then(() => {
+      requestAnimationFrame(() => {
+        // extra guard for ref existence
+        const handle = dragHandleRefs.current[focusTargetIndex];
+        if (handle && typeof handle.focus === "function") {
+          handle.focus();
+        }
+      });
+    });
   }
 
   function handleEditModeSwitch() {
@@ -284,7 +313,7 @@ export const SortableList = ({
       >
         {sortedItems.map((item, index) => (
           <li
-            key={item.id}
+            key={item.label}
             draggable={true}
             className={cn(
               "flex items-center gap-4 px-4 py-2 bg-clr-bg border border-clr-border rounded-md cursor-grab",
