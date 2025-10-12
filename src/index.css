@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-@config '../tailwind.config.js';
-
 @variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 /*
@@ -31,6 +29,134 @@
   --color-neutral: oklch(70.4% 0.04 256.788); /* slate-400 */
   --color-foreground: oklch(37.2% 0.044 257.287); /* slate-700 */
   --color-foreground-inverse: oklch(92.9% 0.013 255.508); /* slate-200 */
+
+  --animate-blink: blink 1s ease-in infinite;
+  --animate-fade-in: fade-in 0.3s ease-in forwards;
+  --animate-fade-in-blur: fade-in-blur 0.3s ease-in forwards;
+  --animate-marquee-horizontal: marquee-horizontal linear infinite;
+  --animate-marquee-vertical: marquee-vertical linear infinite;
+  --animate-shimmer: shimmer 2.5s linear infinite;
+  --animate-slide-down: slide-down ease-in 0.3s;
+  --animate-slide-down-fade: slide-down-fade ease-in;
+  --animate-slide-left: slide-left linear 0.3s;
+  --animate-slide-right: slide-right linear 0.3s;
+  --animate-slide-up: slide-up ease-in 0.3s;
+  --animate-slide-up-fade: slide-up-fade ease-in;
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-in-blur {
+    0% {
+      opacity: 0;
+      filter: blur(1rem);
+    }
+    100% {
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+
+  @keyframes marquee-horizontal {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(calc(-100% - 2rem));
+    }
+  }
+
+  @keyframes marquee-vertical {
+    0% {
+      transform: translateY(0%);
+    }
+    100% {
+      transform: translateY(calc(-100% - 2rem));
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position-x: 200%;
+    }
+    100% {
+      background-position-x: 0%;
+    }
+  }
+
+  @keyframes slide-down {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slide-down-fade {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-left {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slide-right {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slide-up {
+    0% {
+      transform: translateY(100%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slide-up-fade {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
 }
 
 @layer theme {
@@ -49,7 +175,7 @@
   }
 }
 
-@layer utilities {
+@layer components {
   .focus-ring,
   .focus-ring-inner,
   .focus-ring-neutral,
@@ -84,6 +210,15 @@
   .focus-ring-neutral-inner:focus-visible {
     outline-offset: -1px;
   }
+}
+
+@utility shimmer {
+  background-image: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0) 43%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 57%
+  );
 }
 
 button {
@@ -124,7 +259,10 @@ dialog:modal {
   max-height: 100vh;
 }
 
-@keyframes slideAndBack {
+/** GalleryStack animations
+ * Define outside of @theme as they are used in inline styles
+**/
+@keyframes slide-back {
   0% {
     transform: translateX(0);
     z-index: 0;
@@ -143,7 +281,7 @@ dialog:modal {
   }
 }
 
-@keyframes slideAndBackMirrored {
+@keyframes slide-back-mirrored {
   0% {
     transform: translateX(0);
     z-index: -1;

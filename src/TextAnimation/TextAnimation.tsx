@@ -25,8 +25,8 @@ export const TextAnimation = <T extends keyof JSX.IntrinsicElements = "p">(
     {
       "fade-in": "animate-fade-in opacity-0",
       "fade-in-blur": "animate-fade-in-blur opacity-0",
-      "slide-down": "animate-slide-down opacity-1",
-      "slide-up": "animate-slide-up opacity-1",
+      "slide-down": "animate-slide-down opacity-100",
+      "slide-up": "animate-slide-up opacity-100",
     }[animation as string] || "animate-fade-in opacity-0";
 
   //divide the children into words and characters

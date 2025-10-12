@@ -102,8 +102,8 @@ export const GalleryStack = (props: GalleryStackProps) => {
           ? {
               animation: `${animationDuration}ms ${
                 animationDirection === "forward"
-                  ? "slideAndBack"
-                  : "slideAndBackMirrored"
+                  ? "slide-back"
+                  : "slide-back-mirrored"
               } ease-in-out`,
             }
           : {
