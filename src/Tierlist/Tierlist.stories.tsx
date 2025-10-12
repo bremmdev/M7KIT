@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
-
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { action } from "storybook/actions";
 import { Tierlist } from "./Tierlist";
 import HtmxIcon from "../_data/icons/htmx.svg";
 import NextIcon from "../_data/icons/next.svg";
@@ -14,13 +14,13 @@ import TypeScriptIcon from "../_data/icons/typescript.svg";
  * Items can be dragged and dropped into different tiers.
  *
  * ## Features
- * 
+ *
  * - Drag and drop items into different tiers
  * - Drag and drop items back to the list to unrank them
  * - Customize labels and colors
  * - Customizable classnames for items, labels, and tiers
  * - Mobile touch support for drag and drop
- * 
+ *
  * ## Usage
  *
  * ```
@@ -64,11 +64,13 @@ const tierlistItems = [
 ];
 
 export const Default: Story = {
-  args: {},
+  args: {
+    onTierDrop: (rank: string) => action("Dropped in tier")(rank),
+  },
   render: (props) => {
     return (
       <div className="space-y-4 p-8">
-        <Tierlist {...props} aria-label="frontend technologies" onTierDrop={(rank: string) => console.log('dropped in tier', rank)}>
+        <Tierlist {...props} aria-label="frontend technologies">
           {tierlistItems}
         </Tierlist>
       </div>

@@ -2,13 +2,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { SortableList } from "./SortableList";
 
-//mock uuid to return predictable ids for testing
-jest.mock("uuid", () => ({
-  v4: jest
-    .fn()
-    .mockImplementation(() => Math.random().toString(36).substring(2, 15)),
-}));
-
 describe("SortableList", () => {
   const defaultProps = {
     items: ["Apple", "Banana", "Cherry"],

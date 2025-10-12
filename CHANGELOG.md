@@ -1,6 +1,6 @@
 # 0.38.0 - 2025-10-12
 
-- Migrate to Tailwind v4
+- Migrate to Tailwind v4 and Storybook 9
 - Change theme color names
 - Fix `useFocusTrap` in combination with `SortableList`
 

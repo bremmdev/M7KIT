@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ShimmerImage } from "./ShimmerImage";
 import profilePicture from "../_data/images/profile001.jpg";
 

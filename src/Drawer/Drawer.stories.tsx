@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { action } from "storybook/actions";
 
 import { DrawerRoot, Drawer, DrawerContent, DrawerTrigger } from "./Drawer";
 
@@ -40,6 +41,8 @@ export const Default: Story = {
   args: {
     placement: "right",
     className: "",
+    onOpen: action("Drawer opened"),
+    onClose: action("Drawer closed"),
   },
   render: (props) => {
     return (
@@ -48,11 +51,7 @@ export const Default: Story = {
           <DrawerTrigger className="px-4 py-2 flex justify-center text-foreground-inverse bg-foreground hover:opacity-90 transition-all rounded-md font-medium w-fit focus-ring">
             Open Modal
           </DrawerTrigger>
-          <Drawer
-            {...props}
-            onOpen={() => console.log("Drawer opened")}
-            onClose={() => console.log("Drawer closed")}
-          >
+          <Drawer {...props}>
             <DrawerContent>
               <div className="space-y-5 leading-7 text-foreground">
                 <h1 className="text-3xl font-bold">Drawer</h1>

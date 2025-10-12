@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { action } from "storybook/actions";
 
 import { OTPInput } from "./OTPInput";
 
@@ -27,7 +28,7 @@ type Story = StoryObj<typeof OTPInput>;
 
 export const Default: Story = {
   args: {
-    onValueChange: (value: string) => console.log(value),
+    onValueChange: (value: string) => action("Value changed")(value),
   },
   render: (props) => (
     <div className="p-8">

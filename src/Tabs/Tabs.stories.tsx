@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { action } from "storybook/actions";
 import { Tabs } from "./Tabs";
 
 /**
@@ -51,7 +52,7 @@ export const Default: Story = {
       </h2>
       <Tabs.Root
         defaultValue="astro"
-        onValueChange={(val: string) => console.log(val)}
+        onValueChange={(val: string) => action("Tab changed")(val)}
       >
         <Tabs.List aria-labelledby="tabs-title">
           <Tabs.Tab label="react">React</Tabs.Tab>

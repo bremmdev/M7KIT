@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { SkipLink } from "./SkipLink";
 import { SkipLinkProps } from "./SkipLink.types";

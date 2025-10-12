@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Timeline } from "./Timeline";
 import image from "../Masonry/data/picture001.jpg";
 import { CircleDashed } from "lucide-react";

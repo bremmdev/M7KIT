@@ -94,7 +94,6 @@ export const SortableList = ({
 
     // Only reset if parent items are truly different, not when just a new array instance with same content
     if (localLabels !== parentLabels) {
-      console.log("resetting items from parent change");
       setSortedItems((prev) => {
         const newItems = getItemsWithIdsAndLabels(items);
 
