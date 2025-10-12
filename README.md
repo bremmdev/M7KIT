@@ -46,33 +46,37 @@ ImageShowcase is designed to highlight a single image in a row of images when ho
 
 ## Theming
 
-Colors are defined using CSS variables, allowing you to customize the appearance of m7kit components. You can override these variables in your own CSS files to match your application's theme. The following CSS variables are available:
+Colors are defined using theme variables in Tailwind v4. These variables are automatically available as CSS variables and utility classes. You can override these variables in your own global CSS file to match your application's theme. Start by adding the following code to your global CSS file and import this file **after** you import "m7kit/css" and change the colors you want to change.
 
 ```
-@layer base {
-  :root {
-    --accent: 37 99 235; /* blue-600 */
-    --clr-bg: 248 250 252; /* slate-50 */
-    --clr-border: 148 163 184; /* slate-400 */
-    --clr-text: 51 65 85; /* slate-700 */
-  }
+@import "tailwindcss";
 
-  :root[data-theme="dark"] {
-    --accent: 253 230 138; /* amber-200 */
-    --clr-bg: 15 23 42 /* slate-900 */;
-    --clr-border: 100 116 139; /* slate-500 */
-    --clr-text: 226 232 240; /* slate-200 */
+@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@layer theme {
+  :root {
+    --color-accent: oklch(54.6% 0.245 262.881); /* blue-600 */
+    --color-accent-muted: oklch(0.9517 0.0199 267.29); /* blue-600/10 */
+    --color-surface-subtle: oklch(98.4% 0.003 247.858); /* slate-50 */
+    --color-surface-muted: oklch(92.9% 0.013 255.508); /* slate-200 */
+    --color-surface: oklch(1 0 0); /* white */
+    --color-neutral: oklch(70.4% 0.04 256.788); /* slate-400 */
+    --color-foreground: oklch(37.2% 0.044 257.287); /* slate-700 */
+    --color-foreground-inverse: oklch(92.9% 0.013 255.508); /* slate-200 */
+
+    @variant dark {
+      --color-accent: oklch(92.4% 0.12 95.746); /* amber-200 */
+      --color-accent-muted: oklch(0.2916 0.0163 259.79); /* amber-200/10 */
+      --color-surface-subtle: oklch(20.8% 0.042 265.755); /* slate-900 */
+      --color-surface-muted: oklch(37.2% 0.044 257.287); /* slate-700 */
+      --color-surface: oklch(20.8% 0.042 265.755); /* slate-900 */
+      --color-neutral: oklch(55.4% 0.046 257.417); /* slate-500 */
+      --color-foreground: oklch(92.9% 0.013 255.508); /* slate-200 */
+      --color-foreground-inverse: oklch(37.2% 0.044 257.287); /* slate-700 */
+    }
   }
 }
-
 ```
-
-These follow the [Tailwind guidelines of defining colors](https://tailwindcss.com/docs/customizing-colors#using-css-variables) using only the color channels in order to
-be able to use the opacity modifier syntax.
-
-### Overriding CSS Variables
-
-To override these variables, you can define them in your own CSS file by copying the variables above into your own CSS file and changing the values to match your desired theme.
 
 ### Dark mode
 

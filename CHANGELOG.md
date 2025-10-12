@@ -1,3 +1,9 @@
+# 0.38.0 - 2025-10-12
+
+- Migrate to Tailwind v4
+- Change theme color names
+- Fix `useFocusTrap` in combination with `SortableList`
+
 # 0.37.2 - 2025-10-10
 
 - Refactor `useFocusTrap` and use it in `Drawer` and `SortableList`
