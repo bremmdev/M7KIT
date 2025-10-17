@@ -1,3 +1,7 @@
+# 0.38.1 - 2025-10-17
+
+- Use Trusted Publisher instead of npm tokens
+
 # 0.38.0 - 2025-10-12
 
 - Migrate to Tailwind v4 and Storybook 9
