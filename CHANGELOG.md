@@ -1,3 +1,7 @@
+# 0.39.2 - 2026-01-19
+
+- Fix default export for css declaration
+
 # 0.39.1 - 2026-01-19
 
 - Add type declaration file for css
