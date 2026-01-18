@@ -11,7 +11,7 @@ export const SkipLink = ({
     <a
       href={`#${targetId}`}
       className={cn(
-        "w-fit absolute visually-hidden top-4 left-4 z-50 bg-accent-muted px-4 py-2 text-foreground font-medium focus-ring",
+        "w-fit absolute visually-hidden top-4 left-4 z-50 bg-surface-muted px-4 py-2 text-foreground font-medium focus-ring",
         className
       )}
       {...rest}

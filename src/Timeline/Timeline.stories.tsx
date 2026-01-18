@@ -73,15 +73,15 @@ export const CustomBullet: Story = {
   render: (props) => (
     <Timeline {...props}>
       <Timeline.Item
-        lineClassName="bg-purple-300"
-        bullet={<CircleDashed color="#d8b4fe" size={24} />}
+        lineClassName="bg-accent"
+        bullet={<CircleDashed color="var(--color-accent)" size={24} />}
       >
         <h2 className="text-xl font-bold -my-[2px]">Heading 1</h2>
         <p>Content 1</p>
       </Timeline.Item>
       <Timeline.Item
-        bullet={<CircleDashed color="#d8b4fe" size={24} />}
-        lineClassName="bg-purple-300"
+        bullet={<CircleDashed color="var(--color-accent)" size={24} />}
+        lineClassName="bg-accent"
       >
         <h2 className="text-xl font-bold -my-[2px]">Heading 2</h2>
         <img
@@ -93,8 +93,8 @@ export const CustomBullet: Story = {
         />
       </Timeline.Item>
       <Timeline.Item
-        bullet={<CircleDashed color="#d8b4fe" size={24} />}
-        lineClassName="bg-purple-300"
+        bullet={<CircleDashed color="var(--color-accent)" size={24} />}
+        lineClassName="bg-accent"
       >
         <h2 className="text-xl font-bold -my-[2px]">Heading 3</h2>
         <p>Content 3</p>

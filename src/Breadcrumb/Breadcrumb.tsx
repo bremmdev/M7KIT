@@ -102,7 +102,7 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
         aria-labelledby={`${menuId}-trigger`}
         onKeyDown={handleMenuKeydown}
         className={cn(
-          "w-max absolute top-8 bg-surface-subtle left-0 border border-neutral rounded-md flex flex-col [&_a]:no-underline [&_a]:py-2 [&_a]:px-4 [&_a:hover]:bg-accent-muted [&_a:hover]:rounded-md [&_a]:focus-ring-inner [&_a]:block [&_a:focus]:relative",
+          "w-max absolute top-8 bg-surface-subtle left-0 border border-neutral rounded-md flex flex-col [&_a]:no-underline [&_a]:py-2 [&_a]:px-4 [&_a:hover]:rounded-md [&_a]:focus-ring-inner [&_a]:block [&_a:focus]:relative",
           {
             hidden: !show,
           }

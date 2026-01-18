@@ -40,7 +40,7 @@ export const SortableList = ({
   className,
   handlePosition = "start",
   items,
-  onReorder = () => {},
+  onReorder = () => { },
   title = "",
   titleElement = "h2",
   ...rest
@@ -143,9 +143,8 @@ export const SortableList = ({
       draggedItemIndex !== null &&
       dragStartIndex !== draggedItemIndex
     ) {
-      const message = `Moved ${
-        sortedItems[draggedItemIndex].label
-      } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
+      const message = `Moved ${sortedItems[draggedItemIndex].label
+        } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
       setLastAnnouncement(message);
     }
 
@@ -178,9 +177,8 @@ export const SortableList = ({
     onReorder?.(updated.map((item) => item.value));
 
     // Announce change (for screen readers)
-    const message = `Moved ${movedItem.label} to position ${newIndex + 1} of ${
-      sortedItems.length
-    }`;
+    const message = `Moved ${movedItem.label} to position ${newIndex + 1} of ${sortedItems.length
+      }`;
     setLastAnnouncement(message);
 
     // We'll ensure that DOM and refs are stable before moving focus
@@ -247,9 +245,8 @@ export const SortableList = ({
       draggedItemIndex !== null &&
       dragStartIndex !== draggedItemIndex
     ) {
-      const message = `Moved ${
-        sortedItems[draggedItemIndex].label
-      } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
+      const message = `Moved ${sortedItems[draggedItemIndex].label
+        } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
       setLastAnnouncement(message);
       onReorder && onReorder(sortedItems.map((item) => item.value));
     }
@@ -265,8 +262,8 @@ export const SortableList = ({
   const editModeButtonSRtext = title
     ? `for ${title}`
     : ariaLabel
-    ? `for ${ariaLabel}`
-    : "";
+      ? `for ${ariaLabel}`
+      : "";
 
   return (
     <div
@@ -317,7 +314,7 @@ export const SortableList = ({
             className={cn(
               "flex items-center gap-4 px-4 py-2 bg-surface-subtle border border-neutral rounded-md cursor-grab",
               {
-                "border-accent bg-accent-muted":
+                "border-accent bg-surface-muted":
                   index === draggedItemIndex && draggedItemIndex !== null,
               }
             )}

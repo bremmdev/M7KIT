@@ -51,29 +51,27 @@ Colors are defined using theme variables in Tailwind v4. These variables are aut
 ```
 @import "tailwindcss";
 
-@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@theme {
+  --color-accent: oklch(59.2% 0.249 0.584); /* pink-600 */
+  --color-surface: oklch(1 0 0); /* white */
+  --color-surface-subtle: oklch(98.4% 0.003 247.858); /* slate-50 */
+  --color-surface-muted: oklch(96.8% 0.007 247.896); /* slate-100 */
+  --color-neutral: oklch(70.4% 0.04 256.788); /* slate-400 */
+  --color-foreground: oklch(20.8% 0.042 265.755); /* slate-900 */
+  --color-foreground-inverse: oklch(1 0 0); /* white */
+  --color-background: oklch(1 0 0); /* white */
+}
 
 @layer theme {
-  :root {
-    --color-accent: oklch(54.6% 0.245 262.881); /* blue-600 */
-    --color-accent-muted: oklch(0.9517 0.0199 267.29); /* blue-600/10 */
-    --color-surface-subtle: oklch(98.4% 0.003 247.858); /* slate-50 */
-    --color-surface-muted: oklch(92.9% 0.013 255.508); /* slate-200 */
-    --color-surface: oklch(1 0 0); /* white */
-    --color-neutral: oklch(70.4% 0.04 256.788); /* slate-400 */
-    --color-foreground: oklch(37.2% 0.044 257.287); /* slate-700 */
-    --color-foreground-inverse: oklch(92.9% 0.013 255.508); /* slate-200 */
-
-    @variant dark {
-      --color-accent: oklch(92.4% 0.12 95.746); /* amber-200 */
-      --color-accent-muted: oklch(0.2916 0.0163 259.79); /* amber-200/10 */
-      --color-surface-subtle: oklch(20.8% 0.042 265.755); /* slate-900 */
-      --color-surface-muted: oklch(37.2% 0.044 257.287); /* slate-700 */
-      --color-surface: oklch(20.8% 0.042 265.755); /* slate-900 */
-      --color-neutral: oklch(55.4% 0.046 257.417); /* slate-500 */
-      --color-foreground: oklch(92.9% 0.013 255.508); /* slate-200 */
-      --color-foreground-inverse: oklch(37.2% 0.044 257.287); /* slate-700 */
-    }
+  [data-theme="dark"] {
+    --color-accent: oklch(79.2% 0.249 0.584); /* pink-600 */
+    --color-surface: oklch(20.8% 0.042 265.755); /* slate-900 */
+    --color-surface-subtle: oklch(27.9% 0.041 260.031); /* slate-800 */
+    --color-surface-muted: oklch(37.2% 0.044 257.287); /* slate-700 */
+    --color-neutral: oklch(55.4% 0.046 257.417); /* slate-500 */
+    --color-foreground: oklch(92.9% 0.013 255.508); /* slate-200 */
+    --color-foreground-inverse: oklch(12.9% 0.042 264.695); /* slate-950 */
+    --color-background: oklch(13% 0.028 261.692); /* gray-950 */
   }
 }
 ```

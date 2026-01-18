@@ -56,7 +56,7 @@ export const Default: Story = {
     <div className="flex justify-center min-h-screen items-center">
       <Tooltip {...props}>
         <TooltipTrigger className="text-blue-500">
-          <Info size={24} aria-label="additional information" />
+          <Info size={24} aria-label="additional information" className="stroke-accent" />
         </TooltipTrigger>
         <TooltipContent>
           <div>
