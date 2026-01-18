@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/bremmdev/M7KIT"
   },
-  "version": "0.39.0",
+  "version": "0.39.1",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
@@ -17,7 +17,10 @@
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js"
     },
-    "./css": "./dist/m7kit.css"
+    "./css": {
+      "types": "./dist/src/css.d.ts",
+      "default": "./dist/m7kit.css"
+    }
   },
   "files": [
     "dist"

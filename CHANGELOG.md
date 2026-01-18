@@ -1,3 +1,7 @@
+# 0.39.1 - 2026-01-19
+
+- Add type declaration file for css
+
 # 0.39.0 - 2026-01-18
 
 - Update to Storybook 10
