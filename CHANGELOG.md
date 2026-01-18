@@ -1,3 +1,8 @@
+# 0.39.0 - 2026-01-18
+
+- Update to Storybook 10
+- Change color variables
+
 # 0.38.1 - 2025-10-17
 
 - Use Trusted Publisher instead of npm tokens
