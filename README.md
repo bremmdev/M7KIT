@@ -51,7 +51,7 @@ Colors are defined using theme variables in Tailwind v4. These variables are aut
 ```
 @import "tailwindcss";
 
-@theme {
+:root {
   --color-accent: oklch(59.2% 0.249 0.584); /* pink-600 */
   --color-surface: oklch(1 0 0); /* white */
   --color-surface-subtle: oklch(98.4% 0.003 247.858); /* slate-50 */
@@ -62,17 +62,15 @@ Colors are defined using theme variables in Tailwind v4. These variables are aut
   --color-background: oklch(1 0 0); /* white */
 }
 
-@layer theme {
-  [data-theme="dark"] {
-    --color-accent: oklch(79.2% 0.249 0.584); /* pink-600 */
-    --color-surface: oklch(20.8% 0.042 265.755); /* slate-900 */
-    --color-surface-subtle: oklch(27.9% 0.041 260.031); /* slate-800 */
-    --color-surface-muted: oklch(37.2% 0.044 257.287); /* slate-700 */
-    --color-neutral: oklch(55.4% 0.046 257.417); /* slate-500 */
-    --color-foreground: oklch(92.9% 0.013 255.508); /* slate-200 */
-    --color-foreground-inverse: oklch(12.9% 0.042 264.695); /* slate-950 */
-    --color-background: oklch(13% 0.028 261.692); /* gray-950 */
-  }
+[data-theme="dark"] {
+  --color-accent: oklch(79.2% 0.249 0.584); /* pink-600 */
+  --color-surface: oklch(20.8% 0.042 265.755); /* slate-900 */
+  --color-surface-subtle: oklch(27.9% 0.041 260.031); /* slate-800 */
+  --color-surface-muted: oklch(37.2% 0.044 257.287); /* slate-700 */
+  --color-neutral: oklch(55.4% 0.046 257.417); /* slate-500 */
+  --color-foreground: oklch(92.9% 0.013 255.508); /* slate-200 */
+  --color-foreground-inverse: oklch(12.9% 0.042 264.695); /* slate-950 */
+  --color-background: oklch(13% 0.028 261.692); /* gray-950 */
 }
 ```
 
