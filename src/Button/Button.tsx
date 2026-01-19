@@ -1,5 +1,5 @@
 import React from "react";
-import { ButtonProps, AllowedElements } from "./Button.types";
+import type { ButtonProps, AllowedElements } from "./Button.types";
 import { cn } from "../utils/cn";
 import { Loader, LoaderCircle, MoveRight } from "lucide-react";
 import { getButtonVariantClasses } from "./Button.utils";

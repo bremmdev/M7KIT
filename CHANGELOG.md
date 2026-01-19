@@ -1,3 +1,7 @@
+# 0.40.1 - 2026-01-19
+
+- Fix button imports
+
 # 0.40.0 - 2026-01-19
 
 - Add `Button` and use `CTAButton` as variant for this
