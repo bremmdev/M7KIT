@@ -7,14 +7,13 @@ export {
   BreadcrumbItem,
   BreadcrumbMenu,
 } from "./src/Breadcrumb";
-export { CTAButton } from "./src/CTAButton";
+export { Button } from "./src/Button";
 export { DiamondGrid } from "./src/DiamondGrid";
 export { Drawer, DrawerRoot, DrawerContent, DrawerTrigger } from "./src/Drawer";
 export { FolderStructure } from "./src/FolderStructure";
 export { GalleryStack } from "./src/GalleryStack";
 export { ImageShowcase } from "./src/ImageShowcase";
 export { LineClamp, LineClampRoot, LineClampTrigger } from "./src/LineClamp";
-export { LoadingButton } from "./src/LoadingButton";
 export { Marquee } from "./src/Marquee";
 export { Masonry } from "./src/Masonry";
 export { OTPInput } from "./src/OTPInput";

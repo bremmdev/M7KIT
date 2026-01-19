@@ -21,6 +21,8 @@
 @theme {
   --color-accent: oklch(59.2% 0.249 0.584);
   /* pink-600 */
+  --color-button-accent: oklch(59.2% 0.249 0.584);
+  /* pink-600 */
   --color-surface: oklch(1 0 0);
   /* white */
   --color-surface-subtle: oklch(98.4% 0.003 247.858);
@@ -183,6 +185,8 @@
   [data-theme="dark"] {
     --color-accent: oklch(79.2% 0.249 0.584);
     /* pink-600 */
+    --color-button-accent: oklch(59.2% 0.249 0.584);
+    /* pink-600 */
     --color-surface: oklch(20.8% 0.042 265.755);
     /* slate-900 */
     --color-surface-subtle: oklch(27.9% 0.041 260.031);
@@ -243,10 +247,6 @@
       rgba(255, 255, 255, 0) 43%,
       rgba(255, 255, 255, 0.4) 50%,
       rgba(255, 255, 255, 0) 57%);
-}
-
-button {
-  cursor: pointer;
 }
 
 .visually-hidden:not(:focus):not(:active) {
