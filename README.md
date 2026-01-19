@@ -48,11 +48,10 @@ ImageShowcase is designed to highlight a single image in a row of images when ho
 
 Colors are defined using theme variables in Tailwind v4. These variables are automatically available as CSS variables and utility classes. You can override these variables in your own global CSS file to match your application's theme. Start by adding the following code to your global CSS file and import this file **after** you import "m7kit/css" and change the colors you want to change.
 
-accent-color and button-accent color are the same color, but accent-color is 20% lighter in dark mode to ensure proper contrast. When using custom color, keep this
-distinction in mind.
-
 ```
 @import "tailwindcss";
+
+@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 :root {
   --color-accent: oklch(59.2% 0.249 0.584); /* pink-600 */
@@ -78,6 +77,11 @@ distinction in mind.
   --color-background: oklch(13% 0.028 261.692); /* gray-950 */
 }
 ```
+
+accent-color and button-accent color are the same color, but accent-color is 20% lighter in dark mode to ensure proper contrast. When using custom color, keep this
+distinction in mind.
+
+Instead of changing the colors, individual components can also be overridden using the `className` prop.
 
 ### Dark mode
 

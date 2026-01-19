@@ -10,6 +10,10 @@ import { Button } from "./Button";
  * <Button as="button" variant="primary">Get started for free</Button>
  * <Button as="a" href="https://www.google.com" variant="primary">Get started for free</Button>
  * <Button as={Link} href="https://www.google.com" variant="primary">Get started for free</Button>
+ * 
+ * ## Custom Class Name
+ *
+ * <Button as="button" className="bg-black hover:bg-slate-900 dark:bg-white dark:hover:bg-slate-100 dark:text-black" variant="primary">Get started for free</Button>
  * ```
  */
 
@@ -124,4 +128,17 @@ export const CTALoading: Story = {
             </div>
         );
     },
+};
+
+export const customClassName: Story = {
+    args: {
+        as: "button",
+    },
+    render: (props) => {
+        return (
+            <div className="space-y-4 p-8">
+                <Button {...props} className="bg-black hover:bg-slate-900 dark:bg-white dark:hover:bg-slate-100 dark:text-black" variant="primary">Get started for free</Button>
+            </div>
+        );
+    }
 };
