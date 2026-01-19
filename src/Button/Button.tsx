@@ -9,7 +9,7 @@ export const Button = <E extends AllowedElements | React.ComponentType<any> = "b
 ) => {
     const { as = "button", children, className, isLoading = false, loadingIcon = "loader-circle", variant = "primary", ...rest } = props;
 
-    const Component = (as || "button") as React.ElementType;
+    const Component = as as React.ElementType;
     const LoaderIcon = loadingIcon === "loader-circle" ? LoaderCircle : Loader;
 
     return (

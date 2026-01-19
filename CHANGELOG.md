@@ -1,3 +1,8 @@
+# 0.40.0 - 2026-01-19
+
+- Add `Button` and use `CTAButton` as variant for this
+- Remove `LoadingButton` and separate `CTAButton` component
+
 # 0.39.2 - 2026-01-19
 
 - Fix default export for css declaration

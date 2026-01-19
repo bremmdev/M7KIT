@@ -2,12 +2,14 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { Button } from "./Button";
 /**
- * Button component that can be used as a button or a link.
+ * Button component that can be used as a button or a link. It also support custom Link components like Next.js Link or TanStack Router Link.
  *
  * ## Usage
  *
  * ```
- * <Button as="button">Get started for free</Button>
+ * <Button as="button" variant="primary">Get started for free</Button>
+ * <Button as="a" href="https://www.google.com" variant="primary">Get started for free</Button>
+ * <Button as={Link} href="https://www.google.com" variant="primary">Get started for free</Button>
  * ```
  */
 
