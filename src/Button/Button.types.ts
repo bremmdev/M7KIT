@@ -1,4 +1,4 @@
-type AllowedElements = "button" | "a";
+export type AllowedElements = "button" | "a";
 export type ButtonVariant = "primary" | "secondary" | "cta";
 
 // For custom components (Next Link, TanStack Router Link, etc.)

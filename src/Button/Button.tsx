@@ -1,10 +1,12 @@
 import React from "react";
-import { ButtonProps } from "./Button.types";
+import { ButtonProps, AllowedElements } from "./Button.types";
 import { cn } from "../utils/cn";
 import { Loader, LoaderCircle, MoveRight } from "lucide-react";
 import { getButtonVariantClasses } from "./Button.utils";
 
-export const Button = (props: ButtonProps) => {
+export const Button = <E extends AllowedElements | React.ComponentType<any> = "button">(
+    props: ButtonProps<E>
+) => {
     const { as = "button", children, className, isLoading = false, loadingIcon = "loader-circle", variant = "primary", ...rest } = props;
 
     const Component = (as || "button") as React.ElementType;

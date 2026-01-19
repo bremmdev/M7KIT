@@ -63,6 +63,21 @@ export const CTA: Story = {
     },
 };
 
+export const LinkButton: Story = {
+    args: {
+        as: "a",
+        href: "https://www.google.com",
+        variant: "primary"
+    },
+    render: (props) => {
+        return (
+            <div className="space-y-4 p-8">
+                <Button {...props}>Get started for free</Button>
+            </div>
+        );
+    },
+};
+
 export const Loading: Story = {
     args: {
         as: "button",
