@@ -1,6 +1,6 @@
-# 0.40.3 - 2026-01-19
+# 0.41.0 - 2026-01-20
 
-- Add `Card`
+- Add `Card`, `CardHeader`, `CardContent`
 - Fixed dark mode opacity `Button`
 
 # 0.40.2 - 2026-01-19
