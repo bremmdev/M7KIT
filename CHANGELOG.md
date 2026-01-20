@@ -1,3 +1,8 @@
+# 0.40.3 - 2026-01-19
+
+- Add `Card`
+- Fixed dark mode opacity `Button`
+
 # 0.40.2 - 2026-01-19
 
 - Explicitly define dark: classes for `Button`

@@ -15,7 +15,7 @@ export const Button = <E extends AllowedElements | React.ComponentType<any> = "b
     return (
         <Component
             className={cn(
-                "group overflow-hidden relative flex gap-2 cursor-pointer justify-center items-center px-4 py-2 rounded-md font-bold w-fit transition-opacity disabled:opacity-50 dark:disabled:opacity-0 disabled:cursor-not-allowed",
+                "group overflow-hidden relative flex gap-2 cursor-pointer justify-center items-center px-4 py-2 rounded-md font-bold w-fit transition-opacity disabled:opacity-50 dark:disabled:opacity-70 disabled:cursor-not-allowed",
                 getButtonVariantClasses(variant),
                 className
             )}
@@ -24,7 +24,7 @@ export const Button = <E extends AllowedElements | React.ComponentType<any> = "b
         >
             {children}
             {isLoading && (
-                <span className="absolute inset-0 bg-inherit rounded-md flex justify-center items-center">
+                <span className="absolute inset-0 bg-inherit dark:bg-inherit rounded-md flex justify-center items-center">
                     <LoaderIcon className="animate-spin size-6 text-foreground-inverse dark:text-foreground" />
                 </span>
             )}
