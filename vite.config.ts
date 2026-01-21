@@ -2,8 +2,12 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 import path from "path";
+import { fileURLToPath } from "url";
 import tailwindcss from "@tailwindcss/vite";
 import { copyFileSync } from "fs";
+
+//  __dirname isn't available in ES module environments, so we need to use fileURLToPath to get the directory name
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://vitejs.dev/config/
 export default defineConfig({

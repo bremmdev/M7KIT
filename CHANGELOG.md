@@ -1,3 +1,7 @@
+# 0.43.1 - 2026-01-21
+
+- Fix failing build due to dirname problem
+
 # 0.43.0 - 2026-01-21
 
 - Rename `CardHeader` to `CardTitle`
