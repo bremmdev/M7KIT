@@ -1,3 +1,7 @@
+# 0.42.0 - 2026-01-21
+
+- Separately export theme.css so consumers can import theme
+
 # 0.41.0 - 2026-01-20
 
 - Add `Card`, `CardHeader`, `CardContent`

@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 import path from "path";
 import tailwindcss from "@tailwindcss/vite";
+import { copyFileSync } from "fs";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -33,5 +34,19 @@ export default defineConfig({
   //react() enables React support.
   //dts() generates TypeScript declaration files (*.d.ts)
   //during the build.
-  plugins: [react(), dts({ copyDtsFiles: true }), tailwindcss()],
+  plugins: [
+    react(),
+    dts({ copyDtsFiles: true }),
+    tailwindcss(),
+    {
+      name: "copy-theme-css",
+      closeBundle() {
+        // Copy theme.css to dist for consumers to import
+        copyFileSync(
+          path.resolve(__dirname, "src/theme.css"),
+          path.resolve(__dirname, "dist/theme.css")
+        );
+      },
+    },
+  ],
 });
