@@ -1,3 +1,7 @@
+# 0.43.0 - 2026-01-21
+
+- Rename `CardHeader` to `CardTitle`
+
 # 0.42.0 - 2026-01-21
 
 - Separately export theme.css so consumers can import theme

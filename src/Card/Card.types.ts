@@ -24,5 +24,5 @@ export type CardProps<T extends React.ElementType = "div"> = BaseCardProps<T> & 
      */
     imageClassName?: string;
 };
-export type CardHeaderProps<T extends React.ElementType = "h3"> = BaseCardProps<T>;
+export type CardTitleProps<T extends React.ElementType = "h3"> = BaseCardProps<T>;
 export type CardContentProps<T extends React.ElementType = "div"> = BaseCardProps<T>;

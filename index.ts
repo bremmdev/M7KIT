@@ -8,7 +8,7 @@ export {
   BreadcrumbMenu,
 } from "./src/Breadcrumb";
 export { Button } from "./src/Button";
-export { Card, CardHeader, CardContent } from "./src/Card";
+export { Card, CardContent, CardTitle } from "./src/Card";
 export { DiamondGrid } from "./src/DiamondGrid";
 export { Drawer, DrawerRoot, DrawerContent, DrawerTrigger } from "./src/Drawer";
 export { FolderStructure } from "./src/FolderStructure";

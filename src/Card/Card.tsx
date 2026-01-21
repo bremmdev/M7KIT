@@ -1,4 +1,4 @@
-import { CardProps, CardHeaderProps, CardContentProps } from "./Card.types";
+import { CardProps, CardContentProps, CardTitleProps } from "./Card.types";
 import { cn } from "../utils/cn";
 
 export const Card = <T extends React.ElementType = "div">(props: CardProps<T>) => {
@@ -22,7 +22,7 @@ export const Card = <T extends React.ElementType = "div">(props: CardProps<T>) =
     );
 };
 
-export const CardHeader = <T extends React.ElementType = "h3">(props: CardHeaderProps<T>) => {
+export const CardTitle = <T extends React.ElementType = "h3">(props: CardTitleProps<T>) => {
     const { as = "h3", children, className, ...rest } = props;
     const Component = as as React.ElementType;
     return (
