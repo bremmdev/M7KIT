@@ -4,7 +4,7 @@ import dts from "vite-plugin-dts";
 import path from "path";
 import { fileURLToPath } from "url";
 import tailwindcss from "@tailwindcss/vite";
-import { copyFileSync } from "fs";
+import { copyFileSync, existsSync } from "fs";
 
 //  __dirname isn't available in ES module environments, so we need to use fileURLToPath to get the directory name
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -45,11 +45,12 @@ export default defineConfig({
     {
       name: "copy-theme-css",
       closeBundle() {
-        // Copy theme.css to dist for consumers to import
-        copyFileSync(
-          path.resolve(__dirname, "src/theme.css"),
-          path.resolve(__dirname, "dist/theme.css")
-        );
+        // Copy theme.css to dist for consumers to import but only if the file exists (it does not exist on the Vercel Storybook deployment)
+        const srcPath = path.resolve(__dirname, "src/theme.css");
+        const destPath = path.resolve(__dirname, "dist/theme.css");
+        if (existsSync(srcPath)) {
+          copyFileSync(srcPath, destPath);
+        }
       },
     },
   ],
