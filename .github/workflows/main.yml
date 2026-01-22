@@ -19,9 +19,33 @@ jobs:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
 
+      - name: Check if version is already published
+        id: version-check
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "Package version: $PACKAGE_VERSION"
+          
+          PUBLISHED_VERSION=$(npm view m7kit version 2>/dev/null || echo "")
+          echo "Published version: $PUBLISHED_VERSION"
+          
+          if [ "$PACKAGE_VERSION" = "$PUBLISHED_VERSION" ]; then
+            echo "Version $PACKAGE_VERSION is already published, skipping publish"
+            echo "should_publish=false" >> $GITHUB_OUTPUT
+          else
+            echo "Version $PACKAGE_VERSION is not published yet"
+            echo "should_publish=true" >> $GITHUB_OUTPUT
+          fi
+
         # Ensure npm 11.5.1 or later is installed
       - name: Update npm
+        if: steps.version-check.outputs.should_publish == 'true'
         run: npm install -g npm@latest
-      - run: npm ci
-      - run: npm run build
-      - run: npm publish
+      - name: Install dependencies
+        if: steps.version-check.outputs.should_publish == 'true'
+        run: npm ci
+      - name: Build
+        if: steps.version-check.outputs.should_publish == 'true'
+        run: npm run build
+      - name: Publish to npm
+        if: steps.version-check.outputs.should_publish == 'true'
+        run: npm publish
