@@ -19,3 +19,17 @@ export function getBridgeClasses(placement: Placement) {
         ? "before:absolute before:left-0 before:right-0 before:top-full before:h-3 before:bg-transparent"
         : "before:absolute before:left-0 before:right-0 before:bottom-full before:h-3 before:bg-transparent";
 }
+
+export function getArrowClasses(placement: Placement) {
+    // Arrow is a 12px rotated square (w-3 h-3)
+    // Position so half overlaps the tooltip edge (-mt-1.5 or -mb-1.5 = 6px)
+    // Horizontal: right-3 or left-3 with adjustment for the arrow width
+    return {
+        "top left": "bottom-0 right-3 -mb-1.5",
+        "top center": "bottom-0 left-1/2 -translate-x-1/2 -mb-1.5",
+        "top right": "bottom-0 left-3 -mb-1.5",
+        "bottom left": "top-0 right-3 -mt-1.5",
+        "bottom center": "top-0 left-1/2 -translate-x-1/2 -mt-1.5",
+        "bottom right": "top-0 left-3 -mt-1.5",
+    }[placement];
+}

@@ -1,7 +1,7 @@
-import { ToolTipProps, TooltipContentProps, TooltipTriggerProps } from "./TooltipV2.types";
+import { ToolTipProps, TooltipContentProps, TooltipTriggerProps, Placement } from "./TooltipV2.types";
 import { useToolTip, ToolTipProvider } from "./TooltipV2Context";
 import { cn } from "../utils/cn";
-import { getPlacementClasses, getBridgeClasses } from "./TooltipV2.utils";
+import { getPlacementClasses, getBridgeClasses, getArrowClasses } from "./TooltipV2.utils";
 
 export const TooltipV2 = ({ children, className, hoverDelay = 500, open, onOpenChange, ...rest }: ToolTipProps) => {
     return (
@@ -10,6 +10,22 @@ export const TooltipV2 = ({ children, className, hoverDelay = 500, open, onOpenC
                 {children}
             </div>
         </ToolTipProvider>
+    );
+};
+
+const ToolTipArrow = ({ placement }: { placement: Placement }) => {
+    const isTop = placement.startsWith("top");
+    return (
+        <span
+            className={cn(
+                "absolute w-3 h-3 rotate-45 bg-surface-subtle",
+                // Border only on the sides pointing toward trigger
+                isTop
+                    ? "border-b border-r border-neutral"
+                    : "border-t border-l border-neutral",
+                getArrowClasses(placement)
+            )}
+        />
     );
 };
 
@@ -96,6 +112,7 @@ export const TooltipContent = ({ children, className, placement = "bottom center
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
+            <ToolTipArrow placement={placement} />
             {children}
         </div>
     );

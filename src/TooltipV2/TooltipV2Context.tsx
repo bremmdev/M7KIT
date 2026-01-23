@@ -4,8 +4,8 @@ type TooltipContextType = {
     open: boolean;
     setOpen: (open: boolean) => void;
     hoverDelay: number;
-    openTimerRef: React.MutableRefObject<ReturnType<typeof setTimeout> | null>;
-    closeTimerRef: React.MutableRefObject<ReturnType<typeof setTimeout> | null>;
+    openTimerRef: React.RefObject<ReturnType<typeof setTimeout> | null>;
+    closeTimerRef: React.RefObject<ReturnType<typeof setTimeout> | null>;
 };
 
 const TooltipContext = React.createContext<TooltipContextType | undefined>(
