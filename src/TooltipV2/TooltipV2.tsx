@@ -1,7 +1,8 @@
+import React from "react";
 import { ToolTipProps, TooltipContentProps, TooltipTriggerProps, Placement } from "./TooltipV2.types";
 import { useToolTip, ToolTipProvider } from "./TooltipV2Context";
 import { cn } from "../utils/cn";
-import { getPlacementClasses, getBridgeClasses, getArrowClasses } from "./TooltipV2.utils";
+import { getPlacementClasses, getBridgeClasses, getArrowClasses, getArrowPositionStyle } from "./TooltipV2.utils";
 
 export const TooltipV2 = ({ children, className, hoverDelay = 500, open, onOpenChange, ...rest }: ToolTipProps) => {
     return (
@@ -14,7 +15,9 @@ export const TooltipV2 = ({ children, className, hoverDelay = 500, open, onOpenC
 };
 
 const ToolTipArrow = ({ placement }: { placement: Placement }) => {
+    const { triggerWidth } = useToolTip();
     const isTop = placement.startsWith("top");
+
     return (
         <span
             className={cn(
@@ -25,13 +28,22 @@ const ToolTipArrow = ({ placement }: { placement: Placement }) => {
                     : "border-t border-l border-neutral",
                 getArrowClasses(placement)
             )}
+            style={getArrowPositionStyle(placement, triggerWidth)}
         />
     );
 };
 
 export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerProps) => {
 
-    const { setOpen, hoverDelay, openTimerRef, closeTimerRef } = useToolTip();
+    const { setOpen, hoverDelay, openTimerRef, closeTimerRef, setTriggerWidth } = useToolTip();
+    const triggerRef = React.useRef<HTMLButtonElement>(null);
+
+    // Measure trigger width on mount and resize
+    React.useEffect(() => {
+        if (triggerRef.current) {
+            setTriggerWidth(triggerRef.current.offsetWidth);
+        }
+    }, [setTriggerWidth]);
 
     function handleMouseEnter() {
         // Cancel any pending close
@@ -75,7 +87,7 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
     }
 
     return (
-        <button type="button" {...rest} className={cn("focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground", className)} onFocus={handleFocus} onBlur={handleBlur} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <button ref={triggerRef} type="button" {...rest} className={cn("focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground", className)} onFocus={handleFocus} onBlur={handleBlur} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             {children}
         </button>
     );

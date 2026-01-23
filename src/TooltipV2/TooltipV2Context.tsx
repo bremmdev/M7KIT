@@ -6,6 +6,8 @@ type TooltipContextType = {
     hoverDelay: number;
     openTimerRef: React.RefObject<ReturnType<typeof setTimeout> | null>;
     closeTimerRef: React.RefObject<ReturnType<typeof setTimeout> | null>;
+    triggerWidth: number;
+    setTriggerWidth: (width: number) => void;
 };
 
 const TooltipContext = React.createContext<TooltipContextType | undefined>(
@@ -36,6 +38,7 @@ export const ToolTipProvider = ({
     hoverDelay,
 }: ToolTipProviderProps) => {
     const [internalOpen, setInternalOpen] = React.useState(false);
+    const [triggerWidth, setTriggerWidth] = React.useState(0);
     const openTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
     const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -51,7 +54,7 @@ export const ToolTipProvider = ({
     };
 
     return (
-        <TooltipContext.Provider value={{ open, setOpen, hoverDelay, openTimerRef, closeTimerRef }}>
+        <TooltipContext.Provider value={{ open, setOpen, hoverDelay, openTimerRef, closeTimerRef, triggerWidth, setTriggerWidth }}>
             {children}
         </TooltipContext.Provider>
     );

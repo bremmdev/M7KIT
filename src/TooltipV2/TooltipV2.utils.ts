@@ -1,4 +1,7 @@
+import React from "react";
 import { Placement } from "./TooltipV2.types";
+
+export const ARROW_SIZE = 12; // w-3 = 12px
 
 export function getPlacementClasses(placement: Placement) {
     return {
@@ -22,14 +25,35 @@ export function getBridgeClasses(placement: Placement) {
 
 export function getArrowClasses(placement: Placement) {
     // Arrow is a 12px rotated square (w-3 h-3)
-    // Position so half overlaps the tooltip edge (-mt-1.5 or -mb-1.5 = 6px)
-    // Horizontal: right-3 or left-3 with adjustment for the arrow width
+    // Vertical position: half overlaps the tooltip edge (-mt-1.5 or -mb-1.5 = 6px)
+    // Horizontal position is handled by getArrowPositionStyle for left/right placements
     return {
-        "top left": "bottom-0 right-3 -mb-1.5",
+        "top left": "bottom-0 -mb-1.5",
         "top center": "bottom-0 left-1/2 -translate-x-1/2 -mb-1.5",
-        "top right": "bottom-0 left-3 -mb-1.5",
-        "bottom left": "top-0 right-3 -mt-1.5",
+        "top right": "bottom-0 -mb-1.5",
+        "bottom left": "top-0 -mt-1.5",
         "bottom center": "top-0 left-1/2 -translate-x-1/2 -mt-1.5",
-        "bottom right": "top-0 left-3 -mt-1.5",
+        "bottom right": "top-0 -mt-1.5",
     }[placement];
+}
+
+export function getArrowPositionStyle(
+    placement: Placement,
+    triggerWidth: number,
+): React.CSSProperties {
+    // Center placements use CSS classes for positioning
+    if (placement.includes("center")) {
+        return {};
+    }
+
+    // Calculate position: center of trigger minus half arrow size
+    const offset = triggerWidth / 2 - ARROW_SIZE / 2;
+
+    // "left" placements: tooltip is right-aligned, arrow positioned from right
+    // "right" placements: tooltip is left-aligned, arrow positioned from left
+    if (placement.includes("left")) {
+        return { right: offset };
+    } else {
+        return { left: offset };
+    }
 }
