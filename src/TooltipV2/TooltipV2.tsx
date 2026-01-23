@@ -1,8 +1,7 @@
-import React from "react";
 import { ToolTipProps, TooltipContentProps, TooltipTriggerProps } from "./TooltipV2.types";
 import { useToolTip, ToolTipProvider } from "./TooltipV2Context";
 import { cn } from "../utils/cn";
-import { getPlacementClasses } from "./TooltipV2.utils";
+import { getPlacementClasses, getBridgeClasses } from "./TooltipV2.utils";
 
 export const TooltipV2 = ({ children, className, hoverDelay = 500, open, onOpenChange, ...rest }: ToolTipProps) => {
     return (
@@ -16,26 +15,47 @@ export const TooltipV2 = ({ children, className, hoverDelay = 500, open, onOpenC
 
 export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerProps) => {
 
-    const { setOpen, hoverDelay } = useToolTip();
-    const timerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+    const { setOpen, hoverDelay, openTimerRef, closeTimerRef } = useToolTip();
 
     function handleMouseEnter() {
-
-        if (timerRef.current) {
-            clearTimeout(timerRef.current);
+        // Cancel any pending close
+        if (closeTimerRef.current) {
+            clearTimeout(closeTimerRef.current);
+            closeTimerRef.current = null;
         }
-        timerRef.current = setTimeout(() => {
+        // Start open timer
+        if (openTimerRef.current) {
+            clearTimeout(openTimerRef.current);
+        }
+        openTimerRef.current = setTimeout(() => {
             setOpen(true);
         }, hoverDelay);
     }
+
     function handleMouseLeave() {
-        setOpen(false);
+        // Cancel open timer if pending
+        if (openTimerRef.current) {
+            clearTimeout(openTimerRef.current);
+            openTimerRef.current = null;
+        }
+        // Start close timer with small delay to allow moving to content
+        closeTimerRef.current = setTimeout(() => {
+            setOpen(false);
+        }, 100);
     }
+
     function handleFocus() {
+        if (closeTimerRef.current) {
+            clearTimeout(closeTimerRef.current);
+            closeTimerRef.current = null;
+        }
         setOpen(true);
     }
+
     function handleBlur() {
-        setOpen(false);
+        closeTimerRef.current = setTimeout(() => {
+            setOpen(false);
+        }, 0);
     }
 
     return (
@@ -46,15 +66,36 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
 };
 
 export const TooltipContent = ({ children, className, placement = "bottom center", ...rest }: TooltipContentProps) => {
-    const { open } = useToolTip();
+    const { open, setOpen, closeTimerRef } = useToolTip();
+
+    function handleMouseEnter() {
+        // Cancel any pending close when entering content
+        if (closeTimerRef.current) {
+            clearTimeout(closeTimerRef.current);
+            closeTimerRef.current = null;
+        }
+    }
+
+    function handleMouseLeave() {
+        // Start close timer when leaving content
+        closeTimerRef.current = setTimeout(() => {
+            setOpen(false);
+        }, 0);
+    }
 
     if (!open) return null;
     return (
-        <div className={cn(
-            "absolute w-64 bg-surface-subtle border border-neutral rounded-md p-2 my-1",
-            getPlacementClasses(placement),
-            className
-        )} {...rest}>
+        <div
+            className={cn(
+                "absolute w-64 bg-surface-subtle border border-neutral rounded-md p-2 my-2",
+                getPlacementClasses(placement),
+                getBridgeClasses(placement),
+                className
+            )}
+            {...rest}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+        >
             {children}
         </div>
     );

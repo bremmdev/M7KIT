@@ -4,6 +4,8 @@ type TooltipContextType = {
     open: boolean;
     setOpen: (open: boolean) => void;
     hoverDelay: number;
+    openTimerRef: React.MutableRefObject<ReturnType<typeof setTimeout> | null>;
+    closeTimerRef: React.MutableRefObject<ReturnType<typeof setTimeout> | null>;
 };
 
 const TooltipContext = React.createContext<TooltipContextType | undefined>(
@@ -34,6 +36,8 @@ export const ToolTipProvider = ({
     hoverDelay,
 }: ToolTipProviderProps) => {
     const [internalOpen, setInternalOpen] = React.useState(false);
+    const openTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+    const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
     // Use controlled value if provided, otherwise use internal state
     const isControlled = controlledOpen !== undefined;
@@ -47,7 +51,7 @@ export const ToolTipProvider = ({
     };
 
     return (
-        <TooltipContext.Provider value={{ open, setOpen, hoverDelay }}>
+        <TooltipContext.Provider value={{ open, setOpen, hoverDelay, openTimerRef, closeTimerRef }}>
             {children}
         </TooltipContext.Provider>
     );
