@@ -9,9 +9,8 @@ import React from "react";
  * The `Tooltip` component is used to provide additional information about an element when it is hovered or focused.
  * It consists of a trigger element and a content element. The trigger element is the element that the user interacts with to show the tooltip, and the content element is the tooltip itself.
  * The tooltip content can be any HTML element or component.
- *
  * 
-* ## Accessibility 
+ * ## Accessibility 
  * - If invoked using focus, focus stays on the triggering element while the tooltip is displayed and the tooltip is dismissed when it no longer has focus (onBlur)
  * - If invoked when a pointing cursor moves over the trigger element, then it remains open as long as the cursor is over the trigger or the tooltip
  * - The tooltip is dismissed when the user presses the Escape key.
@@ -19,17 +18,19 @@ import React from "react";
 
  * ## Usage guidelines for assistive technologies
  * - Provide an accessible name for the trigger. This can be its visible text or an aria-label/aria-labelledby attribute.
-
+ * - The tooltip is meant for short, non-essential information the user does not need to actively interact with and should not contain focusable elements. If the information is essential or requires interaction, consider using a modal or a PopOver instead.
+ *
  * ## Features
  * - Fade in on hover (optional)
  * - Customizable placement (top left, top center, top right, bottom left, bottom center, bottom right)
  * - Customizable hover delay
+ * - Controlled mode
  *
  * ## Placement
  * The tooltip placement can be customized using the `placement` prop. The tooltip will be placed based on the following strategy:
- * 1. Check vertical placement, flip if necessary, only flip if the opposite side fits within the padding
- * 2. Check horizontal placement, move horizontally to the next possible placement (i.e if left does not fit, try center, then right, if right does not fit, try center, then left)
- * 3. If both sides do not fit, leave in center
+ * - Check vertical placement, flip if necessary, only flip if the opposite side fits within the padding
+ * - Check horizontal placement, move horizontally to the next possible placement (i.e if left does not fit, try center, then right, if right does not fit, try center, then left)
+ * - If both sides do not fit, leave in center
  *
  * ## Styling
  * The container (Tooltip), trigger (TooltipTrigger), and content (TooltipContent) can be styled using the `className` prop. This is especially useful for the content as it has a fixed width. Adjust the width as desired using the className prop.
@@ -37,13 +38,12 @@ import React from "react";
  * ## Usage
  * ```
  * <Tooltip
- *   placement="top center"
  *   hoverDelay={300}
  * >
- *   <TooltipTrigger>
- *    <Info size={24} aria-label="additional information" />
+ *   <TooltipTrigger aria-label="additional information">
+ *    <Info size={24} />
  *  </TooltipTrigger>
- *   <TooltipContent>
+ *   <TooltipContent placement="bottom center">
  *    <div>
  *     <h3>Pricing details</h3>
  *     <p>The price listed is exclusive of taxes and shipping costs and may vary based on your location.</p>

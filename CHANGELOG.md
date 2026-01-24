@@ -1,3 +1,15 @@
+# 0.44.0 - 2026-01-24
+
+- Refactor Tooltip with the following improvements:
+    - Add controlled mode so component can be used both controlled and uncontrolled
+    - Use context for easier state management
+    - Add TooltipArrow
+    - Add close on Escape when opening with hover
+    - If the tooltip is invoked when a pointing cursor moves over the trigger element, then it remains open as long as the cursor is over the trigger or the tooltip
+    - Move the `placement` prop to `TooltipContent`
+    - Use a gutter/padding to not place tooltipcontent directly against viewport edges
+    - Refactor position logic to prefer smaller movement (i.e left -> center if possible) instead of flipping to the opposite side
+
 # 0.43.1 - 2026-01-21
 
 - Fix failing build due to dirname problem
