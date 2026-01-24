@@ -10,6 +10,13 @@ import { Placement } from "./TooltipV2.types";
  * It consists of a trigger element and a content element. The trigger element is the element that the user interacts with to show the tooltip, and the content element is the tooltip itself.
  * The tooltip content can be any HTML element or component.
  *
+ * ## Accessibility considerations
+ * - If invoked using focus, focus stays on the triggering element while the tooltip is displayed and the tooltip is dismissed when it no longer has focus (onBlur)
+ * - If invoked when a pointing cursor moves over the trigger element, then it remains open as long as the cursor is over the trigger or the tooltip
+ * - The tooltip is dismissed when the user presses the Escape key.
+ * 
+ * 
+ * 
  * ## Usage guidelines
  * - Provide an accessible name for the trigger. This can be its visible text or an aria-label/aria-labelledby attribute.
 

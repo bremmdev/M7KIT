@@ -35,7 +35,7 @@ const ToolTipArrow = ({ placement }: { placement: Placement }) => {
 
 export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerProps) => {
 
-    const { setOpen, hoverDelay, openTimerRef, closeTimerRef, setTriggerWidth } = useToolTip();
+    const { open, setOpen, hoverDelay, openTimerRef, closeTimerRef, setTriggerWidth } = useToolTip();
     const triggerRef = React.useRef<HTMLButtonElement>(null);
 
     // Measure trigger width on mount and resize
@@ -86,8 +86,15 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
         }, 0);
     }
 
+    function handleKeyDown(e: React.KeyboardEvent<HTMLButtonElement>) {
+        if (e.key === "Escape" && open) {
+            e.preventDefault(); // Signal to parent components that we handled this
+            setOpen(false);
+        }
+    }
+
     return (
-        <button ref={triggerRef} type="button" {...rest} className={cn("focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground", className)} onFocus={handleFocus} onBlur={handleBlur} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <button ref={triggerRef} type="button" {...rest} className={cn("focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground", className)} onFocus={handleFocus} onBlur={handleBlur} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onKeyDown={handleKeyDown}>
             {children}
         </button>
     );
@@ -110,6 +117,22 @@ export const TooltipContent = ({ children, className, placement = "bottom center
             setOpen(false);
         }, 0);
     }
+
+    React.useEffect(() => {
+        function handleKeyDown(e: KeyboardEvent) {
+            if (e.key === "Escape" && open) {
+                e.preventDefault(); // Signal to parent components that we handled this
+                setOpen(false);
+            }
+        }
+
+        // Use capture to run before other components' keydown handlers
+        document.addEventListener("keydown", handleKeyDown, { capture: true });
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown, { capture: true });
+        };
+    }, [setOpen]);
+
 
     if (!open) return null;
     return (
