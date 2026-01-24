@@ -30,3 +30,4 @@ export { Tabs } from "./src/Tabs";
 export { Tierlist } from "./src/Tierlist";
 export { Timeline } from "./src/Timeline";
 export { Tooltip, TooltipContent, TooltipTrigger } from "./src/Tooltip";
+export type { ToolTipProps, TooltipTriggerProps, TooltipContentProps, Placement } from "./src/Tooltip";

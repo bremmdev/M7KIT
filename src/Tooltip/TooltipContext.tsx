@@ -70,7 +70,7 @@ export const ToolTipProvider = ({
         open,
         setOpen,
         hoverDelay,
-        fade: fade || true,
+        fade: fade ?? true,
         openTimerRef,
         closeTimerRef,
         triggerWidth,

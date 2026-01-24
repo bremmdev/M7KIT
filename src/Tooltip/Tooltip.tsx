@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { ToolTipProps, TooltipContentProps, TooltipTriggerProps, Placement } from "./Tooltip.types";
 import { useToolTip, ToolTipProvider } from "./TooltipContext";
@@ -37,12 +39,20 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
 
   const { open, setOpen, hoverDelay, openTimerRef, closeTimerRef, setTriggerWidth, tooltipId, tooltipTriggerRef } = useToolTip();
 
-  // Measure trigger width on mount and resize
+  // Measure trigger width on mount
   React.useEffect(() => {
     if (tooltipTriggerRef.current) {
       setTriggerWidth(tooltipTriggerRef.current.offsetWidth);
     }
   }, [setTriggerWidth]);
+
+  // Cleanup timers on unmount
+  React.useEffect(() => {
+    return () => {
+      if (openTimerRef.current) clearTimeout(openTimerRef.current);
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    };
+  }, [openTimerRef, closeTimerRef]);
 
   function handleMouseEnter() {
     // Cancel any pending close
@@ -119,21 +129,22 @@ export const TooltipContent = ({ children, className, placement = "bottom center
     }, 0);
   }
 
+  // Handle Escape key when tooltip is shown via hover (trigger not focused)
   React.useEffect(() => {
+    if (!open) return;
+
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape" && open) {
-        e.preventDefault(); // Signal to parent components that we handled this
+      if (e.key === "Escape") {
+        e.preventDefault();
         setOpen(false);
       }
     }
 
-    // Use capture to run before other components' keydown handlers
-    document.addEventListener("keydown", handleKeyDown, { capture: true });
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.removeEventListener("keydown", handleKeyDown, { capture: true });
+      document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [setOpen]);
-
+  }, [open, setOpen]);
 
   React.useLayoutEffect(() => {
     if (!open) {
