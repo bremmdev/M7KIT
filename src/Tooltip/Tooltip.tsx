@@ -1,167 +1,177 @@
-"use client";
-
 import React from "react";
-import {
-  Placement,
-  TooltipProps,
-  TooltipTriggerProps,
-  TooltipContentProps,
-} from "./Tooltip.types";
+import { ToolTipProps, TooltipContentProps, TooltipTriggerProps, Placement } from "./Tooltip.types";
+import { useToolTip, ToolTipProvider } from "./TooltipContext";
 import { cn } from "../utils/cn";
-import { getPlacementClasses, determinePlacement } from "./Tooltip.utils";
+import { getPlacementClasses, getBridgeClasses, getArrowClasses, getArrowPositionStyle, determinePlacement } from "./Tooltip.utils";
 
-export const TooltipTrigger = ({ children }: TooltipTriggerProps) => (
-  <>{children}</>
-);
+export const Tooltip = ({ children, className, hoverDelay = 500, open, onOpenChange, ...rest }: ToolTipProps) => {
+  return (
+    <ToolTipProvider hoverDelay={hoverDelay} open={open} onOpenChange={onOpenChange}>
+      <div className={cn("relative w-fit text-foreground", className)} {...rest}>
+        {children}
+      </div>
+    </ToolTipProvider>
+  );
+};
 
-export const TooltipContent = ({ children }: TooltipContentProps) => (
-  <>{children}</>
-);
+const ToolTipArrow = ({ placement }: { placement: Placement }) => {
+  const { triggerWidth } = useToolTip();
+  const isTop = placement.startsWith("top");
 
-export const Tooltip = ({
-  children,
-  className,
-  fade = true,
-  hoverDelay = 500,
-  placement = "bottom center",
-  ...rest
-}: TooltipProps) => {
-  const [show, setShow] = React.useState(false);
-  const tooltipButtonRef = React.useRef<HTMLButtonElement>(null);
-  const tooltipContentRef = React.useRef<HTMLDivElement>(null);
-  const timerRef = React.useRef<NodeJS.Timeout | null>(null);
-  const [calculatedPlacement, setCalculatedPlacement] =
-    React.useState<Placement>(placement);
+  return (
+    <span
+      className={cn(
+        "absolute w-3 h-3 rotate-45 bg-surface-subtle",
+        // Border only on the sides pointing toward trigger
+        isTop
+          ? "border-b border-r border-neutral"
+          : "border-t border-l border-neutral",
+        getArrowClasses(placement)
+      )}
+      style={getArrowPositionStyle(placement, triggerWidth)}
+    />
+  );
+};
 
-  const tooltipId = React.useId();
+export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerProps) => {
+
+  const { open, setOpen, hoverDelay, openTimerRef, closeTimerRef, setTriggerWidth, tooltipId, tooltipTriggerRef } = useToolTip();
+
+  // Measure trigger width on mount and resize
+  React.useEffect(() => {
+    if (tooltipTriggerRef.current) {
+      setTriggerWidth(tooltipTriggerRef.current.offsetWidth);
+    }
+  }, [setTriggerWidth]);
 
   function handleMouseEnter() {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
+    // Cancel any pending close
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
     }
-
-    timerRef.current = setTimeout(() => {
-      setShow(true);
+    // Start open timer
+    if (openTimerRef.current) {
+      clearTimeout(openTimerRef.current);
+    }
+    openTimerRef.current = setTimeout(() => {
+      setOpen(true);
     }, hoverDelay);
-
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-      setShow(false);
-    };
   }
 
   function handleMouseLeave() {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
+    // Cancel open timer if pending
+    if (openTimerRef.current) {
+      clearTimeout(openTimerRef.current);
+      openTimerRef.current = null;
     }
-    setShow(false);
+    // Start close timer with small delay to allow moving to content
+    closeTimerRef.current = setTimeout(() => {
+      setOpen(false);
+    }, 100);
   }
 
   function handleFocus() {
-    setShow(true);
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    setOpen(true);
   }
 
   function handleBlur() {
-    setShow(false);
+    closeTimerRef.current = setTimeout(() => {
+      setOpen(false);
+    }, 0);
   }
 
-  function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === "Escape") {
-      setShow(false);
-      tooltipButtonRef.current?.focus();
+  function handleKeyDown(e: React.KeyboardEvent<HTMLButtonElement>) {
+    if (e.key === "Escape" && open) {
+      e.preventDefault(); // Signal to parent components that we handled this
+      setOpen(false);
     }
   }
 
+  return (
+    <button ref={tooltipTriggerRef} type="button" onFocus={handleFocus} onBlur={handleBlur} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onKeyDown={handleKeyDown} aria-describedby={open ? tooltipId : undefined} className={cn("focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground", className)} {...rest}>
+      {children}
+    </button>
+  );
+};
+
+export const TooltipContent = ({ children, className, placement = "bottom center", ...rest }: TooltipContentProps) => {
+  const { fade, open, setOpen, closeTimerRef, tooltipId, tooltipContentRef, tooltipTriggerRef } = useToolTip();
+  const [calculatedPlacement, setCalculatedPlacement] =
+    React.useState<Placement>(placement);
+
+  function handleMouseEnter() {
+    // Cancel any pending close when entering content
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+  }
+
+  function handleMouseLeave() {
+    // Start close timer when leaving content
+    closeTimerRef.current = setTimeout(() => {
+      setOpen(false);
+    }, 0);
+  }
+
+  React.useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape" && open) {
+        e.preventDefault(); // Signal to parent components that we handled this
+        setOpen(false);
+      }
+    }
+
+    // Use capture to run before other components' keydown handlers
+    document.addEventListener("keydown", handleKeyDown, { capture: true });
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown, { capture: true });
+    };
+  }, [setOpen]);
+
+
   React.useLayoutEffect(() => {
-    if (!show) {
+    if (!open) {
       //reset placement when tooltip is hidden, so we can calculate it based on prop again on next show
       setCalculatedPlacement(placement);
       return;
-    }
+    };
+    const tooltipContentRect = tooltipContentRef.current?.getBoundingClientRect();
+    const tooltipTriggerRect = tooltipTriggerRef.current?.getBoundingClientRect();
+    const { innerHeight, innerWidth } = window;
+    if (!tooltipContentRect || !tooltipTriggerRect) return;
+    const newPlacement = determinePlacement(tooltipContentRect, tooltipTriggerRect, placement, innerHeight, innerWidth);
+    setCalculatedPlacement(newPlacement);
+  }, [open, placement]);
 
-    const rect = tooltipContentRef.current?.getBoundingClientRect();
-    const buttonRect = tooltipButtonRef.current?.getBoundingClientRect();
-    if (!rect || !buttonRect) return;
 
-    const { innerWidth, innerHeight } = window;
-
-    const newPlacement = determinePlacement(
-      rect,
-      buttonRect,
-      placement,
-      innerHeight,
-      innerWidth
-    );
-
-    if (newPlacement !== calculatedPlacement) {
-      setCalculatedPlacement(newPlacement as Placement);
-    }
-  }, [show, placement]);
-
-  // Get TooltipTrigger and TooltipContent
-  const triggerContent = React.Children.toArray(children).find(
-    (child) => React.isValidElement(child) && child.type === TooltipTrigger
-  );
-
-  if (!triggerContent) {
-    throw new Error("Warning: Tooltip must contain a TooltipTrigger component");
-  }
-
-  const tooltipContent = React.Children.toArray(children).find(
-    (child) => React.isValidElement(child) && child.type === TooltipContent
-  );
-
-  if (!tooltipContent) {
-    throw new Error("Warning: Tooltip must contain a TooltipContent component");
-  }
-
-  const { className: triggerClassName, ...triggerRestProps } = (
-    triggerContent as React.ReactElement<any>
-  ).props;
-  const { className: contentClassName, ...contentRestProps } = (
-    tooltipContent as React.ReactElement<any>
-  ).props;
-
+  if (!open) return null;
   return (
-    <div className={cn("relative w-fit text-foreground", className)} {...rest}>
-      <button
-        type="button"
-        aria-controls={tooltipId}
-        aria-haspopup="dialog"
-        aria-expanded={show}
-        aria-describedby={show ? tooltipId : undefined}
-        className={cn("focus-ring", triggerClassName)}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        onKeyDown={handleKeyDown}
-        ref={tooltipButtonRef}
-        {...triggerRestProps}
-      >
-        {triggerContent}
-      </button>
-
-      {show ? (
-        <div
-          id={tooltipId}
-          role="tooltip"
-          ref={tooltipContentRef}
-          className={cn(
-            "absolute w-64 bg-surface-subtle border border-neutral rounded-md p-2 my-1",
-            {
-              "animate-fade-in": fade,
-            },
-            getPlacementClasses(calculatedPlacement),
-            contentClassName
-          )}
-          {...contentRestProps}
-        >
-          {tooltipContent}
-        </div>
-      ) : null}
+    <div
+      className={cn(
+        "absolute w-64 bg-surface-subtle border border-neutral rounded-md p-2 my-2",
+        {
+          "animate-fade-in": fade,
+        },
+        getPlacementClasses(calculatedPlacement),
+        getBridgeClasses(calculatedPlacement),
+        className
+      )}
+      role="tooltip"
+      id={tooltipId}
+      ref={tooltipContentRef}
+      {...rest}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <ToolTipArrow placement={calculatedPlacement} />
+      {children}
     </div>
   );
 };
+

@@ -1,20 +1,35 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
 import { Info } from "lucide-react";
+import { Button } from "../Button/Button";
+import { Placement } from "./Tooltip.types";
+import React from "react";
 
 /**
  * The `Tooltip` component is used to provide additional information about an element when it is hovered or focused.
  * It consists of a trigger element and a content element. The trigger element is the element that the user interacts with to show the tooltip, and the content element is the tooltip itself.
  * The tooltip content can be any HTML element or component.
  *
+ * 
+* ## Accessibility 
+ * - If invoked using focus, focus stays on the triggering element while the tooltip is displayed and the tooltip is dismissed when it no longer has focus (onBlur)
+ * - If invoked when a pointing cursor moves over the trigger element, then it remains open as long as the cursor is over the trigger or the tooltip
+ * - The tooltip is dismissed when the user presses the Escape key.
+ * - Role="tooltip" is applied to the tooltip content element. aria-describedby is applied to the trigger element to indicate that the tooltip content is described by the tooltip content element for screen readers.
+
+ * ## Usage guidelines for assistive technologies
+ * - Provide an accessible name for the trigger. This can be its visible text or an aria-label/aria-labelledby attribute.
+
  * ## Features
  * - Fade in on hover (optional)
  * - Customizable placement (top left, top center, top right, bottom left, bottom center, bottom right)
  * - Customizable hover delay
- * - Accessible using ARIA attributes like aria-describedby to read the tooltip content to screen readers and aria-haspopup to indicate that the element has a popup
  *
  * ## Placement
- * The tooltip placement can be customized using the `placement` prop. The tooltip will be placed on the opposite side if it does not fit within the viewport.
+ * The tooltip placement can be customized using the `placement` prop. The tooltip will be placed based on the following strategy:
+ * 1. Check vertical placement, flip if necessary, only flip if the opposite side fits within the padding
+ * 2. Check horizontal placement, move horizontally to the next possible placement (i.e if left does not fit, try center, then right, if right does not fit, try center, then left)
+ * 3. If both sides do not fit, leave in center
  *
  * ## Styling
  * The container (Tooltip), trigger (TooltipTrigger), and content (TooltipContent) can be styled using the `className` prop. This is especially useful for the content as it has a fixed width. Adjust the width as desired using the className prop.
@@ -48,55 +63,179 @@ export default meta;
 type Story = StoryObj<typeof Tooltip>;
 
 export const Default: Story = {
-  args: {
-    hoverDelay: 500,
-    placement: "bottom center",
-  },
   render: (props) => (
     <div className="flex justify-center min-h-screen items-center">
       <Tooltip {...props}>
-        <TooltipTrigger className="text-blue-500">
-          <Info size={24} aria-label="additional information" className="stroke-accent" />
+        <TooltipTrigger aria-label="additional information">
+          <Info size={24} />
         </TooltipTrigger>
-        <TooltipContent>
-          <div>
+        <TooltipContent placement="bottom center">
+          <>
             <h3 className="font-bold mb-2">Pricing details</h3>
             <p>
               The price listed is exclusive of taxes and shipping costs and may
               vary based on your location.
             </p>
-          </div>
+          </>
         </TooltipContent>
       </Tooltip>
     </div>
   ),
 };
 
-export const PlacementOverride: Story = {
+export const Controlled: Story = {
   args: {
-    hoverDelay: 500,
-    placement: "top left",
+    open: true,
   },
-  render: (props) => (
-    <div className="p-4 flex justify-start flex-col min-h-screen items-start">
-      <p>
-        <span className="font-bold">top left</span> does not fit, so it is
-        flipped to <span className="font-bold">bottom right</span>
-      </p>
-      <Tooltip {...props}>
-        <TooltipTrigger className="text-blue-500">
-          <Info size={24} aria-label="additional information" />
+  render: (props) => {
+
+    const [open, setOpen] = React.useState(props.open);
+
+    return (
+      <div className="flex justify-center flex-col min-h-screen items-center gap-4">
+        <Button variant="secondary" onClick={() => setOpen(!open)}>{open ? 'Close' : 'Open'}</Button>
+        <Tooltip {...props} open={open} onOpenChange={setOpen}>
+          <TooltipTrigger aria-label="additional information">
+            <Info size={24} />
+          </TooltipTrigger>
+          <TooltipContent placement="bottom center">
+            <>
+              <h3 className="font-bold mb-2">Pricing details</h3>
+              <p>
+                The price listed is exclusive of taxes and shipping costs and may
+                vary based on your location.
+              </p>
+            </>
+          </TooltipContent>
+        </Tooltip>
+      </div>
+    );
+  },
+};
+
+export const PlacementOptions: Story = {
+  args: {
+  },
+  render: (props) => {
+
+    const TooltipDemo = ({ placement }: { placement: Placement }) => (
+      <Tooltip {...props} open={true}>
+        <TooltipTrigger>
+          <Info size={20} />
         </TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent placement={placement} className="w-48">
           <div>
-            <h3 className="font-bold mb-2">Pricing details</h3>
-            <p>
-              The price listed is exclusive of taxes and shipping costs and may
-              vary based on your location.
-            </p>
+            <h3 className="font-bold mb-1">Tooltip</h3>
+            <p className="text-sm">{placement}</p>
           </div>
         </TooltipContent>
       </Tooltip>
-    </div>
-  ),
+    );
+
+    return (
+      <div className="min-h-screen flex items-center justify-center p-16">
+        <div className="grid grid-cols-3 gap-x-32 gap-y-16">
+          {/* Top row - top placements */}
+          <div className="flex justify-center">
+            <TooltipDemo placement="top left" />
+          </div>
+          <div className="flex justify-center">
+            <TooltipDemo placement="top center" />
+          </div>
+          <div className="flex justify-center">
+            <TooltipDemo placement="top right" />
+          </div>
+
+          {/* Bottom row - bottom placements */}
+          <div className="flex justify-center">
+            <TooltipDemo placement="bottom left" />
+          </div>
+          <div className="flex justify-center">
+            <TooltipDemo placement="bottom center" />
+          </div>
+          <div className="flex justify-center">
+            <TooltipDemo placement="bottom right" />
+          </div>
+        </div>
+      </div>
+    );
+  },
+};
+
+export const PlacementOverrides: Story = {
+  parameters: {
+    layout: 'fullscreen',
+  },
+  render: (props) => {
+    const TooltipDemo = ({ placement, label }: { placement: Placement; label: string }) => (
+      <Tooltip {...props} open={true}>
+        <TooltipTrigger>
+          <div className="bg-accent text-white px-2 py-1 rounded text-xs">
+            {label}
+          </div>
+        </TooltipTrigger>
+        <TooltipContent placement={placement} className="w-48">
+          <div>
+            <p className="text-xs text-gray-400 mb-1">Requested: {placement}</p>
+            <p className="text-sm">This tooltip should reposition if it doesn't fit.</p>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    );
+
+    return (
+      <div className="min-h-screen w-[95%] relative">
+        {/* LEFT EDGE - should trigger left → center → right fallback */}
+        <div className="absolute left-2 top-1/4">
+          <TooltipDemo placement="top left" label="top left" />
+        </div>
+        <div className="absolute left-2 top-1/2">
+          <TooltipDemo placement="bottom left" label="bottom left" />
+        </div>
+
+        {/* RIGHT EDGE - should trigger right → center → left fallback */}
+        <div className="absolute right-2 top-1/4">
+          <TooltipDemo placement="top right" label="top right" />
+        </div>
+        <div className="absolute right-2 top-1/2">
+          <TooltipDemo placement="bottom right" label="bottom right" />
+        </div>
+
+        {/* TOP EDGE - should trigger top → bottom flip */}
+        <div className="absolute left-1/4 top-2">
+          <TooltipDemo placement="top center" label="top center" />
+        </div>
+        <div className="absolute left-1/2 top-2">
+          <TooltipDemo placement="top left" label="top left" />
+        </div>
+
+        {/* BOTTOM EDGE - should trigger bottom → top flip */}
+        <div className="absolute left-1/4 bottom-2">
+          <TooltipDemo placement="bottom center" label="bottom center" />
+        </div>
+        <div className="absolute left-1/2 bottom-2">
+          <TooltipDemo placement="bottom right" label="bottom right" />
+        </div>
+
+        {/* CORNERS - combined fallbacks */}
+        <div className="absolute left-2 top-2">
+          <TooltipDemo placement="top left" label="corner: top left" />
+        </div>
+        <div className="absolute right-2 top-2">
+          <TooltipDemo placement="top right" label="corner: top right" />
+        </div>
+        <div className="absolute left-2 bottom-2">
+          <TooltipDemo placement="bottom left" label="corner: bottom left" />
+        </div>
+        <div className="absolute right-2 bottom-2">
+          <TooltipDemo placement="bottom right" label="corner: bottom right" />
+        </div>
+
+        {/* CENTER - reference (should not need overrides) */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <TooltipDemo placement="top center" label="center (no override)" />
+        </div>
+      </div>
+    );
+  },
 };

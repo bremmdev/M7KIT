@@ -1,3 +1,5 @@
+import * as React from "react";
+
 export type Placement =
   | "top left"
   | "top center"
@@ -6,24 +8,34 @@ export type Placement =
   | "bottom center"
   | "bottom right";
 
-export type TooltipTriggerProps = React.ComponentPropsWithoutRef<"button">;
+export type TooltipTriggerProps = React.ComponentProps<"button">;
 
-export type TooltipContentProps = React.ComponentPropsWithoutRef<"div">;
+export type TooltipContentProps = React.ComponentProps<"div"> & {
+  /**
+  * Placement of the tooltip. Only applicable when the tooltip fits within the viewport,
+  * otherwise it will be placed on the opposite side.
+  * @default "bottom center"
+  */
+  placement?: Placement;
+}
 
-export type TooltipProps = React.ComponentPropsWithoutRef<"div"> & {
+export type ToolTipProps = React.ComponentProps<"div"> & {
+  /**
+  * Fade in on hover
+  * @default true
+  */
+  fade?: boolean;
   /** Time user needs to hover for the tooltip to appear
    * @default 500
    */
   hoverDelay?: number;
   /**
-   * Placement of the tooltip. Only applicable when the tooltip fits within the viewport,
-   * otherwise it will be placed on the opposite side.
-   * @default "bottom center"
-   */
-  placement?: Placement;
+  * Whether the tooltip is currently open
+  * @default undefined
+  */
+  open?: boolean;
   /**
-   * Fade in on hover
-   * @default true
+   * Event handler called when the tooltip is opened or closed.
    */
-  fade?: boolean;
+  onOpenChange?: (open: boolean) => void;
 };
