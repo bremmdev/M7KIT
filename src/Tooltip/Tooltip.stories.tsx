@@ -4,6 +4,7 @@ import { Info } from "lucide-react";
 import { Button } from "../Button/Button";
 import { Placement } from "./Tooltip.types";
 import React from "react";
+import { action } from "storybook/actions";
 
 /**
  * The `Tooltip` component is used to provide additional information about an element when it is hovered or focused.
@@ -24,7 +25,7 @@ import React from "react";
  * - Fade in on hover (optional)
  * - Customizable placement (top left, top center, top right, bottom left, bottom center, bottom right)
  * - Customizable hover delay
- * - Controlled mode
+ * - Controlled mode. The tooltip can be controlled by the parent component by passing the `open` prop. The `onOpenChange` prop can be used to listen to changes in the open state so the parent component can update its own state.
  *
  * ## Placement
  * The tooltip placement can be customized using the `placement` prop. The tooltip will be placed based on the following strategy:
@@ -91,14 +92,19 @@ export const Controlled: Story = {
 
     const [open, setOpen] = React.useState(props.open);
 
+    const handleOpenChange = (open: boolean) => {
+      setOpen(open);
+      action('onOpenChange')(open);
+    };
+
     return (
       <div className="flex justify-center flex-col min-h-screen items-center gap-4">
         <Button variant="secondary" onClick={() => setOpen(!open)}>{open ? 'Close' : 'Open'}</Button>
-        <Tooltip {...props} open={open} onOpenChange={setOpen}>
+        <Tooltip {...props} open={open} onOpenChange={handleOpenChange}>
           <TooltipTrigger aria-label="additional information">
             <Info size={24} />
           </TooltipTrigger>
-          <TooltipContent placement="bottom center">
+          <TooltipContent placement="bottom left">
             <>
               <h3 className="font-bold mb-2">Pricing details</h3>
               <p>

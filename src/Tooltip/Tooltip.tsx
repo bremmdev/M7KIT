@@ -39,7 +39,7 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
 
   const { open, setOpen, hoverDelay, openTimerRef, closeTimerRef, setTriggerWidth, tooltipId, tooltipTriggerRef } = useToolTip();
 
-  // Measure trigger width on mount
+  // Measure trigger width on mount, so we can position the arrow correctly
   React.useEffect(() => {
     if (tooltipTriggerRef.current) {
       setTriggerWidth(tooltipTriggerRef.current.offsetWidth);
@@ -113,6 +113,7 @@ export const TooltipContent = ({ children, className, placement = "bottom center
   const { fade, open, setOpen, closeTimerRef, tooltipId, tooltipContentRef, tooltipTriggerRef } = useToolTip();
   const [calculatedPlacement, setCalculatedPlacement] =
     React.useState<Placement>(placement);
+  const [neverFits, setNeverFits] = React.useState(false);
 
   function handleMouseEnter() {
     // Cancel any pending close when entering content
@@ -156,10 +157,10 @@ export const TooltipContent = ({ children, className, placement = "bottom center
     const tooltipTriggerRect = tooltipTriggerRef.current?.getBoundingClientRect();
     const { innerHeight, innerWidth } = window;
     if (!tooltipContentRect || !tooltipTriggerRect) return;
-    const newPlacement = determinePlacement(tooltipContentRect, tooltipTriggerRect, placement, innerHeight, innerWidth);
+    const { newPlacement, neverFits } = determinePlacement(tooltipContentRect, tooltipTriggerRect, placement, innerHeight, innerWidth);
+    setNeverFits(neverFits);
     setCalculatedPlacement(newPlacement);
   }, [open, placement]);
-
 
   if (!open) return null;
   return (
@@ -168,6 +169,9 @@ export const TooltipContent = ({ children, className, placement = "bottom center
         "absolute w-64 bg-surface-subtle border border-neutral rounded-md p-2 my-2",
         {
           "animate-fade-in": fade,
+        },
+        {
+          "max-w-[calc(100vw-2rem)]": neverFits,
         },
         getPlacementClasses(calculatedPlacement),
         getBridgeClasses(calculatedPlacement),

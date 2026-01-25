@@ -1,3 +1,7 @@
+# 0.44.1 - 2026-01-25
+
+- Place tooltip in the center width contrained width when no placement fits
+
 # 0.44.0 - 2026-01-24
 
 - Refactor Tooltip with the following improvements:

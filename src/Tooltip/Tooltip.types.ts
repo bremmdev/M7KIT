@@ -30,12 +30,13 @@ export type ToolTipProps = React.ComponentProps<"div"> & {
    */
   hoverDelay?: number;
   /**
-  * Whether the tooltip is currently open
+  * Whether the tooltip is currently open in controlled mode
   * @default undefined
   */
   open?: boolean;
   /**
    * Event handler called when the tooltip is opened or closed.
+   * Use this in controlled mode to update the parent component's state.
    */
   onOpenChange?: (open: boolean) => void;
 };

@@ -111,6 +111,9 @@ export function determinePlacement(
 ) {
   const isBottom = placement.includes("bottom");
   const vertical = getVerticalDirection(placement);
+  // Whether the tooltip never fits within the window bounds
+  let neverFits: boolean = false;
+
   let horizontalPosition: HorizontalPosition = placement.includes("left")
     ? "left"
     : placement.includes("right")
@@ -138,14 +141,20 @@ export function determinePlacement(
     };
 
     // Try each fallback position
+    let found = false;
     for (const fallback of fallbackOrder[horizontalPosition]) {
       if (horizontalFits(tooltipWidth, buttonRect, fallback, windowWidth)) {
         finalHorizontal = fallback;
+        found = true;
         break;
       }
     }
-    // If nothing fits, stay at original position (or center as safest default)
+    // If nothing fits, move to center
+    if (!found) {
+      finalHorizontal = "center";
+      neverFits = true;
+    }
   }
 
-  return `${finalVertical} ${finalHorizontal}` as Placement;
+  return { newPlacement: `${finalVertical} ${finalHorizontal}` as Placement, neverFits };
 }
