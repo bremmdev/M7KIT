@@ -149,10 +149,12 @@ export const TooltipContent = ({ children, className, placement = "bottom center
 
   React.useLayoutEffect(() => {
     if (!open) {
-      //reset placement when tooltip is hidden, so we can calculate it based on prop again on next show
+      //reset placement and neverFits when tooltip is hidden, so we can calculate fresh on next show
       setCalculatedPlacement(placement);
+      setNeverFits(false);
       return;
     };
+
     const tooltipContentRect = tooltipContentRef.current?.getBoundingClientRect();
     const tooltipTriggerRect = tooltipTriggerRef.current?.getBoundingClientRect();
     const { innerHeight, innerWidth } = window;

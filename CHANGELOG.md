@@ -1,3 +1,7 @@
+# 0.44.2 - 2026-01-26
+
+- Properly reset `neverfits` variable for `Tooltip` so re-opening leads to correct placements
+
 # 0.44.1 - 2026-01-25
 
 - Place tooltip in the center width contrained width when no placement fits

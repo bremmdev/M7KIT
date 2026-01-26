@@ -85,6 +85,7 @@ export const Default: Story = {
 };
 
 export const Controlled: Story = {
+  tags: ['!autodocs'],
   args: {
     open: true,
   },
@@ -120,6 +121,7 @@ export const Controlled: Story = {
 };
 
 export const PlacementOptions: Story = {
+  tags: ['!autodocs'],
   args: {
   },
   render: (props) => {
@@ -169,6 +171,7 @@ export const PlacementOptions: Story = {
 };
 
 export const PlacementOverrides: Story = {
+  tags: ['!autodocs'],
   parameters: {
     layout: 'fullscreen',
   },
