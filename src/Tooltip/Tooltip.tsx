@@ -114,6 +114,8 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
     if (open) {
       e.preventDefault(); // Prevent focus event from reopening
       setOpen(false);
+      // Blur so the next tap triggers a fresh focus event to reopen
+      tooltipTriggerRef.current?.blur();
     }
   }
 
