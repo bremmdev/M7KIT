@@ -7,6 +7,7 @@ type TooltipContextType = {
     open: boolean;
     setOpen: (open: boolean) => void;
     hoverDelay: number;
+    tapToClose: boolean;
     openTimerRef: React.RefObject<ReturnType<typeof setTimeout> | null>;
     closeTimerRef: React.RefObject<ReturnType<typeof setTimeout> | null>;
     triggerWidth: number;
@@ -36,6 +37,7 @@ type TooltipProviderProps = {
     onOpenChange?: (open: boolean) => void;
     hoverDelay: number;
     fade: boolean;
+    tapToClose: boolean;
 };
 
 export const TooltipProvider = ({
@@ -43,7 +45,8 @@ export const TooltipProvider = ({
     open: controlledOpen,
     onOpenChange,
     hoverDelay,
-    fade
+    fade,
+    tapToClose
 }: TooltipProviderProps) => {
     const [internalOpen, setInternalOpen] = React.useState(false);
     const [triggerWidth, setTriggerWidth] = React.useState(0);
@@ -71,6 +74,7 @@ export const TooltipProvider = ({
         setOpen,
         hoverDelay,
         fade: fade ?? true,
+        tapToClose,
         openTimerRef,
         closeTimerRef,
         triggerWidth,

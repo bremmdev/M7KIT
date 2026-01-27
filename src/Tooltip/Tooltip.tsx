@@ -6,9 +6,9 @@ import { useTooltip, TooltipProvider } from "./TooltipContext";
 import { cn } from "../utils/cn";
 import { getPlacementClasses, getBridgeClasses, getArrowClasses, getArrowPositionStyle, determinePlacement } from "./Tooltip.utils";
 
-export const Tooltip = ({ children, className, fade = true, hoverDelay = 500, open, onOpenChange, ...rest }: TooltipProps) => {
+export const Tooltip = ({ children, className, fade = true, hoverDelay = 500, open, onOpenChange, tapToClose = false, ...rest }: TooltipProps) => {
   return (
-    <TooltipProvider hoverDelay={hoverDelay} open={open} onOpenChange={onOpenChange} fade={fade}>
+    <TooltipProvider hoverDelay={hoverDelay} open={open} onOpenChange={onOpenChange} fade={fade} tapToClose={tapToClose}>
       <div className={cn("relative w-fit text-foreground", className)} {...rest}>
         {children}
       </div>
@@ -38,7 +38,7 @@ const TooltipArrow = ({ placement }: { placement: Placement }) => {
 
 export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerProps) => {
 
-  const { open, setOpen, hoverDelay, openTimerRef, closeTimerRef, setTriggerWidth, tooltipId, tooltipTriggerRef, tooltipContentRef } = useTooltip();
+  const { open, setOpen, hoverDelay, tapToClose, openTimerRef, closeTimerRef, setTriggerWidth, tooltipId, tooltipTriggerRef, tooltipContentRef } = useTooltip();
 
   // Measure trigger width on mount, so we can position the arrow correctly
   React.useEffect(() => {
@@ -120,7 +120,7 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
   }
 
   return (
-    <button ref={tooltipTriggerRef} type="button" onFocus={handleFocus} onBlur={handleBlur} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onKeyDown={handleKeyDown} onTouchEnd={handleTouchEnd} aria-describedby={open ? tooltipId : undefined} className={cn("focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground", className)} {...rest}>
+    <button ref={tooltipTriggerRef} type="button" onFocus={handleFocus} onBlur={handleBlur} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onKeyDown={handleKeyDown} onTouchEnd={tapToClose ? handleTouchEnd : undefined} aria-describedby={open ? tooltipId : undefined} className={cn("focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground", className)} {...rest}>
       {children}
     </button>
   );

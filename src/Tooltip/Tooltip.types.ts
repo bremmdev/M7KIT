@@ -39,4 +39,10 @@ export type TooltipProps = React.ComponentProps<"div"> & {
    * Use this in controlled mode to update the parent component's state.
    */
   onOpenChange?: (open: boolean) => void;
+  /**
+   * Allow tapping the trigger to close the tooltip on mobile devices.
+   * When false, users must tap outside the tooltip to close it.
+   * @default false
+   */
+  tapToClose?: boolean;
 };

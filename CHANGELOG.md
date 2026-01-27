@@ -1,3 +1,8 @@
+# 0.45.0 - 2026-01-27
+
+- Add aria-hidden to `TooltipArrow`
+- Add optional `tapToClose` to `Tooltip` for mobile devices
+
 # 0.44.2 - 2026-01-26
 
 - Properly reset `neverfits` variable for `Tooltip` so re-opening leads to correct placements
