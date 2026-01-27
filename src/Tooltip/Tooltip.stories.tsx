@@ -7,18 +7,17 @@ import React from "react";
 import { action } from "storybook/actions";
 
 /**
- * The `Tooltip` component is used to provide additional information about an element when it is hovered or focused.
- * It consists of a trigger element and a content element. The trigger element is the element that the user interacts with to show the tooltip, and the content element is the tooltip itself.
- * The tooltip content can be any HTML element or component.
+ * The `Tooltip` component displays contextual information on hover, focus, or tap (mobile). It consists of a trigger element (rendered as a button) and a content element. 
+ * The tooltip content can be any HTML element or component. Some libraries treat tooltips as visual-only. Ours are fully accessible, including touch and screen reader support.
  * 
  * ## Accessibility 
  * - If invoked using focus, focus stays on the triggering element while the tooltip is displayed and the tooltip is dismissed when it no longer has focus (onBlur)
  * - If invoked when a pointing cursor moves over the trigger element, then it remains open as long as the cursor is over the trigger or the tooltip
+ * - If invoked when a touch is made on the trigger element, then it remains until the user taps outside of the tooltip or taps the trigger element.
  * - The tooltip is dismissed when the user presses the Escape key.
  * - Role="tooltip" is applied to the tooltip content element. aria-describedby is applied to the trigger element to indicate that the tooltip content is described by the tooltip content element for screen readers.
 
  * ## Usage guidelines for assistive technologies
- * - Provide an accessible name for the trigger. This can be its visible text or an aria-label/aria-labelledby attribute.
  * - The tooltip is meant for short, non-essential information the user does not need to actively interact with and should not contain focusable elements. If the information is essential or requires interaction, consider using a modal or a PopOver instead.
  *
  * ## Features

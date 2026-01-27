@@ -55,7 +55,7 @@ describe("Tooltip", () => {
 
       expect(() => {
         render(<TooltipTrigger>Orphan trigger</TooltipTrigger>);
-      }).toThrow("useToolTip must be used within a ToolTipProvider");
+      }).toThrow("useTooltip must be used within a TooltipProvider");
 
       consoleSpy.mockRestore();
     });
@@ -65,7 +65,7 @@ describe("Tooltip", () => {
 
       expect(() => {
         render(<TooltipContent>Orphan content</TooltipContent>);
-      }).toThrow("useToolTip must be used within a ToolTipProvider");
+      }).toThrow("useTooltip must be used within a TooltipProvider");
 
       consoleSpy.mockRestore();
     });

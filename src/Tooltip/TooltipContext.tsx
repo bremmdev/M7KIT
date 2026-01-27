@@ -20,31 +20,31 @@ const TooltipContext = React.createContext<TooltipContextType | undefined>(
     undefined
 );
 
-export const useToolTip = () => {
+export const useTooltip = () => {
     const context = React.useContext(TooltipContext);
     if (!context) {
         throw new Error(
-            "useToolTip must be used within a ToolTipProvider"
+            "useTooltip must be used within a TooltipProvider"
         );
     }
     return context;
 };
 
-type ToolTipProviderProps = {
+type TooltipProviderProps = {
     children: React.ReactNode;
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
     hoverDelay: number;
-    fade?: boolean;
+    fade: boolean;
 };
 
-export const ToolTipProvider = ({
+export const TooltipProvider = ({
     children,
     open: controlledOpen,
     onOpenChange,
     hoverDelay,
-    fade = true,
-}: ToolTipProviderProps) => {
+    fade
+}: TooltipProviderProps) => {
     const [internalOpen, setInternalOpen] = React.useState(false);
     const [triggerWidth, setTriggerWidth] = React.useState(0);
     const openTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);

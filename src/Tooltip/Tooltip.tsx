@@ -1,23 +1,23 @@
 "use client";
 
 import React from "react";
-import { ToolTipProps, TooltipContentProps, TooltipTriggerProps, Placement } from "./Tooltip.types";
-import { useToolTip, ToolTipProvider } from "./TooltipContext";
+import { TooltipProps, TooltipContentProps, TooltipTriggerProps, Placement } from "./Tooltip.types";
+import { useTooltip, TooltipProvider } from "./TooltipContext";
 import { cn } from "../utils/cn";
 import { getPlacementClasses, getBridgeClasses, getArrowClasses, getArrowPositionStyle, determinePlacement } from "./Tooltip.utils";
 
-export const Tooltip = ({ children, className, hoverDelay = 500, open, onOpenChange, ...rest }: ToolTipProps) => {
+export const Tooltip = ({ children, className, fade = true, hoverDelay = 500, open, onOpenChange, ...rest }: TooltipProps) => {
   return (
-    <ToolTipProvider hoverDelay={hoverDelay} open={open} onOpenChange={onOpenChange}>
+    <TooltipProvider hoverDelay={hoverDelay} open={open} onOpenChange={onOpenChange} fade={fade}>
       <div className={cn("relative w-fit text-foreground", className)} {...rest}>
         {children}
       </div>
-    </ToolTipProvider>
+    </TooltipProvider>
   );
 };
 
-const ToolTipArrow = ({ placement }: { placement: Placement }) => {
-  const { triggerWidth } = useToolTip();
+const TooltipArrow = ({ placement }: { placement: Placement }) => {
+  const { triggerWidth } = useTooltip();
   const isTop = placement.startsWith("top");
 
   return (
@@ -31,13 +31,14 @@ const ToolTipArrow = ({ placement }: { placement: Placement }) => {
         getArrowClasses(placement)
       )}
       style={getArrowPositionStyle(placement, triggerWidth)}
+      aria-hidden
     />
   );
 };
 
 export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerProps) => {
 
-  const { open, setOpen, hoverDelay, openTimerRef, closeTimerRef, setTriggerWidth, tooltipId, tooltipTriggerRef } = useToolTip();
+  const { open, setOpen, hoverDelay, openTimerRef, closeTimerRef, setTriggerWidth, tooltipId, tooltipTriggerRef, tooltipContentRef } = useTooltip();
 
   // Measure trigger width on mount, so we can position the arrow correctly
   React.useEffect(() => {
@@ -89,15 +90,21 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
     setOpen(true);
   }
 
-  function handleBlur() {
+  function handleBlur(e: React.FocusEvent<HTMLButtonElement>) {
+    // Don't close if focus is moving to the tooltip content
+    const relatedTarget = e.relatedTarget as Node | null;
+    if (relatedTarget && tooltipContentRef.current?.contains(relatedTarget)) {
+      return;
+    }
+
     closeTimerRef.current = setTimeout(() => {
       setOpen(false);
-    }, 0);
+    }, 100);
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLButtonElement>) {
     if (e.key === "Escape" && open) {
-      e.preventDefault(); // Signal to parent components that we handled this
+      e.preventDefault();
       setOpen(false);
     }
   }
@@ -110,7 +117,7 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
 };
 
 export const TooltipContent = ({ children, className, placement = "bottom center", ...rest }: TooltipContentProps) => {
-  const { fade, open, setOpen, closeTimerRef, tooltipId, tooltipContentRef, tooltipTriggerRef } = useToolTip();
+  const { fade, open, setOpen, closeTimerRef, tooltipId, tooltipContentRef, tooltipTriggerRef } = useTooltip();
   const [calculatedPlacement, setCalculatedPlacement] =
     React.useState<Placement>(placement);
   const [neverFits, setNeverFits] = React.useState(false);
@@ -127,6 +134,17 @@ export const TooltipContent = ({ children, className, placement = "bottom center
     // Start close timer when leaving content
     closeTimerRef.current = setTimeout(() => {
       setOpen(false);
+    }, 0);
+  }
+
+  function handleMouseDown() {
+    // Cancel any pending close when clicking inside content
+    // Use setTimeout to ensure this runs after the blur handler on the trigger
+    setTimeout(() => {
+      if (closeTimerRef.current) {
+        clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = null;
+      }
     }, 0);
   }
 
@@ -185,8 +203,9 @@ export const TooltipContent = ({ children, className, placement = "bottom center
       {...rest}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onMouseDown={handleMouseDown}
     >
-      <ToolTipArrow placement={calculatedPlacement} />
+      <TooltipArrow placement={calculatedPlacement} />
       {children}
     </div>
   );

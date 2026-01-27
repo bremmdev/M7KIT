@@ -19,7 +19,7 @@ export type TooltipContentProps = React.ComponentProps<"div"> & {
   placement?: Placement;
 }
 
-export type ToolTipProps = React.ComponentProps<"div"> & {
+export type TooltipProps = React.ComponentProps<"div"> & {
   /**
   * Fade in on hover
   * @default true
