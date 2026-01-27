@@ -109,8 +109,16 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
     }
   }
 
+  function handleTouchEnd(e: React.TouchEvent<HTMLButtonElement>) {
+    // On mobile, allow tap-to-close when tooltip is already open
+    if (open) {
+      e.preventDefault(); // Prevent focus event from reopening
+      setOpen(false);
+    }
+  }
+
   return (
-    <button ref={tooltipTriggerRef} type="button" onFocus={handleFocus} onBlur={handleBlur} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onKeyDown={handleKeyDown} aria-describedby={open ? tooltipId : undefined} className={cn("focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground", className)} {...rest}>
+    <button ref={tooltipTriggerRef} type="button" onFocus={handleFocus} onBlur={handleBlur} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onKeyDown={handleKeyDown} onTouchEnd={handleTouchEnd} aria-describedby={open ? tooltipId : undefined} className={cn("focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground", className)} {...rest}>
       {children}
     </button>
   );

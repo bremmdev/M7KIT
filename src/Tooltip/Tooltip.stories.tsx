@@ -8,12 +8,12 @@ import { action } from "storybook/actions";
 
 /**
  * The `Tooltip` component displays contextual information on hover, focus, or tap (mobile). It consists of a trigger element (rendered as a button) and a content element. 
- * The tooltip content can be any HTML element or component. Some libraries treat tooltips as visual-only. Ours are fully accessible, including touch and screen reader support.
+ * The tooltip content can be any HTML element or component. Some libraries treat tooltips as visual-only. Ours are visual, mobile-friendly, and accessible.
  * 
  * ## Accessibility 
  * - If invoked using focus, focus stays on the triggering element while the tooltip is displayed and the tooltip is dismissed when it no longer has focus (onBlur)
- * - If invoked when a pointing cursor moves over the trigger element, then it remains open as long as the cursor is over the trigger or the tooltip
- * - If invoked when a touch is made on the trigger element, then it remains until the user taps outside of the tooltip or taps the trigger element.
+ * - If invoked when a pointing cursor moves over the trigger element, then it remains open as long as the cursor is over the trigger or the tooltip.
+ * - If invoked when a touch is made on the trigger element, then it remains until the user taps outside of the tooltip.
  * - The tooltip is dismissed when the user presses the Escape key.
  * - Role="tooltip" is applied to the tooltip content element. aria-describedby is applied to the trigger element to indicate that the tooltip content is described by the tooltip content element for screen readers.
 
