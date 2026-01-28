@@ -11,8 +11,7 @@ export function divideIntoGroups(arr: React.ReactNode[], maxInGroup: number) {
     } else {
       groups.push(currentGroup);
       currentGroup = [item];
-      maxItemsInGroup =
-        maxItemsInGroup === maxInGroup ? maxInGroup - 1 : maxInGroup; // Toggle between group sizes
+      maxItemsInGroup = maxItemsInGroup === maxInGroup ? maxInGroup - 1 : maxInGroup; // Toggle between group sizes
     }
   });
 
@@ -24,16 +23,10 @@ export function divideIntoGroups(arr: React.ReactNode[], maxInGroup: number) {
   return groups;
 }
 
-export function getPositioning(
-  groupLength: number,
-  idx: number,
-  itemWidth: number,
-  maxItemsInGroup: number
-) {
+export function getPositioning(groupLength: number, idx: number, itemWidth: number, maxItemsInGroup: number) {
   const isSmallerGroup = groupLength < maxItemsInGroup;
 
-  const shouldCenter =
-    isSmallerGroup && groupLength === maxItemsInGroup - 1 && idx % 2 !== 0;
+  const shouldCenter = isSmallerGroup && groupLength === maxItemsInGroup - 1 && idx % 2 !== 0;
   const shouldAdjust = groupLength < maxItemsInGroup - 1;
 
   let amountToAdjust = 0;

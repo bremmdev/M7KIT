@@ -5,39 +5,19 @@ import { divideIntoGroups } from "./DiamondGrid.utils";
 import { getPositioning } from "./DiamondGrid.utils";
 
 export const DiamondGrid = (props: DiamondGridProps) => {
-  const {
-    children,
-    className,
-    itemWidth = 250,
-    maxItemsInGroup = 2,
-    ...rest
-  } = props;
+  const { children, className, itemWidth = 250, maxItemsInGroup = 2, ...rest } = props;
 
   if (!Array.isArray(children)) {
-    throw new Error(
-      "DiamondGrid component expects children to be an array of items"
-    );
+    throw new Error("DiamondGrid component expects children to be an array of items");
   }
 
   //divide the children into groups. Alternate between sizes based on maxItemsInGroup
-  const groups = divideIntoGroups(
-    React.Children.toArray(children),
-    maxItemsInGroup
-  );
+  const groups = divideIntoGroups(React.Children.toArray(children), maxItemsInGroup);
 
   return (
-    <div
-      className={cn("flex gap-2 diamond-gallery", className)}
-      style={{ paddingLeft: itemWidth / 2 }}
-      {...rest}
-    >
+    <div className={cn("flex gap-2 diamond-gallery", className)} style={{ paddingLeft: itemWidth / 2 }} {...rest}>
       {groups.map((group, idx) => {
-        const { shouldCenter, amountToAdjust } = getPositioning(
-          group.length,
-          idx,
-          itemWidth,
-          maxItemsInGroup
-        );
+        const { shouldCenter, amountToAdjust } = getPositioning(group.length, idx, itemWidth, maxItemsInGroup);
 
         return (
           <div
@@ -52,7 +32,7 @@ export const DiamondGrid = (props: DiamondGridProps) => {
                   marginLeft: -itemWidth / 2,
                   width: itemWidth,
                   height: itemWidth,
-                  marginTop: amountToAdjust,
+                  marginTop: amountToAdjust
                 }}
               >
                 {child}

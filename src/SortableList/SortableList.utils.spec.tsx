@@ -2,7 +2,7 @@ import { getItemsWithIdsAndLabels } from "./SortableList.utils";
 
 //mock uuid to return predictable ids for testing
 jest.mock("uuid", () => ({
-  v4: jest.fn().mockImplementation(() => "unique-id"),
+  v4: jest.fn().mockImplementation(() => "unique-id")
 }));
 
 describe("getItemsWithIdsAndLabels", () => {
@@ -52,7 +52,7 @@ describe("getItemsWithIdsAndLabels", () => {
         <div>
           <span>Apple</span>
           <em>Red</em>
-        </div>,
+        </div>
       ];
       const result = getItemsWithIdsAndLabels(items);
 
@@ -61,10 +61,7 @@ describe("getItemsWithIdsAndLabels", () => {
     });
 
     it("prefers aria-label over text content", () => {
-      const items = [
-        <div aria-label="Orange fruit">🍊</div>,
-        <span aria-label="Custom label">Actual text</span>,
-      ];
+      const items = [<div aria-label="Orange fruit">🍊</div>, <span aria-label="Custom label">Actual text</span>];
       const result = getItemsWithIdsAndLabels(items);
 
       expect(result[0].label).toBe("Orange fruit");
@@ -80,7 +77,7 @@ describe("getItemsWithIdsAndLabels", () => {
         <div>
           <i aria-hidden="true" className="icon" />
           Delete
-        </div>,
+        </div>
       ];
       const result = getItemsWithIdsAndLabels(items);
 
@@ -93,7 +90,7 @@ describe("getItemsWithIdsAndLabels", () => {
         <div>
           <span aria-hidden={true}>Icon</span>
           Text
-        </div>,
+        </div>
       ];
       const result = getItemsWithIdsAndLabels(items);
 
@@ -108,7 +105,7 @@ describe("getItemsWithIdsAndLabels", () => {
             <i>More hidden</i>
           </div>
           <span>Visible Text</span>
-        </div>,
+        </div>
       ];
       const result = getItemsWithIdsAndLabels(items);
 
@@ -118,7 +115,7 @@ describe("getItemsWithIdsAndLabels", () => {
     it("handles arrays of React nodes", () => {
       const items = [
         [<span key="1">First</span>, <span key="2">Second</span>],
-        ["Third", "Fourth"],
+        ["Third", "Fourth"]
       ];
       const result = getItemsWithIdsAndLabels(items);
 
@@ -132,7 +129,7 @@ describe("getItemsWithIdsAndLabels", () => {
           <span aria-hidden="true">🗑️</span>
           <strong>Delete</strong>
           <span aria-label="priority badge">⭐</span>
-        </div>,
+        </div>
       ];
       const result = getItemsWithIdsAndLabels(items);
 
@@ -146,7 +143,7 @@ describe("getItemsWithIdsAndLabels", () => {
           Text with spaces
           {"  "}
         </div>,
-        "  String with spaces  ",
+        "  String with spaces  "
       ];
       const result = getItemsWithIdsAndLabels(items);
 

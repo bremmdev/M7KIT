@@ -8,14 +8,8 @@ export const PageScrollIndicator = (props: PageScrollIndicatorProps) => {
   const { scrollPercent } = useScrollPosition();
 
   const style = {
-    transform: `translateX(${scrollPercent - 100}%)`,
+    transform: `translateX(${scrollPercent - 100}%)`
   };
 
-  return (
-    <div
-      style={style}
-      className={cn("fixed left-0 top-0 w-screen h-1 bg-accent", className)}
-      {...rest}
-    />
-  );
+  return <div style={style} className={cn("fixed left-0 top-0 w-screen h-1 bg-accent", className)} {...rest} />;
 };

@@ -7,10 +7,7 @@ export function orderItems(
   columns: number,
   columnOrder: "horizontal" | "vertical"
 ) {
-  const orderedColumns: Array<Array<React.ReactElement<any>>> = Array.from(
-    { length: columns },
-    () => []
-  );
+  const orderedColumns: Array<Array<React.ReactElement<any>>> = Array.from({ length: columns }, () => []);
 
   items.forEach((item, index) => {
     if (columnOrder === "horizontal") {
@@ -51,9 +48,7 @@ export function orderItems(
  */
 export function getBreakpointColumns(columns: BreakpointColumns) {
   //create an object that has the same keys as the breakpoint
-  const breakpointObj = Object.fromEntries(
-    Object.keys(breakpoints).map((key) => [key, columns[key as Breakpoint]])
-  );
+  const breakpointObj = Object.fromEntries(Object.keys(breakpoints).map((key) => [key, columns[key as Breakpoint]]));
 
   //check all keys to see if there are not undefined and if so derive the value from any of the previous breakpoints that has a value
   const keys = Object.keys(breakpointObj) as Array<keyof typeof breakpointObj>;
@@ -73,7 +68,7 @@ export function getBreakpointColumns(columns: BreakpointColumns) {
   return breakpointObj;
 }
 
-export function validateColumns (columns: ColumnCount | BreakpointColumns) {
+export function validateColumns(columns: ColumnCount | BreakpointColumns) {
   if (typeof columns == "number" && (columns < 1 || columns > 6))
     throw new Error("The number of columns must be between 1 and 6");
   if (typeof columns !== "number") {

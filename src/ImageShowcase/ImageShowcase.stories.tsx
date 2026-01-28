@@ -28,7 +28,7 @@ import image008 from "../_data/images/picture008.jpg";
 const meta: Meta<typeof ImageShowcase> = {
   component: ImageShowcase,
   title: "Components/ImageShowcase",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 
 export default meta;
@@ -47,5 +47,5 @@ export const Default: Story = {
       <img src={image007} alt="image007" width={300} height={300} />
       <img src={image008} alt="image008" width={300} height={300} />
     </ImageShowcase>
-  ),
+  )
 };

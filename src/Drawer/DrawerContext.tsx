@@ -8,15 +8,9 @@ type DrawerContext = {
   triggerRef: React.RefObject<HTMLButtonElement | null>;
 };
 
-export const DrawerContext = React.createContext<DrawerContext | undefined>(
-  undefined
-);
+export const DrawerContext = React.createContext<DrawerContext | undefined>(undefined);
 
-export const DrawerProvider = ({
-  children,
-}: {
-  children: React.ReactElement<any>;
-}) => {
+export const DrawerProvider = ({ children }: { children: React.ReactElement<any> }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const drawerRef = React.useRef<HTMLDialogElement>(null) as React.RefObject<HTMLDialogElement | null>;
   const triggerRef = React.useRef<HTMLButtonElement>(null) as React.RefObject<HTMLButtonElement | null>;
@@ -34,10 +28,6 @@ export const DrawerProvider = ({
   }
 
   return (
-    <DrawerContext.Provider
-      value={{ isOpen, open, close, drawerRef, triggerRef }}
-    >
-      {children}
-    </DrawerContext.Provider>
+    <DrawerContext.Provider value={{ isOpen, open, close, drawerRef, triggerRef }}>{children}</DrawerContext.Provider>
   );
 };

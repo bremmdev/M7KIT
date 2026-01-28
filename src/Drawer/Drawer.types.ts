@@ -26,9 +26,9 @@ export type DrawerProps = React.ComponentPropsWithRef<"dialog"> & {
 export type DrawerContentProps = React.ComponentPropsWithRef<"div">;
 
 export type DrawerTriggerProps = React.ComponentPropsWithRef<"button"> & {
-    /**
+  /**
    * If true, the trigger will not be visible when the drawer is open
    * @default false
    */
-    hideTriggerWhenOpen?: boolean;
+  hideTriggerWhenOpen?: boolean;
 };

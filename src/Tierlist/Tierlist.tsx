@@ -6,24 +6,13 @@ import {
   TierListLabelProps,
   TierlistProps,
   TierListTierProps,
-  RankedItems,
+  RankedItems
 } from "./Tierlist.types";
-import {
-  handleTouchEnd,
-  handleTouchMove,
-  handleTouchStart,
-} from "./Tierlist.utils";
+import { handleTouchEnd, handleTouchMove, handleTouchStart } from "./Tierlist.utils";
 import { cn } from "../utils/cn";
 
 const TierListItems = (props: TierListItemsProps) => {
-  const {
-    children,
-    onTouchDrop,
-    onUnrankDrop,
-    rankedItems,
-    itemsClasses,
-    ...rest
-  } = props;
+  const { children, onTouchDrop, onUnrankDrop, rankedItems, itemsClasses, ...rest } = props;
 
   function handleDragStart(e: React.DragEvent<HTMLDivElement>) {
     e.dataTransfer.setData("text/plain", e.currentTarget.dataset.id!);
@@ -87,24 +76,21 @@ const TierListItems = (props: TierListItemsProps) => {
         const isRanked =
           rankedItems
             .flat()
-            .findIndex(
-              (item: React.ReactElement<any>) =>
-                item.props["data-id"] === child.props["data-id"]
-            ) !== -1;
+            .findIndex((item: React.ReactElement<any>) => item.props["data-id"] === child.props["data-id"]) !== -1;
 
         return (
           <React.Fragment key={`tierlist-item-${idx}`}>
             {React.cloneElement(child, {
               key: `tierlistitem-${idx}`,
               className: cn(child.props.className, "cursor-pointer", {
-                hidden: isRanked,
+                hidden: isRanked
               }),
               draggable: true,
               onDragStart: handleDragStart,
               onTouchStart: handleTouchStart,
               onTouchMove: handleTouchMove,
               onTouchEnd: handleTouchDrop,
-              "data-id": idx,
+              "data-id": idx
             })}
           </React.Fragment>
         );
@@ -160,10 +146,7 @@ const TierListTier = (props: TierListTierProps) => {
 
   return (
     <div
-      className={cn(
-        "flex gap-4 p-4 min-h-24 flex-wrap flex-1 items-center",
-        tierClasses
-      )}
+      className={cn("flex gap-4 p-4 min-h-24 flex-wrap flex-1 items-center", tierClasses)}
       onDragOver={handleDragOver}
       onDrop={onDrop}
       data-tierlist-tier-idx={idx}
@@ -176,7 +159,7 @@ const TierListTier = (props: TierListTierProps) => {
           onDragStart: handleRankedDragStart,
           onTouchStart: handleTouchStart,
           onTouchMove: handleTouchMove,
-          onTouchEnd: handleTouchDrop,
+          onTouchEnd: handleTouchDrop
         })
       )}
     </div>
@@ -197,20 +180,16 @@ export const Tierlist = (props: TierlistProps) => {
   } = props;
 
   //keep track of the items in each tier rank
-  const [rankedItems, setRankedItems] = React.useState<RankedItems>(
-    labels.map(() => [])
-  );
+  const [rankedItems, setRankedItems] = React.useState<RankedItems>(labels.map(() => []));
 
   if (!React.Children.toArray(children).every(React.isValidElement)) {
-    throw new Error(
-      "Tierlist only accepts valid React elements as children, not strings or numbers."
-    );
+    throw new Error("Tierlist only accepts valid React elements as children, not strings or numbers.");
   }
 
   //add a data-id attribute to each child element so we can identify it when dragging
   const childrenWithProps = React.Children.map(children, (child, idx) => {
     return React.cloneElement(child as React.ReactElement<any>, {
-      "data-id": idx,
+      "data-id": idx
     });
   }) as React.ReactElement<any>[];
 
@@ -225,27 +204,22 @@ export const Tierlist = (props: TierlistProps) => {
      * if the item is already in a rank, remove it from the rank first
      * then add it to the new rank
      **/
-    const newItems = rankedItems.map(
-      (items: React.ReactElement<any>[], idx) => {
-        if (idx === rankIdx) {
-          // Check if the item already exists in the target rank
-          const itemExists = items.some(
-            (item) => item.props["data-id"] === itemId
-          );
-          if (!itemExists) {
-            return [...items, draggedItem];
-          }
-          return items;
-        } else {
-          return items.filter((item) => item.props["data-id"] !== itemId);
+    const newItems = rankedItems.map((items: React.ReactElement<any>[], idx) => {
+      if (idx === rankIdx) {
+        // Check if the item already exists in the target rank
+        const itemExists = items.some((item) => item.props["data-id"] === itemId);
+        if (!itemExists) {
+          return [...items, draggedItem];
         }
+        return items;
+      } else {
+        return items.filter((item) => item.props["data-id"] !== itemId);
       }
-    );
+    });
 
     //call the onDrop callback if the item was dropped into a different rank
-    const currentRankIdx = rankedItems.findIndex(
-      (items: React.ReactElement<any>[]) =>
-        items.some((item) => item.props["data-id"] === itemId)
+    const currentRankIdx = rankedItems.findIndex((items: React.ReactElement<any>[]) =>
+      items.some((item) => item.props["data-id"] === itemId)
     );
 
     if (currentRankIdx !== rankIdx && onTierDrop) {
@@ -255,10 +229,7 @@ export const Tierlist = (props: TierlistProps) => {
     setRankedItems(newItems);
   }
 
-  function handleDropInTier(
-    rankIdx: number,
-    e: React.DragEvent<HTMLDivElement>
-  ) {
+  function handleDropInTier(rankIdx: number, e: React.DragEvent<HTMLDivElement>) {
     //get the data-id attribute of the dragged element
     const draggedItemId = e.dataTransfer.getData("text/plain");
     rankItems(rankIdx, parseInt(draggedItemId));
@@ -286,10 +257,7 @@ export const Tierlist = (props: TierlistProps) => {
               className="flex justify-between items-center border-b border-b-neutral last-of-type:border-b-0"
               key={label}
             >
-              <TierListLabel
-                color={labelColors[idx]}
-                labelClasses={labelClasses}
-              >
+              <TierListLabel color={labelColors[idx]} labelClasses={labelClasses}>
                 {label}
               </TierListLabel>
               <TierListTier

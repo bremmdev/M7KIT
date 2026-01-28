@@ -24,10 +24,10 @@ jobs:
         run: |
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           echo "Package version: $PACKAGE_VERSION"
-          
+
           PUBLISHED_VERSION=$(npm view m7kit version 2>/dev/null || echo "")
           echo "Published version: $PUBLISHED_VERSION"
-          
+
           if [ "$PACKAGE_VERSION" = "$PUBLISHED_VERSION" ]; then
             echo "Version $PACKAGE_VERSION is already published, skipping publish"
             echo "should_publish=false" >> $GITHUB_OUTPUT

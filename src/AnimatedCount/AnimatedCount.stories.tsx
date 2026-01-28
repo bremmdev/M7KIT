@@ -16,7 +16,7 @@ import { AnimatedCount } from "./AnimatedCount";
 const meta: Meta<typeof AnimatedCount> = {
   component: AnimatedCount,
   title: "Components/AnimatedCount",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 export default meta;
 
@@ -24,7 +24,7 @@ type Story = StoryObj<typeof AnimatedCount>;
 
 export const Default: Story = {
   args: {
-    count: 100,
+    count: 100
   },
   render: (props) => {
     return (
@@ -32,14 +32,14 @@ export const Default: Story = {
         <AnimatedCount {...props} />
       </div>
     );
-  },
+  }
 };
 
 export const SlowDown: Story = {
   args: {
     count: 100,
     slowDownAt: 95,
-    slowDownFactor: 10,
+    slowDownFactor: 10
   },
   render: (props) => {
     return (
@@ -47,14 +47,14 @@ export const SlowDown: Story = {
         <AnimatedCount {...props} />
       </div>
     );
-  },
+  }
 };
 
 export const CountDown: Story = {
   args: {
     count: 0,
     start: 100,
-    step: -1,
+    step: -1
   },
   render: (props) => {
     return (
@@ -62,5 +62,5 @@ export const CountDown: Story = {
         <AnimatedCount {...props} />
       </div>
     );
-  },
+  }
 };

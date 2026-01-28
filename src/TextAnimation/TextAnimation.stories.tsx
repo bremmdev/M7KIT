@@ -15,7 +15,7 @@ import { type JSX } from "react";
 const meta: Meta<typeof TextAnimation> = {
   component: TextAnimation,
   title: "Components/TextAnimation",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 export default meta;
 
@@ -23,25 +23,23 @@ type Story = StoryObj<typeof TextAnimation>;
 
 const render = (props: TextAnimationProps<keyof JSX.IntrinsicElements>) => (
   <div className="p-8">
-    <TextAnimation {...props}>
-      This is a simple text animation example.
-    </TextAnimation>
+    <TextAnimation {...props}>This is a simple text animation example.</TextAnimation>
   </div>
 );
 
 export const Default: Story = {
   args: {
     as: "div",
-    animation: "fade-in-blur",
+    animation: "fade-in-blur"
   },
-  render: (props) => render(props),
+  render: (props) => render(props)
 };
 
 export const CharAnimation: Story = {
   args: {
     as: "div",
     per: "char",
-    delay: 25,
+    delay: 25
   },
-  render: (props) => render(props),
+  render: (props) => render(props)
 };

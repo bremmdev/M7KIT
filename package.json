@@ -39,7 +39,8 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "jest"
+    "test": "jest",
+    "prettier": "prettier --write ."
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^10.1.11",
@@ -69,6 +70,7 @@
     "lucide-react": "^0.562.0",
     "npm": "^11.7.0",
     "postcss": "^8.4.33",
+    "prettier": "3.8.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "storybook": "^10.1.11",

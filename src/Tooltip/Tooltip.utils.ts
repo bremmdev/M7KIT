@@ -11,7 +11,7 @@ export function getPlacementClasses(placement: Placement) {
     "top right": "bottom-full left-0",
     "bottom left": "top-full right-0",
     "bottom center": "top-full left-1/2 -translate-x-1/2",
-    "bottom right": "top-full left-0",
+    "bottom right": "top-full left-0"
   }[placement];
 }
 
@@ -34,14 +34,11 @@ export function getArrowClasses(placement: Placement) {
     "top right": "bottom-0 -mb-1.5",
     "bottom left": "top-0 -mt-1.5",
     "bottom center": "top-0 left-1/2 -translate-x-1/2 -mt-1.5",
-    "bottom right": "top-0 -mt-1.5",
+    "bottom right": "top-0 -mt-1.5"
   }[placement];
 }
 
-export function getArrowPositionStyle(
-  placement: Placement,
-  triggerWidth: number,
-): React.CSSProperties {
+export function getArrowPositionStyle(placement: Placement, triggerWidth: number): React.CSSProperties {
   // Center placements use CSS classes for positioning
   if (placement.includes("center")) {
     return {};
@@ -93,7 +90,7 @@ function horizontalFits(
   windowWidth: number
 ): boolean {
   const bounds = getHorizontalBounds(tooltipWidth, buttonRect, position);
-  return bounds.left >= TOOLTIP_PADDING && bounds.right <= (windowWidth - TOOLTIP_PADDING);
+  return bounds.left >= TOOLTIP_PADDING && bounds.right <= windowWidth - TOOLTIP_PADDING;
 }
 
 // NOTE: the rect object denotes where the preferred placement would be
@@ -122,9 +119,13 @@ export function determinePlacement(
 
   // Check vertical placement, flip if necessary, only flip if the opposite side fits within the padding
   let finalVertical = vertical;
-  if (isBottom && rect.bottom > (windowHeight - TOOLTIP_PADDING) && buttonRect.top - rect.height > TOOLTIP_PADDING) {
+  if (isBottom && rect.bottom > windowHeight - TOOLTIP_PADDING && buttonRect.top - rect.height > TOOLTIP_PADDING) {
     finalVertical = "top";
-  } else if (!isBottom && rect.top < TOOLTIP_PADDING && buttonRect.bottom + rect.height < (windowHeight - TOOLTIP_PADDING)) {
+  } else if (
+    !isBottom &&
+    rect.top < TOOLTIP_PADDING &&
+    buttonRect.bottom + rect.height < windowHeight - TOOLTIP_PADDING
+  ) {
     finalVertical = "bottom";
   }
 
@@ -137,7 +138,7 @@ export function determinePlacement(
     const fallbackOrder: Record<HorizontalPosition, HorizontalPosition[]> = {
       left: ["center", "right"],
       center: ["left", "right"],
-      right: ["center", "left"],
+      right: ["center", "left"]
     };
 
     // Try each fallback position
@@ -156,5 +157,8 @@ export function determinePlacement(
     }
   }
 
-  return { newPlacement: `${finalVertical} ${finalHorizontal}` as Placement, neverFits };
+  return {
+    newPlacement: `${finalVertical} ${finalHorizontal}` as Placement,
+    neverFits
+  };
 }

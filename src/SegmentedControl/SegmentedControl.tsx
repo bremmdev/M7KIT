@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  SegmentedControlProps,
-  SegmentedControlButtonProps,
-} from "./SegmentedControl.types";
+import { SegmentedControlProps, SegmentedControlButtonProps } from "./SegmentedControl.types";
 import { cn } from "../utils/cn";
 
 type SegmentedControlContext = {
@@ -12,17 +9,11 @@ type SegmentedControlContext = {
 
 const SegmentedControlContext = React.createContext<SegmentedControlContext>({
   selected: "",
-  setSelected: () => {},
+  setSelected: () => {}
 });
 
 export const SegmentedControlButton = (props: SegmentedControlButtonProps) => {
-  const {
-    children,
-    className,
-    defaultSelected = false,
-    value,
-    ...rest
-  } = props;
+  const { children, className, defaultSelected = false, value, ...rest } = props;
 
   const { selected, setSelected } = React.useContext(SegmentedControlContext);
 
@@ -42,14 +33,12 @@ export const SegmentedControlButton = (props: SegmentedControlButtonProps) => {
           "relative px-4 py-2 bg-surface-muted hover:bg-surface-muted/70 transition-colors border-transparent text-foreground focus-ring-neutral-inner focus-visible:z-10 focus-visible:rounded-md",
           {
             "border border-foreground font-medium rounded-md bg-surface-subtle hover:bg-surface-subtle":
-              selected === buttonValue,
+              selected === buttonValue
           },
           className
         )}
         type="button"
-        aria-current={
-          buttonValue && selected === buttonValue ? "true" : undefined
-        }
+        aria-current={buttonValue && selected === buttonValue ? "true" : undefined}
         onClick={() => setSelected(buttonValue)}
         {...rest}
       >
@@ -81,9 +70,7 @@ export const SegmentedControl = (props: SegmentedControlProps) => {
       return;
     }
 
-    const hasDefaultSelected = children?.some(
-      (child) => child.props.defaultSelected
-    );
+    const hasDefaultSelected = children?.some((child) => child.props.defaultSelected);
 
     if (!hasDefaultSelected) {
       ignoreChangeRef.current = false;

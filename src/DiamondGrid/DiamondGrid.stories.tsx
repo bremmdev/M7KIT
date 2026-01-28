@@ -43,7 +43,7 @@ import image013 from "../_data/images/picture013.jpg";
 const meta: Meta<typeof DiamondGrid> = {
   component: DiamondGrid,
   title: "Components/DiamondGrid",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 
 export default meta;
@@ -53,7 +53,7 @@ type Story = StoryObj<typeof DiamondGrid>;
 export const Default: Story = {
   args: {
     itemWidth: 200,
-    maxItemsInGroup: 2,
+    maxItemsInGroup: 2
   },
   render: (props) => (
     <DiamondGrid {...props}>
@@ -66,13 +66,13 @@ export const Default: Story = {
       <img src={image007} alt="image007" width={300} height={300} />
       <img src={image008} alt="image008" width={300} height={300} />
     </DiamondGrid>
-  ),
+  )
 };
 
 export const ThreeRows: Story = {
   args: {
     itemWidth: 200,
-    maxItemsInGroup: 3,
+    maxItemsInGroup: 3
   },
   render: (props) => (
     <DiamondGrid {...props}>
@@ -90,5 +90,5 @@ export const ThreeRows: Story = {
       <img src={image012} alt="image012" width={300} height={300} />
       <img src={image013} alt="image013" width={300} height={300} />
     </DiamondGrid>
-  ),
+  )
 };

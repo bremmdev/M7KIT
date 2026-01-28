@@ -1,24 +1,16 @@
 "use client";
 
 import React, { useEffect } from "react";
-import {
-  BreadcrumbProps,
-  BreadcrumbItemProps,
-  BreadcrumbMenuProps,
-} from "./Breadcrumb.types";
+import { BreadcrumbProps, BreadcrumbItemProps, BreadcrumbMenuProps } from "./Breadcrumb.types";
 import { cn } from "../utils/cn";
 import { ChevronRight, Ellipsis, Minus, Slash } from "lucide-react";
 import { useOnClickOutside } from "../_hooks/useOnClickOutside";
 
-const BreadcrumbSeparator = ({
-  separator,
-}: {
-  separator: BreadcrumbProps["separator"];
-}) => {
+const BreadcrumbSeparator = ({ separator }: { separator: BreadcrumbProps["separator"] }) => {
   const separatorIcons = {
     chevron: <ChevronRight size={16} />,
     dash: <Minus size={16} />,
-    slash: <Slash size={16} />,
+    slash: <Slash size={16} />
   };
 
   return separatorIcons[separator || "chevron"];
@@ -28,10 +20,7 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
   const [show, setShow] = React.useState(false);
   const menuRef = React.useRef<HTMLUListElement>(null);
   const menuButtonRef = React.useRef<HTMLButtonElement>(null);
-  useOnClickOutside(
-    menuButtonRef as React.RefObject<HTMLButtonElement | null>,
-    handleOnClickOutside
-  );
+  useOnClickOutside(menuButtonRef as React.RefObject<HTMLButtonElement | null>, handleOnClickOutside);
   const { children, className, ...rest } = props;
 
   function handleMenuClick() {
@@ -78,10 +67,7 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
   const menuId = React.useId();
 
   return (
-    <div
-      className={cn("flex gap-2 items-center relative", className)}
-      {...rest}
-    >
+    <div className={cn("flex gap-2 items-center relative", className)} {...rest}>
       <button
         className="focus-ring"
         type="button"
@@ -104,7 +90,7 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
         className={cn(
           "w-max absolute top-8 bg-surface-subtle left-0 border border-neutral rounded-md flex flex-col [&_a]:no-underline [&_a]:py-2 [&_a]:px-4 [&_a:hover]:rounded-md [&_a]:focus-ring-inner [&_a]:block [&_a:focus]:relative",
           {
-            hidden: !show,
+            hidden: !show
           }
         )}
       >
@@ -121,14 +107,7 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
 };
 
 export const BreadcrumbItem = (props: BreadcrumbItemProps) => {
-  const {
-    asChild = false,
-    children,
-    className,
-    isCurrentPage,
-    href,
-    ...rest
-  } = props;
+  const { asChild = false, children, className, isCurrentPage, href, ...rest } = props;
 
   const isLink = href ? true : false;
 
@@ -143,9 +122,7 @@ export const BreadcrumbItem = (props: BreadcrumbItemProps) => {
   // in this case, BreadcrumbItem can only have one child
   if (asChild) {
     if (!React.isValidElement(children)) {
-      console.warn(
-        "BreadcrumbItem can only have one child when using asChild prop"
-      );
+      console.warn("BreadcrumbItem can only have one child when using asChild prop");
       return null;
     }
 
@@ -153,24 +130,16 @@ export const BreadcrumbItem = (props: BreadcrumbItemProps) => {
     return React.cloneElement(children as React.ReactElement<any>, {
       className: linkClassNames,
       "aria-current": isCurrentPage ? "page" : undefined,
-      ...rest,
+      ...rest
     });
   }
 
   return isLink ? (
-    <a
-      href={href}
-      className={linkClassNames}
-      aria-current={isCurrentPage ? "page" : undefined}
-      {...rest}
-    >
+    <a href={href} className={linkClassNames} aria-current={isCurrentPage ? "page" : undefined} {...rest}>
       {children}
     </a>
   ) : (
-    <span
-      className={spanClassNames}
-      aria-current={isCurrentPage ? "page" : undefined}
-    >
+    <span className={spanClassNames} aria-current={isCurrentPage ? "page" : undefined}>
       {children}
     </span>
   );
@@ -180,22 +149,12 @@ export const BreadcrumbCurrentItem = (props: BreadcrumbItemProps) => {
   return <BreadcrumbItem {...props} isCurrentPage />;
 };
 
-export const Breadcrumb = ({
-  children,
-  className,
-  separator = "chevron",
-  ...rest
-}: BreadcrumbProps) => {
+export const Breadcrumb = ({ children, className, separator = "chevron", ...rest }: BreadcrumbProps) => {
   const ariaLabel = rest["aria-label"] || "breadcrumb";
 
   return (
     <nav aria-label={ariaLabel} className="p-4">
-      <ol
-        className={cn(
-          "flex gap-2 items-center flex-wrap text-foreground",
-          className
-        )}
-      >
+      <ol className={cn("flex gap-2 items-center flex-wrap text-foreground", className)}>
         {React.Children.map(children, (child, idx) => {
           const isLast = idx === React.Children.count(children) - 1;
           return (

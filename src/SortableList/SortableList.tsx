@@ -2,10 +2,7 @@ import React from "react";
 import { cn } from "../utils/cn";
 import { SortableListProps } from "./SortableList.types";
 import { ChevronsUpDown, GripVertical, Settings } from "lucide-react";
-import {
-  getItemsWithIdsAndLabels,
-  extractTextFromNode,
-} from "./SortableList.utils";
+import { getItemsWithIdsAndLabels, extractTextFromNode } from "./SortableList.utils";
 import { useFocusTrap } from "../_hooks/useFocusTrap";
 
 const ReorderButton = ({
@@ -14,7 +11,7 @@ const ReorderButton = ({
   totalItems,
   label,
   onKeyDown,
-  ref,
+  ref
 }: {
   handlePosition: "start" | "end";
   index: number;
@@ -28,7 +25,7 @@ const ReorderButton = ({
     onKeyDown={onKeyDown}
     ref={ref}
     className={cn("focus-ring grid place-items-center", {
-      "ml-auto": handlePosition === "end",
+      "ml-auto": handlePosition === "end"
     })}
   >
     <ChevronsUpDown className={`inline-block cursor-grab`} />
@@ -40,24 +37,16 @@ export const SortableList = ({
   className,
   handlePosition = "start",
   items,
-  onReorder = () => { },
+  onReorder = () => {},
   title = "",
   titleElement = "h2",
   ...rest
 }: SortableListProps) => {
-  const [sortedItems, setSortedItems] = React.useState(() =>
-    getItemsWithIdsAndLabels(items)
-  );
+  const [sortedItems, setSortedItems] = React.useState(() => getItemsWithIdsAndLabels(items));
 
-  const [dragStartIndex, setDragStartIndex] = React.useState<number | null>(
-    null
-  );
-  const [draggedItemIndex, setDraggedItemIndex] = React.useState<number | null>(
-    null
-  );
-  const [lastAnnouncement, setLastAnnouncement] = React.useState<string | null>(
-    null
-  );
+  const [dragStartIndex, setDragStartIndex] = React.useState<number | null>(null);
+  const [draggedItemIndex, setDraggedItemIndex] = React.useState<number | null>(null);
+  const [lastAnnouncement, setLastAnnouncement] = React.useState<string | null>(null);
 
   const [touchStartY, setTouchStartY] = React.useState<number | null>(null);
   const dragHandleRefs = React.useRef<Array<HTMLButtonElement>>([]);
@@ -74,7 +63,7 @@ export const SortableList = ({
   const focusTrapOptions = React.useMemo(
     () => ({
       condition: editMode,
-      onEscape: handleEscapeCallback,
+      onEscape: handleEscapeCallback
     }),
     [editMode, handleEscapeCallback]
   );
@@ -83,10 +72,7 @@ export const SortableList = ({
 
   // we only want to recalculate this when items change from the parent, not when sortedItems change due to reordering
   // we use a memoized string of all labels to compare sortedItems vs items for changes
-  const parentLabels = React.useMemo(
-    () => items.map(extractTextFromNode).join("|"),
-    [items]
-  );
+  const parentLabels = React.useMemo(() => items.map(extractTextFromNode).join("|"), [items]);
 
   React.useEffect(() => {
     // Compare current vs incoming based on labels
@@ -138,13 +124,10 @@ export const SortableList = ({
     e.preventDefault();
 
     // only announce if dropped inside a valid zone AND order changed
-    if (
-      dragStartIndex !== null &&
-      draggedItemIndex !== null &&
-      dragStartIndex !== draggedItemIndex
-    ) {
-      const message = `Moved ${sortedItems[draggedItemIndex].label
-        } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
+    if (dragStartIndex !== null && draggedItemIndex !== null && dragStartIndex !== draggedItemIndex) {
+      const message = `Moved ${
+        sortedItems[draggedItemIndex].label
+      } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
       setLastAnnouncement(message);
     }
 
@@ -177,8 +160,7 @@ export const SortableList = ({
     onReorder?.(updated.map((item) => item.value));
 
     // Announce change (for screen readers)
-    const message = `Moved ${movedItem.label} to position ${newIndex + 1} of ${sortedItems.length
-      }`;
+    const message = `Moved ${movedItem.label} to position ${newIndex + 1} of ${sortedItems.length}`;
     setLastAnnouncement(message);
 
     // We'll ensure that DOM and refs are stable before moving focus
@@ -224,9 +206,7 @@ export const SortableList = ({
 
     if (!listItem) return;
 
-    const allItems = Array.from(
-      containerRef.current?.querySelectorAll("li") || []
-    );
+    const allItems = Array.from(containerRef.current?.querySelectorAll("li") || []);
     const newIndex = allItems.indexOf(listItem as HTMLLIElement);
 
     if (newIndex !== -1 && newIndex !== draggedItemIndex) {
@@ -240,13 +220,10 @@ export const SortableList = ({
   }
 
   function handleTouchEnd() {
-    if (
-      dragStartIndex !== null &&
-      draggedItemIndex !== null &&
-      dragStartIndex !== draggedItemIndex
-    ) {
-      const message = `Moved ${sortedItems[draggedItemIndex].label
-        } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
+    if (dragStartIndex !== null && draggedItemIndex !== null && dragStartIndex !== draggedItemIndex) {
+      const message = `Moved ${
+        sortedItems[draggedItemIndex].label
+      } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
       setLastAnnouncement(message);
       onReorder && onReorder(sortedItems.map((item) => item.value));
     }
@@ -259,11 +236,7 @@ export const SortableList = ({
   const TitleElement = titleElement || "h2";
 
   // hidden text for screen readers on the edit mode toggle button for context
-  const editModeButtonSRtext = title
-    ? `for ${title}`
-    : ariaLabel
-      ? `for ${ariaLabel}`
-      : "";
+  const editModeButtonSRtext = title ? `for ${title}` : ariaLabel ? `for ${ariaLabel}` : "";
 
   return (
     <div
@@ -273,10 +246,7 @@ export const SortableList = ({
     >
       <div className="flex flex-col gap-4">
         {title && (
-          <TitleElement
-            className="text-lg font-medium"
-            id="sortable-list-title"
-          >
+          <TitleElement className="text-lg font-medium" id="sortable-list-title">
             {title}
           </TitleElement>
         )}
@@ -314,8 +284,7 @@ export const SortableList = ({
             className={cn(
               "flex items-center gap-4 px-4 py-2 bg-surface-subtle border border-neutral rounded-md cursor-grab",
               {
-                "border-accent bg-surface-muted":
-                  index === draggedItemIndex && draggedItemIndex !== null,
+                "border-accent bg-surface-muted": index === draggedItemIndex && draggedItemIndex !== null
               }
             )}
             onDragOver={(e) => handleDragOver(e, index)}
@@ -334,14 +303,12 @@ export const SortableList = ({
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 handlePosition={handlePosition}
                 label={`${item.label}`}
-                ref={(el: HTMLButtonElement) =>
-                  (dragHandleRefs.current[index] = el)
-                }
+                ref={(el: HTMLButtonElement) => (dragHandleRefs.current[index] = el)}
               />
             ) : (
               <GripVertical
                 className={cn(`inline-block cursor-grab`, {
-                  "ml-auto": handlePosition === "end",
+                  "ml-auto": handlePosition === "end"
                 })}
                 aria-hidden="true"
               />

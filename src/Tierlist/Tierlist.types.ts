@@ -1,11 +1,5 @@
 export const defaultLabels = ["S", "A", "B", "C", "D"];
-export const defaultLabelColors = [
-  "#fca5a5",
-  "#fed7aa",
-  "#fef08a",
-  "#d9f99d",
-  "#bbf7d0",
-];
+export const defaultLabelColors = ["#fca5a5", "#fed7aa", "#fef08a", "#d9f99d", "#bbf7d0"];
 
 export type RankedItems = Array<Array<React.ReactElement<any>>>;
 

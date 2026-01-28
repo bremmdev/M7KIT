@@ -32,7 +32,7 @@ import { Masonry } from "./Masonry";
 const meta: Meta<typeof Masonry> = {
   component: Masonry,
   title: "Components/Masonry",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 
 export default meta;
@@ -44,9 +44,7 @@ const MasonryImage = ({ idx }: { idx: number }) => (
       style={{ aspectRatio: Math.random() * (1.25 - 0.75) + 0.75 }}
       className="w-full col-span-1 rounded-xl"
     />
-    <span className="absolute text-xl left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-      Image {idx + 1}
-    </span>
+    <span className="absolute text-xl left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">Image {idx + 1}</span>
   </div>
 );
 
@@ -54,29 +52,28 @@ const MasonryData = Array(12)
   .fill(0)
   .map((_, idx) => <MasonryImage idx={idx} key={idx} />);
 
-
 type Story = StoryObj<typeof Masonry>;
 
 export const Responsive: Story = {
   args: {
     columns: { sm: 2, md: 3, lg: 4 },
-    columnOrder: "horizontal",
+    columnOrder: "horizontal"
   },
   render: (props) => (
     <div className="bg slate-50 dark:bg-slate-900 dark:text-slate-50 p-2">
       <Masonry {...props}>{MasonryData}</Masonry>
     </div>
-  ),
+  )
 };
 
 export const Vertical: Story = {
   args: {
     columns: { sm: 2, md: 3, lg: 4 },
-    columnOrder: "vertical",
+    columnOrder: "vertical"
   },
   render: (props) => (
     <div className="bg slate-50 dark:bg-slate-900 dark:text-slate-50 p-2">
       <Masonry {...props}>{MasonryData}</Masonry>
     </div>
-  ),
+  )
 };

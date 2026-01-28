@@ -29,7 +29,7 @@ import { TextReveal } from "./TextReveal";
 const meta: Meta<typeof TextReveal> = {
   component: TextReveal,
   title: "Components/TextReveal",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 export default meta;
 
@@ -38,18 +38,16 @@ type Story = StoryObj<typeof TextReveal>;
 export const Default: Story = {
   args: {
     defaultVisibleIndex: 0,
-    className: "",
+    className: ""
   },
   render: (props) => (
     <div className="p-12">
-      <h1 className="text-accent font-bold text-2xl my-4 text-center">
-        Hi, I am Matt!
-      </h1>
+      <h1 className="text-accent font-bold text-2xl my-4 text-center">Hi, I am Matt!</h1>
       <TextReveal {...props}>
         <span className="text-md font-medium">full-stack developer</span>
         <span className="text-md font-medium">tech enthusiast</span>
         <span className="text-md font-medium">continuous learner</span>
       </TextReveal>
     </div>
-  ),
+  )
 };

@@ -5,13 +5,9 @@ import { SegmentedControl } from "./SegmentedControl";
 describe("SegmentedControl", () => {
   const renderComp = (onValueChange?: (value: string) => void) => {
     return (
-      <SegmentedControl
-        onValueChange={onValueChange ? onValueChange : () => {}}
-      >
+      <SegmentedControl onValueChange={onValueChange ? onValueChange : () => {}}>
         <SegmentedControl.Button>Option 1</SegmentedControl.Button>
-        <SegmentedControl.Button defaultSelected>
-          Option 2
-        </SegmentedControl.Button>
+        <SegmentedControl.Button defaultSelected>Option 2</SegmentedControl.Button>
         <SegmentedControl.Button>Option 3</SegmentedControl.Button>
       </SegmentedControl>
     );
@@ -26,16 +22,9 @@ describe("SegmentedControl", () => {
 
   it("should render the SegmentedControl component with default selected button", () => {
     const { getByRole } = render(renderComp());
-    expect(getByRole("button", { name: "Option 2" })).toHaveAttribute(
-      "aria-current",
-      "true"
-    );
-    expect(getByRole("button", { name: "Option 1" })).not.toHaveAttribute(
-      "aria-current"
-    );
-    expect(getByRole("button", { name: "Option 3" })).not.toHaveAttribute(
-      "aria-current"
-    );
+    expect(getByRole("button", { name: "Option 2" })).toHaveAttribute("aria-current", "true");
+    expect(getByRole("button", { name: "Option 1" })).not.toHaveAttribute("aria-current");
+    expect(getByRole("button", { name: "Option 3" })).not.toHaveAttribute("aria-current");
   });
 
   it("should not fire onValueChange callback when defaultSelected button is rendered", () => {
@@ -58,7 +47,7 @@ describe("SegmentedControl", () => {
     });
   });
 
-  it('should fire onValueChange callback when a button is clicked AND there is no default selected button', async () => {
+  it("should fire onValueChange callback when a button is clicked AND there is no default selected button", async () => {
     const onValueChange = jest.fn();
     const { getByRole } = render(
       <SegmentedControl onValueChange={onValueChange}>
@@ -82,15 +71,11 @@ describe("SegmentedControl", () => {
     const onValueChange = jest.fn();
     const { getByRole } = render(
       <SegmentedControl onValueChange={onValueChange}>
-        <SegmentedControl.Button value="value1">
-          Option 1
-        </SegmentedControl.Button>
+        <SegmentedControl.Button value="value1">Option 1</SegmentedControl.Button>
         <SegmentedControl.Button value="value2" defaultSelected>
           Option 2
         </SegmentedControl.Button>
-        <SegmentedControl.Button value="value3">
-          Option 3
-        </SegmentedControl.Button>
+        <SegmentedControl.Button value="value3">Option 3</SegmentedControl.Button>
       </SegmentedControl>
     );
 

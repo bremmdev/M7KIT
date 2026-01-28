@@ -38,8 +38,7 @@ import { FolderStructure } from "./FolderStructure";
 const meta: Meta<typeof FolderStructure> = {
   component: FolderStructure,
   title: "Components/FolderStructure",
-  tags: ["autodocs"],
-
+  tags: ["autodocs"]
 };
 export default meta;
 
@@ -53,16 +52,16 @@ export const Default: Story = {
   args: {
     data: [
       {
-        name: "Component.tsx",
+        name: "Component.tsx"
       },
       {
-        name: "Component.types.ts",
+        name: "Component.types.ts"
       },
       {
-        name: "Component.stories.tsx",
-      },
-    ],
-  },
+        name: "Component.stories.tsx"
+      }
+    ]
+  }
 };
 
 /*
@@ -81,57 +80,57 @@ export const Nested: Story = {
             name: "Component",
             children: [
               {
-                name: "Component.tsx",
+                name: "Component.tsx"
               },
               {
-                name: "Component.types.ts",
+                name: "Component.types.ts"
               },
               {
-                name: "Component.stories.tsx",
+                name: "Component.stories.tsx"
               },
               {
                 name: "SubComponent",
                 children: [
                   {
-                    name: "SubComponent.tsx",
+                    name: "SubComponent.tsx"
                   },
                   {
-                    name: "SubComponent.types.ts",
-                  },
-                ],
+                    name: "SubComponent.types.ts"
+                  }
+                ]
               }
-            ],
+            ]
           },
           {
             name: "Component2",
             children: [
               {
-                name: "Component2.tsx",
+                name: "Component2.tsx"
               },
               {
-                name: "Component2.types.ts",
+                name: "Component2.types.ts"
               },
               {
-                name: "Component2.stories.tsx",
-              },
-            ],
+                name: "Component2.stories.tsx"
+              }
+            ]
           },
           {
-            name: "index.ts",
-          },
-        ],
+            name: "index.ts"
+          }
+        ]
       },
       {
         name: "lib",
         children: [
           {
-            name: "types.ts",
+            name: "types.ts"
           },
           {
-            name: "utils.ts",
-          },
-        ],
-      },
-    ],
-  },
+            name: "utils.ts"
+          }
+        ]
+      }
+    ]
+  }
 };

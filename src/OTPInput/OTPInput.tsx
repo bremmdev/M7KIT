@@ -17,9 +17,7 @@ export const OTPInput = (props: OTPInputProps) => {
   } = props;
 
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const [otp, setOtp] = React.useState(() =>
-    validateValue(value || "", maxLength)
-  );
+  const [otp, setOtp] = React.useState(() => validateValue(value || "", maxLength));
   const [isFocused, setIsFocused] = React.useState(false);
   const [cursorPosition, setCursorPosition] = React.useState(0);
 
@@ -31,10 +29,7 @@ export const OTPInput = (props: OTPInputProps) => {
 
   const setCursorPositionAndSelectText = (newCursorPosition: number) => {
     setCursorPosition(newCursorPosition);
-    inputRef.current?.setSelectionRange(
-      newCursorPosition,
-      newCursorPosition + 1
-    );
+    inputRef.current?.setSelectionRange(newCursorPosition, newCursorPosition + 1);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,8 +58,7 @@ export const OTPInput = (props: OTPInputProps) => {
       const newCursorPosition = cursorPosition - 1;
 
       setOtp((prev) => {
-        const newValue =
-          prev.slice(0, cursorPosition - 1) + prev.slice(cursorPosition);
+        const newValue = prev.slice(0, cursorPosition - 1) + prev.slice(cursorPosition);
         onValueChange?.(newValue);
         return newValue;
       });
@@ -91,11 +85,7 @@ export const OTPInput = (props: OTPInputProps) => {
   };
 
   return (
-    <div
-      data-otp-container="true"
-      className={cn("flex text-3xl relative w-fit text-foreground", className)}
-      {...rest}
-    >
+    <div data-otp-container="true" className={cn("flex text-3xl relative w-fit text-foreground", className)} {...rest}>
       {Array.from({ length: maxLength }).map((_, idx) => {
         const isAtEmptyPosition = idx === otp.length && idx === cursorPosition;
         const showCursor = isAtEmptyPosition && isFocused;
@@ -105,8 +95,7 @@ export const OTPInput = (props: OTPInputProps) => {
             className={cn(
               "flex justify-center items-center border border-neutral border-r-0 w-12 h-16 first-of-type:rounded-s-md last-of-type:rounded-e-md last-of-type:border-r bg-surface-suble",
               {
-                "border-2 border-accent last-of-type:border-r-2":
-                  cursorPosition === idx && isFocused,
+                "border-2 border-accent last-of-type:border-r-2": cursorPosition === idx && isFocused
               }
             )}
           >

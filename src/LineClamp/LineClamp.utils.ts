@@ -14,13 +14,13 @@ export function getLineClampStyling(lines: number) {
           overflow: "hidden",
           display: "-webkit-box",
           WebkitBoxOrient: "vertical" as const,
-          WebkitLineClamp: lines,
+          WebkitLineClamp: lines
         }
       : {};
 
   return {
     lineClampStyles,
-    lineClampClass: getLineClampClass(lines),
+    lineClampClass: getLineClampClass(lines)
   };
 }
 
@@ -32,7 +32,7 @@ function getLineClampClass(lines: number) {
       "3": "line-clamp-3",
       "4": "line-clamp-4",
       "5": "line-clamp-5",
-      "6": "line-clamp-6",
+      "6": "line-clamp-6"
     } as const;
 
     return lineClampClasses[lines.toString() as keyof typeof lineClampClasses];
@@ -44,9 +44,7 @@ export const useLineClampContext = () => {
   const context = React.useContext(LineClampContext);
 
   if (!context) {
-    throw new Error(
-      "useLineClampContext must be used within a LineClampProvider"
-    );
+    throw new Error("useLineClampContext must be used within a LineClampProvider");
   }
 
   return context;

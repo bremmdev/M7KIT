@@ -1,0 +1,17 @@
+# Build output
+dist/
+
+# Dependencies
+node_modules/
+
+# Lock files (auto-generated)
+package-lock.json
+
+# Coverage reports
+coverage/
+
+# Storybook build
+storybook-static/
+
+# Changelog (often has specific formatting)
+CHANGELOG.md

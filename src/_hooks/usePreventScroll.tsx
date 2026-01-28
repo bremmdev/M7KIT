@@ -12,15 +12,9 @@ type Options = {
   preventBodyScrollClass?: string;
 };
 
-export function usePreventScroll({
-  enabled,
-  preventBodyScrollClass = "overflow-hidden",
-}: Options) {
+export function usePreventScroll({ enabled, preventBodyScrollClass = "overflow-hidden" }: Options) {
   const togglePreventScroll = React.useCallback(
-    (add: boolean) =>
-      add
-        ? document.body.setAttribute("inert", "")
-        : document.body.removeAttribute("inert"),
+    (add: boolean) => (add ? document.body.setAttribute("inert", "") : document.body.removeAttribute("inert")),
     []
   );
 

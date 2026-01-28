@@ -3,13 +3,13 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Rating } from "./Rating";
 
 /**
- * The `Rating` component is used to display a rating out of a maximum value. It is a wrapper around `ludice-react` icons. 
- * 
+ * The `Rating` component is used to display a rating out of a maximum value. It is a wrapper around `ludice-react` icons.
+ *
  * ## Features
  * - Supports `Star`, `Circle` and `Heart` variants
  * - Supports "half" rating by passing a decimal value to the `value` prop. The passed value is rounded to the nearest half.
  * - Supports custom sizes
- * 
+ *
  * ## Usage
  * ```
  * <Rating
@@ -29,9 +29,9 @@ const meta: Meta<typeof Rating> = {
   argTypes: {
     variant: {
       options: ["star", "heart", "circle-black", "circle-gray"],
-      control: { type: "radio" },
-    },
-  },
+      control: { type: "radio" }
+    }
+  }
 };
 
 export default meta;
@@ -43,13 +43,13 @@ export const Star: Story = {
     max: 5,
     value: 3.5,
     size: 32,
-    variant: "star",
+    variant: "star"
   },
   render: (props) => (
     <div className="bg slate-50 dark:bg-slate-900 p-4">
       <Rating {...props} />
     </div>
-  ),
+  )
 };
 
 export const Circle: Story = {
@@ -57,13 +57,13 @@ export const Circle: Story = {
     max: 5,
     value: 3,
     size: 16,
-    variant: "circle-black",
+    variant: "circle-black"
   },
   render: (props) => (
     <div className="bg slate-50 dark:bg-slate-900 p-4">
       <Rating {...props} />
     </div>
-  ),
+  )
 };
 
 export const Heart: Story = {
@@ -71,11 +71,11 @@ export const Heart: Story = {
     max: 5,
     value: 3,
     size: 24,
-    variant: "heart",
+    variant: "heart"
   },
   render: (props) => (
     <div className="bg slate-50 dark:bg-slate-900 p-4">
       <Rating {...props} />
     </div>
-  ),
+  )
 };

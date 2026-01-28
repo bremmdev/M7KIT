@@ -29,7 +29,7 @@ import "m7kit/theme"
 
 ## Theming
 
-Colors are defined using theme variables in Tailwind v4. These variables are automatically available as CSS variables and utility classes. You can override these variables in your own global CSS file to match your application's theme. 
+Colors are defined using theme variables in Tailwind v4. These variables are automatically available as CSS variables and utility classes. You can override these variables in your own global CSS file to match your application's theme.
 
 There are several ways to use the theme:
 

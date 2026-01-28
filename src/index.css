@@ -5,7 +5,6 @@
 
 /* The default border color has changed to `currentcolor` in Tailwind CSS v4 */
 @layer base {
-
   *,
   ::after,
   ::before,
@@ -21,7 +20,6 @@
 }
 
 @layer components {
-
   .focus-ring,
   .focus-ring-inner,
   .focus-ring-neutral,
@@ -59,10 +57,12 @@
 }
 
 @utility shimmer {
-  background-image: linear-gradient(-45deg,
-      rgba(255, 255, 255, 0) 43%,
-      rgba(255, 255, 255, 0.4) 50%,
-      rgba(255, 255, 255, 0) 57%);
+  background-image: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0) 43%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 57%
+  );
 }
 
 .visually-hidden:not(:focus):not(:active) {
@@ -85,12 +85,12 @@
 }
 
 /* Custom styles for the details element */
-details>summary::before {
+details > summary::before {
   transform: rotate(-90deg) translate(2px, -0px);
   /* Align the triangle with the text */
 }
 
-details[open]>summary::before {
+details[open] > summary::before {
   transform: rotate(0deg) translate(0, -2px);
 }
 

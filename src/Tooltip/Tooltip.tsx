@@ -4,11 +4,32 @@ import React from "react";
 import { TooltipProps, TooltipContentProps, TooltipTriggerProps, Placement } from "./Tooltip.types";
 import { useTooltip, TooltipProvider } from "./TooltipContext";
 import { cn } from "../utils/cn";
-import { getPlacementClasses, getBridgeClasses, getArrowClasses, getArrowPositionStyle, determinePlacement } from "./Tooltip.utils";
+import {
+  getPlacementClasses,
+  getBridgeClasses,
+  getArrowClasses,
+  getArrowPositionStyle,
+  determinePlacement
+} from "./Tooltip.utils";
 
-export const Tooltip = ({ children, className, fade = true, hoverDelay = 500, open, onOpenChange, tapToClose = false, ...rest }: TooltipProps) => {
+export const Tooltip = ({
+  children,
+  className,
+  fade = true,
+  hoverDelay = 500,
+  open,
+  onOpenChange,
+  tapToClose = false,
+  ...rest
+}: TooltipProps) => {
   return (
-    <TooltipProvider hoverDelay={hoverDelay} open={open} onOpenChange={onOpenChange} fade={fade} tapToClose={tapToClose}>
+    <TooltipProvider
+      hoverDelay={hoverDelay}
+      open={open}
+      onOpenChange={onOpenChange}
+      fade={fade}
+      tapToClose={tapToClose}
+    >
       <div className={cn("relative w-fit text-foreground", className)} {...rest}>
         {children}
       </div>
@@ -25,9 +46,7 @@ const TooltipArrow = ({ placement }: { placement: Placement }) => {
       className={cn(
         "absolute w-3 h-3 rotate-45 bg-surface-subtle",
         // Border only on the sides pointing toward trigger
-        isTop
-          ? "border-b border-r border-neutral"
-          : "border-t border-l border-neutral",
+        isTop ? "border-b border-r border-neutral" : "border-t border-l border-neutral",
         getArrowClasses(placement)
       )}
       style={getArrowPositionStyle(placement, triggerWidth)}
@@ -37,8 +56,18 @@ const TooltipArrow = ({ placement }: { placement: Placement }) => {
 };
 
 export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerProps) => {
-
-  const { open, setOpen, hoverDelay, tapToClose, openTimerRef, closeTimerRef, setTriggerWidth, tooltipId, tooltipTriggerRef, tooltipContentRef } = useTooltip();
+  const {
+    open,
+    setOpen,
+    hoverDelay,
+    tapToClose,
+    openTimerRef,
+    closeTimerRef,
+    setTriggerWidth,
+    tooltipId,
+    tooltipTriggerRef,
+    tooltipContentRef
+  } = useTooltip();
 
   // Measure trigger width on mount, so we can position the arrow correctly
   React.useEffect(() => {
@@ -120,7 +149,22 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
   }
 
   return (
-    <button ref={tooltipTriggerRef} type="button" onFocus={handleFocus} onBlur={handleBlur} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onKeyDown={handleKeyDown} onTouchEnd={tapToClose ? handleTouchEnd : undefined} aria-describedby={open ? tooltipId : undefined} className={cn("focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground", className)} {...rest}>
+    <button
+      ref={tooltipTriggerRef}
+      type="button"
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onKeyDown={handleKeyDown}
+      onTouchEnd={tapToClose ? handleTouchEnd : undefined}
+      aria-describedby={open ? tooltipId : undefined}
+      className={cn(
+        "focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground",
+        className
+      )}
+      {...rest}
+    >
       {children}
     </button>
   );
@@ -128,8 +172,7 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
 
 export const TooltipContent = ({ children, className, placement = "bottom center", ...rest }: TooltipContentProps) => {
   const { fade, open, setOpen, closeTimerRef, tooltipId, tooltipContentRef, tooltipTriggerRef } = useTooltip();
-  const [calculatedPlacement, setCalculatedPlacement] =
-    React.useState<Placement>(placement);
+  const [calculatedPlacement, setCalculatedPlacement] = React.useState<Placement>(placement);
   const [neverFits, setNeverFits] = React.useState(false);
 
   function handleMouseEnter() {
@@ -181,13 +224,19 @@ export const TooltipContent = ({ children, className, placement = "bottom center
       setCalculatedPlacement(placement);
       setNeverFits(false);
       return;
-    };
+    }
 
     const tooltipContentRect = tooltipContentRef.current?.getBoundingClientRect();
     const tooltipTriggerRect = tooltipTriggerRef.current?.getBoundingClientRect();
     const { innerHeight, innerWidth } = window;
     if (!tooltipContentRect || !tooltipTriggerRect) return;
-    const { newPlacement, neverFits } = determinePlacement(tooltipContentRect, tooltipTriggerRect, placement, innerHeight, innerWidth);
+    const { newPlacement, neverFits } = determinePlacement(
+      tooltipContentRect,
+      tooltipTriggerRect,
+      placement,
+      innerHeight,
+      innerWidth
+    );
     setNeverFits(neverFits);
     setCalculatedPlacement(newPlacement);
   }, [open, placement]);
@@ -198,10 +247,10 @@ export const TooltipContent = ({ children, className, placement = "bottom center
       className={cn(
         "absolute w-64 bg-surface-subtle border border-neutral rounded-md p-2 my-2",
         {
-          "animate-fade-in": fade,
+          "animate-fade-in": fade
         },
         {
-          "max-w-[calc(100vw-2rem)]": neverFits,
+          "max-w-[calc(100vw-2rem)]": neverFits
         },
         getPlacementClasses(calculatedPlacement),
         getBridgeClasses(calculatedPlacement),
@@ -220,4 +269,3 @@ export const TooltipContent = ({ children, className, placement = "bottom center
     </div>
   );
 };
-

@@ -9,7 +9,7 @@ export const ShimmerImage = (props: ShimmerImageProps) => {
       className={cn(
         "relative w-fit after:absolute after:inset-0 after:content-[''] after:shimmer after:bg-size-[200%] after:animate-shimmer",
         {
-          "after:rounded-full": rounded,
+          "after:rounded-full": rounded
         }
       )}
     >
@@ -18,7 +18,7 @@ export const ShimmerImage = (props: ShimmerImageProps) => {
         className={cn(
           "",
           {
-            "rounded-full object-cover aspect-square": rounded,
+            "rounded-full object-cover aspect-square": rounded
           },
           className
         )}

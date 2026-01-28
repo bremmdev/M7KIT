@@ -1,12 +1,7 @@
 import "./src/index.css";
 
 export { AnimatedCount } from "./src/AnimatedCount";
-export {
-  Breadcrumb,
-  BreadcrumbCurrentItem,
-  BreadcrumbItem,
-  BreadcrumbMenu,
-} from "./src/Breadcrumb";
+export { Breadcrumb, BreadcrumbCurrentItem, BreadcrumbItem, BreadcrumbMenu } from "./src/Breadcrumb";
 export { Button } from "./src/Button";
 export { Card, CardContent, CardTitle } from "./src/Card";
 export { DiamondGrid } from "./src/DiamondGrid";

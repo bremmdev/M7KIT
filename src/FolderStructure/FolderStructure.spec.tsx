@@ -4,14 +4,14 @@ import { FolderStructure } from "./FolderStructure";
 describe("FolderStructure", () => {
   const data = [
     {
-      name: "Component.tsx",
+      name: "Component.tsx"
     },
     {
-      name: "Component.types.ts",
+      name: "Component.types.ts"
     },
     {
-      name: "Component.stories.tsx",
-    },
+      name: "Component.stories.tsx"
+    }
   ];
 
   const nestedData = [
@@ -22,30 +22,30 @@ describe("FolderStructure", () => {
           name: "SubComponent",
           children: [
             {
-              name: "Component.tsx",
+              name: "Component.tsx"
             },
             {
-              name: "Component.types.ts",
+              name: "Component.types.ts"
             },
             {
-              name: "Component.stories.tsx",
-            },
-          ],
+              name: "Component.stories.tsx"
+            }
+          ]
         },
         {
-          name: "FolderStructure.tsx",
+          name: "FolderStructure.tsx"
         },
         {
-          name: "FolderStructure.types.ts",
+          name: "FolderStructure.types.ts"
         },
         {
-          name: "FolderStructure.stories.tsx",
-        },
-      ],
+          name: "FolderStructure.stories.tsx"
+        }
+      ]
     },
     {
-      name: "index.tsx",
-    },
+      name: "index.tsx"
+    }
   ];
 
   it("renders the nodes", () => {

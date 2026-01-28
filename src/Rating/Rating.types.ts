@@ -12,11 +12,11 @@ export type RatingProps = React.ComponentPropsWithRef<"div"> & {
   /**
    * The size of the rating in pixels
    * @default 24
-  */
+   */
   size?: number;
   /**
    * Variant of the rating, defaults to 'star'
    * @default star
    */
-  variant?: 'star' | 'heart' | 'circle-black' | 'circle-gray';
+  variant?: "star" | "heart" | "circle-black" | "circle-gray";
 };

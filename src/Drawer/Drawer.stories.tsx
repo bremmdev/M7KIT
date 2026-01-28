@@ -31,7 +31,7 @@ import { DrawerRoot, Drawer, DrawerContent, DrawerTrigger } from "./Drawer";
 const meta: Meta<typeof Drawer> = {
   component: Drawer,
   title: "Components/Drawer",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 export default meta;
 
@@ -42,7 +42,7 @@ export const Default: Story = {
     placement: "right",
     className: "",
     onOpen: action("Drawer opened"),
-    onClose: action("Drawer closed"),
+    onClose: action("Drawer closed")
   },
   render: (props) => {
     return (
@@ -56,22 +56,18 @@ export const Default: Story = {
               <div className="space-y-5 leading-7 text-foreground">
                 <h1 className="text-3xl font-bold">Drawer</h1>
                 <p>
-                  This is a drawer. You can put anything you want in the
-                  DrawerContent. It's a modal that slides in when opened. It
-                  fills half of the screen on larger screens, 2/3 of the screen
-                  on medium screens, and the full screen on smaller screens.
+                  This is a drawer. You can put anything you want in the DrawerContent. It's a modal that slides in when
+                  opened. It fills half of the screen on larger screens, 2/3 of the screen on medium screens, and the
+                  full screen on smaller screens.
                 </p>
 
                 <h2 className="text-2xl font-bold">Focus and accessibility</h2>
                 <p>
-                  On opening, the Drawer gets focus. All elements in the Drawer
-                  are in a focus trap and can be navigated using the keyboard.
+                  On opening, the Drawer gets focus. All elements in the Drawer are in a focus trap and can be navigated
+                  using the keyboard.
                 </p>
                 <div className="flex flex-col gap-4">
-                  <label
-                    htmlFor="input"
-                    className="text-foreground font-medium"
-                  >
+                  <label htmlFor="input" className="text-foreground font-medium">
                     Focusable input
                   </label>
                   <input
@@ -95,36 +91,32 @@ export const Default: Story = {
                 </div>
 
                 <p>
-                  The region that contains the close button has position sticky
-                  and is always visible at the top of the Drawer. The content
-                  flows under the close button when scrolling.
+                  The region that contains the close button has position sticky and is always visible at the top of the
+                  Drawer. The content flows under the close button when scrolling.
                 </p>
 
                 <p>
-                  When opened, all other elements on the page are inert and not
-                  reachable by keyboard or announced by screenreaders.
+                  When opened, all other elements on the page are inert and not reachable by keyboard or announced by
+                  screenreaders.
                 </p>
 
                 <h2 className="text-2xl font-bold">Trigger</h2>
                 <p>
-                  The DrawerTrigger component is used to open the Drawer. It
-                  needs to be contained within the DrawerRoot component to work.
-                  It is hidden when the Drawer is open.
+                  The DrawerTrigger component is used to open the Drawer. It needs to be contained within the DrawerRoot
+                  component to work. It is hidden when the Drawer is open.
                 </p>
                 <h2 className="text-2xl font-bold">Placement</h2>
                 <p>
-                  The Drawer can be placed on the left, right, top or bottom of
-                  the screen using the <strong>placement</strong> prop. The
-                  default placement is right.
+                  The Drawer can be placed on the left, right, top or bottom of the screen using the{" "}
+                  <strong>placement</strong> prop. The default placement is right.
                 </p>
 
                 <h2 className="text-2xl font-bold">Scrolling</h2>
                 <p>
-                  The Drawer has a scrollbar when the content is too long to fit
-                  in the Drawer. The scrollbar is only visible when the Drawer
-                  is open. The close button is always visible at the top of the
-                  Drawer when scrolling. The page content is inert when the
-                  Drawer is open and scrolling the page content is disabled.
+                  The Drawer has a scrollbar when the content is too long to fit in the Drawer. The scrollbar is only
+                  visible when the Drawer is open. The close button is always visible at the top of the Drawer when
+                  scrolling. The page content is inert when the Drawer is open and scrolling the page content is
+                  disabled.
                 </p>
               </div>
             </DrawerContent>
@@ -132,12 +124,12 @@ export const Default: Story = {
         </DrawerRoot>
       </div>
     );
-  },
+  }
 };
 
 export const Bottom: Story = {
   args: {
-    placement: "bottom",
+    placement: "bottom"
   },
-  render: Default.render,
+  render: Default.render
 };

@@ -47,10 +47,10 @@ const meta: Meta<typeof Marquee> = {
       options: ["left", "right"],
       mapping: {
         left: "left",
-        right: "right",
-      },
-    },
-  },
+        right: "right"
+      }
+    }
+  }
 };
 export default meta;
 
@@ -65,46 +65,46 @@ const items = [
   <img src={SanityIcon} alt="Sanity Icon" className="w-16 h-16" />,
   <img src={StorybookIcon} alt="Storybook Icon" className="w-16 h-16" />,
   <img src={TailwindIcon} alt="Tailwind Icon" className="w-16 h-16" />,
-  <img src={TypeScriptIcon} alt="TypeScript Icon" className="w-16 h-16" />,
+  <img src={TypeScriptIcon} alt="TypeScript Icon" className="w-16 h-16" />
 ];
 
 export const Default: Story = {
   args: {
     pauseOnHover: true,
-    className: "max-w-[800px] mx-auto",
+    className: "max-w-[800px] mx-auto"
   },
 
   render: (props) => (
     <div className="p-12">
       <Marquee {...props}>{items}</Marquee>
     </div>
-  ),
+  )
 };
 
 export const Vertical: Story = {
   args: {
     direction: "down",
-    className: "max-h-[360px]",
+    className: "max-h-[360px]"
   },
   argTypes: {
     direction: {
       options: ["down", "up"],
       mapping: {
         down: "down",
-        up: "up",
-      },
-    },
+        up: "up"
+      }
+    }
   },
   render: (props) => (
     <div className="p-12">
       <Marquee {...props}>{items}</Marquee>
     </div>
-  ),
+  )
 };
 
 export const ImageGallery: Story = {
   args: {
-    animationDuration: 10000,
+    animationDuration: 10000
   },
   render: (props) => (
     <div className="p-12">
@@ -116,5 +116,5 @@ export const ImageGallery: Story = {
         <img src={image005} alt="image005" className="w-[500px] h-72" />
       </Marquee>
     </div>
-  ),
+  )
 };

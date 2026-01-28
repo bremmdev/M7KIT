@@ -1,9 +1,4 @@
-import {
-  FileType,
-  FolderProps,
-  FolderStructureProps,
-  FolderType,
-} from "./FolderStructure.types";
+import { FileType, FolderProps, FolderStructureProps, FolderType } from "./FolderStructure.types";
 import { Folder as FolderIcon } from "lucide-react";
 import { cn } from "../utils/cn";
 
@@ -19,7 +14,7 @@ const Folder = ({ folder, indent, open, trailingSlash }: FolderProps) => {
         "group py-[2px] relative before:content-[''] before:absolute before:top-6 before:bottom-1 before:left-7 before:w-px before:bg-foreground",
         {
           "[&_details]:ml-8": indent !== "normal",
-          "[&_details]:ml-10": indent === "normal",
+          "[&_details]:ml-10": indent === "normal"
         }
       )}
     >
@@ -35,13 +30,7 @@ const Folder = ({ folder, indent, open, trailingSlash }: FolderProps) => {
       <div>
         {folder.children.map((child) => {
           return isFolder(child) ? (
-            <Folder
-              folder={child}
-              key={child.name}
-              open={open}
-              indent={indent}
-              trailingSlash={trailingSlash}
-            />
+            <Folder folder={child} key={child.name} open={open} indent={indent} trailingSlash={trailingSlash} />
           ) : (
             <div key={child.name} className="ml-10">
               {child.name}
@@ -72,13 +61,7 @@ export const FolderStructure = ({
       <div className="p-4">
         {data?.map((child) => {
           return isFolder(child) ? (
-            <Folder
-              key={child.name}
-              folder={child}
-              indent={indent}
-              open={open}
-              trailingSlash={trailingSlash}
-            />
+            <Folder key={child.name} folder={child} indent={indent} open={open} trailingSlash={trailingSlash} />
           ) : (
             <div key={child.name}>{child.name}</div>
           );

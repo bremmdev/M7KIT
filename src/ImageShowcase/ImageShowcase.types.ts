@@ -4,4 +4,4 @@ export type ImageShowcaseProps = React.ComponentPropsWithRef<"div"> & {
    * @default 2
    */
   growFactor?: 1.5 | 2 | 2.5 | 3;
-}
+};

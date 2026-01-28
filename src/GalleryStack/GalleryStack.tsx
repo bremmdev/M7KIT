@@ -8,22 +8,14 @@ const NavigationButtons = (props: NavigationButtonProps) => {
   const { animationDirection, className, onNavigate, lastItemIdx } = props;
 
   return (
-    <div
-      className={cn(
-        "absolute left-1/2 -translate-x-full -bottom-2 flex gap-2",
-        className
-      )}
-    >
+    <div className={cn("absolute left-1/2 -translate-x-full -bottom-2 flex gap-2", className)}>
       <button
         className="mx-auto rounded-full focus-ring disabled:opacity-50 disabled:bg-transparent"
         disabled={animationDirection !== "idle"}
         aria-label="previous item"
         onClick={() => onNavigate(0)}
       >
-        <CircleArrowLeft
-          size={32}
-          className="stroke-foreground hover:stroke-accent"
-        />
+        <CircleArrowLeft size={32} className="stroke-foreground hover:stroke-accent" />
       </button>
       <button
         className="mx-auto rounded-full focus-ring disabled:opacity-50 disabled:bg-transparent"
@@ -31,50 +23,32 @@ const NavigationButtons = (props: NavigationButtonProps) => {
         aria-label="next item"
         onClick={() => onNavigate(lastItemIdx)}
       >
-        <CircleArrowRight
-          size={32}
-          className="stroke-foreground hover:stroke-accent"
-        />
+        <CircleArrowRight size={32} className="stroke-foreground hover:stroke-accent" />
       </button>
     </div>
   );
 };
 
 export const GalleryStack = (props: GalleryStackProps) => {
-  const {
-    children,
-    className,
-    rotationAmount = 3,
-    reversed = false,
-    animationDuration = 2000,
-    ...rest
-  } = props;
+  const { children, className, rotationAmount = 3, reversed = false, animationDuration = 2000, ...rest } = props;
 
   //if children is not an array, throw an error
   if (!Array.isArray(children)) {
-    throw new Error(
-      "GalleryStack component expects children to be an array of items"
-    );
+    throw new Error("GalleryStack component expects children to be an array of items");
   }
 
   //convert children iterable to array for easier manipulation and reverse if needed
   const childrenArray = React.Children.toArray(children);
 
-  const [items, setItems] = React.useState<Array<React.ReactNode>>(
-    reversed ? childrenArray.reverse() : childrenArray
-  );
-  const [animationDirection, setAnimationDirection] =
-    React.useState<animationDirection>("idle");
+  const [items, setItems] = React.useState<Array<React.ReactNode>>(reversed ? childrenArray.reverse() : childrenArray);
+  const [animationDirection, setAnimationDirection] = React.useState<animationDirection>("idle");
 
   const handleItemClick = (idx: number) => {
     const itemsCopy = [...items];
     const clickedItem = itemsCopy.splice(idx, 1)[0];
     //if we go back move bottom item (index 0) to the top
     //otherwise move top item (index length-1) to the bottom
-    const newItems =
-      idx === 0
-        ? [...items.slice(1), clickedItem]
-        : [clickedItem, ...items.slice(0, -1)];
+    const newItems = idx === 0 ? [...items.slice(1), clickedItem] : [clickedItem, ...items.slice(0, -1)];
 
     setAnimationDirection(idx === 0 ? "backward" : "forward");
     //wait for the animation to finish before updating the items
@@ -101,21 +75,15 @@ export const GalleryStack = (props: GalleryStackProps) => {
         const styles = isAnimating
           ? {
               animation: `${animationDuration}ms ${
-                animationDirection === "forward"
-                  ? "slide-back"
-                  : "slide-back-mirrored"
-              } ease-in-out`,
+                animationDirection === "forward" ? "slide-back" : "slide-back-mirrored"
+              } ease-in-out`
             }
           : {
               transform: `rotate(${calculatedRotation}deg) translateX(0)`,
-              zIndex: animationDirection === "backward" ? -1 : 0,
+              zIndex: animationDirection === "backward" ? -1 : 0
             };
         return (
-          <div
-            key={idx}
-            onClick={handleItemClick.bind(null, idx)}
-            style={styles}
-          >
+          <div key={idx} onClick={handleItemClick.bind(null, idx)} style={styles}>
             {child}
           </div>
         );

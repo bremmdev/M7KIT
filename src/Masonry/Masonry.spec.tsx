@@ -14,9 +14,7 @@ describe("Masonry", () => {
   ];
 
   it("render correct number of columns", () => {
-    const { getAllByTestId } = render(
-      <Masonry columns={3}>{children}</Masonry>
-    );
+    const { getAllByTestId } = render(<Masonry columns={3}>{children}</Masonry>);
 
     expect(getAllByTestId("column")).toHaveLength(3);
   });
@@ -32,9 +30,7 @@ describe("Masonry", () => {
   });
 
   it("render correct order of items for horizontal", () => {
-    const { getAllByTestId } = render(
-      <Masonry columns={3}>{children}</Masonry>
-    );
+    const { getAllByTestId } = render(<Masonry columns={3}>{children}</Masonry>);
     expect(getAllByTestId("column")[0]).toHaveTextContent("147");
     expect(getAllByTestId("column")[1]).toHaveTextContent("258");
     expect(getAllByTestId("column")[2]).toHaveTextContent("36");

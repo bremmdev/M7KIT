@@ -26,7 +26,7 @@ import { SegmentedControl } from "./SegmentedControl";
 const meta: Meta<typeof SegmentedControl> = {
   component: SegmentedControl,
   title: "Components/SegmentedControl",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 export default meta;
 
@@ -34,7 +34,7 @@ type Story = StoryObj<typeof SegmentedControl>;
 
 export const Default: Story = {
   args: {
-    onValueChange: (value: string) => action("Value changed")(value),
+    onValueChange: (value: string) => action("Value changed")(value)
   },
   render: (props) => {
     return (
@@ -48,5 +48,5 @@ export const Default: Story = {
         </SegmentedControl>
       </div>
     );
-  },
+  }
 };

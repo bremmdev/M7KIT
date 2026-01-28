@@ -46,20 +46,18 @@ export function handleTouchEnd(e: React.TouchEvent<HTMLDivElement>) {
     if (dropTarget.closest("[data-id=tierlist-items]")) {
       return {
         targetTierIdx: -1,
-        isUnranking: true,
+        isUnranking: true
       };
     }
 
     const tier = dropTarget.closest("[data-tierlist-tier-idx]");
     if (tier) {
-      targetTierIdx = parseInt(
-        (tier as HTMLElement).dataset.tierlistTierIdx || "-1"
-      );
+      targetTierIdx = parseInt((tier as HTMLElement).dataset.tierlistTierIdx || "-1");
     }
   }
 
   return {
     isUnranking: false,
-    targetTierIdx,
+    targetTierIdx
   };
 }

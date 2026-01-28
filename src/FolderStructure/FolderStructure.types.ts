@@ -14,7 +14,7 @@ export interface FolderType extends NamedEntity {
   children: ReadonlyArray<FileType | FolderType>;
 }
 
-export type Indent = 'normal' | 'small';
+export type Indent = "normal" | "small";
 
 /**
  * Represents the root of the folder structure.
@@ -28,26 +28,25 @@ export interface FileProps {
 
 export interface FolderProps {
   folder: FolderType;
-   /**
+  /**
    * The amount of space to indent each level of the folder structure
    * @default "normal"
-   */ 
+   */
   indent?: Indent;
   open: boolean;
   /**
    * Add a slash to the end of the folder name
    * @default false
-  */
+   */
   trailingSlash?: boolean;
 }
 
-export interface FolderStructureProps
-  extends React.ComponentPropsWithRef<"div"> {
+export interface FolderStructureProps extends React.ComponentPropsWithRef<"div"> {
   data: FolderStructureType;
   /**
    * The amount of space to indent each level of the folder structure
    * @default "normal"
-   */ 
+   */
   indent?: Indent;
   /**
    * Whether the folder structure should be open by default

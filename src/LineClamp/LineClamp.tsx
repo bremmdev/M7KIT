@@ -1,20 +1,12 @@
 import React, { type JSX } from "react";
 import { cn } from "../utils/cn";
-import {
-  LineClampProps,
-  LineClampRootProps,
-  LineClampTriggerProps,
-} from "./LineClamp.types";
+import { LineClampProps, LineClampRootProps, LineClampTriggerProps } from "./LineClamp.types";
 import { getLineClampStyling, useLineClampContext } from "./LineClamp.utils";
 import { LineClampProvider } from "./LineClampContext";
 import { useResizeWindow } from "../_hooks/useResizeWindow";
 
 export const LineClampTrigger = (props: LineClampTriggerProps) => {
-  const {
-    className,
-    showLessText = "Read Less",
-    showMoreText = "Read More",
-  } = props;
+  const { className, showLessText = "Read Less", showMoreText = "Read More" } = props;
 
   const { clamped, setClamped, hideTrigger } = useLineClampContext();
 
@@ -35,9 +27,7 @@ export const LineClampTrigger = (props: LineClampTriggerProps) => {
   ) : null;
 };
 
-export const LineClamp = <T extends keyof JSX.IntrinsicElements = "p">(
-  props: LineClampProps<T>
-) => {
+export const LineClamp = <T extends keyof JSX.IntrinsicElements = "p">(props: LineClampProps<T>) => {
   const { animate = true, as = "p", children, className, lines = 3 } = props;
 
   const { clamped, setHideTrigger } = useLineClampContext();
@@ -49,14 +39,14 @@ export const LineClamp = <T extends keyof JSX.IntrinsicElements = "p">(
     ? getLineClampStyling(lines)
     : {
         lineClampStyles: {},
-        lineClampClass: "",
+        lineClampClass: ""
       };
 
   const styles = animate
     ? {
         ...lineClampStyles,
         height,
-        transition: "height 0.3s ease-in-out",
+        transition: "height 0.3s ease-in-out"
       }
     : lineClampStyles;
 
@@ -66,10 +56,7 @@ export const LineClamp = <T extends keyof JSX.IntrinsicElements = "p">(
   // if the content is not clamped, hide the trigger button
   React.useEffect(() => {
     const clampElement = lineClampRef.current;
-    if (
-      clampElement &&
-      clampElement.scrollHeight <= clampElement.clientHeight
-    ) {
+    if (clampElement && clampElement.scrollHeight <= clampElement.clientHeight) {
       setHideTrigger(true);
     }
   }, [setHideTrigger]);
@@ -79,9 +66,7 @@ export const LineClamp = <T extends keyof JSX.IntrinsicElements = "p">(
       // Get the height of the content
       const fullHeight = lineClampRef.current.scrollHeight;
       // Calculate the clamped height
-      const lineHeight = parseFloat(
-        getComputedStyle(lineClampRef.current).lineHeight
-      );
+      const lineHeight = parseFloat(getComputedStyle(lineClampRef.current).lineHeight);
       const clampedHeight = `${lines * lineHeight}px`;
 
       if (!clamped) {
@@ -105,10 +90,7 @@ export const LineClamp = <T extends keyof JSX.IntrinsicElements = "p">(
     }
 
     //if the content is clamped, hide the trigger button if there is no overflow
-    if (
-      clamped &&
-      lineClampRef.current.scrollHeight <= lineClampRef.current.clientHeight
-    ) {
+    if (clamped && lineClampRef.current.scrollHeight <= lineClampRef.current.clientHeight) {
       setHideTrigger(true);
     } else {
       setHideTrigger(false);
@@ -116,9 +98,7 @@ export const LineClamp = <T extends keyof JSX.IntrinsicElements = "p">(
 
     //if not clamped, hide the trigger button if the content is not overflowing
     if (!clamped) {
-      const lineHeight = parseFloat(
-        getComputedStyle(lineClampRef.current).lineHeight
-      );
+      const lineHeight = parseFloat(getComputedStyle(lineClampRef.current).lineHeight);
       const clampedHeight = lines * lineHeight;
 
       if (lineClampRef.current.scrollHeight <= clampedHeight) {
@@ -132,11 +112,9 @@ export const LineClamp = <T extends keyof JSX.IntrinsicElements = "p">(
   return (
     <LineClampComponent
       style={styles}
-      className={cn(
-        `${lineClampClass} px-1 transition-[max-height] duration-300 ease-in-out`,
-        className,
-        { "overflow-hidden": isAnimating }
-      )}
+      className={cn(`${lineClampClass} px-1 transition-[max-height] duration-300 ease-in-out`, className, {
+        "overflow-hidden": isAnimating
+      })}
       ref={lineClampRef}
     >
       {children}

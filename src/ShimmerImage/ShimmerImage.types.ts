@@ -5,4 +5,4 @@ export type ShimmerImageProps = React.ComponentPropsWithRef<"img"> & {
    * @default false
    */
   rounded?: boolean;
-}
+};

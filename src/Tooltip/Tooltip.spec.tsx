@@ -51,7 +51,7 @@ describe("Tooltip", () => {
 
     it("should throw error when TooltipTrigger is used outside of Tooltip", () => {
       // Suppress console.error for this test
-      const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => { });
+      const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
 
       expect(() => {
         render(<TooltipTrigger>Orphan trigger</TooltipTrigger>);
@@ -61,7 +61,7 @@ describe("Tooltip", () => {
     });
 
     it("should throw error when TooltipContent is used outside of Tooltip", () => {
-      const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => { });
+      const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
 
       expect(() => {
         render(<TooltipContent>Orphan content</TooltipContent>);

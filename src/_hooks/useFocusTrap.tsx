@@ -24,32 +24,20 @@ export function useFocusTrap<T extends HTMLElement>(
   options?: {
     condition?: boolean;
     onEscape?: () => void;
-    initialFocusElement?:
-      | React.RefObject<HTMLElement | null>
-      | "first"
-      | "container";
+    initialFocusElement?: React.RefObject<HTMLElement | null> | "first" | "container";
     autoRestoreFocus?: boolean;
   }
 ) {
   const previousActiveElement = React.useRef<HTMLElement | null>(null);
   const hasSetInitialFocus = React.useRef(false);
-  const {
-    condition = true,
-    onEscape,
-    initialFocusElement = "first",
-    autoRestoreFocus = true,
-  } = options || {};
+  const { condition = true, onEscape, initialFocusElement = "first", autoRestoreFocus = true } = options || {};
 
   React.useEffect(() => {
     const container = el.current;
 
     // When condition becomes false, restore focus and reset
     if (!container || !condition) {
-      if (
-        autoRestoreFocus &&
-        previousActiveElement.current &&
-        previousActiveElement.current.isConnected
-      ) {
+      if (autoRestoreFocus && previousActiveElement.current && previousActiveElement.current.isConnected) {
         previousActiveElement.current.focus();
         previousActiveElement.current = null; // Clear after restore
       }

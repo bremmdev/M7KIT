@@ -19,7 +19,7 @@ export default defineConfig({
       name: "m7kit",
       //A function that generates the output file
       //name for different formats during the build
-      fileName: (format) => `index.${format}.js`,
+      fileName: (format) => `index.${format}.js`
     },
     rollupOptions: {
       external: ["react", "react-dom"],
@@ -27,13 +27,13 @@ export default defineConfig({
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
-          tailwindcss: "tailwindcss",
-        },
-      },
+          tailwindcss: "tailwindcss"
+        }
+      }
     },
     sourcemap: false,
     //Clears the output directory before building.
-    emptyOutDir: true,
+    emptyOutDir: true
   },
   //react() enables React support.
   //dts() generates TypeScript declaration files (*.d.ts)
@@ -52,7 +52,7 @@ export default defineConfig({
         const srcPath = path.resolve(__dirname, "src/theme.css");
         const destPath = path.resolve(__dirname, "dist/theme.css");
         copyFileSync(srcPath, destPath);
-      },
-    },
-  ],
+      }
+    }
+  ]
 });

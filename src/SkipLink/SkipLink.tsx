@@ -1,12 +1,7 @@
 import { SkipLinkProps } from "./SkipLink.types";
 import { cn } from "../utils/cn";
 
-export const SkipLink = ({
-  text = "Skip to content",
-  targetId = "main",
-  className,
-  ...rest
-}: SkipLinkProps) => {
+export const SkipLink = ({ text = "Skip to content", targetId = "main", className, ...rest }: SkipLinkProps) => {
   return (
     <a
       href={`#${targetId}`}

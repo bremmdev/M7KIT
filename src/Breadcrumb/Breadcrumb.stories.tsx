@@ -55,7 +55,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbCurrentItem, BreadcrumbMenu } fro
 const meta: Meta<typeof Breadcrumb> = {
   component: Breadcrumb,
   title: "Components/Breadcrumb",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 export default meta;
 
@@ -68,12 +68,12 @@ export const Default: Story = {
       <BreadcrumbItem href="/getting-started">Getting started</BreadcrumbItem>
       <BreadcrumbCurrentItem>Installation</BreadcrumbCurrentItem>
     </Breadcrumb>
-  ),
+  )
 };
 
 export const SlashSeparator: Story = {
   args: {
-    separator: "slash",
+    separator: "slash"
   },
   render: (props) => (
     <Breadcrumb {...props}>
@@ -81,7 +81,7 @@ export const SlashSeparator: Story = {
       <BreadcrumbItem href="/getting-started">Getting started</BreadcrumbItem>
       <BreadcrumbCurrentItem>Installation</BreadcrumbCurrentItem>
     </Breadcrumb>
-  ),
+  )
 };
 
 export const BreadcrumbWithMenu: Story = {
@@ -95,5 +95,5 @@ export const BreadcrumbWithMenu: Story = {
       <BreadcrumbItem href="/server/overview/routing">Routing</BreadcrumbItem>
       <BreadcrumbCurrentItem>API reference</BreadcrumbCurrentItem>
     </Breadcrumb>
-  ),
+  )
 };

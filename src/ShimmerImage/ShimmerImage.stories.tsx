@@ -37,7 +37,7 @@ import profilePicture from "../_data/images/profile001.jpg";
 const meta: Meta<typeof ShimmerImage> = {
   component: ShimmerImage,
   title: "Components/ShimmerImage",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 export default meta;
 
@@ -49,16 +49,16 @@ export const Default: Story = {
     <div className="p-12">
       <ShimmerImage src={profilePicture} width={300} {...props} />
     </div>
-  ),
+  )
 };
 
 export const Rounded: Story = {
   args: {
-    rounded: true,
+    rounded: true
   },
   render: (props) => (
     <div className="p-12">
       <ShimmerImage src={profilePicture} width={300} {...props} />
     </div>
-  ),
+  )
 };

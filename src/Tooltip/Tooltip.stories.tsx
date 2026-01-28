@@ -56,7 +56,7 @@ import { action } from "storybook/actions";
 const meta: Meta<typeof Tooltip> = {
   component: Tooltip,
   title: "Components/Tooltip",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 export default meta;
 
@@ -72,34 +72,32 @@ export const Default: Story = {
         <TooltipContent placement="bottom center">
           <>
             <h3 className="font-bold mb-2">Pricing details</h3>
-            <p>
-              The price listed is exclusive of taxes and shipping costs and may
-              vary based on your location.
-            </p>
+            <p>The price listed is exclusive of taxes and shipping costs and may vary based on your location.</p>
           </>
         </TooltipContent>
       </Tooltip>
     </div>
-  ),
+  )
 };
 
 export const Controlled: Story = {
-  tags: ['!autodocs'],
+  tags: ["!autodocs"],
   args: {
-    open: true,
+    open: true
   },
   render: (props) => {
-
     const [open, setOpen] = React.useState(props.open);
 
     const handleOpenChange = (open: boolean) => {
       setOpen(open);
-      action('onOpenChange')(open);
+      action("onOpenChange")(open);
     };
 
     return (
       <div className="flex justify-center flex-col min-h-screen items-center gap-4">
-        <Button variant="secondary" onClick={() => setOpen(!open)}>{open ? 'Close' : 'Open'}</Button>
+        <Button variant="secondary" onClick={() => setOpen(!open)}>
+          {open ? "Close" : "Open"}
+        </Button>
         <Tooltip {...props} open={open} onOpenChange={handleOpenChange}>
           <TooltipTrigger aria-label="additional information">
             <Info size={24} />
@@ -107,24 +105,19 @@ export const Controlled: Story = {
           <TooltipContent placement="bottom left">
             <>
               <h3 className="font-bold mb-2">Pricing details</h3>
-              <p>
-                The price listed is exclusive of taxes and shipping costs and may
-                vary based on your location.
-              </p>
+              <p>The price listed is exclusive of taxes and shipping costs and may vary based on your location.</p>
             </>
           </TooltipContent>
         </Tooltip>
       </div>
     );
-  },
+  }
 };
 
 export const PlacementOptions: Story = {
-  tags: ['!autodocs'],
-  args: {
-  },
+  tags: ["!autodocs"],
+  args: {},
   render: (props) => {
-
     const TooltipDemo = ({ placement }: { placement: Placement }) => (
       <Tooltip {...props} open={true}>
         <TooltipTrigger>
@@ -166,21 +159,19 @@ export const PlacementOptions: Story = {
         </div>
       </div>
     );
-  },
+  }
 };
 
 export const PlacementOverrides: Story = {
-  tags: ['!autodocs'],
+  tags: ["!autodocs"],
   parameters: {
-    layout: 'fullscreen',
+    layout: "fullscreen"
   },
   render: (props) => {
     const TooltipDemo = ({ placement, label }: { placement: Placement; label: string }) => (
       <Tooltip {...props} open={true}>
         <TooltipTrigger>
-          <div className="bg-accent text-white px-2 py-1 rounded text-xs">
-            {label}
-          </div>
+          <div className="bg-accent text-white px-2 py-1 rounded text-xs">{label}</div>
         </TooltipTrigger>
         <TooltipContent placement={placement} className="w-48">
           <div>
@@ -245,5 +236,5 @@ export const PlacementOverrides: Story = {
         </div>
       </div>
     );
-  },
+  }
 };

@@ -37,7 +37,7 @@ import { Tabs } from "./Tabs";
 const meta: Meta<typeof Tabs> = {
   component: Tabs,
   title: "Components/Tabs",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 export default meta;
 
@@ -50,10 +50,7 @@ export const Default: Story = {
       <h2 id="tabs-title" className="text-lg font-medium my-4 text-foreground">
         Frontend frameworks
       </h2>
-      <Tabs.Root
-        defaultValue="astro"
-        onValueChange={(val: string) => action("Tab changed")(val)}
-      >
+      <Tabs.Root defaultValue="astro" onValueChange={(val: string) => action("Tab changed")(val)}>
         <Tabs.List aria-labelledby="tabs-title">
           <Tabs.Tab label="react">React</Tabs.Tab>
           <Tabs.Tab label="astro">Astro</Tabs.Tab>
@@ -62,9 +59,8 @@ export const Default: Story = {
         <Tabs.Content label="react">
           <h3 className="font-medium mb-2">React</h3>
           <p>
-            React is a popular JavaScript library for building user interfaces,
-            particularly for single-page applications. It's used for handling
-            the view layer for web and mobile apps. React allows you to design
+            React is a popular JavaScript library for building user interfaces, particularly for single-page
+            applications. It's used for handling the view layer for web and mobile apps. React allows you to design
             simple views for each state in your application.
             <a
               className="block w-fit underline text-blue-600 focus-visible:outline-blue-600"
@@ -77,10 +73,9 @@ export const Default: Story = {
         <Tabs.Content label="astro">
           <h3 className="font-medium mb-2">Astro</h3>
           <p>
-            Astro is a front-end framework that allows you to build faster
-            websites with less client-side JavaScript. It allows you to write
-            components using your favorite JavaScript framework, or just HTML
-            and CSS, and then renders your site as static HTML at build time.
+            Astro is a front-end framework that allows you to build faster websites with less client-side JavaScript. It
+            allows you to write components using your favorite JavaScript framework, or just HTML and CSS, and then
+            renders your site as static HTML at build time.
             <a
               className="block w-fit underline text-blue-600 focus-visible:outline-blue-600"
               href="https://astro.build"
@@ -92,19 +87,15 @@ export const Default: Story = {
         <Tabs.Content label="svelte">
           <h3 className="font-medium mb-2">Svelte</h3>
           <p>
-            Svelte is a radical new approach to building user interfaces.
-            Whereas traditional frameworks like React and Vue do the bulk of
-            their work in the browser, Svelte shifts that work into a compile
-            step that happens when you build your app.
-            <a
-              className="block w-fit underline text-blue-600 focus-visible:outline-blue-600"
-              href="https://svelte.dev"
-            >
+            Svelte is a radical new approach to building user interfaces. Whereas traditional frameworks like React and
+            Vue do the bulk of their work in the browser, Svelte shifts that work into a compile step that happens when
+            you build your app.
+            <a className="block w-fit underline text-blue-600 focus-visible:outline-blue-600" href="https://svelte.dev">
               Svelte
             </a>
           </p>
         </Tabs.Content>
       </Tabs.Root>
     </div>
-  ),
+  )
 };

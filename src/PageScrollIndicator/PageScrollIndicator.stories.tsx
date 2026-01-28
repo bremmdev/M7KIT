@@ -20,7 +20,7 @@ import { PageScrollIndicator } from "./PageScrollIndicator";
 const meta: Meta<typeof PageScrollIndicator> = {
   component: PageScrollIndicator,
   title: "Components/PageScrollIndicator",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 
 const content = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
@@ -203,7 +203,7 @@ export const Default: Story = {
       <PageScrollIndicator {...props} />
       <p className="px-8">{content}</p>
     </div>
-  ),
+  )
 };
 
 export const CustomTop: Story = {
@@ -225,17 +225,14 @@ export const CustomTop: Story = {
       <PageScrollIndicator {...props} className="top-12" />
       <p className="px-8 py-16">{content}</p>
     </div>
-  ),
+  )
 };
 
 export const CustomStyles: Story = {
   render: (props) => (
     <div className="text-foreground">
-      <PageScrollIndicator
-        className="bg-emerald-400 rounded-full h-2"
-        {...props}
-      />
+      <PageScrollIndicator className="bg-emerald-400 rounded-full h-2" {...props} />
       <p className="px-8">{content}</p>
     </div>
-  ),
+  )
 };

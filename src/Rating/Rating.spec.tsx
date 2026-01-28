@@ -34,8 +34,6 @@ describe("Rating", () => {
 
   it("should render correct label", () => {
     render(<Rating max={5} value={3.5} />);
-    expect(document.querySelector(".visually-hidden")).toHaveTextContent(
-      "Rating is 3.5 out of 5"
-    );
+    expect(document.querySelector(".visually-hidden")).toHaveTextContent("Rating is 3.5 out of 5");
   });
 });

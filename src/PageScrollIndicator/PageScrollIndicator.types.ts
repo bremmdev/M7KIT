@@ -1,1 +1,1 @@
-export type PageScrollIndicatorProps = React.ComponentPropsWithRef<"div">
+export type PageScrollIndicatorProps = React.ComponentPropsWithRef<"div">;

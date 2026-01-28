@@ -36,7 +36,7 @@ import { CircleDashed } from "lucide-react";
 const meta: Meta<typeof Timeline> = {
   component: Timeline,
   title: "Components/Timeline",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 export default meta;
 
@@ -52,53 +52,32 @@ export const Default: Story = {
       </Timeline.Item>
       <Timeline.Item>
         <h2 className="text-xl font-bold -my-1">Heading 2</h2>
-        <img
-          src={image}
-          width="200"
-          height="300"
-          alt="image"
-          className="my-2"
-        />
+        <img src={image} width="200" height="300" alt="image" className="my-2" />
       </Timeline.Item>
       <Timeline.Item>
         <h2 className="text-xl font-bold -my-1">Heading 3</h2>
         <p>Content 3</p>
       </Timeline.Item>
     </Timeline>
-  ),
+  )
 };
 
 export const CustomBullet: Story = {
   args: {},
   render: (props) => (
     <Timeline {...props}>
-      <Timeline.Item
-        lineClassName="bg-accent"
-        bullet={<CircleDashed color="var(--color-accent)" size={24} />}
-      >
+      <Timeline.Item lineClassName="bg-accent" bullet={<CircleDashed color="var(--color-accent)" size={24} />}>
         <h2 className="text-xl font-bold -my-[2px]">Heading 1</h2>
         <p>Content 1</p>
       </Timeline.Item>
-      <Timeline.Item
-        bullet={<CircleDashed color="var(--color-accent)" size={24} />}
-        lineClassName="bg-accent"
-      >
+      <Timeline.Item bullet={<CircleDashed color="var(--color-accent)" size={24} />} lineClassName="bg-accent">
         <h2 className="text-xl font-bold -my-[2px]">Heading 2</h2>
-        <img
-          src={image}
-          width="200"
-          height="300"
-          alt="image"
-          className="my-2"
-        />
+        <img src={image} width="200" height="300" alt="image" className="my-2" />
       </Timeline.Item>
-      <Timeline.Item
-        bullet={<CircleDashed color="var(--color-accent)" size={24} />}
-        lineClassName="bg-accent"
-      >
+      <Timeline.Item bullet={<CircleDashed color="var(--color-accent)" size={24} />} lineClassName="bg-accent">
         <h2 className="text-xl font-bold -my-[2px]">Heading 3</h2>
         <p>Content 3</p>
       </Timeline.Item>
     </Timeline>
-  ),
+  )
 };

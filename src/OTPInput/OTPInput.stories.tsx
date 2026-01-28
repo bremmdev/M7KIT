@@ -19,7 +19,7 @@ import { OTPInput } from "./OTPInput";
 const meta: Meta<typeof OTPInput> = {
   component: OTPInput,
   title: "Components/OTPInput",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 
 export default meta;
@@ -28,11 +28,11 @@ type Story = StoryObj<typeof OTPInput>;
 
 export const Default: Story = {
   args: {
-    onValueChange: (value: string) => action("Value changed")(value),
+    onValueChange: (value: string) => action("Value changed")(value)
   },
   render: (props) => (
     <div className="p-8">
       <OTPInput {...props} />
     </div>
-  ),
+  )
 };

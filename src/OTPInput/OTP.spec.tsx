@@ -1,40 +1,28 @@
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { OTPInput } from "./OTPInput";
-import { act } from 'react';
+import { act } from "react";
 
 describe("OTPInput", () => {
   it("should render the correct number of fields - default", () => {
     render(<OTPInput />);
 
-    expect(
-      document.querySelectorAll('[data-otp-container="true"] > div')
-    ).toHaveLength(6);
+    expect(document.querySelectorAll('[data-otp-container="true"] > div')).toHaveLength(6);
   });
 
   it("should render the correct number of fields - custom", () => {
     render(<OTPInput maxLength={4} />);
 
-    expect(
-      document.querySelectorAll('[data-otp-container="true"] > div')
-    ).toHaveLength(4);
+    expect(document.querySelectorAll('[data-otp-container="true"] > div')).toHaveLength(4);
   });
 
   it("should render the correct value", () => {
     render(<OTPInput value="1234" />);
 
-    expect(
-      document.querySelectorAll('[data-otp-container="true"] > div')[0]
-    ).toHaveTextContent("1");
-    expect(
-      document.querySelectorAll('[data-otp-container="true"] > div')[1]
-    ).toHaveTextContent("2");
-    expect(
-      document.querySelectorAll('[data-otp-container="true"] > div')[2]
-    ).toHaveTextContent("3");
-    expect(
-      document.querySelectorAll('[data-otp-container="true"] > div')[3]
-    ).toHaveTextContent("4");
+    expect(document.querySelectorAll('[data-otp-container="true"] > div')[0]).toHaveTextContent("1");
+    expect(document.querySelectorAll('[data-otp-container="true"] > div')[1]).toHaveTextContent("2");
+    expect(document.querySelectorAll('[data-otp-container="true"] > div')[2]).toHaveTextContent("3");
+    expect(document.querySelectorAll('[data-otp-container="true"] > div')[3]).toHaveTextContent("4");
   });
 
   it("should not accept value greater than maxLength", () => {
@@ -89,9 +77,7 @@ describe("OTPInput", () => {
 
   it("should call onComplete", async () => {
     const onComplete = jest.fn();
-    const { getByRole } = render(
-      <OTPInput maxLength={4} onComplete={onComplete} />
-    );
+    const { getByRole } = render(<OTPInput maxLength={4} onComplete={onComplete} />);
     const input = getByRole("textbox");
 
     act(() => {

@@ -8,13 +8,7 @@ import { Breakpoint } from "../utils/breakpoints";
 import { validateColumns } from "./Masonry.utils";
 
 export const Masonry = (props: MasonryProps) => {
-  const {
-    columns = 3,
-    spacing = 16,
-    columnOrder = "horizontal",
-    children,
-    ...rest
-  } = props;
+  const { columns = 3, spacing = 16, columnOrder = "horizontal", children, ...rest } = props;
 
   //don't show the component until the breakpoint is calculated, so don't render on the server
   const [mounted, setMounted] = React.useState(false);
@@ -37,9 +31,7 @@ export const Masonry = (props: MasonryProps) => {
     breakpointToColumns = getBreakpointColumns(columns);
   }
 
-  const columnCount = !hasResponsiveColumns
-    ? columns
-    : breakpointToColumns[breakpoint as Breakpoint] || 3;
+  const columnCount = !hasResponsiveColumns ? columns : breakpointToColumns[breakpoint as Breakpoint] || 3;
 
   const orderedColumns = orderItems(
     React.Children.toArray(children).filter(React.isValidElement),
@@ -48,24 +40,19 @@ export const Masonry = (props: MasonryProps) => {
   );
 
   const styles = {
-    gap: `${spacing}px`,
+    gap: `${spacing}px`
   };
 
   const childStyles = {
     flexBasis: `calc(100% / ${columnCount} - ${spacing}px)`,
-    gap: `${spacing}px`,
+    gap: `${spacing}px`
   };
 
   return (
     <div className={cn(`flex justify-center`)} style={styles} {...rest}>
       {mounted &&
         orderedColumns.map((orderedColumn, idx) => (
-          <div
-            key={idx}
-            className="flex flex-col"
-            data-testid="column"
-            style={childStyles}
-          >
+          <div key={idx} className="flex flex-col" data-testid="column" style={childStyles}>
             {orderedColumn.map((item, idx) => (
               <div key={idx} className="*:w-full">
                 {item}

@@ -5,7 +5,7 @@ import { SortableList } from "./SortableList";
 describe("SortableList", () => {
   const defaultProps = {
     items: ["Apple", "Banana", "Cherry"],
-    onReorder: jest.fn(),
+    onReorder: jest.fn()
   };
 
   beforeEach(() => {
@@ -28,9 +28,7 @@ describe("SortableList", () => {
     });
 
     it("renders custom title element", () => {
-      render(
-        <SortableList {...defaultProps} title="My Fruits" titleElement="h3" />
-      );
+      render(<SortableList {...defaultProps} title="My Fruits" titleElement="h3" />);
 
       const title = screen.getByText("My Fruits");
       expect(title.tagName).toBe("H3");
@@ -41,7 +39,7 @@ describe("SortableList", () => {
         <div key="1">
           <strong>Bold</strong> Text
         </div>,
-        <span key="2">Simple span</span>,
+        <span key="2">Simple span</span>
       ];
 
       render(<SortableList items={items} />);
@@ -55,7 +53,7 @@ describe("SortableList", () => {
         <div key="1">
           <span aria-hidden="true">🔍</span>
           Search
-        </div>,
+        </div>
       ];
 
       render(<SortableList items={items} />);
@@ -72,7 +70,7 @@ describe("SortableList", () => {
       const items = [
         <div key="1" aria-label="Custom label">
           Different text
-        </div>,
+        </div>
       ];
 
       render(<SortableList items={items} />);
@@ -94,9 +92,7 @@ describe("SortableList", () => {
     });
 
     it("renders handle at end when specified", () => {
-      const { container } = render(
-        <SortableList {...defaultProps} handlePosition="end" />
-      );
+      const { container } = render(<SortableList {...defaultProps} handlePosition="end" />);
 
       const listItem = container.querySelector("li");
       const lastChild = listItem?.lastElementChild;
@@ -263,9 +259,7 @@ describe("SortableList", () => {
 
       await waitFor(() => {
         // After moving Apple down, focus should move to what's now position 2
-        const secondButton = screen.getByLabelText(
-          /Reorder Apple.*Item 2 of 3/
-        );
+        const secondButton = screen.getByLabelText(/Reorder Apple.*Item 2 of 3/);
         expect(secondButton).toHaveFocus();
       });
     });
@@ -288,18 +282,16 @@ describe("SortableList", () => {
 
       // Simulate drag
       fireEvent.dragStart(firstItem, {
-        dataTransfer: { effectAllowed: "move", setData: jest.fn() },
+        dataTransfer: { effectAllowed: "move", setData: jest.fn() }
       });
 
       fireEvent.dragOver(secondItem, {
-        dataTransfer: { dropEffect: "move" },
+        dataTransfer: { dropEffect: "move" }
       });
 
       fireEvent.drop(secondItem);
 
-      const liveRegion = document.querySelector(
-        "[aria-live='assertive']"
-      ) as HTMLElement;
+      const liveRegion = document.querySelector("[aria-live='assertive']") as HTMLElement;
 
       await waitFor(() => {
         expect(liveRegion.textContent).toContain("Moved Apple to position");
@@ -308,20 +300,18 @@ describe("SortableList", () => {
 
     it("calls onReorder after drop", () => {
       const onReorder = jest.fn();
-      const { container } = render(
-        <SortableList {...defaultProps} onReorder={onReorder} />
-      );
+      const { container } = render(<SortableList {...defaultProps} onReorder={onReorder} />);
 
       const items = container.querySelectorAll("li");
       const firstItem = items[0];
       const thirdItem = items[2];
 
       fireEvent.dragStart(firstItem, {
-        dataTransfer: { effectAllowed: "move", setData: jest.fn() },
+        dataTransfer: { effectAllowed: "move", setData: jest.fn() }
       });
 
       fireEvent.dragOver(thirdItem, {
-        dataTransfer: { dropEffect: "move" },
+        dataTransfer: { dropEffect: "move" }
       });
 
       fireEvent.drop(thirdItem);
@@ -353,9 +343,7 @@ describe("SortableList", () => {
 
       fireEvent.click(screen.getByText("Enter Edit Mode"));
 
-      expect(
-        screen.getByText(/Use the arrow up and down keys to reorder items/)
-      ).toBeInTheDocument();
+      expect(screen.getByText(/Use the arrow up and down keys to reorder items/)).toBeInTheDocument();
     });
 
     it("includes item position in reorder button label", () => {
@@ -363,15 +351,9 @@ describe("SortableList", () => {
 
       fireEvent.click(screen.getByText("Enter Edit Mode"));
 
-      expect(
-        screen.getByLabelText(/Reorder Apple.*Item 1 of 3/)
-      ).toBeInTheDocument();
-      expect(
-        screen.getByLabelText(/Reorder Banana.*Item 2 of 3/)
-      ).toBeInTheDocument();
-      expect(
-        screen.getByLabelText(/Reorder Cherry.*Item 3 of 3/)
-      ).toBeInTheDocument();
+      expect(screen.getByLabelText(/Reorder Apple.*Item 1 of 3/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Reorder Banana.*Item 2 of 3/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Reorder Cherry.*Item 3 of 3/)).toBeInTheDocument();
     });
 
     it("hides decorative icons from screen readers", () => {

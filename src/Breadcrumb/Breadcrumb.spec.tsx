@@ -100,10 +100,14 @@ describe("Breadcrumb", () => {
     const { getByText } = render(
       <Breadcrumb>
         <BreadcrumbItem asChild>
-          <a href="/" data-custom="mycustom">Home</a>
+          <a href="/" data-custom="mycustom">
+            Home
+          </a>
         </BreadcrumbItem>
         <BreadcrumbItem asChild>
-          <a href="/getting-started" data-custom="mycustom">Getting started</a>
+          <a href="/getting-started" data-custom="mycustom">
+            Getting started
+          </a>
         </BreadcrumbItem>
         <BreadcrumbCurrentItem>Installation</BreadcrumbCurrentItem>
       </Breadcrumb>
@@ -113,7 +117,6 @@ describe("Breadcrumb", () => {
     expect(getByText("Home").getAttribute("data-custom")).toBe("mycustom");
   });
 
-  
   it("should render custom link component instead of an anchor tag", () => {
     const { getByText } = render(
       <Breadcrumb>
@@ -121,7 +124,9 @@ describe("Breadcrumb", () => {
           <a data-custom="mycustom">Home</a>
         </BreadcrumbItem>
         <BreadcrumbItem asChild>
-          <a href="/getting-started" data-custom="mycustom">Getting started</a>
+          <a href="/getting-started" data-custom="mycustom">
+            Getting started
+          </a>
         </BreadcrumbItem>
         <BreadcrumbCurrentItem>Installation</BreadcrumbCurrentItem>
       </Breadcrumb>

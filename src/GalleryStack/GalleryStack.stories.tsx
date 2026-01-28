@@ -38,7 +38,7 @@ import image004 from "../_data/images/picture004.jpg";
 const meta: Meta<typeof GalleryStack> = {
   component: GalleryStack,
   title: "Components/GalleryStack",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 
 export default meta;
@@ -47,7 +47,7 @@ type Story = StoryObj<typeof GalleryStack>;
 
 export const Default: Story = {
   args: {
-    reversed: false,
+    reversed: false
   },
   render: (props) => (
     <GalleryStack {...props}>
@@ -56,5 +56,5 @@ export const Default: Story = {
       <img src={image003} alt="image003" width={300} height={300} />
       <img src={image004} alt="image004" width={300} height={300} />
     </GalleryStack>
-  ),
+  )
 };

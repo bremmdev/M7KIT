@@ -63,7 +63,7 @@ import { Cat, Dog, Fish, Rabbit, Squirrel } from "lucide-react";
 const meta: Meta<typeof SortableList> = {
   component: SortableList,
   title: "Components/SortableList",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 export default meta;
 
@@ -79,9 +79,9 @@ export const Default: Story = {
   args: {
     items: ["Apple", "Banana", "Mango", "Orange", "Pineapple"],
     onReorder: action("onReorder"),
-    "aria-label": "Sortable list of fruits",
+    "aria-label": "Sortable list of fruits"
   },
-  render: (props) => render(props),
+  render: (props) => render(props)
 };
 
 export const WithTitle: Story = {
@@ -89,9 +89,9 @@ export const WithTitle: Story = {
     title: "Favorite Fruits",
     titleElement: "h3",
     items: ["Apple", "Banana", "Mango", "Orange", "Pineapple"],
-    onReorder: action("onReorder"),
+    onReorder: action("onReorder")
   },
-  render: (props) => render(props),
+  render: (props) => render(props)
 };
 
 export const HandleAtEnd: Story = {
@@ -100,9 +100,9 @@ export const HandleAtEnd: Story = {
     titleElement: "h3",
     handlePosition: "end",
     items: ["Apple", "Banana", "Mango", "Orange", "Pineapple"],
-    onReorder: action("onReorder"),
+    onReorder: action("onReorder")
   },
-  render: (props) => render(props),
+  render: (props) => render(props)
 };
 
 export const WithReactNodes: Story = {
@@ -122,12 +122,12 @@ export const WithReactNodes: Story = {
       </span>,
       <span className="flex items-center gap-2" key="squirrel">
         Squirrel <Squirrel aria-hidden="true" />
-      </span>,
+      </span>
     ],
     onReorder: action("onReorder"),
-    "aria-label": "Sortable list of animals with icons",
+    "aria-label": "Sortable list of animals with icons"
   },
-  render: (props) => render(props),
+  render: (props) => render(props)
 };
 
 export const WithNestedReactNodes: Story = {
@@ -141,10 +141,10 @@ export const WithNestedReactNodes: Story = {
       </div>,
       <div key="item3">
         Yet another <em>nested</em> React node
-      </div>,
+      </div>
     ],
     onReorder: action("onReorder"),
-    "aria-label": "Sortable list of nested React nodes",
+    "aria-label": "Sortable list of nested React nodes"
   },
-  render: (props) => render(props),
+  render: (props) => render(props)
 };

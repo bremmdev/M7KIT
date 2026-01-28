@@ -10,25 +10,18 @@ const ratingStyles = {
   star: "text-amber-300 fill-amber-300",
   heart: "text-red-500 fill-red-500",
   "circle-black": "text-black fill-black",
-  "circle-gray": "text-gray-400 fill-gray-400",
+  "circle-gray": "text-gray-400 fill-gray-400"
 };
 
 const shapeVariants = {
   star: Star,
   heart: Heart,
   "circle-black": Circle,
-  "circle-gray": Circle,
+  "circle-gray": Circle
 };
 
 export const Rating = (props: RatingProps) => {
-  const {
-    max = 5,
-    value = 0,
-    size = 24,
-    className,
-    variant = "star",
-    ...rest
-  } = props;
+  const { max = 5, value = 0, size = 24, className, variant = "star", ...rest } = props;
 
   let val = value;
   if (value > max) val = max;
@@ -40,20 +33,12 @@ export const Rating = (props: RatingProps) => {
 
   const renderFilledRatingItem = () => {
     // keep value between 0 and max
-    const roundedVal =
-      roundToHalf(val % 1) <= 0.5 ? Math.floor(val) : Math.ceil(val);
+    const roundedVal = roundToHalf(val % 1) <= 0.5 ? Math.floor(val) : Math.ceil(val);
     const amount = Math.min(roundedVal, max);
 
     return Array.from({ length: amount }, (_, i) => {
       const classes = ratingStyles[variant || "star"];
-      return (
-        <RatingItem
-          key={i}
-          size={size}
-          strokeWidth={1}
-          className={cn(classes)}
-        />
-      );
+      return <RatingItem key={i} size={size} strokeWidth={1} className={cn(classes)} />;
     });
   };
 
@@ -62,20 +47,13 @@ export const Rating = (props: RatingProps) => {
 
     return (
       <div className="relative">
-        <RatingItem
-          size={size}
-          strokeWidth={1}
-          className={cn(classes, "fill-white")}
-        />
+        <RatingItem size={size} strokeWidth={1} className={cn(classes, "fill-white")} />
         <div className="absolute left-0 top-0 overflow-hidden">
           <RatingItem
             size={size}
             strokeWidth={1}
             data-testid="half-star"
-            className={cn(
-              classes,
-              "[clip-path:polygon(0_0,50%_0,50%_100%,0%_100%)]"
-            )}
+            className={cn(classes, "[clip-path:polygon(0_0,50%_0,50%_100%,0%_100%)]")}
           />
         </div>
       </div>
@@ -83,22 +61,14 @@ export const Rating = (props: RatingProps) => {
   };
 
   const renderEmptyRatingItem = () => {
-    const amount =
-      roundToHalf(val % 1) < 0.5 ? Math.ceil(max - val) : Math.floor(max - val);
+    const amount = roundToHalf(val % 1) < 0.5 ? Math.ceil(max - val) : Math.floor(max - val);
     return Array.from(
       {
-        length: amount,
+        length: amount
       },
       (_, i) => {
         const classes = ratingStyles[variant || "star"];
-        return (
-          <RatingItem
-            key={i}
-            size={size}
-            strokeWidth={1}
-            className={cn(classes, "fill-white")}
-          />
-        );
+        return <RatingItem key={i} size={size} strokeWidth={1} className={cn(classes, "fill-white")} />;
       }
     );
   };

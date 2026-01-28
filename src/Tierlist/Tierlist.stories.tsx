@@ -37,7 +37,7 @@ import TypeScriptIcon from "../_data/icons/typescript.svg";
 const meta: Meta<typeof Tierlist> = {
   component: Tierlist,
   title: "Components/Tierlist",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 export default meta;
 
@@ -46,26 +46,16 @@ type Story = StoryObj<typeof Tierlist>;
 const tierlistItems = [
   <img src={ReactIcon} alt="React Icon" className="w-16 h-16" key="1" />,
   <img src={NextIcon} alt="Next Icon" className="w-16 h-16" key="2" />,
-  <img
-    src={StorybookIcon}
-    alt="Storybook Icon"
-    className="w-16 h-16"
-    key="3"
-  />,
+  <img src={StorybookIcon} alt="Storybook Icon" className="w-16 h-16" key="3" />,
   <img src={TailwindIcon} alt="Tailwind Icon" className="w-16 h-16" key="4" />,
-  <img
-    src={TypeScriptIcon}
-    alt="TypeScript Icon"
-    className="w-16 h-16"
-    key="5"
-  />,
+  <img src={TypeScriptIcon} alt="TypeScript Icon" className="w-16 h-16" key="5" />,
   <img src={HtmxIcon} alt="Htmx Icon" className="w-16 h-16" key="6" />,
-  <img src={SanityIcon} alt="Sanity Icon" className="w-16 h-16" key="7" />,
+  <img src={SanityIcon} alt="Sanity Icon" className="w-16 h-16" key="7" />
 ];
 
 export const Default: Story = {
   args: {
-    onTierDrop: (rank: string) => action("Dropped in tier")(rank),
+    onTierDrop: (rank: string) => action("Dropped in tier")(rank)
   },
   render: (props) => {
     return (
@@ -75,5 +65,5 @@ export const Default: Story = {
         </Tierlist>
       </div>
     );
-  },
+  }
 };

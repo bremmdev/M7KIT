@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  DrawerProps,
-  DrawerContentProps,
-  DrawerTriggerProps,
-} from "./Drawer.types";
+import { DrawerProps, DrawerContentProps, DrawerTriggerProps } from "./Drawer.types";
 import { cn } from "../utils/cn";
 import { getPositionClasses, useDrawer, useDrawerEvents } from "./Drawer.utils";
 import { DrawerProvider } from "./DrawerContext";
@@ -15,11 +11,7 @@ const DrawerClose = () => {
   const { close } = useDrawer();
 
   return (
-    <div
-      className={cn(
-        "sticky left-0 right-0 py-3 pr-6 top-0 flex bg-inherit items-center justify-end"
-      )}
-    >
+    <div className={cn("sticky left-0 right-0 py-3 pr-6 top-0 flex bg-inherit items-center justify-end")}>
       <button
         className="focus-ring-inner hover:bg-surface-muted rounded-md transition-colors p-1"
         onClick={close}
@@ -36,12 +28,7 @@ export const DrawerTrigger = (props: DrawerTriggerProps) => {
   const { open, isOpen, triggerRef } = useDrawer();
 
   return isOpen && hideTriggerWhenOpen ? null : (
-    <button
-      className={cn("", className)}
-      onClick={open}
-      {...rest}
-      ref={triggerRef}
-    >
+    <button className={cn("", className)} onClick={open} {...rest} ref={triggerRef}>
       {children}
     </button>
   );
@@ -54,26 +41,18 @@ export const DrawerContent = (props: DrawerContentProps) => {
 };
 
 export const Drawer = (props: DrawerProps) => {
-  const {
-    children,
-    className,
-    onClose,
-    onOpen,
-    placement = "right",
-    resetScroll = true,
-    ...rest
-  } = props;
+  const { children, className, onClose, onOpen, placement = "right", resetScroll = true, ...rest } = props;
 
   const { drawerRef, isOpen } = useDrawer();
   const firstMountRef = React.useRef(true);
 
   useDrawerEvents();
   usePreventScroll({
-    enabled: isOpen,
+    enabled: isOpen
   });
   useFocusTrap(drawerRef, {
     condition: isOpen,
-    initialFocusElement: "container",
+    initialFocusElement: "container"
   });
 
   React.useEffect(() => {
@@ -122,11 +101,7 @@ export const Drawer = (props: DrawerProps) => {
   );
 };
 
-export const DrawerRoot = ({
-  children,
-}: {
-  children: Array<React.ReactElement<any>>;
-}) => {
+export const DrawerRoot = ({ children }: { children: Array<React.ReactElement<any>> }) => {
   return (
     <DrawerProvider>
       <>{children}</>

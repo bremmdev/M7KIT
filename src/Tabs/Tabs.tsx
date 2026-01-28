@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  TabListProps,
-  TabsProps,
-  TabProps,
-  TabContentProps,
-} from "./Tabs.types";
+import { TabListProps, TabsProps, TabProps, TabContentProps } from "./Tabs.types";
 import { cn } from "../utils/cn";
 
 type TabsContext = {
@@ -15,13 +10,7 @@ type TabsContext = {
 
 const TabsContext = React.createContext<TabsContext | undefined>(undefined);
 
-export const Tabs = ({
-  className,
-  defaultValue = "",
-  value = "",
-  onValueChange,
-  children,
-}: TabsProps) => {
+export const Tabs = ({ className, defaultValue = "", value = "", onValueChange, children }: TabsProps) => {
   if (value && defaultValue) {
     throw new Error(
       "Using both value and defaultValue is not recommended. Use value and onValueChange for controlled component, or defaultValue for uncontrolled component."
@@ -62,9 +51,7 @@ export const Tabs = ({
 Tabs.Root = Tabs;
 
 const TabList = ({ className, children, ...rest }: TabListProps) => {
-  const { activeTab, setActiveTab, onValueChange } = React.useContext(
-    TabsContext
-  ) as TabsContext;
+  const { activeTab, setActiveTab, onValueChange } = React.useContext(TabsContext) as TabsContext;
 
   const tabListRef = React.useRef<HTMLDivElement>(null);
 
@@ -72,9 +59,7 @@ const TabList = ({ className, children, ...rest }: TabListProps) => {
     const key = e.key;
 
     function getTabs() {
-      return Array.from(
-        tabListRef.current!.children
-      ) as Array<HTMLButtonElement>;
+      return Array.from(tabListRef.current!.children) as Array<HTMLButtonElement>;
     }
 
     if (key === "ArrowRight" || key === "ArrowLeft") {
@@ -82,13 +67,10 @@ const TabList = ({ className, children, ...rest }: TabListProps) => {
       const tabs = getTabs();
 
       //get the current index of the active tab based on its data-label
-      const currentIndex = tabs.findIndex(
-        (tab) => tab.dataset.tablabel === activeTab
-      );
+      const currentIndex = tabs.findIndex((tab) => tab.dataset.tablabel === activeTab);
       //get the next index based on the arrow key pressed, and make sure it loops
       const direction = key === "ArrowRight" ? 1 : -1;
-      const nextTab =
-        tabs[(currentIndex + direction + tabs.length) % tabs.length];
+      const nextTab = tabs[(currentIndex + direction + tabs.length) % tabs.length];
       setActiveTab(nextTab.dataset.tablabel!);
       nextTab.focus();
       if (onValueChange) {
@@ -125,9 +107,7 @@ const TabList = ({ className, children, ...rest }: TabListProps) => {
 Tabs.List = TabList;
 
 const Tab = ({ className, label, children }: TabProps) => {
-  const { activeTab, setActiveTab, onValueChange } = React.useContext(
-    TabsContext
-  ) as TabsContext;
+  const { activeTab, setActiveTab, onValueChange } = React.useContext(TabsContext) as TabsContext;
 
   const tabRef = React.useRef<HTMLButtonElement>(null);
 
@@ -153,8 +133,7 @@ const Tab = ({ className, label, children }: TabProps) => {
       className={cn(
         "py-2 px-4 mb-[2px] focus-ring hover:bg-surface-subtle mr-1",
         {
-          "border-b-2 border-accent font-medium bg-surface-muted hover:bg-surface-muted":
-            activeTab === label,
+          "border-b-2 border-accent font-medium bg-surface-muted hover:bg-surface-muted": activeTab === label
         },
         className
       )}
@@ -166,12 +145,7 @@ const Tab = ({ className, label, children }: TabProps) => {
 
 Tabs.Tab = Tab;
 
-const TabContent = ({
-  className,
-  label,
-  children,
-  ...rest
-}: TabContentProps) => {
+const TabContent = ({ className, label, children, ...rest }: TabContentProps) => {
   const { activeTab } = React.useContext(TabsContext) as TabsContext;
 
   return (
@@ -181,7 +155,7 @@ const TabContent = ({
       aria-labelledby={`tab-${label}`}
       tabIndex={0}
       className={cn("animate-fade-in p-4 focus-ring", className, {
-        hidden: activeTab !== label,
+        hidden: activeTab !== label
       })}
       {...rest}
     >

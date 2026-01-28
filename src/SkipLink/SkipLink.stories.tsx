@@ -25,7 +25,7 @@ import { SkipLinkProps } from "./SkipLink.types";
 const meta: Meta<typeof SkipLink> = {
   component: SkipLink,
   title: "Components/SkipLink",
-  tags: ["autodocs"],
+  tags: ["autodocs"]
 };
 export default meta;
 
@@ -37,10 +37,7 @@ const render = (props: SkipLinkProps) => (
     <header className="basis-96 flex justify-center items-center shrin">
       <h1 className="text-center text-2xl">Header</h1>
     </header>
-    <main
-      className="h-screen border-t border-t-neutral flex justify-center items-center"
-      id="main"
-    >
+    <main className="h-screen border-t border-t-neutral flex justify-center items-center" id="main">
       <h2 className="text-center text-2xl">Main content</h2>
     </main>
   </div>
@@ -54,7 +51,7 @@ const render = (props: SkipLinkProps) => (
 export const Default: Story = {
   args: {
     text: "Skip to content",
-    targetId: "main",
+    targetId: "main"
   },
-  render: (props) => render(props),
+  render: (props) => render(props)
 };

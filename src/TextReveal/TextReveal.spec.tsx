@@ -55,7 +55,7 @@ describe("TextReveal", () => {
     });
   });
 
-  it('should set correct animation class based on direction prop', () => {
+  it("should set correct animation class based on direction prop", () => {
     const { container } = render(
       <TextReveal direction="up">
         <span>Test 1</span>

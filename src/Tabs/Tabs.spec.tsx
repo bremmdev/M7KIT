@@ -2,10 +2,7 @@ import { render } from "@testing-library/react";
 import { Tabs } from "./Tabs";
 import userEvent from "@testing-library/user-event";
 
-const createTabsComponent = (
-  defaultSelected: string,
-  onValueChange?: () => void
-) => (
+const createTabsComponent = (defaultSelected: string, onValueChange?: () => void) => (
   <>
     <h2 id="tabs-title">Tabs title</h2>
     <Tabs.Root value={defaultSelected} onValueChange={onValueChange}>
@@ -44,10 +41,7 @@ describe("Tabs", () => {
 
     it("should have aria-labelledby", () => {
       const { getByRole } = render(TabsComponent);
-      expect(getByRole("tablist")).toHaveAttribute(
-        "aria-labelledby",
-        "tabs-title"
-      );
+      expect(getByRole("tablist")).toHaveAttribute("aria-labelledby", "tabs-title");
     });
   });
 
@@ -70,10 +64,7 @@ describe("Tabs", () => {
 
     it("should have aria-controls", () => {
       const { getAllByRole } = render(TabsComponent);
-      expect(getAllByRole("tab")[0]).toHaveAttribute(
-        "aria-controls",
-        "panel-first"
-      );
+      expect(getAllByRole("tab")[0]).toHaveAttribute("aria-controls", "panel-first");
     });
 
     it("should have aria-selected if selected", () => {
@@ -106,10 +97,7 @@ describe("Tabs", () => {
 
     it("should have aria-labelledby", () => {
       const { getAllByRole } = render(TabsComponent);
-      expect(getAllByRole("tabpanel")[0]).toHaveAttribute(
-        "aria-labelledby",
-        "tab-first"
-      );
+      expect(getAllByRole("tabpanel")[0]).toHaveAttribute("aria-labelledby", "tab-first");
     });
 
     it("should be hidden if not selected", () => {
@@ -171,18 +159,14 @@ describe("Tabs", () => {
   describe("Value change", () => {
     it("should call onValueChange when clicked", async () => {
       const onValueChange = jest.fn();
-      const { getAllByRole } = render(
-        createTabsComponent("first", onValueChange)
-      );
+      const { getAllByRole } = render(createTabsComponent("first", onValueChange));
       await userEvent.click(getAllByRole("tab")[1]);
       expect(onValueChange).toHaveBeenCalledWith("second");
     });
 
     it("should not call onValueChange when clicked if already selected", async () => {
       const onValueChange = jest.fn();
-      const { getAllByRole } = render(
-        createTabsComponent("first", onValueChange)
-      );
+      const { getAllByRole } = render(createTabsComponent("first", onValueChange));
       await userEvent.click(getAllByRole("tab")[0]);
       expect(onValueChange).not.toHaveBeenCalled();
     });
