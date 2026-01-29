@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import "./theme.css";
+@source "../dist/**/*.{ts,tsx}"; /* make sure consuming projects scan m7kit's files for class names  */
 
 @variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 

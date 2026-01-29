@@ -1,3 +1,8 @@
+# 0.46.0 - 2026-01-29
+
+- Do not import tailwindcss in exported css files
+- Create separate css entry point for storybook
+
 # 0.45.0 - 2026-01-27
 
 - Add aria-hidden to `TooltipArrow`
