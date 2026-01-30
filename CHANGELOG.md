@@ -1,3 +1,8 @@
+# 0.47.0 - 2026-01-30
+
+- Remove `tapToClose` prop from `Tooltip`
+- Make touch behavior on mobile optional for `Tooltip`
+
 # 0.46.0 - 2026-01-29
 
 - Do not import tailwindcss in exported css files

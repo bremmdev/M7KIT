@@ -79,6 +79,13 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
   const keyboardIntentRef = React.useRef<boolean>(false);
   const keyboardNavTimeRef = React.useRef<number>(0);
 
+  // Track current open state in a ref so timer callbacks can check it
+  const openRef = React.useRef(open);
+  openRef.current = open;
+
+  // Track the open state when close timer was set - used to detect external opens
+  const openWhenCloseTimerSetRef = React.useRef<boolean | null>(null);
+
   // Global keyboard navigation detection - tracks Tab presses to detect keyboard focus
   React.useEffect(() => {
     function handleGlobalKeyDown(e: KeyboardEvent) {
@@ -108,6 +115,15 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
     };
   }, [openTimerRef, closeTimerRef]);
 
+  // Clear close timer when tooltip is programmatically opened (controlled mode)
+  // This prevents flicker when blur set a close timer but parent wants to keep it open
+  React.useEffect(() => {
+    if (open && closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+  }, [open, closeTimerRef]);
+
   function handleMouseEnter() {
     // Cancel any pending close
     if (closeTimerRef.current) {
@@ -134,8 +150,17 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
       clearTimeout(openTimerRef.current);
       openTimerRef.current = null;
     }
+    // Store current open state to detect external opens
+    openWhenCloseTimerSetRef.current = openRef.current;
     // Start close timer with small delay to allow moving to content
     closeTimerRef.current = setTimeout(() => {
+      // If open was false when timer was set but is now true,
+      // the parent programmatically opened it - respect that and don't close
+      if (openWhenCloseTimerSetRef.current === false && openRef.current === true) {
+        openWhenCloseTimerSetRef.current = null;
+        return;
+      }
+      openWhenCloseTimerSetRef.current = null;
       setOpen(false);
     }, 100);
   }
@@ -169,7 +194,16 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
       return;
     }
 
+    // Store current open state to detect external opens
+    openWhenCloseTimerSetRef.current = openRef.current;
     closeTimerRef.current = setTimeout(() => {
+      // If open was false when timer was set but is now true,
+      // the parent programmatically opened it - respect that and don't close
+      if (openWhenCloseTimerSetRef.current === false && openRef.current === true) {
+        openWhenCloseTimerSetRef.current = null;
+        return;
+      }
+      openWhenCloseTimerSetRef.current = null;
       setOpen(false);
     }, 100);
   }
