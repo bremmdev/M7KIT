@@ -34,9 +34,8 @@ export type TooltipProps = React.ComponentProps<"div"> & {
    */
   onOpenChange?: (open: boolean) => void;
   /**
-   * Allow tapping the trigger to close the tooltip on mobile devices.
-   * When false, users must tap outside the tooltip to close it.
-   * @default false
+   * The behavior of the tooltip on mobile devices
+   * @default "off"
    */
-  tapToClose?: boolean;
+  touchBehavior?: "tap" | "off"; //off means no touch behavior
 };

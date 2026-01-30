@@ -114,6 +114,27 @@ export const Controlled: Story = {
   }
 };
 
+export const TouchBehavior: Story = {
+  tags: ["!autodocs"],
+  args: {
+    touchBehavior: "tap",
+  },
+  render: (props) => {
+    return (
+      <div className="flex justify-center min-h-screen items-center">
+        <Tooltip {...props}>
+          <TooltipTrigger>
+            <Info size={20} />
+          </TooltipTrigger>
+          <TooltipContent>
+            <div>Tooltip content</div>
+          </TooltipContent>
+        </Tooltip>
+      </div>
+    );
+  }
+};
+
 export const PlacementOptions: Story = {
   tags: ["!autodocs"],
   args: {},

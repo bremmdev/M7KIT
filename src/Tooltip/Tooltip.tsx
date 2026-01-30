@@ -19,7 +19,7 @@ export const Tooltip = ({
   hoverDelay = 500,
   open,
   onOpenChange,
-  tapToClose = false,
+  touchBehavior = "off",
   ...rest
 }: TooltipProps) => {
   return (
@@ -28,7 +28,7 @@ export const Tooltip = ({
       open={open}
       onOpenChange={onOpenChange}
       fade={fade}
-      tapToClose={tapToClose}
+      touchBehavior={touchBehavior}
     >
       <div className={cn("relative w-fit text-foreground", className)} {...rest}>
         {children}
@@ -60,14 +60,38 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
     open,
     setOpen,
     hoverDelay,
-    tapToClose,
     openTimerRef,
     closeTimerRef,
     setTriggerWidth,
     tooltipId,
     tooltipTriggerRef,
-    tooltipContentRef
+    tooltipContentRef,
+    touchBehavior
   } = useTooltip();
+
+  // Track the last pointer type to determine if the blur event is from a touch or mouse
+  const lastPointerTypeRef = React.useRef<
+    "mouse" | "touch" | "pen" | "keyboard" | null
+  >(null);
+
+  // Track last touch interaction time + keyboard navigation detection
+  const lastTouchTimeRef = React.useRef<number>(0);
+  const keyboardIntentRef = React.useRef<boolean>(false);
+  const keyboardNavTimeRef = React.useRef<number>(0);
+
+  // Global keyboard navigation detection - tracks Tab presses to detect keyboard focus
+  React.useEffect(() => {
+    function handleGlobalKeyDown(e: KeyboardEvent) {
+      if (e.key === "Tab") {
+        keyboardNavTimeRef.current = Date.now();
+      }
+    }
+
+    document.addEventListener("keydown", handleGlobalKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleGlobalKeyDown);
+    };
+  }, []);
 
   // Measure trigger width on mount, so we can position the arrow correctly
   React.useEffect(() => {
@@ -90,6 +114,11 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
       clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
     }
+
+    if (lastPointerTypeRef.current === "touch" && touchBehavior === "off") {
+      return;
+    }
+
     // Start open timer
     if (openTimerRef.current) {
       clearTimeout(openTimerRef.current);
@@ -116,6 +145,20 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
       clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
     }
+
+    if (touchBehavior === "off") {
+      const now = Date.now();
+      const recentlyTouched = now - lastTouchTimeRef.current < 400;
+      const recentKeyboardNav = now - keyboardNavTimeRef.current < 100;
+
+      // If focus is happening right after a touch tap, ignore it.
+      // But if user is tabbing with a keyboard, allow opening.
+      const isKeyboardFocus = keyboardIntentRef.current || recentKeyboardNav;
+      if (recentlyTouched && !isKeyboardFocus) {
+        return;
+      }
+    }
+
     setOpen(true);
   }
 
@@ -132,15 +175,25 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLButtonElement>) {
+    keyboardIntentRef.current = true;
     if (e.key === "Escape" && open) {
       e.preventDefault();
       setOpen(false);
     }
   }
 
+  function handlePointerDown(e: React.PointerEvent<HTMLButtonElement>) {
+    keyboardIntentRef.current = false;
+    lastPointerTypeRef.current = e.pointerType as "mouse" | "touch" | "pen";
+
+    if (e.pointerType === "touch") {
+      lastTouchTimeRef.current = Date.now();
+    }
+  }
+
   function handleTouchEnd(e: React.TouchEvent<HTMLButtonElement>) {
     // On mobile, allow tap-to-close when tooltip is already open
-    if (open) {
+    if (open && touchBehavior !== "off") {
       e.preventDefault(); // Prevent focus event from reopening
       setOpen(false);
       // Blur so the next tap triggers a fresh focus event to reopen
@@ -157,7 +210,8 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onKeyDown={handleKeyDown}
-      onTouchEnd={tapToClose ? handleTouchEnd : undefined}
+      onTouchEnd={handleTouchEnd}
+      onPointerDown={handlePointerDown}
       aria-describedby={open ? tooltipId : undefined}
       className={cn(
         "focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground",
