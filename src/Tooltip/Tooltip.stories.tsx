@@ -13,7 +13,7 @@ import { action } from "storybook/actions";
  * ## Accessibility 
  * - If invoked using focus, focus stays on the triggering element while the tooltip is displayed and the tooltip is dismissed when it no longer has focus (onBlur)
  * - If invoked when a pointing cursor moves over the trigger element, then it remains open as long as the cursor is over the trigger.
- * - If invoked when a touch is made on the trigger element, then it remains until the user taps outside of the tooltip. Using the `tapToClose` prop, the tooltip can be dismissed when the user taps on the trigger element.
+ * - Optionally, the tooltip can be used on mobile devices by setting the `touchBehavior` prop to "tap". By default, the tooltip is not used on mobile devices.
  * - The tooltip is dismissed when the user presses the Escape key.
  * - Role="tooltip" is applied to the tooltip content element. aria-describedby is applied to the trigger element to indicate that the tooltip content is described by the tooltip content element for screen readers.
 
