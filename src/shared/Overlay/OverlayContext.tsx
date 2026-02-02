@@ -10,6 +10,7 @@ export type OverlayContextType = {
   triggerWidth: number;
   setTriggerWidth: (width: number) => void;
   overlayId: string;
+  triggerId: string;
   overlayTriggerRef: React.RefObject<HTMLButtonElement>;
   overlayContentRef: React.RefObject<HTMLDivElement>;
 };
@@ -43,8 +44,9 @@ export const OverlayProvider = ({
   const overlayTriggerRef = React.useRef<HTMLButtonElement | null>(null);
   const overlayContentRef = React.useRef<HTMLDivElement | null>(null);
 
-  // Reusable overlay id for aria
+  // Reusable ids for aria
   const overlayId = React.useId();
+  const triggerId = React.useId();
 
   // Use controlled value if provided, otherwise use internal state
   const isControlled = controlledOpen !== undefined;
@@ -65,8 +67,9 @@ export const OverlayProvider = ({
     triggerWidth,
     setTriggerWidth,
     overlayId,
+    triggerId,
     overlayTriggerRef: overlayTriggerRef as React.RefObject<HTMLButtonElement>,
-    overlayContentRef: overlayContentRef as React.RefObject<HTMLDivElement>
+    overlayContentRef: overlayContentRef as React.RefObject<HTMLDivElement>,
   };
 
   return <OverlayContext.Provider value={contextValue}>{children}</OverlayContext.Provider>;

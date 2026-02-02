@@ -3,18 +3,24 @@ import React from "react";
 type Event = MouseEvent | TouchEvent;
 
 export function useOnClickOutside<T extends HTMLElement>(
-  element: React.RefObject<T | null>,
+  element: React.RefObject<T | null> | Array<React.RefObject<HTMLElement | null>>,
   handler: (e: Event) => void
 ) {
   React.useEffect(() => {
     const listener = (e: Event) => {
-      const el = element.current;
+      const elements = Array.isArray(element) ? element : [element];
       const target = e.target as HTMLElement;
 
-      if (!el || target === el || el.contains(target)) {
-        return;
+      // Check if click is inside any of the elements
+      const isInsideAnyElement = elements.some((el) => {
+        const currentEl = el.current;
+        return currentEl && (target === currentEl || currentEl.contains(target));
+      });
+
+      // Call the handler only if the click is outside all elements
+      if (!isInsideAnyElement) {
+        handler(e);
       }
-      handler(e); //Call the handler only if the click is outside of the element
     };
 
     document.addEventListener("mousedown", listener);

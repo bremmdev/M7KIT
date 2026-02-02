@@ -1,3 +1,8 @@
+# 0.48.0 - 2026-02-02
+
+- Use shared `OverlayContext` for `Tooltip` and `Popover`
+- Add support for multiple refs in `useOnClickOutside`
+
 # 0.47.0 - 2026-01-30
 
 - Remove `tapToClose` prop from `Tooltip`
