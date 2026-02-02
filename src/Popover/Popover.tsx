@@ -58,7 +58,6 @@ export const PopoverTrigger = ({ children, className, ...rest }: PopoverTriggerP
     const {
         open,
         setOpen,
-        closeTimerRef,
         setTriggerWidth,
         overlayId,
         overlayTriggerRef,
@@ -99,7 +98,7 @@ export const PopoverTrigger = ({ children, className, ...rest }: PopoverTriggerP
             aria-expanded={open}
             aria-haspopup="dialog"
             className={cn(
-                "focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground",
+                "focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground hover:bg-surface-muted",
                 className
             )}
             {...rest}
@@ -110,18 +109,41 @@ export const PopoverTrigger = ({ children, className, ...rest }: PopoverTriggerP
 };
 
 export const PopoverContent = ({ children, className, placement = "bottom center", ...rest }: PopoverContentProps) => {
-    const { fade, open, setOpen, overlayId, overlayContentRef, overlayTriggerRef } = usePopover();
+    const { fade, open, setOpen, overlayId, overlayContentRef, closeTimerRef, overlayTriggerRef } = usePopover();
     const [calculatedPlacement, setCalculatedPlacement] = React.useState<OverlayPlacement>(placement);
     const [neverFits, setNeverFits] = React.useState(false);
 
+    // Delay close to allow parent's event handlers to run first. If the parent changes 'open' (e.g., via a toggle button), we respect that instead.
     useOnClickOutside(
         [overlayTriggerRef, overlayContentRef],
         React.useCallback(() => {
             if (open) {
-                setOpen(false);
+                if (closeTimerRef.current) {
+                    clearTimeout(closeTimerRef.current);
+                    closeTimerRef.current = null;
+                }
+                closeTimerRef.current = setTimeout(() => {
+                    setOpen(false);
+                }, 100);
             }
-        }, [setOpen])
+        }, [open, setOpen, closeTimerRef])
     );
+
+    // Clear pending close timer if open becomes true (e.g., via external control)
+    React.useEffect(() => {
+        if (open && closeTimerRef.current) {
+            clearTimeout(closeTimerRef.current);
+            closeTimerRef.current = null;
+        }
+
+        // Cleanup on unmount
+        return () => {
+            if (closeTimerRef.current) {
+                clearTimeout(closeTimerRef.current);
+                closeTimerRef.current = null;
+            }
+        };
+    }, [open, closeTimerRef]);
 
     React.useLayoutEffect(() => {
         if (!open) {
