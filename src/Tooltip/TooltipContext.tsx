@@ -1,20 +1,12 @@
 "use client";
 
 import React from "react";
+import { OverlayProvider, useOverlay, OverlayContextType } from "../shared/Overlay/OverlayContext";
 
-type TooltipContextType = {
-  fade: boolean;
-  open: boolean;
-  setOpen: (open: boolean) => void;
+type TooltipContextType = OverlayContextType & {
   hoverDelay: number;
   touchBehavior: "tap" | "longPress" | "off";
   openTimerRef: React.RefObject<ReturnType<typeof setTimeout> | null>;
-  closeTimerRef: React.RefObject<ReturnType<typeof setTimeout> | null>;
-  triggerWidth: number;
-  setTriggerWidth: (width: number) => void;
-  tooltipId: string;
-  tooltipTriggerRef: React.RefObject<HTMLButtonElement>;
-  tooltipContentRef: React.RefObject<HTMLDivElement>;
 };
 
 const TooltipContext = React.createContext<TooltipContextType | undefined>(undefined);
@@ -33,7 +25,7 @@ type TooltipProviderProps = {
   onOpenChange?: (open: boolean) => void;
   hoverDelay: number;
   fade: boolean;
-  touchBehavior: "tap" | "longPress" | "off";
+  touchBehavior: "tap" | "off";
 };
 
 export const TooltipProvider = ({
@@ -44,40 +36,37 @@ export const TooltipProvider = ({
   fade,
   touchBehavior
 }: TooltipProviderProps) => {
-  const [internalOpen, setInternalOpen] = React.useState(false);
-  const [triggerWidth, setTriggerWidth] = React.useState(0);
   const openTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-  const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-  const tooltipTriggerRef = React.useRef<HTMLButtonElement | null>(null);
-  const tooltipContentRef = React.useRef<HTMLDivElement | null>(null);
 
-  // Reusable tooltip id for aria-describedby
-  const tooltipId = React.useId();
+  return (
+    <OverlayProvider open={controlledOpen} onOpenChange={onOpenChange} fade={fade}>
+      <TooltipProviderInner hoverDelay={hoverDelay} touchBehavior={touchBehavior} openTimerRef={openTimerRef}>
+        {children}
+      </TooltipProviderInner>
+    </OverlayProvider>
+  );
+};
 
-  // Use controlled value if provided, otherwise use internal state
-  const isControlled = controlledOpen !== undefined;
-  const open = isControlled ? controlledOpen : internalOpen;
+type TooltipProviderInnerProps = {
+  children: React.ReactNode;
+  hoverDelay: number;
+  touchBehavior: "tap" | "off";
+  openTimerRef: React.RefObject<ReturnType<typeof setTimeout> | null>;
+};
 
-  const setOpen = (value: boolean) => {
-    if (!isControlled) {
-      setInternalOpen(value);
-    }
-    onOpenChange?.(value);
-  };
+const TooltipProviderInner = ({
+  children,
+  hoverDelay,
+  touchBehavior,
+  openTimerRef
+}: TooltipProviderInnerProps) => {
+  const overlay = useOverlay();
 
   const contextValue: TooltipContextType = {
-    open,
-    setOpen,
+    ...overlay,
     hoverDelay,
-    fade: fade ?? true,
     touchBehavior,
-    openTimerRef,
-    closeTimerRef,
-    triggerWidth,
-    setTriggerWidth,
-    tooltipId,
-    tooltipTriggerRef: tooltipTriggerRef as React.RefObject<HTMLButtonElement>,
-    tooltipContentRef: tooltipContentRef as React.RefObject<HTMLDivElement>
+    openTimerRef
   };
 
   return <TooltipContext.Provider value={contextValue}>{children}</TooltipContext.Provider>;

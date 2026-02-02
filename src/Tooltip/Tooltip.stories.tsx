@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
 import { Info } from "lucide-react";
 import { Button } from "../Button/Button";
-import { Placement } from "./Tooltip.types";
+import { OverlayPlacement } from "../shared/Overlay/types";
 import React from "react";
 import { action } from "storybook/actions";
 
@@ -139,7 +139,7 @@ export const PlacementOptions: Story = {
   tags: ["!autodocs"],
   args: {},
   render: (props) => {
-    const TooltipDemo = ({ placement }: { placement: Placement }) => (
+    const TooltipDemo = ({ placement }: { placement: OverlayPlacement }) => (
       <Tooltip {...props} open={true}>
         <TooltipTrigger>
           <Info size={20} />
@@ -189,7 +189,7 @@ export const PlacementOverrides: Story = {
     layout: "fullscreen"
   },
   render: (props) => {
-    const TooltipDemo = ({ placement, label }: { placement: Placement; label: string }) => (
+    const TooltipDemo = ({ placement, label }: { placement: OverlayPlacement; label: string }) => (
       <Tooltip {...props} open={true}>
         <TooltipTrigger>
           <div className="bg-accent text-white px-2 py-1 rounded text-xs">{label}</div>

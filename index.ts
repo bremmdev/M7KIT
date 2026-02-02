@@ -25,4 +25,5 @@ export { Tabs } from "./src/Tabs";
 export { Tierlist } from "./src/Tierlist";
 export { Timeline } from "./src/Timeline";
 export { Tooltip, TooltipContent, TooltipTrigger } from "./src/Tooltip";
-export type { TooltipProps, TooltipTriggerProps, TooltipContentProps, Placement } from "./src/Tooltip";
+export type { TooltipProps, TooltipTriggerProps, TooltipContentProps } from "./src/Tooltip";
+export type { OverlayPlacement } from "./src/shared/Overlay/types";

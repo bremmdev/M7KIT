@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { TooltipProps, TooltipContentProps, TooltipTriggerProps, Placement } from "./Tooltip.types";
+import { TooltipProps, TooltipContentProps, TooltipTriggerProps } from "./Tooltip.types";
+import { OverlayPlacement } from "../shared/Overlay/types";
 import { useTooltip, TooltipProvider } from "./TooltipContext";
 import { cn } from "../utils/cn";
 import {
@@ -37,7 +38,7 @@ export const Tooltip = ({
   );
 };
 
-const TooltipArrow = ({ placement }: { placement: Placement }) => {
+const TooltipArrow = ({ placement }: { placement: OverlayPlacement }) => {
   const { triggerWidth } = useTooltip();
   const isTop = placement.startsWith("top");
 
@@ -63,9 +64,9 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
     openTimerRef,
     closeTimerRef,
     setTriggerWidth,
-    tooltipId,
-    tooltipTriggerRef,
-    tooltipContentRef,
+    overlayId,
+    overlayTriggerRef,
+    overlayContentRef,
     touchBehavior
   } = useTooltip();
 
@@ -102,8 +103,8 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
 
   // Measure trigger width on mount, so we can position the arrow correctly
   React.useEffect(() => {
-    if (tooltipTriggerRef.current) {
-      setTriggerWidth(tooltipTriggerRef.current.offsetWidth);
+    if (overlayTriggerRef.current) {
+      setTriggerWidth(overlayTriggerRef.current.offsetWidth);
     }
   }, [setTriggerWidth]);
 
@@ -190,7 +191,7 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
   function handleBlur(e: React.FocusEvent<HTMLButtonElement>) {
     // Don't close if focus is moving to the tooltip content
     const relatedTarget = e.relatedTarget as Node | null;
-    if (relatedTarget && tooltipContentRef.current?.contains(relatedTarget)) {
+    if (relatedTarget && overlayContentRef.current?.contains(relatedTarget)) {
       return;
     }
 
@@ -231,13 +232,13 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
       e.preventDefault(); // Prevent focus event from reopening
       setOpen(false);
       // Blur so the next tap triggers a fresh focus event to reopen
-      tooltipTriggerRef.current?.blur();
+      overlayTriggerRef.current?.blur();
     }
   }
 
   return (
     <button
-      ref={tooltipTriggerRef}
+      ref={overlayTriggerRef}
       type="button"
       onFocus={handleFocus}
       onBlur={handleBlur}
@@ -246,7 +247,7 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
       onKeyDown={handleKeyDown}
       onTouchEnd={handleTouchEnd}
       onPointerDown={handlePointerDown}
-      aria-describedby={open ? tooltipId : undefined}
+      aria-describedby={open ? overlayId : undefined}
       className={cn(
         "focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground",
         className
@@ -259,8 +260,8 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
 };
 
 export const TooltipContent = ({ children, className, placement = "bottom center", ...rest }: TooltipContentProps) => {
-  const { fade, open, setOpen, closeTimerRef, tooltipId, tooltipContentRef, tooltipTriggerRef } = useTooltip();
-  const [calculatedPlacement, setCalculatedPlacement] = React.useState<Placement>(placement);
+  const { fade, open, setOpen, closeTimerRef, overlayId, overlayContentRef, overlayTriggerRef } = useTooltip();
+  const [calculatedPlacement, setCalculatedPlacement] = React.useState<OverlayPlacement>(placement);
   const [neverFits, setNeverFits] = React.useState(false);
 
   function handleMouseEnter() {
@@ -314,8 +315,8 @@ export const TooltipContent = ({ children, className, placement = "bottom center
       return;
     }
 
-    const tooltipContentRect = tooltipContentRef.current?.getBoundingClientRect();
-    const tooltipTriggerRect = tooltipTriggerRef.current?.getBoundingClientRect();
+    const tooltipContentRect = overlayContentRef.current?.getBoundingClientRect();
+    const tooltipTriggerRect = overlayTriggerRef.current?.getBoundingClientRect();
     const { innerHeight, innerWidth } = window;
     if (!tooltipContentRect || !tooltipTriggerRect) return;
     const { newPlacement, neverFits } = determinePlacement(
@@ -345,8 +346,8 @@ export const TooltipContent = ({ children, className, placement = "bottom center
         className
       )}
       role="tooltip"
-      id={tooltipId}
-      ref={tooltipContentRef}
+      id={overlayId}
+      ref={overlayContentRef}
       {...rest}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

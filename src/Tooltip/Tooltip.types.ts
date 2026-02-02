@@ -1,6 +1,5 @@
 import * as React from "react";
-
-export type Placement = "top left" | "top center" | "top right" | "bottom left" | "bottom center" | "bottom right";
+import { OverlayPlacement } from "../shared/Overlay/types";
 
 export type TooltipTriggerProps = React.ComponentProps<"button">;
 
@@ -10,7 +9,7 @@ export type TooltipContentProps = React.ComponentProps<"div"> & {
    * otherwise it will be placed on the opposite side.
    * @default "bottom center"
    */
-  placement?: Placement;
+  placement?: OverlayPlacement;
 };
 
 export type TooltipProps = React.ComponentProps<"div"> & {
