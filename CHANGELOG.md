@@ -1,7 +1,6 @@
-# 0.48.0 - 2026-02-02
+# 0.48.0 - 2026-02-03
 
-- Use shared `OverlayContext` for `Tooltip` and `Popover`
-- Add support for multiple refs in `useOnClickOutside`
+- Migrate m7kit to scoped package @bremmdev/m7kit
 
 # 0.47.0 - 2026-01-30
 
