@@ -22,10 +22,19 @@ jobs:
       - name: Check if version is already published
         id: version-check
         run: |
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
-          echo "Package version: $PACKAGE_VERSION"
+          echo "Package: $PACKAGE_NAME@$PACKAGE_VERSION"
 
-          PUBLISHED_VERSION=$(npm view @bremmdev/m7kit version 2>/dev/null || echo "")
+          # Check if package exists and get published version (returns empty if package doesn't exist)
+          PUBLISHED_VERSION=$(npm view "$PACKAGE_NAME" version 2>&1 || true)
+          
+          # If the output contains "404" or "not found", the package doesn't exist yet
+          if echo "$PUBLISHED_VERSION" | grep -qi "404\|not found\|E404"; then
+            echo "Package doesn't exist on npm yet - first publish"
+            PUBLISHED_VERSION=""
+          fi
+          
           echo "Published version: $PUBLISHED_VERSION"
 
           if [ "$PACKAGE_VERSION" = "$PUBLISHED_VERSION" ]; then
