@@ -4,7 +4,7 @@
   "private": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/bremmdev/m7kit"
+    "url": "https://github.com/bremmdev/M7KIT"
   },
   "version": "0.48.1",
   "type": "module",
