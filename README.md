@@ -7,7 +7,7 @@ m7kit is a React component library designed to facilitate the integration of les
 ## Installation
 
 ```
-npm install m7kit
+npm install @bremmdev/m7kit
 ```
 
 ## Usage
@@ -15,14 +15,14 @@ npm install m7kit
 After installing m7kit, you can import components into your React application:
 
 ```
-import { Masonry, GalleryStack, DiamondGrid, ImageShowcase } from "m7kit";
+import { Masonry, GalleryStack, DiamondGrid, ImageShowcase } from "@bremmdev/m7kit";
 ```
 
 Additionally, you need to import the CSS file to ensure proper styling:
 
 ```
-import "m7kit/css";
-import "m7kit/theme"
+import "@bremmdev/m7kit/css";
+import "@bremmdev/m7kit/theme"
 ```
 
 **It is recommended to import the CSS in your Tailwind CSS file if you want to override the default styles and CSS variables.**
@@ -37,15 +37,15 @@ There are several ways to use the theme:
 
 ```
 @import "tailwindcss";
-@import "m7kit/css"
-@import "m7kit/theme" /* Use this if you do not want to copy the @theme block */
+@import "@bremmdev/m7kit/css"
+@import "@bremmdev/m7kit/theme" /* Use this if you do not want to copy the @theme block */
 ```
 
 ### 2. Manually Copying all the variables
 
 ```
 @import "tailwindcss";
-@import "m7kit/css"
+@import "@bremmdev/m7kit/css"
 
 @variant dark (&:where([data-theme="dark"], [data-theme="dark"] *)); /* for dark-mode with data-theme="dark" */
 

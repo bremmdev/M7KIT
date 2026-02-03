@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/bremmdev/m7kit"
   },
-  "version": "0.48.0",
+  "version": "0.48.1",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",

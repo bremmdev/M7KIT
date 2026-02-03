@@ -1,3 +1,7 @@
+# 0.48.1 - 2026-02-03
+
+- README changes because of package scoping
+
 # 0.48.0 - 2026-02-03
 
 - Migrate m7kit to scoped package @bremmdev/m7kit
