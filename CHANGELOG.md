@@ -1,3 +1,7 @@
+# 0.48.2 - 2026-02-04
+
+- Workflow changes for version detection
+
 # 0.48.1 - 2026-02-03
 
 - README changes because of package scoping
