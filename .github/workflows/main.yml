@@ -26,18 +26,10 @@ jobs:
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           echo "Package: $PACKAGE_NAME@$PACKAGE_VERSION"
 
-          # Check if package exists and get published version (returns empty if package doesn't exist)
-          PUBLISHED_VERSION=$(npm view "$PACKAGE_NAME" version 2>&1 || true)
-          
-          # If the output contains "404" or "not found", the package doesn't exist yet
-          if echo "$PUBLISHED_VERSION" | grep -qi "404\|not found\|E404"; then
-            echo "Package doesn't exist on npm yet - first publish"
-            PUBLISHED_VERSION=""
-          fi
-          
-          echo "Published version: $PUBLISHED_VERSION"
-
-          if [ "$PACKAGE_VERSION" = "$PUBLISHED_VERSION" ]; then
+          # Check if this specific version exists
+          if npm view "$PACKAGE_NAME@$PACKAGE_VERSION" version > /dev/null 2>&1; then
+            PUBLISHED_VERSION=$(npm view "$PACKAGE_NAME@$PACKAGE_VERSION" version)
+            echo "Published version: $PUBLISHED_VERSION"
             echo "Version $PACKAGE_VERSION is already published, skipping publish"
             echo "should_publish=false" >> $GITHUB_OUTPUT
           else
