@@ -16,20 +16,12 @@ export default defineConfig({
     lib: {
       //Defines the entry point for the library build
       entry: path.resolve(__dirname, "index.ts"),
-      name: "m7kit",
-      //A function that generates the output file
-      //name for different formats during the build
-      fileName: (format) => `index.${format}.js`
+      //Output only ES module format
+      formats: ["es"],
+      fileName: () => "index.es.js"
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
-      output: {
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
-          tailwindcss: "tailwindcss"
-        }
-      }
+      external: ["react", "react-dom"]
     },
     sourcemap: false,
     //Clears the output directory before building.

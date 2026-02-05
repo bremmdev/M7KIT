@@ -1,3 +1,7 @@
+# 0.49.0 - 2026-02-05
+
+- Remove CommonJS
+
 # 0.48.2 - 2026-02-04
 
 - Workflow changes for version detection
