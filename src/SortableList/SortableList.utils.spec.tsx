@@ -1,10 +1,5 @@
 import { getItemsWithIdsAndLabels } from "./SortableList.utils";
 
-//mock uuid to return predictable ids for testing
-jest.mock("uuid", () => ({
-  v4: jest.fn().mockImplementation(() => "unique-id")
-}));
-
 describe("getItemsWithIdsAndLabels", () => {
   describe("extractTextFromReactNode", () => {
     it("extracts text from string primitives", () => {
