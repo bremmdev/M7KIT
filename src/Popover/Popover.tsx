@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { PopoverProps, PopoverContentProps, PopoverTriggerProps } from "./Popover.types";
+import { PopoverProps, PopoverContentProps, PopoverTriggerProps, PopoverTitleProps } from "./Popover.types";
 import { OverlayPlacement } from "../shared/Overlay/types";
 import { usePopover, PopoverProvider } from "./PopoverContext";
 import { cn } from "../utils/cn";
@@ -54,6 +54,22 @@ const PopoverArrow = ({ placement }: { placement: OverlayPlacement }) => {
             style={getArrowPositionStyle(placement, triggerWidth)}
             aria-hidden
         />
+    );
+};
+
+export const PopoverTitle = ({ as = "h3", children, className, ...rest }: PopoverTitleProps) => {
+    const Component = as as React.ElementType;
+    const { headingId, setHasTitleRendered } = usePopover();
+
+    React.useEffect(() => {
+        setHasTitleRendered(true);
+        return () => setHasTitleRendered(false);
+    }, [setHasTitleRendered]);
+
+    return (
+        <Component className={cn("text-lg font-bold", className)} id={headingId} {...rest}>
+            {children}
+        </Component>
     );
 };
 
@@ -112,15 +128,14 @@ export const PopoverTrigger = ({ children, className, ...rest }: PopoverTriggerP
 };
 
 export const PopoverContent = ({ children, className, placement = "bottom center", ...rest }: PopoverContentProps) => {
-    const { fade, open, setOpen, overlayId, overlayContentRef, closeTimerRef, overlayTriggerRef, trapFocus } = usePopover();
+    const { fade, open, setOpen, overlayId, overlayContentRef, closeTimerRef, overlayTriggerRef, trapFocus, headingId, hasTitleRendered } = usePopover();
     const [calculatedPlacement, setCalculatedPlacement] = React.useState<OverlayPlacement>(placement);
     const [neverFits, setNeverFits] = React.useState(false);
 
     useFocusTrap(overlayContentRef, {
         condition: open,
-        initialFocusElement: "first",
+        initialFocusElement: "firstOrContainer",
         loop: trapFocus,
-        inert: true,
         onEscape: () => {
             setOpen(false);
         }
@@ -185,7 +200,7 @@ export const PopoverContent = ({ children, className, placement = "bottom center
     return (
         <div
             className={cn(
-                "absolute w-64 bg-surface-subtle border border-neutral rounded-md p-2 my-2",
+                "absolute w-64 bg-surface-subtle border border-neutral rounded-md p-2 my-2 focus-ring-inner",
                 {
                     "animate-fade-in": fade
                 },
@@ -197,8 +212,10 @@ export const PopoverContent = ({ children, className, placement = "bottom center
                 className
             )}
             role="dialog"
+            aria-labelledby={hasTitleRendered ? headingId : undefined}
             id={overlayId}
             ref={overlayContentRef}
+            tabIndex={-1}
             {...rest}
         >
             <PopoverArrow placement={calculatedPlacement} />

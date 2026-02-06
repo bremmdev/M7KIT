@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Popover, PopoverContent, PopoverTrigger } from "./Popover";
+import { Popover, PopoverContent, PopoverTitle, PopoverTrigger } from "./Popover";
 import { Info } from "lucide-react";
 import { Button } from "../Button/Button";
 import { OverlayPlacement } from "../shared/Overlay/types";
@@ -71,7 +71,7 @@ export const Default: Story = {
                 </PopoverTrigger>
                 <PopoverContent placement="bottom center">
                     <>
-                        <h3 className="font-bold mb-2">Pricing details</h3>
+                        <PopoverTitle>Pricing details</PopoverTitle>
                         <p>The price listed is exclusive of taxes and shipping costs and may vary based on your location.</p>
                     </>
                 </PopoverContent>
@@ -124,6 +124,7 @@ export const FocusableContent: Story = {
                         <Info size={24} />
                     </PopoverTrigger>
                     <PopoverContent placement="bottom center" className="flex flex-col gap-2">
+                        <PopoverTitle>Focusable content</PopoverTitle>
                         <p>This is focusable content. By default, the focus is not trapped within the Popover content, but you can enable it by setting the `trapFocus` prop to true. Use 'escape' to close the Popover.</p>
                         <input type="text" className="border border-neutral rounded-md p-2 my-1" />
                         <Button>Submit</Button>

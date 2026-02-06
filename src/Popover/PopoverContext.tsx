@@ -5,6 +5,8 @@ import { OverlayProvider, useOverlay, OverlayContextType } from "../shared/Overl
 
 type PopoverContextType = OverlayContextType & {
     trapFocus: boolean;
+    hasTitleRendered: boolean;
+    setHasTitleRendered: (value: boolean) => void;
 };
 
 const PopoverContext = React.createContext<PopoverContextType | undefined>(undefined);
@@ -46,10 +48,13 @@ type PopoverProviderInnerProps = {
 
 const PopoverProviderInner = ({ children, trapFocus }: PopoverProviderInnerProps) => {
     const overlay = useOverlay();
+    const [hasTitleRendered, setHasTitleRendered] = React.useState(false);
 
     const contextValue: PopoverContextType = {
         ...overlay,
         trapFocus,
+        hasTitleRendered,
+        setHasTitleRendered,
     };
 
     return <PopoverContext.Provider value={contextValue}>{children}</PopoverContext.Provider>;

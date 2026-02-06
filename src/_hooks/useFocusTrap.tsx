@@ -38,6 +38,7 @@ const isElementVisible = (element: HTMLElement): boolean =>
  *  - initialFocusElement: Specifies which element to focus on when the trap is activated. Can be:
  *    - "first": Focus the first focusable element (default)
  *    - "container": Focus the container element (for example, a modal dialog)
+ *    - "firstOrContainer": Focus the first focusable element, or fall back to container if none exist
  *    - A ref to a specific element to focus
  *  - autoRestoreFocus: If true, restores focus to the previously focused element when the trap is deactivated (default: true)
  *  - loop: If true, loops through the focusable elements when the end or start of the focusable elements is reached (default: true)
@@ -55,7 +56,7 @@ export function useFocusTrap<T extends HTMLElement>(
   options?: {
     condition?: boolean;
     onEscape?: () => void;
-    initialFocusElement?: React.RefObject<HTMLElement | null> | "first" | "container";
+    initialFocusElement?: React.RefObject<HTMLElement | null> | "first" | "container" | "firstOrContainer";
     autoRestoreFocus?: boolean;
     loop?: boolean;
     inert?: boolean;
@@ -143,6 +144,13 @@ export function useFocusTrap<T extends HTMLElement>(
         } else if (initialFocusElement === "first") {
           const focusables = getFocusableElements();
           focusables[0]?.focus();
+        } else if (initialFocusElement === "firstOrContainer") {
+          const focusables = getFocusableElements();
+          if (focusables.length > 0) {
+            focusables[0]?.focus();
+          } else {
+            el.current?.focus();
+          }
         } else if (initialFocusElement && initialFocusElement.current) {
           initialFocusElement.current.focus();
         }

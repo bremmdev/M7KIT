@@ -14,6 +14,8 @@ export { Marquee } from "./src/Marquee";
 export { Masonry } from "./src/Masonry";
 export { OTPInput } from "./src/OTPInput";
 export { PageScrollIndicator } from "./src/PageScrollIndicator";
+export { Popover, PopoverTrigger, PopoverContent, PopoverTitle } from "./src/Popover";
+export type { PopoverProps, PopoverContentProps, PopoverTriggerProps, PopoverTitleProps } from "./src/Popover";
 export { Rating } from "./src/Rating";
 export { SegmentedControl } from "./src/SegmentedControl";
 export { ShimmerImage } from "./src/ShimmerImage";

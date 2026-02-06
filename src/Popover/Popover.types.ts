@@ -1,6 +1,8 @@
 import * as React from "react";
 import { OverlayPlacement } from "../shared/Overlay/types";
 
+type Heading = "h2" | "h3" | "h4" | "h5" | "h6";
+
 export type PopoverTriggerProps = React.ComponentProps<"button">;
 
 export type PopoverContentProps = React.ComponentProps<"div"> & {
@@ -10,6 +12,10 @@ export type PopoverContentProps = React.ComponentProps<"div"> & {
      * @default "bottom center"
      */
     placement?: OverlayPlacement;
+};
+
+export type PopoverTitleProps<T extends Heading = "h3"> = React.ComponentProps<T> & {
+    as?: T;
 };
 
 export type PopoverProps = React.ComponentProps<"div"> & {
