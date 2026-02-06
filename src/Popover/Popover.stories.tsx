@@ -7,24 +7,21 @@ import React from "react";
 import { action } from "storybook/actions";
 
 /**
- * The `Popover` component displays contextual information on hover, focus, or tap (mobile). It consists of a trigger element (rendered as a button) and a content element. 
- * The Popover content can be any HTML element or component. Some libraries treat Popovers as visual-only. Ours are visual, mobile-friendly, and accessible.
+ * The `Popover` component displays contextual information when the trigger is clicked. It consists of a trigger element (rendered as a button) and a content element. 
+ * The Popover content can be any HTML element or component. There is overlap between the `Popover` and `Tooltip` components. Use the guidelines below to determine which component to use.
+ * 
+ * ## Popover vs Tooltip
+ * - `Popover` is meant to capture the user's attention and provide additional information or actions. If the information is not essential or requires no interaction, consider using `Tooltip` instead.
+ * - `Popover` is activated by clicking or using the keyboard (enter or space key) on the trigger element. `Tooltip` is activated by hovering over the trigger element or focusing it with the keyboard.
+ * - Use `Popover` when you want to render focusable content. Do not use `Tooltip` for focusable content.
+ * - Use `Tooltip` when you want to display a short, non-essential piece of information that does not require interaction.
  * 
  * ## Accessibility 
- * - If invoked using focus, focus stays on the triggering element while the Popover is displayed and the Popover is dismissed when it no longer has focus (onBlur)
- * - If invoked when a pointing cursor moves over the trigger element, then it remains open as long as the cursor is over the trigger.
- * - Optionally, the Popover can be used on mobile devices by setting the `touchBehavior` prop to "tap". By default, the Popover is not used on mobile devices.
- * - The Popover is dismissed when the user presses the Escape key.
- * - Role="Popover" is applied to the Popover content element. aria-describedby is applied to the trigger element to indicate that the Popover content is described by the Popover content element for screen readers.
-
- * ## Usage guidelines for assistive technologies
- * - The Popover is meant for short, non-essential information the user does not need to actively interact with and should not contain focusable elements. If the information is essential or requires interaction, consider using a modal or a PopOver instead.
- *
- * ## Features
- * - Fade in on hover (optional)
- * - Customizable placement (top left, top center, top right, bottom left, bottom center, bottom right)
- * - Customizable hover delay
- * - Controlled mode. The Popover can be controlled by the parent component by passing the `open` prop. The `onOpenChange` prop can be used to listen to changes in the open state so the parent component can update its own state.
+ * - Trigger element has `aria-haspopup="dialog"` and `aria-controls` attribute to indicate that the Popover content is controlled by the trigger element.
+ * - Trigger element has `aria-expanded` attribute to indicate whether the Popover content is visible.
+ * - When used with the `PopoverTitle` component, the content will be labelled by the title.
+ * - When used without the `PopoverTitle` component, consider using an aria-label on the content container to describe the content.
+ * - Focus management is handled by the `useFocusTrap` hook. It focuses the first focusable element within the content or the container itself if no focusable elements are found. By default, the focus is not trapped within the Popover content, but you can enable it by setting the `trapFocus` prop to true.
  *
  * ## Placement
  * The Popover placement can be customized using the `placement` prop. The Popover will be placed based on the following strategy:
@@ -44,10 +41,8 @@ import { action } from "storybook/actions";
  *    <Info size={24} />
  *  </PopoverTrigger>
  *   <PopoverContent placement="bottom center">
- *    <div>
- *     <h3>Pricing details</h3>
+ *     <PopoverTitle>Pricing details</PopoverTitle>
  *     <p>The price listed is exclusive of taxes and shipping costs and may vary based on your location.</p>
- *    </div>
  *   </PopoverContent>
  * </Popover>
  * ```

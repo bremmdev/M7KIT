@@ -8,7 +8,15 @@ import { action } from "storybook/actions";
 
 /**
  * The `Tooltip` component displays contextual information on hover, focus, or tap (mobile). It consists of a trigger element (rendered as a button) and a content element. 
- * The tooltip content can be any HTML element or component. Some libraries treat tooltips as visual-only. Ours are visual, mobile-friendly, and accessible.
+ * The tooltip content can be any HTML element or component. Some libraries treat tooltips as visual-only. Ours are visual, mobile-friendly, and accessible. There is overlap between the `Tooltip` and `Popover` components. Use the guidelines below to determine which component to use.
+ * 
+ * ## Tooltip vs Popover
+ * - `Tooltip` is meant to display a short, non-essential piece of information that does not require interaction.
+ * - `Popover` is meant to capture the user's attention and provide additional information or actions. If the information is not essential or requires no interaction, consider using `Tooltip` instead.
+ * - `Tooltip` is activated by hovering over the trigger element or focusing it with the keyboard. `Popover` is activated by clicking or using the keyboard (enter or space key) on the trigger element.
+ * - Use `Tooltip` when you want to display a short, non-essential piece of information that does not require interaction.
+ * - Use `Popover` when you want to capture the user's attention and provide additional information or actions.
+ * - Use `Popover` when you want to render focusable content. Do not use `Tooltip` for focusable content.
  * 
  * ## Accessibility 
  * - If invoked using focus, focus stays on the triggering element while the tooltip is displayed and the tooltip is dismissed when it no longer has focus (onBlur)
