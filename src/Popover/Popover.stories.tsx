@@ -114,6 +114,26 @@ export const Controlled: Story = {
     }
 };
 
+export const FocusableContent: Story = {
+    tags: ["!autodocs"],
+    render: (props) => {
+        return (
+            <div className="flex justify-center min-h-screen items-center">
+                <Popover {...props}>
+                    <PopoverTrigger aria-label="additional information">
+                        <Info size={24} />
+                    </PopoverTrigger>
+                    <PopoverContent placement="bottom center" className="flex flex-col gap-2">
+                        <p>This is focusable content. By default, the focus is not trapped within the Popover content, but you can enable it by setting the `trapFocus` prop to true. Use 'escape' to close the Popover.</p>
+                        <input type="text" className="border border-neutral rounded-md p-2 my-1" />
+                        <Button>Submit</Button>
+                    </PopoverContent>
+                </Popover>
+            </div>
+        );
+    }
+};
+
 export const PlacementOptions: Story = {
     tags: ["!autodocs"],
     args: {},

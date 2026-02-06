@@ -13,6 +13,7 @@ import {
     determinePlacement
 } from "../Tooltip/Tooltip.utils";
 import { useOnClickOutside } from "../_hooks/useOnClickOutside";
+import { useFocusTrap } from "../_hooks/useFocusTrap";
 
 export const Popover = ({
     children,
@@ -20,6 +21,7 @@ export const Popover = ({
     fade = true,
     open,
     onOpenChange,
+    trapFocus = false,
     ...rest
 }: PopoverProps) => {
 
@@ -28,6 +30,7 @@ export const Popover = ({
             open={open}
             onOpenChange={onOpenChange}
             fade={fade}
+            trapFocus={trapFocus}
         >
             <div className={cn("relative w-fit text-foreground", className)} {...rest}>
                 {children}
@@ -109,9 +112,19 @@ export const PopoverTrigger = ({ children, className, ...rest }: PopoverTriggerP
 };
 
 export const PopoverContent = ({ children, className, placement = "bottom center", ...rest }: PopoverContentProps) => {
-    const { fade, open, setOpen, overlayId, overlayContentRef, closeTimerRef, overlayTriggerRef } = usePopover();
+    const { fade, open, setOpen, overlayId, overlayContentRef, closeTimerRef, overlayTriggerRef, trapFocus } = usePopover();
     const [calculatedPlacement, setCalculatedPlacement] = React.useState<OverlayPlacement>(placement);
     const [neverFits, setNeverFits] = React.useState(false);
+
+    useFocusTrap(overlayContentRef, {
+        condition: open,
+        initialFocusElement: "first",
+        loop: trapFocus,
+        inert: true,
+        onEscape: () => {
+            setOpen(false);
+        }
+    });
 
     // Delay close to allow parent's event handlers to run first. If the parent changes 'open' (e.g., via a toggle button), we respect that instead.
     useOnClickOutside(

@@ -19,9 +19,14 @@ export type PopoverProps = React.ComponentProps<"div"> & {
      */
     fade?: boolean;
     /**
-     * Whether the popover is currently open in controlled mode
-     * @default undefined
+     * Whether to trap focus within the popover content
+     * @default false
      */
+    trapFocus?: boolean;
+    /**
+    * Whether the popover is currently open in controlled mode, only use this if you need to control the open state from the parent component.
+    * @default undefined
+    */
     open?: boolean;
     /**
      * Event handler called when the popover is opened or closed.

@@ -3,7 +3,11 @@
 import React from "react";
 import { OverlayProvider, useOverlay, OverlayContextType } from "../shared/Overlay/OverlayContext";
 
-const PopoverContext = React.createContext<OverlayContextType | undefined>(undefined);
+type PopoverContextType = OverlayContextType & {
+    trapFocus: boolean;
+};
+
+const PopoverContext = React.createContext<PopoverContextType | undefined>(undefined);
 
 export const usePopover = () => {
     const context = React.useContext(PopoverContext);
@@ -18,27 +22,35 @@ type PopoverProviderProps = {
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
     fade: boolean;
+    trapFocus: boolean;
 };
 
 export const PopoverProvider = ({
     children,
     open: controlledOpen,
     onOpenChange,
-    fade
+    fade,
+    trapFocus = false,
 }: PopoverProviderProps) => {
     return (
         <OverlayProvider open={controlledOpen} onOpenChange={onOpenChange} fade={fade}>
-            <PopoverProviderInner>{children}</PopoverProviderInner>
+            <PopoverProviderInner trapFocus={trapFocus}>{children}</PopoverProviderInner>
         </OverlayProvider>
     );
 };
 
 type PopoverProviderInnerProps = {
     children: React.ReactNode;
+    trapFocus: boolean;
 };
 
-const PopoverProviderInner = ({ children }: PopoverProviderInnerProps) => {
+const PopoverProviderInner = ({ children, trapFocus }: PopoverProviderInnerProps) => {
     const overlay = useOverlay();
 
-    return <PopoverContext.Provider value={overlay}>{children}</PopoverContext.Provider>;
+    const contextValue: PopoverContextType = {
+        ...overlay,
+        trapFocus,
+    };
+
+    return <PopoverContext.Provider value={contextValue}>{children}</PopoverContext.Provider>;
 };

@@ -1,16 +1,47 @@
 import React from "react";
 
 /**
+ * Selector for all focusable elements that can receive keyboard focus.
+ * Includes standard interactive elements and elements with explicit tabindex.
+ */
+const FOCUSABLE_SELECTOR = [
+  "a[href]",
+  "area[href]",
+  "input:not([disabled])",
+  "select:not([disabled])",
+  "textarea:not([disabled])",
+  "button:not([disabled])",
+  "iframe",
+  "object",
+  "embed",
+  "audio[controls]",
+  "video[controls]",
+  '[tabindex]:not([tabindex="-1"])',
+  "[contenteditable]",
+].join(", ");
+
+/**
+ * Filters elements to only those that are actually visible and focusable.
+ */
+const isElementVisible = (element: HTMLElement): boolean =>
+  !element.hasAttribute("disabled") &&
+  !element.hasAttribute("hidden") &&
+  element.offsetParent !== null &&
+  getComputedStyle(element).visibility !== "hidden";
+
+/**
  * A hook that traps focus within a specified element.
  * @param el The element to trap focus within
  * @param options Optional settings for the focus trap, including:
  *  - condition: A boolean to enable or disable the focus trap (default: true)
  *  - onEscape: A callback function to be called when the Escape key is pressed
  *  - initialFocusElement: Specifies which element to focus on when the trap is activated. Can be:
- *  - "first": Focus the first focusable element (default)
- *  - "container": Focus the container element (for example, a modal dialog)
- *  - A ref to a specific element to focus
+ *    - "first": Focus the first focusable element (default)
+ *    - "container": Focus the container element (for example, a modal dialog)
+ *    - A ref to a specific element to focus
  *  - autoRestoreFocus: If true, restores focus to the previously focused element when the trap is deactivated (default: true)
+ *  - loop: If true, loops through the focusable elements when the end or start of the focusable elements is reached (default: true)
+ *  - inert: If true, marks all sibling content as inert to prevent screen reader access outside the trap (default: false)
  * @returns void
  * @example
  * ```
@@ -26,11 +57,60 @@ export function useFocusTrap<T extends HTMLElement>(
     onEscape?: () => void;
     initialFocusElement?: React.RefObject<HTMLElement | null> | "first" | "container";
     autoRestoreFocus?: boolean;
+    loop?: boolean;
+    inert?: boolean;
   }
 ) {
   const previousActiveElement = React.useRef<HTMLElement | null>(null);
   const hasSetInitialFocus = React.useRef(false);
-  const { condition = true, onEscape, initialFocusElement = "first", autoRestoreFocus = true } = options || {};
+  const inertElements = React.useRef<Set<Element>>(new Set());
+
+  const {
+    condition = true,
+    onEscape,
+    initialFocusElement = "first",
+    autoRestoreFocus = true,
+    loop = true,
+    inert = false,
+  } = options || {};
+
+  // Handle inert attribute on sibling content for screen reader containment
+  React.useEffect(() => {
+    const container = el.current;
+    if (!container || !condition || !inert) {
+      // Remove inert from previously marked elements
+      inertElements.current.forEach((element) => {
+        element.removeAttribute("inert");
+      });
+      inertElements.current.clear();
+      return;
+    }
+
+    // Mark all siblings and their ancestors' siblings as inert
+    const markSiblingsInert = (element: Element | null) => {
+      while (element && element !== document.body) {
+        const parent = element.parentElement;
+        if (parent) {
+          Array.from(parent.children).forEach((sibling) => {
+            if (sibling !== element && !sibling.hasAttribute("inert")) {
+              sibling.setAttribute("inert", "");
+              inertElements.current.add(sibling);
+            }
+          });
+        }
+        element = parent;
+      }
+    };
+
+    markSiblingsInert(container);
+
+    return () => {
+      inertElements.current.forEach((element) => {
+        element.removeAttribute("inert");
+      });
+      inertElements.current.clear();
+    };
+  }, [el, condition, inert]);
 
   React.useEffect(() => {
     const container = el.current;
@@ -52,19 +132,9 @@ export function useFocusTrap<T extends HTMLElement>(
     if (!hasSetInitialFocus.current) {
       hasSetInitialFocus.current = true;
 
-      const getFocusableElements = () => {
+      const getFocusableElements = (): HTMLElement[] => {
         if (!el.current) return [];
-        return Array.from(
-          el.current.querySelectorAll<HTMLElement>(
-            'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable]'
-          )
-        ).filter(
-          (element) =>
-            !element.hasAttribute("disabled") &&
-            !element.hasAttribute("hidden") &&
-            element.offsetParent !== null &&
-            getComputedStyle(element).visibility !== "hidden"
-        );
+        return Array.from(el.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(isElementVisible);
       };
 
       const setInitialFocus = () => {
@@ -78,8 +148,10 @@ export function useFocusTrap<T extends HTMLElement>(
         }
       };
 
-      // Delay to ensure rendering is done
-      setTimeout(setInitialFocus, 0);
+      // Use requestAnimationFrame for more predictable timing after paint
+      requestAnimationFrame(() => {
+        requestAnimationFrame(setInitialFocus);
+      });
     }
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -92,16 +164,8 @@ export function useFocusTrap<T extends HTMLElement>(
 
       if (e.key !== "Tab") return;
 
-      const focusables = Array.from(
-        el.current.querySelectorAll<HTMLElement>(
-          'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable]'
-        )
-      ).filter(
-        (el) =>
-          !el.hasAttribute("disabled") &&
-          !el.hasAttribute("hidden") &&
-          el.offsetParent !== null &&
-          getComputedStyle(el).visibility !== "hidden"
+      const focusables = Array.from(el.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+        isElementVisible
       );
 
       if (focusables.length === 0) return;
@@ -110,16 +174,28 @@ export function useFocusTrap<T extends HTMLElement>(
       const last = focusables[focusables.length - 1];
       const active = document.activeElement as HTMLElement;
 
-      // Tab loop logic
+      // Tab loop logic - consistent behavior for both Tab and Shift+Tab
       if (e.shiftKey) {
         if (active === first) {
-          e.preventDefault();
-          last.focus();
+          if (loop) {
+            e.preventDefault();
+            last.focus();
+          } else {
+            // Break out of trap backwards
+            onEscape?.();
+            return;
+          }
         }
       } else {
         if (active === last) {
-          e.preventDefault();
-          first.focus();
+          if (loop) {
+            e.preventDefault();
+            first.focus();
+          } else {
+            // Break out of trap forwards
+            onEscape?.();
+            return;
+          }
         }
       }
     };
@@ -129,5 +205,5 @@ export function useFocusTrap<T extends HTMLElement>(
     return () => {
       container.removeEventListener("keydown", handleKeyDown);
     };
-  }, [el, condition, onEscape, initialFocusElement]);
+  }, [el, condition, onEscape, initialFocusElement, loop, autoRestoreFocus]);
 }
