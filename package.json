@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/bremmdev/M7KIT"
   },
-  "version": "0.49.0",
+  "version": "0.50.0",
   "type": "module",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",

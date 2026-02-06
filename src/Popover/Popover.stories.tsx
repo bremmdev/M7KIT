@@ -34,9 +34,7 @@ import { action } from "storybook/actions";
  *
  * ## Usage
  * ```
- * <Popover
- *   hoverDelay={300}
- * >
+ * <Popover>
  *   <PopoverTrigger aria-label="additional information">
  *    <Info size={24} />
  *  </PopoverTrigger>

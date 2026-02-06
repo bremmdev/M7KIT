@@ -1,3 +1,8 @@
+# 0.50.0 - 2026-02-06
+
+- Add `Popover`
+- Refactor `useFocusTrap` 
+
 # 0.49.0 - 2026-02-05
 
 - Remove CommonJS

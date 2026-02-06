@@ -35,6 +35,7 @@ const isElementVisible = (element: HTMLElement): boolean =>
  * @param options Optional settings for the focus trap, including:
  *  - condition: A boolean to enable or disable the focus trap (default: true)
  *  - onEscape: A callback function to be called when the Escape key is pressed
+ *  - onTabOut: A callback function to be called when Tab is pressed and there are no focusable elements
  *  - initialFocusElement: Specifies which element to focus on when the trap is activated. Can be:
  *    - "first": Focus the first focusable element (default)
  *    - "container": Focus the container element (for example, a modal dialog)
@@ -56,6 +57,7 @@ export function useFocusTrap<T extends HTMLElement>(
   options?: {
     condition?: boolean;
     onEscape?: () => void;
+    onTabOut?: (e: KeyboardEvent) => void;
     initialFocusElement?: React.RefObject<HTMLElement | null> | "first" | "container" | "firstOrContainer";
     autoRestoreFocus?: boolean;
     loop?: boolean;
@@ -69,6 +71,7 @@ export function useFocusTrap<T extends HTMLElement>(
   const {
     condition = true,
     onEscape,
+    onTabOut,
     initialFocusElement = "first",
     autoRestoreFocus = true,
     loop = true,
@@ -176,7 +179,14 @@ export function useFocusTrap<T extends HTMLElement>(
         isElementVisible
       );
 
-      if (focusables.length === 0) return;
+      if (focusables.length === 0) {
+        // No focusable elements - call onTabOut if provided
+        // Pass the event so the consumer can decide whether to prevent default
+        if (onTabOut) {
+          onTabOut(e);
+        }
+        return;
+      }
 
       const first = focusables[0];
       const last = focusables[focusables.length - 1];
@@ -213,5 +223,5 @@ export function useFocusTrap<T extends HTMLElement>(
     return () => {
       container.removeEventListener("keydown", handleKeyDown);
     };
-  }, [el, condition, onEscape, initialFocusElement, loop, autoRestoreFocus]);
+  }, [el, condition, onEscape, onTabOut, initialFocusElement, loop, autoRestoreFocus]);
 }

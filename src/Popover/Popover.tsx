@@ -79,6 +79,7 @@ export const PopoverTrigger = ({ children, className, ...rest }: PopoverTriggerP
         setOpen,
         setTriggerWidth,
         overlayId,
+        triggerId,
         overlayTriggerRef,
     } = usePopover();
 
@@ -94,22 +95,16 @@ export const PopoverTrigger = ({ children, className, ...rest }: PopoverTriggerP
     }
 
     function handleKeyDown(e: React.KeyboardEvent<HTMLButtonElement>) {
-        if (e.key === "Tab") {
-            setOpen(false);
-            return;
-        }
-        e.preventDefault();
         if (e.key === "Escape" && open) {
+            e.preventDefault();
             setOpen(false);
-        }
-        if (e.key === "Enter" || e.key === " ") {
-            setOpen(!open);
         }
     }
 
     return (
         <button
             ref={overlayTriggerRef}
+            id={triggerId}
             type="button"
             onKeyDown={handleKeyDown}
             onClick={handleClick}
@@ -136,8 +131,16 @@ export const PopoverContent = ({ children, className, placement = "bottom center
         condition: open,
         initialFocusElement: "firstOrContainer",
         loop: trapFocus,
+        autoRestoreFocus: false,
         onEscape: () => {
             setOpen(false);
+            overlayTriggerRef.current?.focus();
+        },
+        onTabOut: () => {
+            setOpen(false);
+            // Focus the trigger, then let the browser's natural Tab behavior
+            // move focus to the next element after the trigger
+            overlayTriggerRef.current?.focus();
         }
     });
 
@@ -213,6 +216,7 @@ export const PopoverContent = ({ children, className, placement = "bottom center
             )}
             role="dialog"
             aria-labelledby={hasTitleRendered ? headingId : undefined}
+            aria-modal={trapFocus ? true : undefined}
             id={overlayId}
             ref={overlayContentRef}
             tabIndex={-1}
