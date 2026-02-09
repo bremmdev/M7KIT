@@ -1,6 +1,6 @@
 # 0.50.1 - 2026-02-09
 
-- Add focus outline to `PopoverArrow`
+- Add focus outline to `PopoverArrow` 
 
 # 0.50.0 - 2026-02-06
 
