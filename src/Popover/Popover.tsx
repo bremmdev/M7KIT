@@ -48,7 +48,10 @@ const PopoverArrow = ({ placement }: { placement: OverlayPlacement }) => {
             className={cn(
                 "absolute w-3 h-3 rotate-45 bg-surface-subtle",
                 // Border only on the sides pointing toward trigger
-                isTop ? "border-b border-r border-neutral" : "border-t border-l border-neutral",
+                // 2px accent border when popover content has focus-visible (via group), matching focus-ring-inner outline width, also translate the arrow to match the focus-ring-inner outline width
+                isTop
+                    ? "border-b border-r border-neutral group-focus-visible:border-b-2 group-focus-visible:border-r-2 group-focus-visible:border-accent group-focus-visible:translate-y-px"
+                    : "border-t border-l border-neutral group-focus-visible:border-t-2 group-focus-visible:border-l-2 group-focus-visible:border-accent group-focus-visible:-translate-y-px",
                 getArrowClasses(placement)
             )}
             style={getArrowPositionStyle(placement, triggerWidth)}
@@ -203,7 +206,7 @@ export const PopoverContent = ({ children, className, placement = "bottom center
     return (
         <div
             className={cn(
-                "absolute w-64 bg-surface-subtle border border-neutral rounded-md p-2 my-2 focus-ring-inner",
+                "group absolute w-64 bg-surface-subtle border border-neutral rounded-md p-2 my-2 focus-ring-inner",
                 {
                     "animate-fade-in": fade
                 },
