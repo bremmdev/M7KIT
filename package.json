@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/bremmdev/M7KIT"
   },
-  "version": "0.50.1",
+  "version": "0.51.0",
   "type": "module",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -27,6 +27,10 @@
   "files": [
     "dist"
   ],
+  "peerDependencies": {
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0"
+  },
   "publishConfig": {
     "access": "public"
   },

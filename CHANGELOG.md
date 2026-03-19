@@ -1,3 +1,8 @@
+# 0.51.0 - 2026-03-19
+
+- Export missing types
+- Add peerDependency for React
+
 # 0.50.1 - 2026-02-09
 
 - Add focus outline to `PopoverArrow` 
