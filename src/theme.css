@@ -26,6 +26,8 @@
   /* slate-50 */
   --color-surface-muted: oklch(96.8% 0.007 247.896);
   /* slate-100 */
+  --color-surface-strong: oklch(92.9% 0.013 255.508);
+  /* slate-200 */
   --color-neutral: oklch(70.4% 0.04 256.788);
   /* slate-400 */
   --color-foreground: oklch(20.8% 0.042 265.755);
@@ -49,6 +51,7 @@
   --animate-slide-up-fade: slide-up-fade ease-in;
 
   @keyframes blink {
+
     0%,
     100% {
       opacity: 1;
@@ -190,6 +193,8 @@
     /* slate-700 */
     --color-neutral: oklch(55.4% 0.046 257.417);
     /* slate-500 */
+    --color-surface-strong: oklch(44.6% 0.03 256.802);
+    /* slate-600 */
     --color-foreground: oklch(92.9% 0.013 255.508);
     /* slate-200 */
     --color-foreground-inverse: oklch(12.9% 0.042 264.695);

@@ -38,6 +38,8 @@ export { ShimmerImage } from "./src/ShimmerImage";
 export type { ShimmerImageProps } from "./src/ShimmerImage/ShimmerImage.types";
 export { SkipLink } from "./src/SkipLink";
 export type { SkipLinkProps } from "./src/SkipLink/SkipLink.types";
+export { Switch } from "./src/Switch";
+export type { SwitchSize, SwitchProps } from "./src/Switch/Switch.types";
 export { SortableList } from "./src/SortableList";
 export type { SortableListProps } from "./src/SortableList/SortableList.types";
 export { TextAnimation } from "./src/TextAnimation";
