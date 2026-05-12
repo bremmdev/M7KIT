@@ -29,7 +29,7 @@ const render = (props: SwitchProps) => (
 
 export const Default: Story = {
     args: {
-        onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked)
+        onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked),
     },
     render: (props) => render(props)
 };
@@ -40,7 +40,7 @@ export const Sizes: Story = {
         onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked),
     },
     render: (props) =>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 items-center my-8">
             <Label><Switch {...props} size="sm" /></Label>
             <Label><Switch {...props} size="md" /></Label>
             <Label><Switch {...props} size="lg" /></Label>
@@ -67,4 +67,13 @@ export const Controlled: Story = {
 
         return render({ ...props, checked, onCheckedChange: handleCheckedChange });
     }
+};
+
+export const ThumbIndicators: Story = {
+    args: {
+        defaultChecked: false,
+        thumbIndicators: true,
+        onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked)
+    },
+    render: (props) => render(props)
 };

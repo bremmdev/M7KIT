@@ -1,13 +1,11 @@
-
-
-
 import React from "react";
 import { SwitchProps } from "./Switch.types";
 import { cn } from "../utils/cn";
-import { getSwitchSizeClasses, getSwitchThumbSizeClasses } from "./Switch.utils";
+import { getSwitchSizeClasses, getSwitchThumbSizeClasses, getSwitchThumbIndicatorsClasses } from "./Switch.utils";
+import { Check, X } from "lucide-react";
 
 export const Switch = (props: SwitchProps) => {
-    const { checked, defaultChecked, disabled, onChange, onCheckedChange, size = "md", className, ...rest } = props;
+    const { checked, className, defaultChecked, disabled, onChange, onCheckedChange = () => { }, size = "md", thumbIndicators = false, ...rest } = props;
 
     const isControlled = checked !== undefined;
     const [uncontrolledChecked, setUncontrolledChecked] = React.useState(
@@ -17,15 +15,23 @@ export const Switch = (props: SwitchProps) => {
     const isChecked = isControlled ? checked : uncontrolledChecked;
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-        if (!isControlled) {
-            setUncontrolledChecked(event.target.checked);
-        }
+        const nextChecked = event.currentTarget.checked;
 
         onChange?.(event);
-        onCheckedChange?.(event.target.checked);
+
+        // Allow the event to be cancelled
+        if (event.defaultPrevented) {
+            return;
+        }
+
+        if (!isControlled) {
+            setUncontrolledChecked(nextChecked);
+        }
+
+        onCheckedChange?.(nextChecked);
     }
 
-    return <span className={cn(
+    return <span data-checked={isChecked} data-disabled={disabled} className={cn(
         "inline-flex items-center",
         { "cursor-not-allowed opacity-50": disabled },
         className,
@@ -39,13 +45,16 @@ export const Switch = (props: SwitchProps) => {
             className="peer sr-only"
             onChange={handleChange} />
 
-        <span className={cn("relative block rounded-full bg-surface-strong [input:focus-visible~&]:outline-2 [input:focus-visible~&]:outline-accent [input:focus-visible~&]:outline-offset-2", getSwitchSizeClasses(size), {
+        <span className={cn("relative block rounded-full transition-colors bg-surface-strong [input:focus-visible~&]:outline-2 [input:focus-visible~&]:outline-accent [input:focus-visible~&]:outline-offset-2", getSwitchSizeClasses(size), {
             "bg-accent outline-accent": isChecked,
         })} aria-hidden="true">
-            <span className={cn("absolute left-1 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full transition-transform translate-x-0 bg-foreground duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+            <span className={cn("absolute left-1 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full transition-transform motion-reduce:transition-none translate-x-0 bg-foreground duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
                 getSwitchThumbSizeClasses(size), {
                 "translate-x-[calc(100%+2px)] bg-foreground-inverse": isChecked,
-            })}></span>
+            })}>
+                {thumbIndicators && isChecked && <Check className={cn("stroke-foreground", getSwitchThumbIndicatorsClasses(size))} />}
+                {thumbIndicators && !isChecked && <X className={cn("stroke-foreground-inverse", getSwitchThumbIndicatorsClasses(size))} />}
+            </span>
         </span>
     </span>
 };

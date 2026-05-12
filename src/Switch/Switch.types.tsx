@@ -11,4 +11,9 @@ export interface SwitchProps
      * @default "md"
      */
     size?: SwitchSize;
+    /**
+     * Whether to show the check icon when the switch is checked and the X icon when the switch is unchecked
+     * @default false
+     */
+    thumbIndicators?: boolean;
 }

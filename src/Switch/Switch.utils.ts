@@ -21,3 +21,14 @@ export const getSwitchThumbSizeClasses = (size: SwitchSize) => {
             return "w-6 h-6";
     }
 };
+
+export const getSwitchThumbIndicatorsClasses = (size: SwitchSize) => {
+    switch (size) {
+        case "sm":
+            return "w-4 h-4";
+        case "md":
+            return "w-5 h-5";
+        case "lg":
+            return "w-6 h-6";
+    }
+};
