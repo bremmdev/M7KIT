@@ -1,3 +1,7 @@
+# 0.52.0 - 2026-05-12
+
+- Add `Switch`
+
 # 0.51.0 - 2026-03-19
 
 - Export missing types
