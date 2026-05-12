@@ -8,11 +8,12 @@ export const Switch = (props: SwitchProps) => {
     const { checked, className, defaultChecked, disabled, onChange, onCheckedChange = () => { }, size = "md", thumbIndicators = false, ...rest } = props;
 
     const isControlled = checked !== undefined;
-    const [uncontrolledChecked, setUncontrolledChecked] = React.useState(
+
+    const [internalChecked, setInternalChecked] = React.useState(
         defaultChecked ?? false,
     );
 
-    const isChecked = isControlled ? checked : uncontrolledChecked;
+    const isChecked = isControlled ? checked : internalChecked;
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const nextChecked = event.currentTarget.checked;
@@ -25,7 +26,7 @@ export const Switch = (props: SwitchProps) => {
         }
 
         if (!isControlled) {
-            setUncontrolledChecked(nextChecked);
+            setInternalChecked(nextChecked);
         }
 
         onCheckedChange?.(nextChecked);
@@ -39,8 +40,7 @@ export const Switch = (props: SwitchProps) => {
         <input {...rest}
             type="checkbox"
             role="switch"
-            checked={checked}
-            defaultChecked={defaultChecked}
+            checked={isChecked}
             disabled={disabled}
             className="peer sr-only"
             onChange={handleChange} />
