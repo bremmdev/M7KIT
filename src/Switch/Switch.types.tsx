@@ -12,8 +12,10 @@ export interface SwitchProps
      */
     size?: SwitchSize;
     /**
-     * Whether to show the check icon when the switch is checked and the X icon when the switch is unchecked
-     * @default false
+     * Icons to show on thumb. Valid values:
+     * - "play": Play icon when the switch is checked and a pause icon when the switch is unchecked
+     * - "check": Check icon when the switch is checked and an X icon when the switch is unchecked
+     * @default undefined
      */
-    thumbIndicators?: boolean;
+    thumbIndicators?: "play" | "check"
 }

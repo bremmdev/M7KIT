@@ -2,10 +2,10 @@ import React from "react";
 import { SwitchProps } from "./Switch.types";
 import { cn } from "../utils/cn";
 import { getSwitchSizeClasses, getSwitchThumbSizeClasses, getSwitchThumbIndicatorsClasses } from "./Switch.utils";
-import { Check, X } from "lucide-react";
+import { Check, X, Play, Pause } from "lucide-react";
 
 export const Switch = (props: SwitchProps) => {
-    const { checked, className, defaultChecked, disabled, onChange, onCheckedChange = () => { }, size = "md", thumbIndicators = false, ...rest } = props;
+    const { checked, className, defaultChecked, disabled, onChange, onCheckedChange = () => { }, size = "md", thumbIndicators = undefined, ...rest } = props;
 
     const isControlled = checked !== undefined;
 
@@ -52,8 +52,10 @@ export const Switch = (props: SwitchProps) => {
                 getSwitchThumbSizeClasses(size), {
                 "translate-x-[calc(100%+2px)] bg-foreground-inverse": isChecked,
             })}>
-                {thumbIndicators && isChecked && <Check className={cn("stroke-foreground", getSwitchThumbIndicatorsClasses(size))} />}
-                {thumbIndicators && !isChecked && <X className={cn("stroke-foreground-inverse", getSwitchThumbIndicatorsClasses(size))} />}
+                {thumbIndicators === "check" && isChecked && <Check className={cn("stroke-foreground", getSwitchThumbIndicatorsClasses(size))} />}
+                {thumbIndicators === "play" && isChecked && <Play className={cn("stroke-foreground", getSwitchThumbIndicatorsClasses(size))} />}
+                {thumbIndicators === "check" && !isChecked && <X className={cn("stroke-foreground-inverse", getSwitchThumbIndicatorsClasses(size))} />}
+                {thumbIndicators === "play" && !isChecked && <Pause className={cn("stroke-foreground-inverse", getSwitchThumbIndicatorsClasses(size))} />}
             </span>
         </span>
     </span>

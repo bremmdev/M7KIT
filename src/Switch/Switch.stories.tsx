@@ -110,8 +110,11 @@ export const Controlled: Story = {
 export const ThumbIndicators: Story = {
     args: {
         defaultChecked: false,
-        thumbIndicators: true,
         onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked)
     },
-    render: (props) => render(props)
+    render: (props) =>
+        <div className="flex flex-col gap-4 items-center my-8">
+            <Label><Switch {...props} thumbIndicators="check" /></Label>
+            <Label><Switch {...props} thumbIndicators="play" /></Label>
+        </div>
 };

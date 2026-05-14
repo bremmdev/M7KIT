@@ -25,10 +25,10 @@ export const getSwitchThumbSizeClasses = (size: SwitchSize) => {
 export const getSwitchThumbIndicatorsClasses = (size: SwitchSize) => {
     switch (size) {
         case "sm":
-            return "w-4 h-4";
+            return "w-3 h-3";
         case "md":
-            return "w-5 h-5";
+            return "w-4 h-4";
         case "lg":
-            return "w-6 h-6";
+            return "w-5 h-5";
     }
 };

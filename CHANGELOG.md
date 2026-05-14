@@ -1,3 +1,7 @@
+# 0.53.0 - 2026-05-14
+
+- Add play and stop icons for `Switch`
+
 # 0.52.0 - 2026-05-12
 
 - Add `Switch`
