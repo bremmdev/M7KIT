@@ -1,3 +1,8 @@
+# 0.55.0 - 2026-05-15
+
+- Update to Vite 8
+- Move certain packages from devDependencies to dependencies
+
 # 0.54.0 - 2026-05-15
 
 - Add `ThemeToggle`

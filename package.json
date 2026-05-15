@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/bremmdev/M7KIT"
   },
-  "version": "0.54.0",
+  "version": "0.55.0",
   "type": "module",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -62,25 +62,27 @@
     "@typescript-eslint/eslint-plugin": "^8.18.2",
     "@typescript-eslint/parser": "^8.18.2",
     "@vitejs/plugin-react": "^5.1.2",
-    "clsx": "^2.1.0",
     "eslint": "^9.17.0",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.5",
     "eslint-plugin-storybook": "^10.1.11",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
-    "lucide-react": "^0.562.0",
     "npm": "^11.7.0",
     "postcss": "^8.4.33",
     "prettier": "3.8.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "storybook": "^10.1.11",
-    "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.14",
     "ts-jest": "^29.1.1",
     "typescript": "^6.0.3",
     "vite": "^8.0.13",
     "vite-plugin-dts": "^4.4.0"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.16.0",
+    "tailwind-merge": "^3.6.0"
   }
 }

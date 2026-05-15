@@ -21,7 +21,7 @@ export default defineConfig({
       fileName: () => "index.es.js"
     },
     rollupOptions: {
-      external: ["react", "react-dom"]
+      external: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime", "clsx", "tailwind-merge", "lucide-react"]
     },
     sourcemap: false,
     //Clears the output directory before building.
