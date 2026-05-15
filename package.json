@@ -79,8 +79,8 @@
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.14",
     "ts-jest": "^29.1.1",
-    "typescript": "^5.2.2",
-    "vite": "^7.3.1",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.13",
     "vite-plugin-dts": "^4.4.0"
   }
 }
