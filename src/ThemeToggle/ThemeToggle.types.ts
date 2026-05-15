@@ -3,6 +3,11 @@ export type ThemeToggleSize = "sm" | "lg";
 export interface ThemeToggleProps
     extends Omit<React.ComponentPropsWithoutRef<"input">, "type" | "size"> {
     /**
+     * if true, the theme toggle will be black and white style
+     * @default false
+     */
+    blackAndWhite?: boolean;
+    /**
      * label of the theme toggle, it is used for accessibility but visually hidden by default
      * @default "theme"
      */

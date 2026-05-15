@@ -1,11 +1,11 @@
 import React from "react";
 import { ThemeToggleProps, ThemeToggleSize } from "./ThemeToggle.types";
 import { cn } from "../utils/cn";
-import { getThemeToggleSizeClasses, getThemeToggleThumbSizeClasses, getThemeToggleThumbIndicatorsClasses, getThemeToggleTrackClusterClasses } from "./ThemeToggle.utils";
-import { Moon, Sun, Star, Cloud } from "lucide-react";
+import { getThemeToggleSizeClasses, getThemeToggleThumbSizeClasses, getThemeToggleTrackClusterClasses, getThemeToggleTrackStyleClasses, getThemeToggleThumbStyleClasses } from "./ThemeToggle.utils";
+import { Star, Cloud } from "lucide-react";
 
-const StarCluster = ({ size }: { size: ThemeToggleSize }) => {
-    const c = getThemeToggleTrackClusterClasses(size, false);
+const StarCluster = ({ size, blackAndWhite }: { size: ThemeToggleSize, blackAndWhite: boolean }) => {
+    const c = getThemeToggleTrackClusterClasses(size, false, blackAndWhite);
 
     return (
         <div className={c.container} aria-hidden="true">
@@ -16,8 +16,8 @@ const StarCluster = ({ size }: { size: ThemeToggleSize }) => {
     );
 };
 
-const CloudCluster = ({ size }: { size: ThemeToggleSize }) => {
-    const c = getThemeToggleTrackClusterClasses(size, true);
+const CloudCluster = ({ size, blackAndWhite }: { size: ThemeToggleSize, blackAndWhite: boolean }) => {
+    const c = getThemeToggleTrackClusterClasses(size, true, blackAndWhite);
     return (
         <div className={c.container} aria-hidden="true">
             <Cloud className={c.top} />
@@ -28,7 +28,7 @@ const CloudCluster = ({ size }: { size: ThemeToggleSize }) => {
 };
 
 export const ThemeToggle = (props: ThemeToggleProps) => {
-    const { label = "theme", checked, className, defaultChecked, disabled, labelPosition, onChange, onCheckedChange = () => { }, size = "sm", ...rest } = props;
+    const { blackAndWhite = false, checked, className, defaultChecked, disabled, label = "theme", labelPosition, onChange, onCheckedChange = () => { }, size = "sm", ...rest } = props;
 
     const isControlled = checked !== undefined;
 
@@ -54,9 +54,7 @@ export const ThemeToggle = (props: ThemeToggleProps) => {
         onCheckedChange?.(nextChecked);
     }
 
-    // OFF is moon, ON is sun
-    const thumbIcon = isChecked ? <Sun className={cn("stroke-foreground", getThemeToggleThumbIndicatorsClasses(size))} /> : <Moon className={cn("stroke-foreground-inverse", getThemeToggleThumbIndicatorsClasses(size))} />;
-    const trackIcon = isChecked ? <CloudCluster size={size} /> : <StarCluster size={size} />;
+    const trackIcon = isChecked ? <CloudCluster size={size} blackAndWhite={blackAndWhite} /> : <StarCluster size={size} blackAndWhite={blackAndWhite} />;
 
     const hiddenLabel = labelPosition === undefined ? <span className="sr-only">{label}</span> : null;
 
@@ -73,16 +71,14 @@ export const ThemeToggle = (props: ThemeToggleProps) => {
             className="peer sr-only"
             onChange={handleChange} />
         {labelPosition === "left" && <span className="font-medium">{label}</span>}
-        <span className={cn("relative block rounded-full transition-colors bg-surface-strong [input:focus-visible~&]:outline-2 peer-focus-visible~&:outline-foreground peer-focus-visible:outline-offset-2", getThemeToggleSizeClasses(size), {
-            "bg-foreground outline-foreground": isChecked,
-        })} aria-hidden="true">
+        <span className={cn("relative block rounded-full transition-colors peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2", getThemeToggleSizeClasses(size), getThemeToggleTrackStyleClasses(blackAndWhite, isChecked)
+        )} aria-hidden="true">
 
             {trackIcon}
-            <span className={cn("absolute left-1 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full transition-transform motion-reduce:transition-none translate-x-0 bg-foreground duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
-                getThemeToggleThumbSizeClasses(size), {
-                "translate-x-[calc(100%+0.5rem)] bg-foreground-inverse": isChecked,
+            <span className={cn("absolute left-1 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full transition-transform motion-reduce:transition-none translate-x-0 duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+                getThemeToggleThumbSizeClasses(size), getThemeToggleThumbStyleClasses(blackAndWhite, isChecked), {
+                "translate-x-[calc(100%+0.5rem)]": isChecked
             })}>
-                {thumbIcon}
             </span>
         </span>
         {labelPosition === "right" && <span className="font-medium">{label}</span>}

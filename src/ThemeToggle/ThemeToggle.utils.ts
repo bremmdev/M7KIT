@@ -18,12 +18,28 @@ export const getThemeToggleThumbSizeClasses = (size: ThemeToggleSize) => {
     }
 };
 
-export const getThemeToggleThumbIndicatorsClasses = (size: ThemeToggleSize) => {
-    switch (size) {
-        case "sm":
-            return "w-5 h-5";
-        case "lg":
-            return "w-7 h-7";
+export const getThemeToggleTrackStyleClasses = (blackAndWhite: boolean, checked: boolean) => {
+    if (blackAndWhite && !checked) {
+        return "bg-surface-strong peer-focus-visible:outline-foreground ";
+    } else if (blackAndWhite && checked) {
+        return "bg-foreground outline-foreground";
+    } else if (!blackAndWhite && !checked) {
+        return "bg-blue-800 outline-blue-800";
+    } else if (!blackAndWhite && checked) {
+        return "bg-blue-500 outline-blue-500";
+    }
+};
+
+export const getThemeToggleThumbStyleClasses = (blackAndWhite: boolean, checked: boolean) => {
+    if (blackAndWhite && checked) {
+        return "bg-foreground-inverse";
+    } else if (blackAndWhite && !checked) {
+        return "bg-foreground";
+    }
+    else if (!blackAndWhite && !checked) {
+        return "bg-slate-200";
+    } else if (!blackAndWhite && checked) {
+        return "bg-amber-400";
     }
 };
 
@@ -39,19 +55,19 @@ export const getThemeToggleTrackIconClasses = (size: ThemeToggleSize, isChecked:
 };
 
 /** Decorative track icons for the theme toggle, a cluster of Stars or Clouds */
-export const getThemeToggleTrackClusterClasses = (size: ThemeToggleSize, isChecked: boolean) => {
+export const getThemeToggleTrackClusterClasses = (size: ThemeToggleSize, isChecked: boolean, blackAndWhite: boolean) => {
     const baseClassesNotChecked = {
         container: "pointer-events-none absolute inset-y-0 left-[50%] right-0",
-        top: "absolute left-0 top-1 size-3 stroke-foreground fill-none",
-        right: "absolute right-1 top-[40%] size-3 -translate-y-1/2 stroke-foreground fill-none",
-        bottom: "absolute bottom-1 left-2 size-3 stroke-foreground fill-none",
+        top: `absolute left-0 top-1 size-3 ${blackAndWhite ? "stroke-foreground" : "stroke-amber-300"} fill-none`,
+        right: `absolute right-1 top-[40%] size-3 -translate-y-1/2 ${blackAndWhite ? "stroke-foreground" : "stroke-amber-300"} fill-none`,
+        bottom: `absolute bottom-1 left-2 size-3 ${blackAndWhite ? "stroke-foreground" : "stroke-amber-300"} fill-none`,
     }
 
     const baseClassesChecked = {
         container: "pointer-events-none absolute inset-y-0 left-0 right-[50%]",
-        top: "absolute left-1 top-1 size-3 stroke-foreground-inverse fill-none",
-        right: "absolute right-0 top-[40%] size-3 -translate-y-1/2 stroke-foreground-inverse fill-none",
-        bottom: "absolute bottom-1 left-3 size-3 stroke-foreground-inverse fill-none",
+        top: `absolute left-1 top-1 size-3 ${blackAndWhite ? "stroke-foreground-inverse" : "stroke-white"} fill-none`,
+        right: `absolute right-0 top-[40%] size-3 -translate-y-1/2 ${blackAndWhite ? "stroke-foreground-inverse" : "stroke-white"} fill-none`,
+        bottom: `absolute bottom-1 left-3 size-3 ${blackAndWhite ? "stroke-foreground-inverse" : "stroke-white"} fill-none`,
     }
 
     if (isChecked) {

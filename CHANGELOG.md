@@ -1,3 +1,7 @@
+# 0.54.0 - 2026-05-15
+
+- Add `ThemeToggle`
+
 # 0.53.0 - 2026-05-14
 
 - Add play and stop icons for `Switch`
