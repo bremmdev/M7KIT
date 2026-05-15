@@ -21,8 +21,8 @@ import { Masonry, GalleryStack, DiamondGrid, ImageShowcase } from "@bremmdev/m7k
 Additionally, you need to import the CSS file to ensure proper styling:
 
 ```
-import "@bremmdev/m7kit/css";
-import "@bremmdev/m7kit/theme"
+@import "@bremmdev/m7kit/css";
+@import "@bremmdev/m7kit/theme"
 ```
 
 **It is recommended to import the CSS in your Tailwind CSS file if you want to override the default styles and CSS variables.**
