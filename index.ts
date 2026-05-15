@@ -48,6 +48,8 @@ export { TextReveal } from "./src/TextReveal";
 export type { TextRevealProps } from "./src/TextReveal/TextReveal.types";
 export { Tabs } from "./src/Tabs";
 export type { TabsProps } from "./src/Tabs/Tabs.types";
+export { ThemeToggle } from "./src/ThemeToggle";
+export type { ThemeToggleProps } from "./src/ThemeToggle/ThemeToggle.types";
 export { Tierlist } from "./src/Tierlist";
 export type { TierlistProps } from "./src/Tierlist/Tierlist.types";
 export { Timeline } from "./src/Timeline";
