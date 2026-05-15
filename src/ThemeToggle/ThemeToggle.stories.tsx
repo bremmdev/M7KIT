@@ -15,16 +15,21 @@ type Story = StoryObj<typeof ThemeToggle>;
 
 const render = (props: ThemeToggleProps) => (
     <div className="relative flex flex-col items-center my-8">
-        <label className="flex items-center gap-2">
-            <ThemeToggle {...props} />
-            theme
-        </label>
+        <ThemeToggle {...props} label="theme" />
     </div>
 );
 
 export const Default: Story = {
     args: {
         size: "lg",
+        onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked),
+    },
+    render: (props) => render(props)
+};
+
+export const LabelPosition: Story = {
+    args: {
+        labelPosition: "right",
         onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked),
     },
     render: (props) => render(props)

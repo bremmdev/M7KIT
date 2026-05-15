@@ -28,7 +28,7 @@ const CloudCluster = ({ size }: { size: ThemeToggleSize }) => {
 };
 
 export const ThemeToggle = (props: ThemeToggleProps) => {
-    const { "aria-label": ariaLabel = "theme", checked, className, defaultChecked, disabled, onChange, onCheckedChange = () => { }, size = "sm", ...rest } = props;
+    const { label = "theme", checked, className, defaultChecked, disabled, labelPosition, onChange, onCheckedChange = () => { }, size = "sm", ...rest } = props;
 
     const isControlled = checked !== undefined;
 
@@ -58,8 +58,10 @@ export const ThemeToggle = (props: ThemeToggleProps) => {
     const thumbIcon = isChecked ? <Sun className={cn("stroke-foreground", getThemeToggleThumbIndicatorsClasses(size))} /> : <Moon className={cn("stroke-foreground-inverse", getThemeToggleThumbIndicatorsClasses(size))} />;
     const trackIcon = isChecked ? <CloudCluster size={size} /> : <StarCluster size={size} />;
 
-    return <span data-checked={isChecked} data-disabled={disabled} className={cn(
-        "inline-flex items-center",
+    const hiddenLabel = labelPosition === undefined ? <span className="sr-only">{label}</span> : null;
+
+    return <label data-checked={isChecked} data-disabled={disabled} className={cn(
+        "inline-flex items-center gap-2",
         { "cursor-not-allowed opacity-50": disabled },
         className,
     )} >
@@ -68,13 +70,13 @@ export const ThemeToggle = (props: ThemeToggleProps) => {
             role="switch"
             checked={isChecked}
             disabled={disabled}
-            aria-label={ariaLabel}
             className="peer sr-only"
             onChange={handleChange} />
-
-        <span className={cn("relative block rounded-full transition-colors bg-surface-strong [input:focus-visible~&]:outline-2 [input:focus-visible~&]:outline-accent [input:focus-visible~&]:outline-offset-2", getThemeToggleSizeClasses(size), {
-            "bg-foreground outline-accent": isChecked,
+        {labelPosition === "left" && <span className="font-medium">{label}</span>}
+        <span className={cn("relative block rounded-full transition-colors bg-surface-strong [input:focus-visible~&]:outline-2 peer-focus-visible~&:outline-foreground peer-focus-visible:outline-offset-2", getThemeToggleSizeClasses(size), {
+            "bg-foreground outline-foreground": isChecked,
         })} aria-hidden="true">
+
             {trackIcon}
             <span className={cn("absolute left-1 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full transition-transform motion-reduce:transition-none translate-x-0 bg-foreground duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
                 getThemeToggleThumbSizeClasses(size), {
@@ -83,5 +85,7 @@ export const ThemeToggle = (props: ThemeToggleProps) => {
                 {thumbIcon}
             </span>
         </span>
-    </span>
+        {labelPosition === "right" && <span className="font-medium">{label}</span>}
+        {hiddenLabel}
+    </label>
 };
