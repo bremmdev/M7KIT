@@ -1,1 +1,0 @@
-export { PageScrollIndicator } from "./PageScrollIndicator";

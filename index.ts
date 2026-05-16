@@ -26,8 +26,6 @@ export { Masonry } from "./src/Masonry";
 export type { MasonryProps, BreakpointColumns, ColumnCount } from "./src/Masonry/Masonry.types";
 export { OTPInput } from "./src/OTPInput";
 export type { OTPInputProps } from "./src/OTPInput/OTPInput.types";
-export { PageScrollIndicator } from "./src/PageScrollIndicator";
-export type { PageScrollIndicatorProps } from "./src/PageScrollIndicator/PageScrollIndicator.types";
 export { Popover, PopoverTrigger, PopoverContent, PopoverTitle } from "./src/Popover";
 export type { PopoverProps, PopoverContentProps, PopoverTriggerProps, PopoverTitleProps } from "./src/Popover";
 export { Rating } from "./src/Rating";
