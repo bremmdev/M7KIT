@@ -1,13 +1,7 @@
 export type ProgressSize = "sm" | "md" | "lg";
+export type ProgressVariant = "fill" | "outline";
 
 export type ProgressProps = React.ComponentPropsWithoutRef<"div"> & {
-    /**
-     * Class name for the container of the progress bar
-     * Is used to style the container of the progress bar
-     * The 'className' prop is used to style the progress bar itself
-     * @default undefined
-     */
-    containerClassName?: string;
     /**
      * Function to get the text to display for the progress bar
      * Is used to set the aria-valuetext attribute for human readable value
@@ -41,13 +35,34 @@ export type ProgressProps = React.ComponentPropsWithoutRef<"div"> & {
      */
     size?: ProgressSize;
     /**
+     * className for the track of the progress bar
+     * Is used to style the track of the progress bar
+     * @default undefined
+     */
+    trackClassName?: string;
+    /**
      * The controlled value of the progress bar
-     * @default 0
+     * @default undefined
      */
     value?: number;
     /**
      * Variant of the progress bar
      * @default "fill"
      */
-    variant?: "fill" | "outline";
+    variant?: ProgressVariant;
+};
+
+export type ProgressLabelProps = {
+    label: string;
+    labelId: string;
+};
+
+export type ProgressTrackProps = {
+    className?: string;
+    size: ProgressSize;
+    variant: ProgressVariant;
+    rounded: boolean;
+    value: number;
+    min: number;
+    max: number;
 };

@@ -22,3 +22,23 @@ export const getProgressFillStyle = (value: number, min: number, max: number) =>
 
     return { width: `${clampedPercentage}%` };
 };
+
+export const validateValues = ({
+    min,
+    max,
+    ariaLabel,
+    label,
+}: {
+    min: number;
+    max: number;
+    ariaLabel?: string;
+    label?: string;
+}) => {
+    if (max < min) {
+        console.warn("Progress: max must be greater than min");
+    }
+
+    if (!ariaLabel && !label) {
+        console.warn("Progress: ariaLabel or label must be provided for proper accessibility");
+    }
+};
