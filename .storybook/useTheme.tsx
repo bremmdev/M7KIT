@@ -1,7 +1,5 @@
 import React from "react";
-import { primaryColors } from "./preview";
-
-type PrimaryColorKey = keyof typeof primaryColors;
+import { primaryColors, type PrimaryColorKey } from "./themeConfig";
 
 export const useTheme = (Story, context) => {
   const selectedTheme = context.globals.theme || "light";
