@@ -5,7 +5,7 @@ export type ProgressProps = React.ComponentPropsWithoutRef<"div"> & {
     /**
      * Function to get the text to display for the progress bar
      * Is used to set the aria-valuetext attribute for human readable value
-     * @default undefined
+     * @default "(value, min, max) => `${Math.round(value / max * 100)}%`"
      */
     getValueText?: (value: number, min: number, max: number) => string;
     /**
@@ -36,7 +36,6 @@ export type ProgressProps = React.ComponentPropsWithoutRef<"div"> & {
     size?: ProgressSize;
     /**
      * className for the track of the progress bar
-     * Is used to style the track of the progress bar
      * @default undefined
      */
     trackClassName?: string;
@@ -65,4 +64,5 @@ export type ProgressTrackProps = {
     value: number;
     min: number;
     max: number;
+    indeterminate: boolean;
 };

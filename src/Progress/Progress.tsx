@@ -13,7 +13,7 @@ const ProgressLabel = (props: ProgressLabelProps) => {
 };
 
 const ProgressTrack = (props: ProgressTrackProps) => {
-    const { className, size, variant, rounded, value, min, max } = props;
+    const { className, size, variant, rounded, value, min, max, indeterminate } = props;
     return (
         <div
             className={cn(
@@ -28,8 +28,9 @@ const ProgressTrack = (props: ProgressTrackProps) => {
             <div
                 className={cn("absolute left-0 top-0 h-full bg-accent transition-[width] duration-300 ease-out", {
                     "rounded-full": rounded,
+                    "bg-accent animate-indeterminate": indeterminate,
                 })}
-                style={getProgressFillStyle(value, min, max)}
+                style={getProgressFillStyle(value, min, max, indeterminate)}
             />
         </div>
     );
@@ -60,7 +61,7 @@ export const Progress = (props: ProgressProps) => {
         max,
     });
 
-    // Check if the value is indeterminate as we don't want to set the aria-valuenow attribute when it is indeterminate
+    // Check if the value is indeterminate as we don't want to set the aria-valuenow and aria-valuetext attributes when it is indeterminate
     const isIndeterminate = value === undefined || value === null;
 
     // Clamp the value to the min and max values
@@ -96,7 +97,7 @@ export const Progress = (props: ProgressProps) => {
                     </span>
                 )}
             </div>
-            <ProgressTrack size={size} variant={variant} rounded={rounded} value={clamped} min={min} max={max} className={trackClassName} />
+            <ProgressTrack size={size} variant={variant} rounded={rounded} value={clamped} min={min} max={max} className={trackClassName} indeterminate={isIndeterminate} />
         </div>
     );
 };

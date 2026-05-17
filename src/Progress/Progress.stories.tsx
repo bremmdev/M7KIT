@@ -4,6 +4,55 @@ import React from "react";
 import { Progress } from "./Progress";
 import { ProgressProps } from "./Progress.types";
 
+/**
+ * The `Progress` component renders a determinate or indeterminate progress bar with an optional text label
+ * and optional human-readable value text. The track supports **fill** and **outline** variants, three **sizes**,
+ * and pill or square corners. Values are clamped between `min` and `max`.
+ *
+ * ## Features
+ * - **Determinate and indeterminate**: Pass a numeric `value` for a fixed proportion; omit `value` for indeterminate (animated) progress. This is useful for loading states or when the progress is not known in advance.
+ * - **Range**: Configure `min` (default `0`) and `max` (default `100`); the fill width and ARIA values use the same range.
+ * - **Variants**: `fill` (filled track background) or `outline` (outlined track).
+ * - **Sizes**: `sm`, `md` (default), or `lg` for track height.
+ * - **Label**: Optional `label` is shown above the progress bar on the left and is used for the `aria-labelledby` attribute; optional `getValueText` customizes the string shown above the progressbar to the right. Default value text is a rounded percentage.
+ * - **Styling**: `className` styles the root; `trackClassName` targets the track. Use `rounded={false}` for square ends.
+ *
+ * ## Accessibility
+ * The root element uses `role="progressbar"` with `aria-valuemin` and `aria-valuemax` set from props.
+ *
+ * - **Name**: Provide either `label` (uses `aria-labelledby` with the visible label) or `aria-label` when there is no visible label. Omitting both logs a development warning as this does not meet accessibility standards.
+ * - **Determinate values**: `aria-valuenow` is set to the clamped value; `aria-valuetext` comes from `getValueText` or the default percentage string. The duplicate value shown on the right is marked `aria-hidden="true"` so screen readers rely on `aria-valuetext`.
+ * - **Indeterminate**: When `value` is omitted or `null`, `aria-valuenow` and `aria-valuetext` are omitted so assistive technologies can treat the state as indeterminate per platform conventions.
+ *
+ * ## Usage
+ * ```tsx
+ * import { Progress } from "./Progress";
+ *
+ * export function Example() {
+ *   return (
+ *     <Progress
+ *       value={40}
+ *       max={100}
+ *       label="Upload"
+ *       variant="fill"
+ *       size="md"
+ *     />
+ *   );
+ * }
+ *
+ * // Without a visible label, set aria-label:
+ * <Progress aria-label="Download progress" value={72} />
+ *
+ * // Steps or custom wording:
+ * <Progress
+ *   value={2}
+ *   max={5}
+ *   aria-label="Setup steps"
+ *   getValueText={(value, _min, max) => `${value} of ${max} steps`}
+ * />
+ * ```
+ */
+
 const meta: Meta<typeof Progress> = {
     component: Progress,
     title: "Components/Progress",

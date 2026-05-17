@@ -15,7 +15,11 @@ export const getProgressClasses = (size: ProgressSize, variant: "fill" | "outlin
     return `${sizeMap[size]} ${variantMap[variant]}`;
 };
 
-export const getProgressFillStyle = (value: number, min: number, max: number) => {
+export const getProgressFillStyle = (value: number, min: number, max: number, indeterminate: boolean) => {
+    if (indeterminate) {
+        return { width: "50%" };
+    }
+
     const range = max - min;
     const percentage = range === 0 ? 0 : ((value - min) / range) * 100;
     const clampedPercentage = Math.min(100, Math.max(0, percentage));

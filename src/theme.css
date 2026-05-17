@@ -49,6 +49,7 @@
   --animate-slide-right: slide-right linear 0.3s;
   --animate-slide-up: slide-up ease-in 0.3s;
   --animate-slide-up-fade: slide-up-fade ease-in;
+  --animate-indeterminate: indeterminate 1.5s ease-out infinite;
 
   @keyframes blink {
 
@@ -175,6 +176,20 @@
     100% {
       transform: translateY(0);
       opacity: 1;
+    }
+  }
+
+  @keyframes indeterminate {
+    0% {
+      transform: translateX(-100%);
+    }
+
+    50% {
+      opacity: 0.5;
+    }
+
+    100% {
+      transform: translateX(200%);
     }
   }
 }

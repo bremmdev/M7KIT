@@ -28,6 +28,8 @@ export { OTPInput } from "./src/OTPInput";
 export type { OTPInputProps } from "./src/OTPInput/OTPInput.types";
 export { Popover, PopoverTrigger, PopoverContent, PopoverTitle } from "./src/Popover";
 export type { PopoverProps, PopoverContentProps, PopoverTriggerProps, PopoverTitleProps } from "./src/Popover";
+export { Progress } from "./src/Progress";
+export type { ProgressProps } from "./src/Progress/Progress.types";
 export { Rating } from "./src/Rating";
 export type { RatingProps } from "./src/Rating/Rating.types";
 export { SegmentedControl, SegmentedControlButton } from "./src/SegmentedControl";

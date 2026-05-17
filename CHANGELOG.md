@@ -1,3 +1,8 @@
+# 0.56.0 - 2026-05-17
+
+- Add `Progress`
+- Deprecate `PageScrollIndicator`
+
 # 0.55.0 - 2026-05-15
 
 - Update to Vite 8
