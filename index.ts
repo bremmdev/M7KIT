@@ -1,5 +1,3 @@
-import "./src/index.css";
-
 export { AnimatedCount } from "./src/AnimatedCount";
 export type { AnimatedCountProps } from "./src/AnimatedCount/AnimatedCount.types";
 export { Breadcrumb, BreadcrumbCurrentItem, BreadcrumbItem, BreadcrumbMenu } from "./src/Breadcrumb";

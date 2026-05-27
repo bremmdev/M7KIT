@@ -255,6 +255,10 @@ describe("SortableList", () => {
       fireEvent.click(screen.getByText("Enter Edit Mode"));
 
       const firstButton = screen.getByLabelText(/Reorder Apple/);
+      await waitFor(() => {
+        expect(firstButton).toHaveFocus();
+      });
+
       fireEvent.keyDown(firstButton, { key: "ArrowDown" });
 
       await waitFor(() => {

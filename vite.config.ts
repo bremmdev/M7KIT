@@ -35,15 +35,18 @@ export default defineConfig({
     dts({ copyDtsFiles: true }),
     tailwindcss(),
     {
-      name: "copy-theme-css",
+      name: "copy-css-files",
       closeBundle() {
-        // Skip on Vercel - theme.css is only needed for npm publish
+        // Skip on Vercel - css files are only needed for npm publish
         if (process.env.VERCEL) return;
 
-        // Copy theme.css to dist for consumers to import
-        const srcPath = path.resolve(__dirname, "src/theme.css");
-        const destPath = path.resolve(__dirname, "dist/theme.css");
-        copyFileSync(srcPath, destPath);
+        // Copy css files to dist for consumers to import
+        const srcPathTheme = path.resolve(__dirname, "src/theme.css");
+        const srcPathIndex = path.resolve(__dirname, "src/index.css");
+        const destPath = path.resolve(__dirname, "dist");
+
+        copyFileSync(srcPathTheme, path.resolve(destPath, "theme.css"));
+        copyFileSync(srcPathIndex, path.resolve(destPath, "m7kit.css"));
       }
     }
   ]

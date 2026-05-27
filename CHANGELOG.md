@@ -1,3 +1,8 @@
+# 0.57.0 - 2026-05-27
+
+- Fix failing tests
+- Expose `theme.css` and `index.css` as CSS source files instead of compiling them
+
 # 0.56.0 - 2026-05-17
 
 - Add `Progress`

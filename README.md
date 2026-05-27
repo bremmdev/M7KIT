@@ -12,40 +12,48 @@ npm install @bremmdev/m7kit
 
 ## Usage
 
-After installing m7kit, you can import components into your React application:
+After installing m7kit, import components from the JavaScript package:
 
-```
+```ts
 import { Masonry, GalleryStack, DiamondGrid, ImageShowcase } from "@bremmdev/m7kit";
 ```
 
-Additionally, you need to import the CSS file to ensure proper styling:
+Then import the CSS from your application's Tailwind CSS entry file, for example `src/index.css` or `src/app.css`:
 
-```
+```css
+@import "tailwindcss";
 @import "@bremmdev/m7kit/css";
-@import "@bremmdev/m7kit/theme"
+@import "@bremmdev/m7kit/theme";
 ```
 
-**It is recommended to import the CSS in your Tailwind CSS file if you want to override the default styles and CSS variables.**
+The CSS exports are Tailwind CSS v4 source files. They include Tailwind directives such as `@source`, `@theme`, `@variant`, and `@utility`, so they should be imported into a CSS file that is processed by Tailwind. Do not import them from JavaScript unless your bundler runs imported CSS through Tailwind v4.
 
 ## Theming
 
-Colors are defined using theme variables in Tailwind v4. These variables are automatically available as CSS variables and utility classes. You can override these variables in your own global CSS file to match your application's theme.
+Colors, animations, and design tokens are defined using Tailwind v4 theme variables. These variables are available both as CSS variables and as Tailwind utility classes, such as `bg-accent`, `text-foreground`, and `animate-shimmer`.
 
-There are several ways to use the theme:
+There are two ways to use the theme.
 
-### 1. Importing the theme css file directly in your Tailwind CSS file
+### 1. Import the default theme
 
-```
+Use this if you want m7kit's default tokens and dark-mode variables:
+
+```css
 @import "tailwindcss";
-@import "@bremmdev/m7kit/css"
-@import "@bremmdev/m7kit/theme" /* Use this if you do not want to copy the @theme block */
+@import "@bremmdev/m7kit/css";
+@import "@bremmdev/m7kit/theme";
 ```
 
-### 2. Manually Copying all the variables
+`@bremmdev/m7kit/css` contains the component styles and tells Tailwind to scan m7kit's built component files for class names.
+`@bremmdev/m7kit/theme` contains the default `@theme` block and `[data-theme="dark"]` variable overrides.
 
-```
+### 2. Provide your own theme
+
+Use this if you want full control over the design tokens. Import the component CSS, then define the theme variables yourself:
+
+```css
 @import "tailwindcss";
-@import "@bremmdev/m7kit/css"
+@import "@bremmdev/m7kit/css";
 
 @variant dark (&:where([data-theme="dark"], [data-theme="dark"] *)); /* for dark-mode with data-theme="dark" */
 
@@ -94,9 +102,9 @@ There are several ways to use the theme:
 }
 ```
 
-In both cases, the default colors can be changed by overriding the variables on root:
+In both cases, colors can also be changed by overriding the generated CSS variables:
 
-```
+```css
 :root {
     --color-accent: red;
     --color-button-accent: red;
