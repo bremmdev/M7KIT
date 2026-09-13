@@ -18,15 +18,26 @@ export const Button = <E extends AllowedElements | React.ComponentType<any> = "b
   const Component = as as React.ElementType;
   const LoaderIcon = loadingIcon === "loader-circle" ? LoaderCircle : Loader;
 
+  // `disabled` and the `type` default only mean something on a real <button>. On an anchor or a
+  // router link component `disabled` is an invalid attribute that blocks nothing, so the loading
+  // state is signalled with aria-disabled there and the pointer events are taken away with CSS.
+  const isNativeButton = Component === "button";
+  const { disabled, type, ...restProps } = rest as { disabled?: boolean; type?: string };
+  const isDisabled = isLoading || Boolean(disabled);
+  const elementProps = isNativeButton
+    ? { disabled: isDisabled, type: type ?? "button" }
+    : { disabled, type, "aria-disabled": isDisabled || undefined };
+
   return (
     <Component
+      {...restProps}
+      {...elementProps}
+      aria-busy={isLoading || undefined}
       className={cn(
-        "group overflow-hidden relative flex gap-2 cursor-pointer justify-center items-center px-4 py-2 rounded-md font-bold w-fit transition-opacity disabled:opacity-50 dark:disabled:opacity-70 disabled:cursor-not-allowed",
+        "group overflow-hidden relative flex gap-2 cursor-pointer justify-center items-center px-4 py-2 rounded-md font-bold w-fit transition-opacity disabled:opacity-50 dark:disabled:opacity-70 disabled:cursor-not-allowed aria-disabled:opacity-50 dark:aria-disabled:opacity-70 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none",
         getButtonVariantClasses(variant),
         className
       )}
-      disabled={isLoading}
-      {...rest}
     >
       {children}
       {isLoading && (
@@ -37,7 +48,7 @@ export const Button = <E extends AllowedElements | React.ComponentType<any> = "b
       {variant === "cta" && !isLoading && (
         <>
           <MoveRight className="size-5 group-hover:translate-x-1 transition-transform ease-in-out" />
-          <span className="inline-block absolute -top-4 -bottom-4 -left-[50%] bg-surface dark:bg-foreground opacity-50 w-5 z-10 rotate-35 transition-all group-hover:left-[125%] duration-1000" />
+          <span className="inline-block absolute -top-4 -bottom-4 left-[-50%] bg-surface dark:bg-foreground opacity-50 w-5 z-10 rotate-35 transition-all group-hover:left-[125%] duration-1000" />
         </>
       )}
     </Component>

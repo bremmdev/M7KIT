@@ -1,3 +1,7 @@
+# 0.58.0 - 2026-09-13
+
+- Fix button/link prop differentiation in `Button`
+
 # 0.57.0 - 2026-05-27
 
 - Fix failing tests

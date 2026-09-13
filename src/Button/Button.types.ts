@@ -1,3 +1,5 @@
+import type React from "react";
+
 export type AllowedElements = "button" | "a";
 export type ButtonVariant = "primary" | "secondary" | "cta";
 
@@ -7,10 +9,7 @@ type PolymorphicProps<
   OwnProps = {} // our custom props to be passed to the component
 > = OwnProps & {
   as?: E;
-} & Omit<
-    E extends AllowedElements ? React.ComponentPropsWithoutRef<E> : E extends React.ComponentType<infer P> ? P : never,
-    keyof OwnProps | "as" // exclude the own props and the as prop from the component props
-  >;
+} & Omit<React.ComponentProps<E>, keyof OwnProps | "as">; // exclude the own props and the as prop from the component props
 
 type ButtonOwnProps = {
   isLoading?: boolean;
