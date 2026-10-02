@@ -1,3 +1,12 @@
+# 0.59.0 - 2026-10-02
+
+- Add dev warnings for `Switch` for incorrect usage or mixing of controlled and uncontrolled behavior
+- Make `Switch` clickable without label
+- Pass style prop to `Switch` wrapper
+- Keep `Switch` in sync with its form when the form is reset (a reset button, `form.reset()`, or React 19's automatic reset after a form action).
+- Add readonly to `Switch`
+- Add border to `Switch` off state for contrast
+
 # 0.58.0 - 2026-09-13
 
 - Fix button/link prop differentiation in `Button`

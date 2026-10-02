@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 
 *.tgz
+
+/_vault

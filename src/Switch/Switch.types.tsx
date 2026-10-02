@@ -1,7 +1,21 @@
 export type SwitchSize = "sm" | "md" | "lg";
 
 export interface SwitchProps
-    extends Omit<React.ComponentPropsWithoutRef<"input">, "type" | "size"> {
+    extends Omit<React.ComponentPropsWithRef<"input">, "type" | "size"> {
+    /**
+     * class names applied to the root element. All other props, except `style`, are passed to the native input
+     */
+    className?: string;
+    /**
+     * inline styles applied to the root element. All other props, except `className`, are passed to the native input
+     */
+    style?: React.CSSProperties;
+    /**
+     * Prevents the user from changing the value. Unlike `disabled`, the switch stays focusable, keeps full contrast,
+     * and its value is still submitted with the form. Announced to screen readers with `aria-readonly`
+     * @default false
+     */
+    readOnly?: boolean;
     /**
      * callback function when the switch is changed
      */
