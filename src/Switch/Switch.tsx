@@ -77,7 +77,7 @@ export const Switch = (props: SwitchProps) => {
             "bg-accent border-transparent": isChecked,
         })} aria-hidden="true">
             {/* left-[3px] + the 1px border keeps a 4px gap on both sides, so translate-x-full lands symmetrically */}
-            <span className={cn("absolute left-[3px] top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full transition-transform motion-reduce:transition-none translate-x-0 bg-foreground duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+            <span className={cn("absolute left-0.75 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full transition-transform motion-reduce:transition-none translate-x-0 bg-foreground duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
                 getSwitchThumbSizeClasses(size), {
                 "translate-x-full bg-foreground-inverse": isChecked,
             })}>

@@ -11,7 +11,7 @@ const Folder = ({ folder, indent, open, trailingSlash }: FolderProps) => {
     <details
       open={open}
       className={cn(
-        "group py-[2px] relative before:content-[''] before:absolute before:top-6 before:bottom-1 before:left-7 before:w-px before:bg-foreground",
+        "group py-0.5 relative before:content-[''] before:absolute before:top-6 before:bottom-1 before:left-7 before:w-px before:bg-foreground",
         {
           "[&_details]:ml-8": indent !== "normal",
           "[&_details]:ml-10": indent === "normal"
@@ -19,7 +19,7 @@ const Folder = ({ folder, indent, open, trailingSlash }: FolderProps) => {
       )}
     >
       <summary className="list-none before:content-['▼'/''] before:inline-block before:mr-1 before:w-3 before:mx-1 cursor-pointer focus-ring">
-        <span className="mt-[2px] font-bold inline-flex gap-1 items-center cursor-pointer hover:text-accent">
+        <span className="mt-0.5 font-bold inline-flex gap-1 items-center cursor-pointer hover:text-accent">
           <FolderIcon className="size-4" />
           <span>
             {folder.name}
