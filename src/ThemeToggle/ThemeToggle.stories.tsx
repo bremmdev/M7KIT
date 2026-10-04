@@ -58,6 +58,14 @@ import { ThemeToggleProps } from "./ThemeToggle.types";
  * - The ThemeToggle is already a `<label>`: don't wrap it in another one. To use visible text elsewhere on the page as its name, point `aria-labelledby` at that text.
  * - Connect helper text with `aria-describedby`.
  *
+ * ### Without a visible label
+ * The most common setup, e.g. as a small control in a site header, and the default: without `labelPosition`, `label` is rendered as
+ * visually hidden text inside the toggle. See the **Without Visible Label** story.
+ * - **Screen readers**: the toggle still has its name ("Light mode, switch, off"), so no `aria-label` is needed. `aria-label` works, but overrides `label`; prefer `label` so the name is the same with or without a visible label.
+ * - **Sighted users**: the sun, moon, clouds and stars act as the visual label. They are a widely recognized pattern for light and dark mode.
+ * - **Speech control users** (Voice Control, Dragon) activate controls by saying their name, and they guess it from what they see. While the toggle is off they see a moon and stars, so they may say "click dark mode" or "click theme", which doesn't match "Light mode". They then have to fall back to numbered overlays or a mouse grid. Show a visible label (`labelPosition`) where there is room for one, such as a settings page.
+ * - **Keep the hidden label meaningful**: since nobody sees it to notice a mistake, check that `label` still matches what "on" means, and translate it with the rest of the interface.
+ *
  * ### Things to look out for
  * - **Read-only**: `readOnly` sets `aria-readonly`, but screen readers like NVDA don't announce it on switches. So the toggle also gets `readOnlyMessage` (default "Read only") as its description, and announces it through a polite live region when the user tries to toggle it. Explain _why_ it can't be changed in visible text, linked with `aria-describedby`.
  * - **Label position in right-to-left layouts**: `labelPosition` follows the reading direction, like the rest of the toggle: `left` puts the label before the toggle, which is on the right in a right-to-left layout.
@@ -116,6 +124,22 @@ export const LabelPosition: Story = {
         <div className="flex flex-col gap-4 items-center my-8">
             <ThemeToggle {...props} labelPosition="left" />
             <ThemeToggle {...props} labelPosition="right" />
+        </div>
+    ),
+};
+
+export const WithoutVisibleLabel: Story = {
+    args: {
+        onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked),
+    },
+    // The typical setup: a small control in a header. Without `labelPosition`, `label` is visually hidden
+    // but still the accessible name, so screen readers announce "Light mode, switch, off"
+    render: (props) => (
+        <div className="flex justify-center my-8">
+            <header className="flex items-center justify-between w-full max-w-md gap-4 px-4 py-2 rounded-lg border border-foreground/20">
+                <span className="font-semibold">Acme</span>
+                <ThemeToggle {...props} />
+            </header>
         </div>
     ),
 };

@@ -14,7 +14,7 @@
 - **Breaking**: the default `label` of `ThemeToggle` is now "Light mode" instead of "theme", because the toggle is on in light mode and "theme, switch, on" doesn't say what on means
 - **Breaking**: calling `preventDefault()` in the `onChange` of `ThemeToggle` no longer cancels the change, the same as `Switch`. It left the input checked while the toggle showed it as off. Use controlled mode to reject a change
 - Move the controlled/uncontrolled dev warnings and the form reset handling of `Switch` into shared hooks
-- Expand the `ThemeToggle` documentation and add stories for controlled usage, disabled, disabled fieldsets, read-only, descriptions, forms and rtl
+- Expand the `ThemeToggle` documentation and add stories for usage without a visible label, controlled usage, disabled, disabled fieldsets, read-only, descriptions, forms and rtl
 
 # 0.60.0 - 2026-10-04
 
