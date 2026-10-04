@@ -18,71 +18,71 @@ export const getThemeToggleThumbSizeClasses = (size: ThemeToggleSize) => {
     }
 };
 
-export const getThemeToggleTrackStyleClasses = (blackAndWhite: boolean, checked: boolean) => {
-    if (blackAndWhite && !checked) {
-        return "bg-surface-strong peer-focus-visible:outline-foreground ";
-    } else if (blackAndWhite && checked) {
-        return "bg-foreground outline-foreground";
-    } else if (!blackAndWhite && !checked) {
-        return "bg-blue-800 outline-blue-800";
-    } else if (!blackAndWhite && checked) {
-        return "bg-blue-500 outline-blue-500";
+export const getThemeToggleLockSizeClasses = (size: ThemeToggleSize) => {
+    switch (size) {
+        case "sm":
+            return "size-4";
+        case "lg":
+            return "size-5";
     }
+};
+
+/**
+ * The off-state border gives the track at least 3:1 contrast against the page in light and dark mode (WCAG 1.4.11);
+ * the fills alone are too close to the background. The on-state fills have enough contrast, so the border is transparent,
+ * which keeps the size the same in both states
+ */
+export const getThemeToggleTrackStyleClasses = (blackAndWhite: boolean, checked: boolean) => {
+    if (blackAndWhite) {
+        return checked ? "bg-foreground border-transparent" : "bg-surface-strong border-foreground/50";
+    }
+
+    // blue-600 instead of a lighter blue, so the sun thumb keeps 3:1 contrast against the day sky
+    return checked ? "bg-blue-600 border-transparent" : "bg-blue-800 border-foreground/50";
 };
 
 export const getThemeToggleThumbStyleClasses = (blackAndWhite: boolean, checked: boolean) => {
-    if (blackAndWhite && checked) {
-        return "bg-foreground-inverse";
-    } else if (blackAndWhite && !checked) {
-        return "bg-foreground";
+    if (blackAndWhite) {
+        return checked ? "bg-foreground-inverse" : "bg-foreground";
     }
-    else if (!blackAndWhite && !checked) {
-        return "bg-slate-200";
-    } else if (!blackAndWhite && checked) {
-        return "bg-amber-400";
-    }
+
+    return checked ? "bg-amber-300" : "bg-slate-200";
 };
 
-export const getThemeToggleTrackIconClasses = (size: ThemeToggleSize, isChecked: boolean) => {
-    const positionClasses = isChecked ? "left-1 absolute top-1/2 -translate-y-1/2" : "right-1 absolute top-1/2 -translate-y-1/2";
-
-    switch (size) {
-        case "sm":
-            return `${positionClasses} w-5 h-5`;
-        case "lg":
-            return `${positionClasses} w-7 h-7`;
+/** The lock shown on the thumb while read-only, in a color that contrasts with the thumb */
+export const getThemeToggleLockStyleClasses = (blackAndWhite: boolean, checked: boolean) => {
+    if (blackAndWhite) {
+        return checked ? "stroke-foreground" : "stroke-foreground-inverse";
     }
+
+    return checked ? "stroke-slate-900" : "stroke-blue-800";
 };
 
-/** Decorative track icons for the theme toggle, a cluster of Stars or Clouds */
+/** Decorative track icons for the theme toggle, a cluster of Stars (off) or Clouds (on), on the side the thumb is not on */
 export const getThemeToggleTrackClusterClasses = (size: ThemeToggleSize, isChecked: boolean, blackAndWhite: boolean) => {
-    const baseClassesNotChecked = {
-        container: "pointer-events-none absolute inset-y-0 left-[50%] right-0",
-        top: `absolute left-0 top-1 size-3 ${blackAndWhite ? "stroke-foreground" : "stroke-amber-300"} fill-none`,
-        right: `absolute right-1 top-[40%] size-3 -translate-y-1/2 ${blackAndWhite ? "stroke-foreground" : "stroke-amber-300"} fill-none`,
-        bottom: `absolute bottom-1 left-2 size-3 ${blackAndWhite ? "stroke-foreground" : "stroke-amber-300"} fill-none`,
-    }
+    const iconSize = size === "sm" ? "size-3" : "size-4";
 
-    const baseClassesChecked = {
-        container: "pointer-events-none absolute inset-y-0 left-0 right-[50%]",
-        top: `absolute left-1 top-1 size-3 ${blackAndWhite ? "stroke-foreground-inverse" : "stroke-white"} fill-none`,
-        right: `absolute right-0 top-[40%] size-3 -translate-y-1/2 ${blackAndWhite ? "stroke-foreground-inverse" : "stroke-white"} fill-none`,
-        bottom: `absolute bottom-1 left-3 size-3 ${blackAndWhite ? "stroke-foreground-inverse" : "stroke-white"} fill-none`,
-    }
+    // Forced colors: the track opts out of color adjustment, so the icons use the same system colors as the thumb
+    const stroke = isChecked
+        ? `${blackAndWhite ? "stroke-foreground-inverse" : "stroke-white"} forced-colors:stroke-[HighlightText] forced-colors:[input:disabled~*_&]:stroke-[Canvas]`
+        : `${blackAndWhite ? "stroke-foreground" : "stroke-amber-300"} forced-colors:stroke-[CanvasText] forced-colors:[input:disabled~*_&]:stroke-[GrayText]`;
 
+    const icon = `absolute fill-none ${iconSize} ${stroke}`;
+
+    // Logical insets, so the clusters mirror with the thumb in right-to-left layouts
     if (isChecked) {
         return {
-            ...baseClassesChecked,
-            top: `${baseClassesChecked.top} size-${size === "sm" ? "3" : "4"}`,
-            right: `${baseClassesChecked.right} size-${size === "sm" ? "3" : "4"}`,
-            bottom: `${baseClassesChecked.bottom} size-${size === "sm" ? "3" : "4"}`,
-        };
-    } else {
-        return {
-            ...baseClassesNotChecked,
-            top: `${baseClassesNotChecked.top} size-${size === "sm" ? "3" : "4"}`,
-            right: `${baseClassesNotChecked.right} size-${size === "sm" ? "3" : "4"}`,
-            bottom: `${baseClassesNotChecked.bottom} size-${size === "sm" ? "3" : "4"}`,
+            container: "pointer-events-none absolute inset-y-0 inset-s-0 inset-e-[50%]",
+            top: `${icon} inset-s-1 top-1`,
+            right: `${icon} inset-e-0 top-[40%] -translate-y-1/2`,
+            bottom: `${icon} inset-s-3 bottom-1`,
         };
     }
+
+    return {
+        container: "pointer-events-none absolute inset-y-0 inset-s-[50%] inset-e-0",
+        top: `${icon} inset-s-0 top-1`,
+        right: `${icon} inset-e-1 top-[40%] -translate-y-1/2`,
+        bottom: `${icon} inset-s-2 bottom-1`,
+    };
 };

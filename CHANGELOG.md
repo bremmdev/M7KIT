@@ -1,3 +1,21 @@
+# 0.61.0 - 2026-10-04
+
+- Apply the `Switch` accessibility improvements to `ThemeToggle`:
+  - Add `readOnly` and `readOnlyMessage`: a lock on the thumb, `aria-readonly`, and a description and live region announcement for screen readers that don't support `aria-readonly` on switches (like NVDA)
+  - Keep `ThemeToggle` in sync with its form when the form is reset
+  - Add dev warnings for incorrect usage or mixing of controlled and uncontrolled behavior
+  - Forward `ref` to the native input, and apply `style` to the root element instead of the input
+  - Fix contrast (WCAG 1.4.11): add a border to the off state, use a darker day track (`blue-600`) and a lighter sun (`amber-300`) so the thumb has 3:1 contrast, and use the foreground color for the focus outline in every state
+  - Make `ThemeToggle` visible in Windows high contrast mode (forced colors) using system colors
+  - Add rtl support: the thumb and the track icons mirror in right-to-left layouts
+  - Dim `ThemeToggle` inside a disabled `<fieldset>`, the same as with the `disabled` prop
+  - Stretch the invisible input over the track, so touch screen readers find the toggle where it is drawn, and stop the root from stretching in a flex or grid parent
+  - Fix the `lg` star and cloud sizes, which were built from a template string that Tailwind can't detect
+- **Breaking**: the default `label` of `ThemeToggle` is now "Light mode" instead of "theme", because the toggle is on in light mode and "theme, switch, on" doesn't say what on means
+- **Breaking**: calling `preventDefault()` in the `onChange` of `ThemeToggle` no longer cancels the change, the same as `Switch`. It left the input checked while the toggle showed it as off. Use controlled mode to reject a change
+- Move the controlled/uncontrolled dev warnings and the form reset handling of `Switch` into shared hooks
+- Expand the `ThemeToggle` documentation and add stories for controlled usage, disabled, disabled fieldsets, read-only, descriptions, forms and rtl
+
 # 0.60.0 - 2026-10-04
 
 - Add rtl support for `Switch`: the thumb starts on the right and moves left when turned on
