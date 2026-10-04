@@ -5,8 +5,8 @@ import {
     getThemeToggleSizeClasses, getThemeToggleThumbSizeClasses, getThemeToggleTrackClusterClasses, getThemeToggleTrackStyleClasses,
     getThemeToggleThumbStyleClasses, getThemeToggleLockSizeClasses, getThemeToggleLockStyleClasses,
 } from "./ThemeToggle.utils";
-import { useCheckboxFormReset } from "../utils/hooks/useCheckboxFormReset";
-import { useCheckedDevWarnings } from "../utils/hooks/useCheckedDevWarnings";
+import { useCheckboxFormReset } from "../shared/Toggle/useCheckboxFormReset";
+import { useCheckedDevWarnings } from "../shared/Toggle/useCheckedDevWarnings";
 import { useMergedRef } from "../utils/hooks/useMergedRef";
 import { announce, ensureLiveRegion } from "../utils/announce";
 import { Star, Cloud, Lock } from "lucide-react";
