@@ -1,7 +1,12 @@
 @source "../dist/**/*.{ts,tsx}";
 /* make sure consuming projects scan m7kit's files for class names */
 
-@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* The default rtl variant also matches `[dir="rtl"] *`, so it applies inside a nested dir="ltr" section while logical
+   properties follow the nearest dir. :dir() matches the direction the element actually has */
+@custom-variant rtl (&:where(:dir(rtl)));
+@custom-variant ltr (&:where(:dir(ltr)));
 
 /* The default border color has changed to `currentcolor` in Tailwind CSS v4 */
 @layer base {

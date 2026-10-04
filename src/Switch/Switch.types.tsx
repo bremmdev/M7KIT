@@ -17,6 +17,13 @@ export interface SwitchProps
      */
     readOnly?: boolean;
     /**
+     * Tells screen reader users that a read-only switch can't be changed: read as the switch's description on focus,
+     * and announced when they try to toggle it. Needed because screen readers like NVDA don't announce `aria-readonly`
+     * on switches.
+     * @default "Read only"
+     */
+    readOnlyMessage?: string;
+    /**
      * callback function when the switch is changed
      */
     onCheckedChange?: (checked: boolean) => void;

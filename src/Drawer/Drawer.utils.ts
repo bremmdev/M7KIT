@@ -38,13 +38,16 @@ export function useDrawerEvents() {
       };
 
       const handleClickOutside = (e: MouseEvent) => {
+        // A backdrop click targets the dialog itself. Clicks on the content target its children, and must be ignored:
+        // clicks from the keyboard (Space on a checkbox, Enter on a button) or from a <label> have clientX/clientY 0,
+        // so their coordinates look like they are outside the drawer
+        if (!isOpen || e.target !== drawer) {
+          return;
+        }
+
+        // The dialog itself can also be clicked inside its own area (e.g. empty space below the content)
         const rect = drawer.getBoundingClientRect();
-        if (
-          (isOpen && e.clientX < rect.left) ||
-          e.clientX > rect.right ||
-          e.clientY < rect.top ||
-          e.clientY > rect.bottom
-        ) {
+        if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
           close();
         }
       };

@@ -1,5 +1,5 @@
 import React from "react";
-import { act, render, screen } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Switch } from "./Switch";
 import { SwitchProps } from "./Switch.types";
@@ -487,6 +487,144 @@ describe("Switch", () => {
         it("should not set aria-readonly when not read-only", () => {
             renderSwitch();
             expect(screen.getByRole("switch")).not.toHaveAttribute("aria-readonly");
+        });
+
+        // A visual cue that isn't color alone; screen readers get readOnlyMessage instead
+        it("should show a lock on the thumb, hidden from screen readers", () => {
+            renderSwitch({ readOnly: true });
+            const lock = getWrapper(screen.getByRole("switch")).querySelector("svg.lucide-lock");
+            expect(lock).toBeInTheDocument();
+            expect(lock!.closest("[aria-hidden='true']")).not.toBeNull();
+        });
+
+        it("should replace the thumb indicators with the lock", () => {
+            renderSwitch({ readOnly: true, defaultChecked: true, thumbIndicators: "check" });
+            const wrapper = getWrapper(screen.getByRole("switch"));
+            expect(wrapper.querySelector("svg.lucide-lock")).toBeInTheDocument();
+            expect(wrapper.querySelector("svg.lucide-check")).not.toBeInTheDocument();
+        });
+
+        it("should show the thumb indicators again once readOnly is removed", () => {
+            const { rerender } = render(<Switch aria-label="notifications" readOnly defaultChecked thumbIndicators="check" />);
+            rerender(<Switch aria-label="notifications" defaultChecked thumbIndicators="check" />);
+            const wrapper = getWrapper(screen.getByRole("switch"));
+            expect(wrapper.querySelector("svg.lucide-lock")).not.toBeInTheDocument();
+            expect(wrapper.querySelector("svg.lucide-check")).toBeInTheDocument();
+        });
+
+        // Screen readers like NVDA don't announce aria-readonly on switches, so it's also given as a description
+        it("should describe itself as read-only without changing its name", () => {
+            renderSwitch({ readOnly: true });
+            const input = screen.getByRole("switch", { name: "notifications" });
+            expect(input).toHaveAccessibleDescription("Read only");
+        });
+
+        it("should put the read-only description before the consumer's description", () => {
+            render(
+                <>
+                    <label>
+                        <Switch readOnly aria-describedby="help" />
+                        notifications
+                    </label>
+                    <p id="help">Managed by your organization</p>
+                </>
+            );
+            expect(screen.getByRole("switch")).toHaveAccessibleDescription("Read only Managed by your organization");
+        });
+
+        it("should use a custom readOnlyMessage", () => {
+            renderSwitch({ readOnly: true, readOnlyMessage: "Alleen lezen" });
+            expect(screen.getByRole("switch")).toHaveAccessibleDescription("Alleen lezen");
+        });
+
+        it("should only have the consumer's description when not read-only", () => {
+            render(
+                <>
+                    <Switch aria-label="notifications" aria-describedby="help" />
+                    <p id="help">Managed by your organization</p>
+                </>
+            );
+            expect(screen.getByRole("switch")).toHaveAccessibleDescription("Managed by your organization");
+        });
+
+        it("should announce the read-only message when the user tries to toggle it", async () => {
+            const user = userEvent.setup();
+            renderSwitch({ readOnly: true, readOnlyMessage: "Read only" });
+            const liveRegion = document.querySelector("body > [role='status']") as HTMLElement;
+            expect(liveRegion).toBeInTheDocument();
+
+            await user.click(screen.getByRole("switch"));
+            await waitFor(() => expect(liveRegion).toHaveTextContent("Read only"));
+
+            // Cleared first, so a repeated attempt is announced again
+            await user.keyboard(" ");
+            expect(liveRegion).toHaveTextContent("");
+            await waitFor(() => expect(liveRegion).toHaveTextContent("Read only"));
+        });
+
+        // A modal dialog makes everything outside it inert, including a live region on <body>
+        it("should announce through a live region inside its dialog", async () => {
+            const user = userEvent.setup();
+            render(
+                <dialog open data-testid="dialog">
+                    <label>
+                        <Switch readOnly />
+                        notifications
+                    </label>
+                </dialog>
+            );
+            const liveRegion = screen.getByTestId("dialog").querySelector(":scope > [role='status']") as HTMLElement;
+            expect(liveRegion).toBeInTheDocument();
+
+            await user.click(screen.getByRole("switch"));
+            await waitFor(() => expect(liveRegion).toHaveTextContent("Read only"));
+        });
+
+        it("should create the live region inside a dialog that is still closed", () => {
+            render(
+                <dialog data-testid="dialog">
+                    <Switch aria-label="notifications" readOnly />
+                </dialog>
+            );
+            expect(screen.getByTestId("dialog").querySelector(":scope > [role='status']")).toBeInTheDocument();
+        });
+
+        // As the last child it would make the real last item lose :last-child, e.g. get an extra space-y margin or divide-y border
+        it("should put the live region first in its dialog, so the dialog's last child stays the same", () => {
+            render(
+                <dialog open data-testid="dialog">
+                    <Switch aria-label="notifications" readOnly />
+                    <p data-testid="last">Managed by your organization</p>
+                </dialog>
+            );
+            const dialog = screen.getByTestId("dialog");
+            expect(dialog.firstElementChild).toHaveAttribute("role", "status");
+            expect(dialog.lastElementChild).toBe(screen.getByTestId("last"));
+        });
+
+        it("should announce through a live region inside an aria-modal container", async () => {
+            const user = userEvent.setup();
+            render(
+                <div role="dialog" aria-modal="true" aria-label="settings" data-testid="modal">
+                    <Switch aria-label="notifications" readOnly />
+                </div>
+            );
+            const liveRegion = screen.getByTestId("modal").querySelector(":scope > [role='status']") as HTMLElement;
+
+            await user.click(screen.getByRole("switch"));
+            await waitFor(() => expect(liveRegion).toHaveTextContent("Read only"));
+        });
+
+        it("should not announce when the switch can be toggled", async () => {
+            const user = userEvent.setup();
+            // The live region is shared and outlives each test, so start from an empty one
+            const liveRegion = document.querySelector("body > [role='status']");
+            if (liveRegion) liveRegion.textContent = "";
+
+            renderSwitch();
+            await user.click(screen.getByRole("switch"));
+            await new Promise((resolve) => setTimeout(resolve, 150));
+            expect(document.querySelector("body > [role='status']")?.textContent ?? "").toBe("");
         });
 
         it("should still submit its value with the form", () => {

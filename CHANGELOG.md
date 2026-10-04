@@ -1,3 +1,17 @@
+# 0.60.0 - 2026-10-04
+
+- Add rtl support for `Switch`: the thumb starts on the right and moves left when turned on
+- Redefine the `rtl:` and `ltr:` variants in `m7kit/css` with `:dir()`, so they no longer match inside a nested section with the opposite direction. This also applies to your own `rtl:` / `ltr:` classes
+- Dim `Switch` inside a disabled `<fieldset>`, the same as with the `disabled` prop
+- Fix `Switch` becoming clickable across the whole row when placed in a flex column or grid cell: the click area now matches the visible switch
+- Show a lock on the thumb of a read-only `Switch`, replacing the thumb indicators
+- Make `Switch` visible in Windows high contrast mode (forced colors): the thumb no longer disappears, and on, off and disabled use system colors
+- Announce read-only `Switch` to screen readers that don't support `aria-readonly` on switches (like NVDA): "Read only" is read on focus and announced when the user tries to toggle it.
+- Expand the `Switch` documentation (form behavior, callbacks, accessibility) and add stories for forms, descriptions, disabled fieldsets and rtl
+- Hide the decorative triangle in `FolderStructure` from screen readers
+- Fix `Drawer` closing when a control inside it is used with the keyboard (Space on a checkbox, Enter on a button) or through a `<label>`. It now only closes on a backdrop click
+- Add support for high contrast modes for `Switch`
+
 # 0.59.0 - 2026-10-02
 
 - Add dev warnings for `Switch` for incorrect usage or mixing of controlled and uncontrolled behavior
