@@ -8,7 +8,7 @@ export const getProgressClasses = (size: ProgressSize, variant: "fill" | "outlin
     };
 
     const variantMap = {
-        fill: "bg-accent/25",
+        fill: "bg-accent/25 forced-colors:border forced-colors:border-[CanvasText]",
         outline: "bg-transparent outline-accent outline",
     } as const;
 

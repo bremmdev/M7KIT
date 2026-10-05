@@ -10,8 +10,9 @@ const Bullet = ({ bullet }: { bullet: TimelineItemProps["bullet"] }) => {
 };
 
 const TimelineLine = ({ bullet, className }: { bullet: TimelineItemProps["bullet"]; className?: string }) => {
+  // Forced colors (Windows high contrast) replace the background with Canvas, which would hide the line, so it uses CanvasText there
   return (
-    <div className={cn("absolute -left-6 top-0 w-1 h-full bg-neutral", className)}>
+    <div className={cn("absolute -left-6 top-0 w-1 h-full bg-neutral forced-colors:bg-[CanvasText]", className)}>
       <Bullet bullet={bullet} />
     </div>
   );

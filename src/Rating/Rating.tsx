@@ -13,6 +13,11 @@ const ratingStyles = {
   "circle-gray": "text-gray-400 fill-gray-400"
 };
 
+// Forced colors (Windows high contrast) keep explicit SVG colors, so the shapes could vanish against the forced background
+// (e.g. circle-black on a black theme). There, filled shapes use CanvasText and empty ones a CanvasText outline on Canvas
+const filledForcedColors = "forced-colors:text-[CanvasText] forced-colors:fill-[CanvasText]";
+const emptyForcedColors = "forced-colors:text-[CanvasText] forced-colors:fill-[Canvas]";
+
 const shapeVariants = {
   star: Star,
   heart: Heart,
@@ -38,7 +43,7 @@ export const Rating = (props: RatingProps) => {
 
     return Array.from({ length: amount }, (_, i) => {
       const classes = ratingStyles[variant || "star"];
-      return <RatingItem key={i} size={size} strokeWidth={1} className={cn(classes)} />;
+      return <RatingItem key={i} size={size} strokeWidth={1} className={cn(classes, filledForcedColors)} />;
     });
   };
 
@@ -47,13 +52,13 @@ export const Rating = (props: RatingProps) => {
 
     return (
       <div className="relative">
-        <RatingItem size={size} strokeWidth={1} className={cn(classes, "fill-white")} />
+        <RatingItem size={size} strokeWidth={1} className={cn(classes, "fill-white", emptyForcedColors)} />
         <div className="absolute left-0 top-0 overflow-hidden">
           <RatingItem
             size={size}
             strokeWidth={1}
             data-testid="half-star"
-            className={cn(classes, "[clip-path:polygon(0_0,50%_0,50%_100%,0%_100%)]")}
+            className={cn(classes, filledForcedColors, "[clip-path:polygon(0_0,50%_0,50%_100%,0%_100%)]")}
           />
         </div>
       </div>
@@ -68,7 +73,7 @@ export const Rating = (props: RatingProps) => {
       },
       (_, i) => {
         const classes = ratingStyles[variant || "star"];
-        return <RatingItem key={i} size={size} strokeWidth={1} className={cn(classes, "fill-white")} />;
+        return <RatingItem key={i} size={size} strokeWidth={1} className={cn(classes, "fill-white", emptyForcedColors)} />;
       }
     );
   };

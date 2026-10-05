@@ -7,11 +7,12 @@ const isFolder = (node: FolderType | FileType): node is FolderType => {
 };
 
 const Folder = ({ folder, indent, open, trailingSlash }: FolderProps) => {
+  // The guide line is a background, which forced colors (Windows high contrast) replace with Canvas, so it uses CanvasText there
   return (
     <details
       open={open}
       className={cn(
-        "group py-0.5 relative before:content-[''] before:absolute before:top-6 before:bottom-1 before:left-7 before:w-px before:bg-foreground",
+        "group py-0.5 relative before:content-[''] before:absolute before:top-6 before:bottom-1 before:left-7 before:w-px before:bg-foreground forced-colors:before:bg-[CanvasText]",
         {
           "[&_details]:ml-8": indent !== "normal",
           "[&_details]:ml-10": indent === "normal"

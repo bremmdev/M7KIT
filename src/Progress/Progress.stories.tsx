@@ -23,6 +23,7 @@ import { ProgressProps } from "./Progress.types";
  * - **Name**: Provide either `label` (uses `aria-labelledby` with the visible label) or `aria-label` when there is no visible label. Omitting both logs a development warning as this does not meet accessibility standards.
  * - **Determinate values**: `aria-valuenow` is set to the clamped value; `aria-valuetext` comes from `getValueText` or the default percentage string. The duplicate value shown on the right is marked `aria-hidden="true"` so screen readers rely on `aria-valuetext`.
  * - **Indeterminate**: When `value` is omitted or `null`, `aria-valuenow` and `aria-valuetext` are omitted so assistive technologies can treat the state as indeterminate per platform conventions.
+ * - **Forced colors**: In forced colors mode (Windows high contrast), the fill uses `Highlight`, like native progress bars, and the `fill` track gets a `CanvasText` border.
  *
  * ## Usage
  * ```tsx

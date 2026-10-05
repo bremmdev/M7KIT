@@ -17,7 +17,8 @@ const DrawerClose = () => {
         onClick={close}
         aria-label="close drawer"
       >
-        <X className="size-7 stroke-foreground" />
+        {/* The explicit stroke is kept in forced colors (Windows high contrast) and could vanish against the forced background */}
+        <X className="size-7 stroke-foreground forced-colors:stroke-[ButtonText]" />
       </button>
     </div>
   );
@@ -82,12 +83,13 @@ export const Drawer = (props: DrawerProps) => {
     }
   }, [isOpen]);
 
+  // Forced colors (Windows high contrast) replace the surface and the backdrop with Canvas, so the drawer gets a border there to show its edge
   return (
     <dialog
       className={cn(
         `${getPositionClasses(
           placement
-        )} fixed backdrop:bg-black/70 focus-visible:outline-hidden focus:outline-hidden bg-surface`,
+        )} fixed backdrop:bg-black/70 focus-visible:outline-hidden focus:outline-hidden bg-surface forced-colors:border`,
         className
       )}
       ref={drawerRef}

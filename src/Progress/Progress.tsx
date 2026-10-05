@@ -14,6 +14,8 @@ const ProgressLabel = (props: ProgressLabelProps) => {
 
 const ProgressTrack = (props: ProgressTrackProps) => {
     const { className, size, variant, rounded, value, min, max, indeterminate } = props;
+    // Forced colors (Windows high contrast) replace both backgrounds with Canvas, which hides the fill.
+    // The fill uses Highlight there, like native progress bars, and the fill variant's track gets a border to show its size
     return (
         <div
             className={cn(
@@ -26,7 +28,7 @@ const ProgressTrack = (props: ProgressTrackProps) => {
             )}
         >
             <div
-                className={cn("absolute left-0 top-0 h-full bg-accent transition-[width] duration-300 ease-out", {
+                className={cn("absolute left-0 top-0 h-full bg-accent transition-[width] duration-300 ease-out forced-colors:bg-[Highlight]", {
                     "rounded-full": rounded,
                     "bg-accent animate-indeterminate": indeterminate,
                 })}

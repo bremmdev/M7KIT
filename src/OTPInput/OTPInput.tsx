@@ -3,7 +3,8 @@ import { OTPInputProps } from "./OTPInput.types";
 import { cn } from "../utils/cn";
 import { validateValue } from "./OTPInput.utils";
 
-const Cursor = () => <div className="animate-blink w-px h-8 bg-foreground" />;
+// Forced colors (Windows high contrast) would replace the background with Canvas and hide the cursor
+const Cursor = () => <div className="animate-blink w-px h-8 bg-foreground forced-colors:bg-[CanvasText]" />;
 
 export const OTPInput = (props: OTPInputProps) => {
   const {
@@ -95,7 +96,8 @@ export const OTPInput = (props: OTPInputProps) => {
             className={cn(
               "flex justify-center items-center border border-neutral border-r-0 w-12 h-16 first-of-type:rounded-s-md last-of-type:rounded-e-md last-of-type:border-r bg-surface-suble",
               {
-                "border-2 border-accent last-of-type:border-r-2": cursorPosition === idx && isFocused
+                // In forced colors the accent is replaced; Highlight keeps the active slot distinct from the others, not just thicker
+                "border-2 border-accent last-of-type:border-r-2 forced-colors:border-[Highlight]": cursorPosition === idx && isFocused
               }
             )}
           >

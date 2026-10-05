@@ -1,3 +1,17 @@
+# Unreleased
+
+- Fix components in Windows high contrast mode (forced colors), following the approach of `Switch` and `ThemeToggle`:
+  - `Progress`: the fill no longer disappears; it uses `Highlight`, and the `fill` track gets a border
+  - `Button`: `primary` and `cta` get a border to keep their shape, disabled and loading buttons use `GrayText` instead of reduced opacity, the loading spinner stays visible, and the decorative `cta` shine is hidden
+  - `SegmentedControl`: the selected button uses `HighlightText` on `Highlight`, instead of only a border
+  - `Rating`: shapes use `CanvasText` instead of their fixed colors, so `circle-black` no longer disappears on a dark theme and the other variants don't clash with a light one
+  - `OTPInput`: the cursor no longer disappears, and the active slot gets a `Highlight` border
+  - `Timeline` and `FolderStructure`: the connecting lines no longer disappear
+  - `Drawer`: the close icon no longer disappears, and the drawer gets a border to show its edge
+  - `GalleryStack`: the navigation arrows no longer disappear, and use `GrayText` while disabled
+  - `SortableList`: the Edit Mode button gets a border, and the dragged item a `Highlight` border and outline
+  - `Card`: keeps its border in dark mode (transparent there), so its edge stays visible
+
 # 0.61.0 - 2026-10-04
 
 - Apply the `Switch` accessibility improvements to `ThemeToggle`:
