@@ -94,7 +94,7 @@ export const OTPInput = (props: OTPInputProps) => {
           <div
             key={idx}
             className={cn(
-              "flex justify-center items-center border border-neutral border-r-0 w-12 h-16 first-of-type:rounded-s-md last-of-type:rounded-e-md last-of-type:border-r bg-surface-suble",
+              "flex justify-center items-center border border-neutral border-r-0 w-12 h-16 first-of-type:rounded-s-md last-of-type:rounded-e-md last-of-type:border-r bg-surface-subtle",
               {
                 // In forced colors the accent is replaced; Highlight keeps the active slot distinct from the others, not just thicker
                 "border-2 border-accent last-of-type:border-r-2 forced-colors:border-[Highlight]": cursorPosition === idx && isFocused

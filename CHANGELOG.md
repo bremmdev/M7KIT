@@ -11,6 +11,7 @@
   - `GalleryStack`: the navigation arrows no longer disappear, and use `GrayText` while disabled
   - `SortableList`: the Edit Mode button gets a border, and the dragged item a `Highlight` border and outline
   - `Card`: keeps its border in dark mode (transparent there), so its edge stays visible
+- Fix the `OTPInput` slot background, which used a misspelled class (`bg-surface-suble`) and was never applied
 
 # 0.61.0 - 2026-10-04
 
