@@ -54,7 +54,7 @@ export const FolderStructure = ({
   return (
     <div
       className={cn(
-        "text-sm mx-auto max-w-2xl my-8 text-foreground bg-surface-suble border border-neutral rounded-md",
+        "text-sm mx-auto max-w-2xl my-8 text-foreground bg-surface-subtle border border-neutral rounded-md",
         className
       )}
       {...rest}
