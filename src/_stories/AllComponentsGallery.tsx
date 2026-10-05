@@ -10,19 +10,16 @@ import {
   Card,
   CardContent,
   CardTitle,
-  DiamondGrid,
   Drawer,
   DrawerContent,
   DrawerRoot,
   DrawerTrigger,
   FolderStructure,
   GalleryStack,
-  ImageShowcase,
   LineClamp,
   LineClampRoot,
   LineClampTrigger,
   Marquee,
-  Masonry,
   OTPInput,
   Popover,
   PopoverContent,
@@ -31,7 +28,6 @@ import {
   Progress,
   Rating,
   SegmentedControl,
-  ShimmerImage,
   SortableList,
   Switch,
   Tabs,
@@ -46,16 +42,13 @@ import {
 } from "../../index";
 import image001 from "../_data/images/picture001.jpg";
 import image002 from "../_data/images/picture002.jpg";
-import image003 from "../_data/images/picture003.jpg";
-import image004 from "../_data/images/picture004.jpg";
-import profilePicture from "../_data/images/profile001.jpg";
 import NextIcon from "../_data/icons/next.svg";
 import ReactIcon from "../_data/icons/react.svg";
 import StorybookIcon from "../_data/icons/storybook.svg";
 import TailwindIcon from "../_data/icons/tailwind.svg";
 import TypeScriptIcon from "../_data/icons/typescript.svg";
 
-const images = [image001, image002, image003, image004];
+const images = [image001, image002];
 
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <section aria-labelledby={`gallery-${title}`} className="flex flex-col gap-3">
@@ -77,6 +70,10 @@ const Example = ({ label, children }: { label: string; children: React.ReactNode
  * Every component on one page, in the states that look different: selected, checked, disabled, loading, read-only, open.
  * Overlays are rendered open, except the Drawer, which is modal: the high contrast screenshot script opens it separately.
  * Keep it deterministic: the screenshots of this page are compared over time.
+ *
+ * DiamondGrid, ImageShowcase, Masonry and ShimmerImage are left out on purpose: they only lay out images or add effects
+ * (filters, a gradient) that forced colors don't change, and their photos would make the screenshots several times larger.
+ * Add a component like that once it gets its own colors, borders or controls. GalleryStack stays for its buttons.
  */
 export const AllComponentsGallery = () => (
   <div className="flex max-w-5xl flex-col gap-10 text-foreground">
@@ -257,35 +254,17 @@ export const AllComponentsGallery = () => (
       <AnimatedCount count={42} duration={500} />
     </Section>
 
-    <Section title="Images">
-      <div className="relative h-56 w-56">
+    <Section title="GalleryStack and Marquee">
+      <div className="relative h-44 w-44">
         <GalleryStack>
           {images.map((src, idx) => (
-            <img src={src} alt="" width={180} height={180} key={idx} />
+            <img src={src} alt="" width={120} height={120} key={idx} />
           ))}
         </GalleryStack>
       </div>
-      <ShimmerImage src={profilePicture} width={160} alt="" />
-      <ImageShowcase className="h-40 w-96">
-        {images.map((src, idx) => (
-          <img src={src} alt="" key={idx} />
-        ))}
-      </ImageShowcase>
-      <DiamondGrid itemWidth={90}>
-        {images.map((src, idx) => (
-          <img src={src} alt="" width={90} height={90} key={idx} />
-        ))}
-      </DiamondGrid>
-      <div className="w-96">
-        <Masonry columns={3}>
-          {images.map((src, idx) => (
-            <img src={src} alt="" key={idx} className={idx % 2 ? "h-24 object-cover" : "h-16 object-cover"} />
-          ))}
-        </Masonry>
-      </div>
       <Marquee className="w-96" pauseOnHover={false}>
-        {[ReactIcon, NextIcon, StorybookIcon, TailwindIcon].map((icon, idx) => (
-          <img src={icon} alt="" className="h-10 w-10" key={idx} />
+        {["First", "Second", "Third", "Fourth"].map((item) => (
+          <span key={item}>{item}</span>
         ))}
       </Marquee>
     </Section>
