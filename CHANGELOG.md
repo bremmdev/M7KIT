@@ -12,6 +12,7 @@
   - `SortableList`: the Edit Mode button gets a border, and the dragged item a `Highlight` border and outline
   - `Card`: keeps its border in dark mode (transparent there), so its edge stays visible
 - Fix the `OTPInput` slot background and the `FolderStructure` container background, which used a misspelled class (`bg-surface-suble`) and were never applied
+- Darken the light mode `neutral` color from `slate-400` to `slate-500` (the dark mode value), so borders and lines that use it have at least 3:1 contrast (WCAG 1.4.11) against the background and every surface token. This affects `OTPInput`, `Popover`, `Tooltip`, `Card`, `Tabs`, `Timeline`, `Tierlist`, `SortableList`, `Breadcrumb` and `FolderStructure`, and your own `neutral` classes
 
 # 0.61.0 - 2026-10-04
 
