@@ -143,6 +143,7 @@ Checked in the published code of Fluent UI v9, React Spectrum S2, MUI 9 (includi
 
 ### Testing
 
+- **Storybook:** the **Overview/All Components** page has every component in its notable states. Its **High Contrast** story shows screenshots of that page in both emulated palettes, including an open Drawer. After changing a component's styles, regenerate them with `npm run screenshots:high-contrast`, check the result in the High Contrast story, and commit the screenshots with the change. When you add a component or a state, add it to `src/_stories/AllComponentsGallery.tsx`. The command builds Storybook first; pass `-- --url http://localhost:6006` to use a running Storybook instead. It needs Playwright's Chromium (`npx playwright install chromium`).
 - **Chrome or Edge DevTools:** Rendering panel → "Emulate CSS media feature forced-colors: active", combined with `prefers-color-scheme` light and dark for both emulated palettes. Check the library's light and dark theme too.
 - **Playwright:** `page.emulateMedia({ forcedColors: "active", colorScheme: "dark" })`. Screenshot every state (default, hover, focus, selected, disabled, read-only) normally and in both palettes. When you read a color with `getComputedStyle`, wait for transitions first: `transition-colors` also animates `outline-color` and `border-color`.
 - **Windows:** Settings → Accessibility → Contrast themes, or left Alt + left Shift + Print Screen. Real themes (Aquatic, Desert, Dusk, Night sky) have other colors than the emulation, so check at least one dark and one light theme before a release.

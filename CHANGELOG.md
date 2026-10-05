@@ -15,6 +15,7 @@
   - Hover shows as a `Highlight` border or icon on `Button`, the `SortableList` Edit Mode button, the `Popover` trigger, the `GalleryStack` arrows and the `Drawer` close button, whose normal hover is a background change
 - Fix the `OTPInput` slot background and the `FolderStructure` container background, which used a misspelled class (`bg-surface-suble`) and were never applied
 - Add `docs/ACCESSIBILITY.md`, which documents the contrast and forced colors choices of the library
+- Add an **Overview/All Components** page to Storybook with every component, and a **High Contrast** story with screenshots of it in forced colors. Regenerate them with `npm run screenshots:high-contrast`
 - Darken the light mode `neutral` color from `slate-400` to `slate-500` (the dark mode value), so borders and lines that use it have at least 3:1 contrast (WCAG 1.4.11) against the background and every surface token. This affects `OTPInput`, `Popover`, `Tooltip`, `Card`, `Tabs`, `Timeline`, `Tierlist`, `SortableList`, `Breadcrumb` and `FolderStructure`, and your own `neutral` classes
 
 # 0.61.0 - 2026-10-04

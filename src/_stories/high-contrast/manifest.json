@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-10-05T21:45:39.715Z",
+  "screenshots": [
+    {
+      "file": "dark-palette.png",
+      "title": "Dark palette"
+    },
+    {
+      "file": "light-palette.png",
+      "title": "Light palette"
+    },
+    {
+      "file": "drawer-dark-palette.png",
+      "title": "Drawer, dark palette"
+    },
+    {
+      "file": "drawer-light-palette.png",
+      "title": "Drawer, light palette"
+    }
+  ]
+}
