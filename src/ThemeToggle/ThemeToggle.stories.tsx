@@ -48,9 +48,10 @@ import { ThemeToggleProps } from "./ThemeToggle.types";
  * ## Accessibility
  * - Uses a real `<input type="checkbox">` with `role="switch"`. Screen readers announce it as "Light mode, switch, on" or "off".
  * - The input is transparent (`opacity-0`) and covers the track, so it stays tab-focusable, receives clicks directly, and is found by touch screen readers where it is drawn. `:focus-visible` styles are applied to the visible track.
- * - The off tracks have a border, and the day track is dark enough for the sun thumb, so the toggle and its state have at least 3:1 contrast (WCAG 1.4.11) in light and dark mode. The focus outline uses the foreground color for the same reason.
+ * - The off tracks have a border (in dark mode the on tracks too), and the day track is dark enough for the sun thumb, so the toggle and its state have at least 3:1 contrast (WCAG 1.4.11) in light and dark mode, against `background` and every `surface` token. The focus outline uses the foreground color for the same reason.
+ *   On a custom background, check that the track's edge still has 3:1 contrast against it.
  * - The thumb animation is turned off when the user prefers reduced motion.
- * - In forced colors mode (Windows high contrast), the toggle uses system colors: off is an outlined track with a `CanvasText` thumb, on is a `Highlight` track with a `HighlightText` thumb, and disabled uses `GrayText`.
+ * - In forced colors mode (Windows high contrast), the toggle uses system colors: off is an outlined track with a `CanvasText` thumb, on is a `Highlight` track with a `HighlightText` thumb, and disabled uses `GrayText`, for the track and the label text.
  *
  * ### Labeling
  * - The default label is "Light mode", because on means light mode. Name what the toggle controls in that state, not the current state, and keep the label the same when it changes: screen readers already announce on and off. A label like "theme" doesn't tell screen reader users what "on" means.

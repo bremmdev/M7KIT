@@ -28,17 +28,18 @@ export const getThemeToggleLockSizeClasses = (size: ThemeToggleSize) => {
 };
 
 /**
- * The off-state border gives the track at least 3:1 contrast against the page in light and dark mode (WCAG 1.4.11);
- * the fills alone are too close to the background. The on-state fills have enough contrast, so the border is transparent,
- * which keeps the size the same in both states
+ * The border gives the track at least 3:1 contrast (WCAG 1.4.11) against the background and every surface token,
+ * in light and dark mode; the fills alone are too close to some of them.
+ * In light mode the on-state fills have enough contrast, so the border is transparent, which keeps the size the same in both states.
+ * Dark surfaces get lighter up to surface-strong, so in dark mode every track except the light blackAndWhite on-track gets a stronger border
  */
 export const getThemeToggleTrackStyleClasses = (blackAndWhite: boolean, checked: boolean) => {
     if (blackAndWhite) {
-        return checked ? "bg-foreground border-transparent" : "bg-surface-strong border-foreground/50";
+        return checked ? "bg-foreground border-transparent" : "bg-surface-strong border-foreground/50 dark:border-foreground/70";
     }
 
     // blue-600 instead of a lighter blue, so the sun thumb keeps 3:1 contrast against the day sky
-    return checked ? "bg-blue-600 border-transparent" : "bg-blue-800 border-foreground/50";
+    return checked ? "bg-blue-600 border-transparent dark:border-foreground/70" : "bg-blue-800 border-foreground/50 dark:border-foreground/70";
 };
 
 export const getThemeToggleThumbStyleClasses = (blackAndWhite: boolean, checked: boolean) => {

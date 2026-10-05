@@ -101,11 +101,11 @@ export const ThemeToggle = (props: ThemeToggleProps) => {
     const visibleLabel = <span className="font-medium">{label}</span>;
 
     // Dim based on the input's :disabled state, not the prop, so a disabled <fieldset> ancestor dims the toggle too.
-    // In forced colors GrayText marks disabled instead, so the opacity is removed to keep it readable.
+    // In forced colors GrayText marks disabled instead, on the track and the label text, so the opacity is removed to keep it readable.
     // w-fit/h-fit: a flex or grid parent stretches its children by default, which would make empty space next to the toggle clickable.
     // relative: keeps the sr-only label positioned inside the toggle
     return <label data-checked={isChecked} data-disabled={disabled} data-readonly={readOnly} className={cn(
-        "relative inline-flex w-fit h-fit items-center gap-2 has-[input:disabled]:cursor-not-allowed has-[input:disabled]:opacity-50 forced-colors:has-[input:disabled]:opacity-100",
+        "relative inline-flex w-fit h-fit items-center gap-2 has-[input:disabled]:cursor-not-allowed has-[input:disabled]:opacity-50 forced-colors:has-[input:disabled]:opacity-100 forced-colors:has-[input:disabled]:text-[GrayText]",
         className,
     )} style={style}>
         {labelPosition === "left" && visibleLabel}
