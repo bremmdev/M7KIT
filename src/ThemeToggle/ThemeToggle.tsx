@@ -124,9 +124,9 @@ export const ThemeToggle = (props: ThemeToggleProps) => {
                 })}
                 onChange={handleChange} />
             {/* Forced colors (Windows high contrast) would replace every background with Canvas and hide the thumb, so the track opts out
-                (inherited by the thumb and icons) and uses system colors: on is a Highlight track, disabled uses GrayText */}
+                (inherited by the thumb and icons) and uses system colors: on is a Highlight track, disabled uses GrayText, and the focus outline is Highlight */}
             <span className={cn("relative block rounded-full border transition-colors outline-foreground [input:focus-visible~&]:outline-2 [input:focus-visible~&]:outline-offset-2",
-                "forced-colors:forced-color-adjust-none forced-colors:[input:focus-visible~&]:outline-[CanvasText] forced-colors:[input:disabled~&]:border-[GrayText]",
+                "forced-colors:forced-color-adjust-none forced-colors:[input:focus-visible~&]:outline-[Highlight] forced-colors:[input:disabled~&]:border-[GrayText]",
                 getThemeToggleSizeClasses(size),
                 getThemeToggleTrackStyleClasses(blackAndWhite, isChecked),
                 isChecked

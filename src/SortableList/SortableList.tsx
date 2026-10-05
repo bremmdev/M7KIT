@@ -256,8 +256,9 @@ export const SortableList = ({
           title="Use arrow keys to reorder items"
           className={cn(
             "shrink-0 cursor-pointer relative flex gap-2 border-none justify-center items-center px-4 py-2 bg-foreground text-foreground-inverse rounded-md w-fit transition-colors focus-ring hover:bg-foreground/90",
-            // Forced colors (Windows high contrast) replace the fill with ButtonFace, so a border keeps the button's shape
-            "forced-colors:border forced-colors:border-solid"
+            // Forced colors (Windows high contrast) replace the fill with ButtonFace, so a border keeps the button's shape,
+            // and hover, normally a background change, shows as a Highlight border
+            "forced-colors:border forced-colors:border-solid forced-colors:hover:border-[Highlight]"
           )}
         >
           {editMode ? `Exit Edit Mode` : "Enter Edit Mode"}

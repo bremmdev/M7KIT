@@ -59,7 +59,7 @@ import { SwitchProps } from "./Switch.types";
  * - Uses a real `<input type="checkbox">` with `role="switch"` so semantics and form submission stay predictable. Screen readers announce it as a switch that is "on" or "off"; older ones fall back to "checkbox, checked / not checked".
  * - The input is transparent (`opacity-0`) and covers the track, so it stays tab-focusable and receives clicks directly; `:focus-visible` styles are applied to the visible track.
  * - The thumb animation is turned off when the user prefers reduced motion.
- * - In forced colors mode (Windows high contrast), the switch uses system colors: off is an outlined track with a `CanvasText` thumb, on is a `Highlight` track with a `HighlightText` thumb, and disabled uses `GrayText`.
+ * - In forced colors mode (Windows high contrast), the switch uses system colors: off is an outlined track with a `CanvasText` thumb, on is a `Highlight` track with a `HighlightText` thumb, disabled uses `GrayText`, and the focus outline is `Highlight`.
  *
  * ### Labeling
  * - Give the switch an accessible name by wrapping it in a `<label>`, or by pairing `htmlFor` on the label with the switch `id`. The Switch doesn't generate an `id`; use `React.useId()`.

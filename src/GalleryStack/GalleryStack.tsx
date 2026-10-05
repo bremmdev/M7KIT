@@ -8,7 +8,7 @@ const NavigationButtons = (props: NavigationButtonProps) => {
   const { animationDirection, className, onNavigate, lastItemIdx } = props;
 
   // The icons' explicit strokes are kept in forced colors (Windows high contrast) and could vanish against the forced background,
-  // so they use ButtonText there, and GrayText instead of the opacity while disabled
+  // so they use ButtonText there, Highlight on hover, and GrayText instead of the opacity while disabled
   return (
     <div className={cn("absolute left-1/2 -translate-x-full -bottom-2 flex gap-2", className)}>
       <button
@@ -17,7 +17,7 @@ const NavigationButtons = (props: NavigationButtonProps) => {
         aria-label="previous item"
         onClick={() => onNavigate(0)}
       >
-        <CircleArrowLeft size={32} className="stroke-foreground hover:stroke-accent forced-colors:stroke-[ButtonText] forced-colors:hover:stroke-[ButtonText] forced-colors:group-disabled:stroke-[GrayText]" />
+        <CircleArrowLeft size={32} className="stroke-foreground hover:stroke-accent forced-colors:stroke-[ButtonText] forced-colors:group-enabled:hover:stroke-[Highlight] forced-colors:group-disabled:stroke-[GrayText]" />
       </button>
       <button
         className="group mx-auto rounded-full focus-ring disabled:opacity-50 disabled:bg-transparent forced-colors:disabled:opacity-100"
@@ -25,7 +25,7 @@ const NavigationButtons = (props: NavigationButtonProps) => {
         aria-label="next item"
         onClick={() => onNavigate(lastItemIdx)}
       >
-        <CircleArrowRight size={32} className="stroke-foreground hover:stroke-accent forced-colors:stroke-[ButtonText] forced-colors:hover:stroke-[ButtonText] forced-colors:group-disabled:stroke-[GrayText]" />
+        <CircleArrowRight size={32} className="stroke-foreground hover:stroke-accent forced-colors:stroke-[ButtonText] forced-colors:group-enabled:hover:stroke-[Highlight] forced-colors:group-disabled:stroke-[GrayText]" />
       </button>
     </div>
   );

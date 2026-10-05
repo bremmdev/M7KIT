@@ -11,7 +11,10 @@
   - `GalleryStack`: the navigation arrows no longer disappear, and use `GrayText` while disabled
   - `SortableList`: the Edit Mode button gets a border, and the dragged item a `Highlight` border and outline
   - `Card`: keeps its border in dark mode (transparent there), so its edge stays visible
+  - Focus outlines are `Highlight`, the Windows focus color, in every component, including the `focus-ring` utilities in `m7kit/css`, `Switch` and `ThemeToggle`
+  - Hover shows as a `Highlight` border or icon on `Button`, the `SortableList` Edit Mode button, the `Popover` trigger, the `GalleryStack` arrows and the `Drawer` close button, whose normal hover is a background change
 - Fix the `OTPInput` slot background and the `FolderStructure` container background, which used a misspelled class (`bg-surface-suble`) and were never applied
+- Add `docs/ACCESSIBILITY.md`, which documents the contrast and forced colors choices of the library
 - Darken the light mode `neutral` color from `slate-400` to `slate-500` (the dark mode value), so borders and lines that use it have at least 3:1 contrast (WCAG 1.4.11) against the background and every surface token. This affects `OTPInput`, `Popover`, `Tooltip`, `Card`, `Tabs`, `Timeline`, `Tierlist`, `SortableList`, `Breadcrumb` and `FolderStructure`, and your own `neutral` classes
 
 # 0.61.0 - 2026-10-04

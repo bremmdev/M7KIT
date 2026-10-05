@@ -48,10 +48,11 @@ const PopoverArrow = ({ placement }: { placement: OverlayPlacement }) => {
             className={cn(
                 "absolute w-3 h-3 rotate-45 bg-surface-subtle",
                 // Border only on the sides pointing toward trigger
-                // 2px accent border when popover content has focus-visible (via group), matching focus-ring-inner outline width, also translate the arrow to match the focus-ring-inner outline width
+                // 2px accent border when popover content has focus-visible (via group), matching focus-ring-inner outline width, also translate the arrow to match the focus-ring-inner outline width.
+                // In forced colors the outline is Highlight, so the arrow is too
                 isTop
-                    ? "border-b border-r border-neutral group-focus-visible:border-b-2 group-focus-visible:border-r-2 group-focus-visible:border-accent group-focus-visible:translate-y-px"
-                    : "border-t border-l border-neutral group-focus-visible:border-t-2 group-focus-visible:border-l-2 group-focus-visible:border-accent group-focus-visible:-translate-y-px",
+                    ? "border-b border-r border-neutral group-focus-visible:border-b-2 group-focus-visible:border-r-2 group-focus-visible:border-accent forced-colors:group-focus-visible:border-[Highlight] group-focus-visible:translate-y-px"
+                    : "border-t border-l border-neutral group-focus-visible:border-t-2 group-focus-visible:border-l-2 group-focus-visible:border-accent forced-colors:group-focus-visible:border-[Highlight] group-focus-visible:-translate-y-px",
                 getArrowClasses(placement)
             )}
             style={getArrowPositionStyle(placement, triggerWidth)}
@@ -115,7 +116,8 @@ export const PopoverTrigger = ({ children, className, ...rest }: PopoverTriggerP
             aria-expanded={open}
             aria-haspopup="dialog"
             className={cn(
-                "focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground hover:bg-surface-muted",
+                // The hover background is replaced in forced colors (Windows high contrast), so hover shows as a Highlight border there
+                "focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground hover:bg-surface-muted forced-colors:hover:border-[Highlight]",
                 className
             )}
             {...rest}

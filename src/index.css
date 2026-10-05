@@ -61,6 +61,18 @@
   .focus-ring-neutral-inner:focus-visible {
     outline-offset: -1px;
   }
+
+  /* Forced colors (Windows high contrast) would replace the outline color with the text color.
+     Highlight is the focus color of Windows and of Fluent UI, React Spectrum and MUI. See docs/ACCESSIBILITY.md */
+  @media (forced-colors: active) {
+
+    .focus-ring:focus-visible,
+    .focus-ring-inner:focus-visible,
+    .focus-ring-neutral:focus-visible,
+    .focus-ring-neutral-inner:focus-visible {
+      outline-color: Highlight;
+    }
+  }
 }
 
 @utility shimmer {

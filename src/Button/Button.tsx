@@ -30,7 +30,8 @@ export const Button = <E extends AllowedElements | React.ComponentType<any> = "b
 
   // Forced colors (Windows high contrast) replace the fill with ButtonFace, so the primary and cta variants get a border
   // there to keep their shape (the secondary variant already has one). Disabled and loading use GrayText instead of the opacity,
-  // which would make GrayText too faint. The loader keeps its explicit text color, so it gets GrayText too
+  // which would make GrayText too faint. The loader keeps its explicit text color, so it gets GrayText too.
+  // The hover background is replaced too, so hover shows as a Highlight border there
   return (
     <Component
       {...restProps}
@@ -38,7 +39,7 @@ export const Button = <E extends AllowedElements | React.ComponentType<any> = "b
       aria-busy={isLoading || undefined}
       className={cn(
         "group overflow-hidden relative flex gap-2 cursor-pointer justify-center items-center px-4 py-2 rounded-md font-bold w-fit transition-opacity disabled:opacity-50 dark:disabled:opacity-70 disabled:cursor-not-allowed aria-disabled:opacity-50 dark:aria-disabled:opacity-70 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none",
-        "forced-colors:disabled:opacity-100 forced-colors:disabled:text-[GrayText] forced-colors:disabled:border-[GrayText] forced-colors:aria-disabled:opacity-100 forced-colors:aria-disabled:text-[GrayText] forced-colors:aria-disabled:border-[GrayText]",
+        "forced-colors:hover:border-[Highlight] forced-colors:disabled:opacity-100 forced-colors:disabled:text-[GrayText] forced-colors:disabled:border-[GrayText] forced-colors:aria-disabled:opacity-100 forced-colors:aria-disabled:text-[GrayText] forced-colors:aria-disabled:border-[GrayText]",
         getButtonVariantClasses(variant),
         className
       )}

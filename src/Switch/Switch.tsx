@@ -101,9 +101,9 @@ export const Switch = (props: SwitchProps) => {
             onChange={handleChange} />
         {/* The off-state border gives the track at least 3:1 contrast against the page (WCAG 1.4.11); the fill alone is too light.
             Forced colors (Windows high contrast) would replace every background with Canvas and hide the thumb, so the track opts out
-            (inherited by the thumb and icons) and uses system colors: on is a Highlight track, disabled uses GrayText */}
+            (inherited by the thumb and icons) and uses system colors: on is a Highlight track, disabled uses GrayText, and the focus outline is Highlight */}
         <span className={cn("relative block rounded-full border transition-colors [input:focus-visible~&]:outline-2 [input:focus-visible~&]:outline-accent [input:focus-visible~&]:outline-offset-2",
-            "forced-colors:forced-color-adjust-none forced-colors:[input:focus-visible~&]:outline-[CanvasText] forced-colors:[input:disabled~&]:border-[GrayText]",
+            "forced-colors:forced-color-adjust-none forced-colors:[input:focus-visible~&]:outline-[Highlight] forced-colors:[input:disabled~&]:border-[GrayText]",
             getSwitchSizeClasses(size),
             isChecked
                 ? "bg-accent border-transparent forced-colors:bg-[Highlight] forced-colors:border-[Highlight] forced-colors:[input:disabled~&]:bg-[GrayText]"

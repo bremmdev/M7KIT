@@ -5,7 +5,7 @@ import { Button } from "./Button";
  * Button component that can be used as a button or a link. It also support custom Link components like Next.js Link or TanStack Router Link.
  *
  * ## Accessibility
- * - In forced colors mode (Windows high contrast), the `primary` and `cta` variants get a border to keep their shape, and disabled or loading buttons use `GrayText` instead of reduced opacity.
+ * - In forced colors mode (Windows high contrast), the `primary` and `cta` variants get a border to keep their shape, disabled or loading buttons use `GrayText` instead of reduced opacity, and hover and focus show in `Highlight`.
  *
  * ## Usage
  *
