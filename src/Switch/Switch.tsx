@@ -1,7 +1,9 @@
 import React from "react";
 import { SwitchProps } from "./Switch.types";
 import { cn } from "../utils/cn";
-import { getSwitchSizeClasses, getSwitchThumbSizeClasses, getSwitchThumbIndicatorsClasses, useSwitchDevWarnings, useSwitchFormReset } from "./Switch.utils";
+import { getSwitchSizeClasses, getSwitchThumbSizeClasses, getSwitchThumbIndicatorsClasses } from "./Switch.utils";
+import { useCheckboxFormReset } from "../shared/Toggle/useCheckboxFormReset";
+import { useCheckedDevWarnings } from "../shared/Toggle/useCheckedDevWarnings";
 import { useMergedRef } from "../utils/hooks/useMergedRef";
 import { announce, ensureLiveRegion } from "../utils/announce";
 import { Check, X, Play, Pause, Lock } from "lucide-react";
@@ -10,7 +12,7 @@ export const Switch = (props: SwitchProps) => {
     const { "aria-describedby": ariaDescribedBy, checked, className, defaultChecked, disabled, onChange, onCheckedChange,
         readOnly, readOnlyMessage = "Read only", ref, size = "md", style, thumbIndicators = undefined, ...rest } = props;
 
-    useSwitchDevWarnings(props);
+    useCheckedDevWarnings("Switch", props);
 
     const isControlled = checked !== undefined;
 
@@ -34,7 +36,7 @@ export const Switch = (props: SwitchProps) => {
         }
     }, [readOnly]);
 
-    useSwitchFormReset(inputRef, {
+    useCheckboxFormReset(inputRef, {
         isChecked,
         isControlled,
         defaultChecked,
