@@ -255,13 +255,12 @@ export const AllComponentsGallery = () => (
     </Section>
 
     <Section title="GalleryStack and Marquee">
-      <div className="relative h-44 w-44">
-        <GalleryStack>
-          {images.map((src, idx) => (
-            <img src={src} alt="" width={120} height={120} key={idx} />
-          ))}
-        </GalleryStack>
-      </div>
+      {/* GalleryStack sizes itself, with room for the rotated images and the buttons: a narrower parent shrinks the images */}
+      <GalleryStack>
+        {images.map((src, idx) => (
+          <img src={src} alt="" width={200} height={200} className="size-50 object-cover" key={idx} />
+        ))}
+      </GalleryStack>
       <Marquee className="w-96" pauseOnHover={false}>
         {["First", "Second", "Third", "Fourth"].map((item) => (
           <span key={item}>{item}</span>
