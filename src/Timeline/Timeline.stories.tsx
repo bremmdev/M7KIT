@@ -16,6 +16,8 @@ import { CircleDashed } from "lucide-react";
  *
  * - `lineClassName`: class name for overriding the styles for the line connecting the items.
  * - `bullet`: custom bullet for the timeline item, if not provided, a default bullet (circle) will be rendered.
+ *   Forced colors mode (Windows high contrast) keeps an icon's own color, so color an icon bullet with a `text-*` class and add
+ *   `forced-colors:text-[CanvasText]`, as in the Custom Bullet story, instead of passing a fixed color.
  * - `Timeline` and `Timeline.Item` can be styled using the `className` prop.
  *
  * ## Usage
@@ -66,15 +68,24 @@ export const CustomBullet: Story = {
   args: {},
   render: (props) => (
     <Timeline {...props}>
-      <Timeline.Item lineClassName="bg-accent" bullet={<CircleDashed color="var(--color-accent)" size={24} />}>
+      <Timeline.Item
+        lineClassName="bg-accent"
+        bullet={<CircleDashed className="text-accent forced-colors:text-[CanvasText]" size={24} />}
+      >
         <h2 className="text-xl font-bold -my-[2px]">Heading 1</h2>
         <p>Content 1</p>
       </Timeline.Item>
-      <Timeline.Item bullet={<CircleDashed color="var(--color-accent)" size={24} />} lineClassName="bg-accent">
+      <Timeline.Item
+        bullet={<CircleDashed className="text-accent forced-colors:text-[CanvasText]" size={24} />}
+        lineClassName="bg-accent"
+      >
         <h2 className="text-xl font-bold -my-[2px]">Heading 2</h2>
         <img src={image} width="200" height="300" alt="image" className="my-2" />
       </Timeline.Item>
-      <Timeline.Item bullet={<CircleDashed color="var(--color-accent)" size={24} />} lineClassName="bg-accent">
+      <Timeline.Item
+        bullet={<CircleDashed className="text-accent forced-colors:text-[CanvasText]" size={24} />}
+        lineClassName="bg-accent"
+      >
         <h2 className="text-xl font-bold -my-[2px]">Heading 3</h2>
         <p>Content 3</p>
       </Timeline.Item>

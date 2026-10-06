@@ -1,13 +1,13 @@
 /**
  * M7KIT Theme Configuration
- * 
+ *
  * Import this file in your Tailwind CSS v4 project to get access to all
  * m7kit utility classes (colors, animations, etc.)
- * 
+ *
  * Usage in your CSS:
  *   @import "tailwindcss";
  *   @import "m7kit/theme";
- * 
+ *
  * This gives you access to utilities like:
  *   - bg-accent, text-accent, border-l-accent, etc.
  *   - bg-surface, bg-surface-subtle, bg-surface-muted
@@ -28,8 +28,8 @@
   /* slate-100 */
   --color-surface-strong: oklch(92.9% 0.013 255.508);
   /* slate-200 */
-  --color-neutral: oklch(70.4% 0.04 256.788);
-  /* slate-400 */
+  --color-neutral: oklch(55.4% 0.046 257.417);
+  /* slate-500: at least 3:1 against the background and every surface token (WCAG 1.4.11) */
   --color-foreground: oklch(20.8% 0.042 265.755);
   /* slate-900 */
   --color-foreground-inverse: oklch(1 0 0);
@@ -52,7 +52,6 @@
   --animate-indeterminate: indeterminate 1.5s ease-out infinite;
 
   @keyframes blink {
-
     0%,
     100% {
       opacity: 1;

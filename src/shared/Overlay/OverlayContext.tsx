@@ -33,12 +33,7 @@ type OverlayProviderProps = {
   fade: boolean;
 };
 
-export const OverlayProvider = ({
-  children,
-  open: controlledOpen,
-  onOpenChange,
-  fade
-}: OverlayProviderProps) => {
+export const OverlayProvider = ({ children, open: controlledOpen, onOpenChange, fade }: OverlayProviderProps) => {
   const [internalOpen, setInternalOpen] = React.useState(false);
   const [triggerWidth, setTriggerWidth] = React.useState(0);
   const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -72,7 +67,7 @@ export const OverlayProvider = ({
     triggerId,
     headingId,
     overlayTriggerRef: overlayTriggerRef as React.RefObject<HTMLButtonElement>,
-    overlayContentRef: overlayContentRef as React.RefObject<HTMLDivElement>,
+    overlayContentRef: overlayContentRef as React.RefObject<HTMLDivElement>
   };
 
   return <OverlayContext.Provider value={contextValue}>{children}</OverlayContext.Provider>;

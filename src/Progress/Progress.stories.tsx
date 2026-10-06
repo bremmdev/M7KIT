@@ -23,6 +23,7 @@ import { ProgressProps } from "./Progress.types";
  * - **Name**: Provide either `label` (uses `aria-labelledby` with the visible label) or `aria-label` when there is no visible label. Omitting both logs a development warning as this does not meet accessibility standards.
  * - **Determinate values**: `aria-valuenow` is set to the clamped value; `aria-valuetext` comes from `getValueText` or the default percentage string. The duplicate value shown on the right is marked `aria-hidden="true"` so screen readers rely on `aria-valuetext`.
  * - **Indeterminate**: When `value` is omitted or `null`, `aria-valuenow` and `aria-valuetext` are omitted so assistive technologies can treat the state as indeterminate per platform conventions.
+ * - **Forced colors**: In forced colors mode (Windows high contrast), the fill uses `Highlight`, like native progress bars, and the `fill` track gets a `CanvasText` border.
  *
  * ## Usage
  * ```tsx
@@ -54,102 +55,102 @@ import { ProgressProps } from "./Progress.types";
  */
 
 const meta: Meta<typeof Progress> = {
-    component: Progress,
-    title: "Components/Progress",
-    tags: ["autodocs"]
+  component: Progress,
+  title: "Components/Progress",
+  tags: ["autodocs"]
 };
 export default meta;
 
 type Story = StoryObj<typeof Progress>;
 
 const render = (props: ProgressProps) => (
-    <div className="relative flex justify-center w-full items-center my-8">
-        <Progress {...props} />
-    </div>
+  <div className="relative flex justify-center w-full items-center my-8">
+    <Progress {...props} />
+  </div>
 );
 
 export const Default: Story = {
-    args: {
-        value: 50,
-        max: 100,
-        className: "max-w-sm"
-    },
-    render: (props) => (
-        <div className="flex flex-col gap-4 items-center my-8">
-            <Progress {...props} variant="fill" label="Fill" />
-            <Progress {...props} variant="outline" label="Outline" />
-        </div>
-    )
+  args: {
+    value: 50,
+    max: 100,
+    className: "max-w-sm"
+  },
+  render: (props) => (
+    <div className="flex flex-col gap-4 items-center my-8">
+      <Progress {...props} variant="fill" label="Fill" />
+      <Progress {...props} variant="outline" label="Outline" />
+    </div>
+  )
 };
 
 export const Sizes: Story = {
-    args: {
-        className: "max-w-sm",
-        variant: "fill",
-        value: 50
-    },
-    render: (props) => (
-        <div className="flex flex-col gap-4 items-center my-8">
-            <Progress {...props} size="sm" aria-label="Small progress bar" />
-            <Progress {...props} size="md" aria-label="Medium progress bar" />
-            <Progress {...props} size="lg" aria-label="Large progress bar" />
-        </div>
-    )
+  args: {
+    className: "max-w-sm",
+    variant: "fill",
+    value: 50
+  },
+  render: (props) => (
+    <div className="flex flex-col gap-4 items-center my-8">
+      <Progress {...props} size="sm" aria-label="Small progress bar" />
+      <Progress {...props} size="md" aria-label="Medium progress bar" />
+      <Progress {...props} size="lg" aria-label="Large progress bar" />
+    </div>
+  )
 };
 
 export const NotRounded: Story = {
-    args: {
-        className: "max-w-sm",
-        "aria-label": "Not rounded progress bar",
-        value: 50,
-        rounded: false,
-        variant: "fill"
-    },
-    render: (props) => render(props)
+  args: {
+    className: "max-w-sm",
+    "aria-label": "Not rounded progress bar",
+    value: 50,
+    rounded: false,
+    variant: "fill"
+  },
+  render: (props) => render(props)
 };
 
 export const StepProgressWithGetValueText: Story = {
-    args: {
-        className: "max-w-sm",
-        value: 3,
-        max: 5,
-        "aria-label": "Step progress bar",
-        getValueText: (value, _, max) => `${value} of ${max} steps completed`,
-    },
-    render: (props) => render(props)
+  args: {
+    className: "max-w-sm",
+    value: 3,
+    max: 5,
+    "aria-label": "Step progress bar",
+    getValueText: (value, _, max) => `${value} of ${max} steps completed`
+  },
+  render: (props) => render(props)
 };
 
 export const dynamicProgress: Story = {
-    args: {
-        className: "max-w-sm",
-        max: 100,
-        "aria-label": "Dynamic progress bar"
-    },
-    render: (props) => {
-        const max = props.max ?? 100;
-        const [value, setValue] = React.useState(50);
+  args: {
+    className: "max-w-sm",
+    max: 100,
+    "aria-label": "Dynamic progress bar"
+  },
+  render: (props) => {
+    const max = props.max ?? 100;
+    const [value, setValue] = React.useState(50);
 
-        React.useEffect(() => {
-            const interval = setInterval(() => {
-                setValue((prev) => {
-                    const p = prev ?? 0;
-                    // After hitting max, wrap back to 50 on the next tick
-                    if (p >= max) return 50;
-                    return Math.min(p + 5, max);
-                });
-            }, 1000);
+    React.useEffect(() => {
+      const interval = setInterval(() => {
+        setValue((prev) => {
+          const p = prev ?? 0;
+          // After hitting max, wrap back to 50 on the next tick
+          if (p >= max) return 50;
+          return Math.min(p + 5, max);
+        });
+      }, 1000);
 
-            return () => clearInterval(interval);
-        }, [max]);
+      return () => clearInterval(interval);
+    }, [max]);
 
-        return render({ ...props, value });
-    }
+    return render({ ...props, value });
+  }
 };
 
 export const Indeterminate: Story = {
-    args: {
-        className: "max-w-sm",
-        variant: "fill"
-    },
-    render: (props) => render({ ...props, value: undefined })
+  args: {
+    className: "max-w-sm",
+    variant: "fill"
+  },
+  render: (props) => render({ ...props, value: undefined })
 };

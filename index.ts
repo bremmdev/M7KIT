@@ -11,7 +11,12 @@ export type { DiamondGridProps } from "./src/DiamondGrid/DiamondGrid.types";
 export { Drawer, DrawerRoot, DrawerContent, DrawerTrigger } from "./src/Drawer";
 export type { DrawerProps, DrawerContentProps, DrawerTriggerProps } from "./src/Drawer/Drawer.types";
 export { FolderStructure } from "./src/FolderStructure";
-export type { FolderStructureProps, FolderStructureType, FileType, FolderType } from "./src/FolderStructure/FolderStructure.types";
+export type {
+  FolderStructureProps,
+  FolderStructureType,
+  FileType,
+  FolderType
+} from "./src/FolderStructure/FolderStructure.types";
 export { GalleryStack } from "./src/GalleryStack";
 export type { GalleryStackProps } from "./src/GalleryStack/Gallery.types";
 export { ImageShowcase } from "./src/ImageShowcase";

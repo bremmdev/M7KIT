@@ -17,7 +17,7 @@ const FOCUSABLE_SELECTOR = [
   "audio[controls]",
   "video[controls]",
   '[tabindex]:not([tabindex="-1"])',
-  "[contenteditable]",
+  "[contenteditable]"
 ].join(", ");
 
 /**
@@ -75,7 +75,7 @@ export function useFocusTrap<T extends HTMLElement>(
     initialFocusElement = "first",
     autoRestoreFocus = true,
     loop = true,
-    inert = false,
+    inert = false
   } = options || {};
 
   // Handle inert attribute on sibling content for screen reader containment
@@ -121,7 +121,7 @@ export function useFocusTrap<T extends HTMLElement>(
 
     // When condition becomes false, restore focus and reset
     if (!container || !condition) {
-      if (autoRestoreFocus && previousActiveElement.current && previousActiveElement.current.isConnected) {
+      if (autoRestoreFocus && previousActiveElement.current?.isConnected) {
         previousActiveElement.current.focus();
         previousActiveElement.current = null; // Clear after restore
       }
@@ -154,7 +154,7 @@ export function useFocusTrap<T extends HTMLElement>(
           } else {
             el.current?.focus();
           }
-        } else if (initialFocusElement && initialFocusElement.current) {
+        } else if (initialFocusElement?.current) {
           initialFocusElement.current.focus();
         }
       };

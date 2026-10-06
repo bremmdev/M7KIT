@@ -54,12 +54,7 @@ type TooltipProviderInnerProps = {
   openTimerRef: React.RefObject<ReturnType<typeof setTimeout> | null>;
 };
 
-const TooltipProviderInner = ({
-  children,
-  hoverDelay,
-  touchBehavior,
-  openTimerRef
-}: TooltipProviderInnerProps) => {
+const TooltipProviderInner = ({ children, hoverDelay, touchBehavior, openTimerRef }: TooltipProviderInnerProps) => {
   const overlay = useOverlay();
 
   const contextValue: TooltipContextType = {

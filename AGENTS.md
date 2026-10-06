@@ -11,12 +11,14 @@ design-system consistency.
 - Color contrast MUST meet WCAG requirements.
 - Components MUST be screen-reader compatible (NVDA, VoiceOver).
 
+## Accessibility guidelines
+
+Read docs/ACCESSIBILITY.md before changing component styles. It records the choices this
+library has made for color contrast and forced colors (Windows high contrast), and how to
+implement and test them.
+
 ## Accessibility resources
 
 - WCAG 2.2: https://www.w3.org/TR/WCAG22/
 - WAI-ARIA Authoring Practices: https://www.w3.org/WAI/ARIA/apg/patterns/
 - MDN Accessibility Guides: https://developer.mozilla.org/en-US/docs/Web/Accessibility
-
-## Release workflow
-
-For details about the Git workflow for deployment and release, see docs/DEPLOYMENT.md

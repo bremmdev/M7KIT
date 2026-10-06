@@ -1,3 +1,23 @@
+# 0.62.0 - 2026-10-06
+
+- Fix components in Windows high contrast mode (forced colors), following the approach of `Switch` and `ThemeToggle`:
+  - `Progress`: the fill no longer disappears; it uses `Highlight`, and the `fill` track gets a border
+  - `Button`: `primary` and `cta` get a border to keep their shape, disabled and loading buttons use `GrayText` instead of reduced opacity, the loading spinner stays visible, and the decorative `cta` shine is hidden
+  - `SegmentedControl`: the selected button uses `HighlightText` on `Highlight`, instead of only a border
+  - `Rating`: shapes use `CanvasText` instead of their fixed colors, so `circle-black` no longer disappears on a dark theme and the other variants don't clash with a light one
+  - `OTPInput`: the cursor no longer disappears, and the active slot gets a `Highlight` border
+  - `Timeline` and `FolderStructure`: the connecting lines no longer disappear
+  - `Drawer`: the close icon no longer disappears, and the drawer gets a border to show its edge
+  - `GalleryStack`: the navigation arrows no longer disappear, and use `GrayText` while disabled
+  - `SortableList`: the Edit Mode button gets a border, and the dragged item a `Highlight` border and outline
+  - `Card`: keeps its border in dark mode (transparent there), so its edge stays visible
+  - `Tabs`: the underline of the selected tab uses `Highlight`, instead of a color that changed after clicking a tab
+  - The `Timeline` Custom Bullet story colors its icons with a class and a `CanvasText` override, instead of an accent color forced colors keep
+  - Focus outlines are `Highlight`, the Windows focus color, in every component, including the `focus-ring` utilities in `m7kit/css`, `Switch` and `ThemeToggle`
+  - Hover shows as a `Highlight` border or icon on `Button`, the `SortableList` Edit Mode button, the `Popover` trigger, the `GalleryStack` arrows and the `Drawer` close button, whose normal hover is a background change
+- Fix the `OTPInput` slot background and the `FolderStructure` container background, which used a misspelled class (`bg-surface-suble`) and were never applied
+- Darken the light mode `neutral` color from `slate-400` to `slate-500` (the dark mode value), so borders and lines that use it have at least 3:1 contrast (WCAG 1.4.11) against the background and every surface token. This affects `OTPInput`, `Popover`, `Tooltip`, `Card`, `Tabs`, `Timeline`, `Tierlist`, `SortableList`, `Breadcrumb` and `FolderStructure`, and your own `neutral` classes
+
 # 0.61.0 - 2026-10-04
 
 - Apply the `Switch` accessibility improvements to `ThemeToggle`:

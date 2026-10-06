@@ -48,12 +48,12 @@ const TierListItems = (props: TierListItemsProps) => {
     if (targetTierIdx === -1) return;
 
     //provide the rank index and the item id to the parent component
-    onTouchDrop(targetTierIdx, parseInt((e.target as HTMLElement).dataset.id!));
+    onTouchDrop(targetTierIdx, parseInt((e.target as HTMLElement).dataset.id!, 10));
   }
 
   function handleOnUnrankDrop(e: React.DragEvent<HTMLDivElement>) {
     const draggedItemId = e.dataTransfer.getData("text/plain");
-    onUnrankDrop(parseInt(draggedItemId));
+    onUnrankDrop(parseInt(draggedItemId, 10));
   }
 
   if (!Array.isArray(children)) {
@@ -130,7 +130,7 @@ const TierListTier = (props: TierListTierProps) => {
   function handleTouchDrop(e: React.TouchEvent<HTMLDivElement>) {
     const { isUnranking, targetTierIdx } = handleTouchEnd(e);
 
-    const itemId = parseInt((e.target as HTMLElement).dataset.id!);
+    const itemId = parseInt((e.target as HTMLElement).dataset.id!, 10);
 
     //fire unranking callback if the item was dropped back to the list
     if (isUnranking) {
@@ -232,7 +232,7 @@ export const Tierlist = (props: TierlistProps) => {
   function handleDropInTier(rankIdx: number, e: React.DragEvent<HTMLDivElement>) {
     //get the data-id attribute of the dragged element
     const draggedItemId = e.dataTransfer.getData("text/plain");
-    rankItems(rankIdx, parseInt(draggedItemId));
+    rankItems(rankIdx, parseInt(draggedItemId, 10));
   }
 
   function handleTouchDrop(rankIdx: number, itemId: number) {

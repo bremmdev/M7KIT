@@ -9,6 +9,7 @@ import { Rating } from "./Rating";
  * - Supports `Star`, `Circle` and `Heart` variants
  * - Supports "half" rating by passing a decimal value to the `value` prop. The passed value is rounded to the nearest half.
  * - Supports custom sizes
+ * - In forced colors mode (Windows high contrast), every variant uses `CanvasText` for filled shapes and a `CanvasText` outline for empty ones, so they stay visible in any theme
  *
  * ## Usage
  * ```

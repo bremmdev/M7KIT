@@ -7,10 +7,12 @@ export const Card = <T extends React.ElementType = "div">(props: CardProps<T>) =
 
   const imageStyle = imageHeight ? { height: imageHeight } : {};
 
-  // If the card has an image, add a border to the bottom of the card and round the bottom corners
+  // If the card has an image, add a border to the bottom of the card and round the bottom corners.
+  // In dark mode the border is transparent instead of removed: forced colors (Windows high contrast) replace the surface
+  // with Canvas, and the border, which they make visible, is the only thing that shows the card's edge
   const borderClass = image
-    ? "border border-neutral dark:border-0 border-t-0 rounded-b-xl"
-    : "border border-neutral dark:border-0 rounded-xl";
+    ? "border border-neutral dark:border-transparent border-t-0 rounded-b-xl"
+    : "border border-neutral dark:border-transparent rounded-xl";
 
   return (
     <Component className={cn("w-fit text-foreground bg-surface rounded-xl overflow-hidden", className)} {...rest}>

@@ -13,11 +13,13 @@ const DrawerClose = () => {
   return (
     <div className={cn("sticky left-0 right-0 py-3 pr-6 top-0 flex bg-inherit items-center justify-end")}>
       <button
-        className="focus-ring-inner hover:bg-surface-muted rounded-md transition-colors p-1"
+        className="group focus-ring-inner hover:bg-surface-muted rounded-md transition-colors p-1"
         onClick={close}
         aria-label="close drawer"
       >
-        <X className="size-7 stroke-foreground" />
+        {/* The explicit stroke is kept in forced colors (Windows high contrast) and could vanish against the forced background.
+            The hover background is replaced there, so hover turns the icon Highlight instead */}
+        <X className="size-7 stroke-foreground forced-colors:stroke-[ButtonText] forced-colors:group-hover:stroke-[Highlight]" />
       </button>
     </div>
   );
@@ -82,12 +84,14 @@ export const Drawer = (props: DrawerProps) => {
     }
   }, [isOpen]);
 
+  // Forced colors (Windows high contrast) replace the surface and the backdrop with Canvas, so the drawer gets a border there to show its edge.
+  // outline-hidden still draws a transparent outline there, which is made visible, so it gets the Highlight focus color
   return (
     <dialog
       className={cn(
         `${getPositionClasses(
           placement
-        )} fixed backdrop:bg-black/70 focus-visible:outline-hidden focus:outline-hidden bg-surface`,
+        )} fixed backdrop:bg-black/70 focus-visible:outline-hidden focus:outline-hidden forced-colors:focus:outline-[Highlight] bg-surface forced-colors:border`,
         className
       )}
       ref={drawerRef}
@@ -104,6 +108,7 @@ export const Drawer = (props: DrawerProps) => {
 export const DrawerRoot = ({ children }: { children: Array<React.ReactElement<any>> }) => {
   return (
     <DrawerProvider>
+      {/* biome-ignore lint/complexity/noUselessFragments: DrawerProvider takes a single element, not an array */}
       <>{children}</>
     </DrawerProvider>
   );

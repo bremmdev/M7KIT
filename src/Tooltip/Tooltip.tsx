@@ -71,9 +71,7 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
   } = useTooltip();
 
   // Track the last pointer type to determine if the blur event is from a touch or mouse
-  const lastPointerTypeRef = React.useRef<
-    "mouse" | "touch" | "pen" | "keyboard" | null
-  >(null);
+  const lastPointerTypeRef = React.useRef<"mouse" | "touch" | "pen" | "keyboard" | null>(null);
 
   // Track last touch interaction time + keyboard navigation detection
   const lastTouchTimeRef = React.useRef<number>(0);

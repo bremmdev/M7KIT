@@ -1,10 +1,10 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
-import path from "path";
-import { fileURLToPath } from "url";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import tailwindcss from "@tailwindcss/vite";
-import { copyFileSync } from "fs";
+import { copyFileSync } from "node:fs";
 
 //  __dirname isn't available in ES module environments, so we need to use fileURLToPath to get the directory name
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -21,7 +21,15 @@ export default defineConfig({
       fileName: () => "index.es.js"
     },
     rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime", "clsx", "tailwind-merge", "lucide-react"]
+      external: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+        "clsx",
+        "tailwind-merge",
+        "lucide-react"
+      ]
     },
     sourcemap: false,
     //Clears the output directory before building.

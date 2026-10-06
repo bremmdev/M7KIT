@@ -135,7 +135,7 @@ export const SortableList = ({
     setDragStartIndex(null);
 
     // Notify parent
-    onReorder && onReorder(sortedItems.map((item) => item.value));
+    onReorder?.(sortedItems.map((item) => item.value));
   }
 
   function handleDragEnd() {
@@ -225,7 +225,7 @@ export const SortableList = ({
         sortedItems[draggedItemIndex].label
       } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
       setLastAnnouncement(message);
-      onReorder && onReorder(sortedItems.map((item) => item.value));
+      onReorder?.(sortedItems.map((item) => item.value));
     }
 
     setDraggedItemIndex(null);
@@ -255,7 +255,10 @@ export const SortableList = ({
           ref={editModeButtonRef}
           title="Use arrow keys to reorder items"
           className={cn(
-            "shrink-0 cursor-pointer relative flex gap-2 border-none justify-center items-center px-4 py-2 bg-foreground text-foreground-inverse rounded-md w-fit transition-colors focus-ring hover:bg-foreground/90"
+            "shrink-0 cursor-pointer relative flex gap-2 border-none justify-center items-center px-4 py-2 bg-foreground text-foreground-inverse rounded-md w-fit transition-colors focus-ring hover:bg-foreground/90",
+            // Forced colors (Windows high contrast) replace the fill with ButtonFace, so a border keeps the button's shape,
+            // and hover, normally a background change, shows as a Highlight border
+            "forced-colors:border forced-colors:border-solid forced-colors:hover:border-[Highlight]"
           )}
         >
           {editMode ? `Exit Edit Mode` : "Enter Edit Mode"}
@@ -284,7 +287,10 @@ export const SortableList = ({
             className={cn(
               "flex items-center gap-4 px-4 py-2 bg-surface-subtle border border-neutral rounded-md cursor-grab",
               {
-                "border-accent bg-surface-muted": index === draggedItemIndex && draggedItemIndex !== null
+                // In forced colors both items' colors are replaced, so the dragged item gets a Highlight border and outline to stay distinct.
+                // The outline makes it thicker without shifting the layout mid-drag
+                "border-accent bg-surface-muted forced-colors:border-[Highlight] forced-colors:outline-2 forced-colors:outline-[Highlight]":
+                  index === draggedItemIndex && draggedItemIndex !== null
               }
             )}
             onDragOver={(e) => handleDragOver(e, index)}

@@ -6,6 +6,7 @@ export type ButtonVariant = "primary" | "secondary" | "cta";
 // For custom components (Next Link, TanStack Router Link, etc.)
 type PolymorphicProps<
   E extends AllowedElements | React.ComponentType<any>, // the element type to be used
+  // biome-ignore lint/complexity/noBannedTypes: an empty default lets components skip OwnProps
   OwnProps = {} // our custom props to be passed to the component
 > = OwnProps & {
   as?: E;
