@@ -29,7 +29,9 @@ export const SegmentedControlButton = (props: SegmentedControlButtonProps) => {
   // Forced colors (Windows high contrast) replace the selected background, so the selected button uses Highlight there.
   // It opts out of color adjustment, because the browser would draw a Canvas backplate behind the text on the Highlight fill,
   // so every color is a system color: HighlightText for the text and the focus outline, and the hover background repeats Highlight.
-  // The focus outline moves further in, so it is drawn on the fill only: at -1px it would blend with the border and the page
+  // The focus outline moves further in, so it is drawn on the fill only: at -1px it would blend with the border and the page.
+  // The hover background of the other buttons is replaced too, so hover shows as a Highlight border there, like React Spectrum.
+  // They get the border in Canvas, invisible on the page, so hover doesn't change their size
   return (
     <li className="[&:first-of-type>button]:rounded-l-md [&:last-of-type>button]:rounded-r-md">
       <button
@@ -37,7 +39,9 @@ export const SegmentedControlButton = (props: SegmentedControlButtonProps) => {
           "relative px-4 py-2 bg-surface-muted hover:bg-surface-muted/70 transition-colors border-transparent text-foreground focus-ring-neutral-inner focus-visible:z-10 focus-visible:rounded-md",
           {
             "border border-foreground font-medium rounded-md bg-surface-subtle hover:bg-surface-subtle forced-colors:forced-color-adjust-none forced-colors:bg-[Highlight] forced-colors:hover:bg-[Highlight] forced-colors:text-[HighlightText] forced-colors:border-[Highlight] forced-colors:focus-visible:outline-[HighlightText] forced-colors:focus-visible:-outline-offset-4":
-              selected === buttonValue
+              selected === buttonValue,
+            "forced-colors:border forced-colors:border-[Canvas] forced-colors:hover:border-[Highlight]":
+              selected !== buttonValue
           },
           className
         )}

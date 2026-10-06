@@ -8,6 +8,9 @@ import { FolderStructure } from "./FolderStructure";
  * The component will recursively render the children of the data object. The component accepts an indentSize prop which is a number that represents the number of indentations for each level.
  * The component accepts a className prop which can be used to override the default styles.
  *
+ * ## Accessibility
+ * - In forced colors mode (Windows high contrast), the guide lines use `CanvasText`, and folder names turn `Highlight` and get an underline on hover.
+ *
  *
  * ## Usage
  * ```

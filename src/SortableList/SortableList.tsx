@@ -37,7 +37,7 @@ export const SortableList = ({
   className,
   handlePosition = "start",
   items,
-  onReorder = () => {},
+  onReorder = () => { },
   title = "",
   titleElement = "h2",
   ...rest
@@ -125,9 +125,8 @@ export const SortableList = ({
 
     // only announce if dropped inside a valid zone AND order changed
     if (dragStartIndex !== null && draggedItemIndex !== null && dragStartIndex !== draggedItemIndex) {
-      const message = `Moved ${
-        sortedItems[draggedItemIndex].label
-      } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
+      const message = `Moved ${sortedItems[draggedItemIndex].label
+        } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
       setLastAnnouncement(message);
     }
 
@@ -221,9 +220,8 @@ export const SortableList = ({
 
   function handleTouchEnd() {
     if (dragStartIndex !== null && draggedItemIndex !== null && dragStartIndex !== draggedItemIndex) {
-      const message = `Moved ${
-        sortedItems[draggedItemIndex].label
-      } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
+      const message = `Moved ${sortedItems[draggedItemIndex].label
+        } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
       setLastAnnouncement(message);
       onReorder?.(sortedItems.map((item) => item.value));
     }
@@ -251,14 +249,17 @@ export const SortableList = ({
           </TitleElement>
         )}
         <button
+          type="button"
           onClick={handleEditModeSwitch}
           ref={editModeButtonRef}
           title="Use arrow keys to reorder items"
           className={cn(
             "shrink-0 cursor-pointer relative flex gap-2 border-none justify-center items-center px-4 py-2 bg-foreground text-foreground-inverse rounded-md w-fit transition-colors focus-ring hover:bg-foreground/90",
-            // Forced colors (Windows high contrast) replace the fill with ButtonFace, so a border keeps the button's shape,
-            // and hover, normally a background change, shows as a Highlight border
-            "forced-colors:border forced-colors:border-solid forced-colors:hover:border-[Highlight]"
+            // Forced colors (Windows high contrast) replace the fill with ButtonFace, so a border keeps the button's shape.
+            // Hover, normally a background change, inverts there, like Fluent UI: Highlight text, icon and border on HighlightText.
+            // It opts out on hover only, so every color is a system color
+            "forced-colors:border forced-colors:border-solid",
+            "forced-colors:hover:forced-color-adjust-none forced-colors:hover:border-[Highlight] forced-colors:hover:bg-[HighlightText] forced-colors:hover:text-[Highlight]"
           )}
         >
           {editMode ? `Exit Edit Mode` : "Enter Edit Mode"}

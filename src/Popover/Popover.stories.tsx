@@ -22,6 +22,7 @@ import { action } from "storybook/actions";
  * - When used with the `PopoverTitle` component, the content will be labelled by the title.
  * - When used without the `PopoverTitle` component, consider using an aria-label on the content container to describe the content.
  * - Focus management is handled by the `useFocusTrap` hook. It focuses the first focusable element within the content or the container itself if no focusable elements are found. By default, the focus is not trapped within the Popover content, but you can enable it by setting the `trapFocus` prop to true.
+ * - In forced colors mode (Windows high contrast), the trigger inverts on hover: `Highlight` icon and border on `HighlightText`.
  *
  * ## Placement
  * The Popover placement can be customized using the `placement` prop. The Popover will be placed based on the following strategy:

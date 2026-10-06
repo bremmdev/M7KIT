@@ -89,6 +89,9 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
         onKeyDown={handleMenuKeydown}
         className={cn(
           "w-max absolute top-8 bg-surface-subtle left-0 border border-neutral rounded-md flex flex-col [&_a]:no-underline [&_a]:py-2 [&_a]:px-4 [&_a:hover]:rounded-md [&_a]:focus-ring-inner [&_a]:block [&_a:focus]:relative",
+          // Forced colors (Windows high contrast) replace the hover color of the items
+          "forced-colors:[&_a:hover]:forced-color-adjust-none forced-colors:[&_a:hover]:bg-[Highlight] forced-colors:[&_a:hover]:text-[HighlightText]",
+          "forced-colors:[&_a:focus-visible]:forced-color-adjust-none forced-colors:[&_a:focus-visible]:bg-[Highlight] forced-colors:[&_a:focus-visible]:text-[HighlightText] forced-colors:[&_a:focus-visible]:outline-[HighlightText] forced-colors:[&_a:focus-visible]:-outline-offset-4",
           {
             hidden: !show
           }

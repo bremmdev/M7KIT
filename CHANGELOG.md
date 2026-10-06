@@ -1,3 +1,13 @@
+# 0.63.0 - 2026-10-06
+
+- Make hover easier to see in Windows high contrast mode (forced colors), following Fluent UI and React Spectrum:
+  - `Button`: the `primary` and `cta` variants stay filled (`ButtonFace` on `ButtonText`, `HighlightText` on `Highlight` on hover) instead of looking the same as `secondary`. The `secondary` variant inverts on hover (`Highlight` text and border on `HighlightText`) instead of only turning its border `Highlight`. Disabled and loading buttons lose the fill and show no hover
+  - The `Popover` trigger and the `SortableList` Edit Mode button invert on hover the same way
+  - `Tabs`: unselected tabs get a `Highlight` underline on hover
+  - `SegmentedControl`: unselected buttons get a `Highlight` border on hover
+  - `Breadcrumb`: a hovered or focused item in a `BreadcrumbMenu` uses `HighlightText` on `Highlight`
+  - `FolderStructure`: folder names turn `Highlight` and get an underline on hover
+
 # 0.62.0 - 2026-10-06
 
 - Fix components in Windows high contrast mode (forced colors), following the approach of `Switch` and `ThemeToggle`:

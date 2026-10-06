@@ -35,7 +35,7 @@ import { Cat, Dog, Fish, Rabbit, Squirrel } from "lucide-react";
  * - Escape key exits Edit Mode and returns focus to the toggle button.
  * - Hidden instructions (`aria-describedby`) explain how to operate the list in edit mode.
  * - Focus trap within the list when in Edit Mode to prevent focus loss.
- * - In forced colors mode (Windows high contrast), the Edit Mode button gets a border that turns `Highlight` on hover, and the dragged item a `Highlight` border and outline.
+ * - In forced colors mode (Windows high contrast), the Edit Mode button gets a border and inverts on hover (`Highlight` text, icon and border on `HighlightText`), and the dragged item gets a `Highlight` border and outline.
  *
  * ## Usage
  * ```tsx

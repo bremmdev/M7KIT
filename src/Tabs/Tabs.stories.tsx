@@ -11,7 +11,7 @@ import { Tabs } from "./Tabs";
  * - Supports keyboard navigation
  * - allows a default selected tab
  * - allows controlled and uncontrolled usage
- * - In forced colors mode (Windows high contrast), the underline of the selected tab uses `Highlight`
+ * - In forced colors mode (Windows high contrast), the underline of the selected tab uses `Highlight`, and unselected tabs get a `Highlight` underline on hover
  *
  * ## Usage
  *

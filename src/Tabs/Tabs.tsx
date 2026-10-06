@@ -120,15 +120,19 @@ const Tab = ({ className, label, children }: TabProps) => {
   };
 
   // Forced colors (Windows high contrast) replace the accent of the selected tab's underline, and Chromium paints it
-  // in CanvasText or Highlight depending on how the tab was selected, so Highlight, the selection color, is set explicitly
+  // in CanvasText or Highlight depending on how the tab was selected, so Highlight, the selection color, is set explicitly.
+  // The hover background is replaced too, so a hovered tab shows a Highlight underline there, like Fluent UI. Unselected tabs
+  // get the underline in Canvas, invisible on the page, so hover doesn't change their height
+  const isSelected = activeTab === label;
+
   return (
     <button
       role="tab"
       type="button"
       id={`tab-${label}`}
       aria-controls={`panel-${label}`}
-      aria-selected={activeTab === label}
-      tabIndex={activeTab === label ? 0 : -1}
+      aria-selected={isSelected}
+      tabIndex={isSelected ? 0 : -1}
       onClick={handleOnClick}
       data-tablabel={label}
       ref={tabRef}
@@ -136,7 +140,8 @@ const Tab = ({ className, label, children }: TabProps) => {
         "py-2 px-4 mb-[2px] focus-ring hover:bg-surface-subtle mr-1",
         {
           "border-b-2 border-accent font-medium bg-surface-muted hover:bg-surface-muted forced-colors:border-[Highlight]":
-            activeTab === label
+            isSelected,
+          "forced-colors:border-b-2 forced-colors:border-[Canvas] forced-colors:hover:border-[Highlight]": !isSelected
         },
         className
       )}

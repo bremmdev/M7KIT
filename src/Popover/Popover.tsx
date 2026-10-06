@@ -103,8 +103,10 @@ export const PopoverTrigger = ({ children, className, ...rest }: PopoverTriggerP
       aria-expanded={open}
       aria-haspopup="dialog"
       className={cn(
-        // The hover background is replaced in forced colors (Windows high contrast), so hover shows as a Highlight border there
-        "focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground hover:bg-surface-muted forced-colors:hover:border-[Highlight]",
+        // The hover background is replaced in forced colors (Windows high contrast), so hover inverts there, like Fluent UI:
+        // Highlight icon and border on HighlightText. It opts out on hover only, so every color is a system color
+        "focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground hover:bg-surface-muted",
+        "forced-colors:hover:forced-color-adjust-none forced-colors:hover:border-[Highlight] forced-colors:hover:bg-[HighlightText] forced-colors:hover:text-[Highlight]",
         className
       )}
       {...rest}

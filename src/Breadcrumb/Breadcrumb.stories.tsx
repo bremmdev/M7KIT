@@ -20,6 +20,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbCurrentItem, BreadcrumbMenu } fro
  * - Wrap BreadcrumbItem components in BreadcrumbMenu to create a dropdown menu to hide some items in long breadcrumb lists
  * - Choose between different separators: chevron, dash, or slash
  * - Use BreadcrumbCurrentItem to indicate the current page
+ * - In forced colors mode (Windows high contrast), a hovered or focused item in a BreadcrumbMenu uses `HighlightText` on `Highlight`
  *
  * ## Usage
  *

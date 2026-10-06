@@ -5,7 +5,7 @@ import { Button } from "./Button";
  * Button component that can be used as a button or a link. It also support custom Link components like Next.js Link or TanStack Router Link.
  *
  * ## Accessibility
- * - In forced colors mode (Windows high contrast), the `primary` and `cta` variants get a border to keep their shape, disabled or loading buttons use `GrayText` instead of reduced opacity, and hover and focus show in `Highlight`.
+ * - In forced colors mode (Windows high contrast), the `primary` and `cta` variants stay filled (`ButtonFace` on `ButtonText`, `HighlightText` on `Highlight` on hover), so they still stand out from the `secondary` variant. The `secondary` variant inverts on hover: `Highlight` text and border on `HighlightText`. Disabled or loading buttons use `GrayText` instead of reduced opacity and show no hover, and focus shows in `Highlight`.
  *
  * ## Usage
  *

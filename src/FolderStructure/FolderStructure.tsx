@@ -7,7 +7,6 @@ const isFolder = (node: FolderType | FileType): node is FolderType => {
 };
 
 const Folder = ({ folder, indent, open, trailingSlash }: FolderProps) => {
-  // The guide line is a background, which forced colors (Windows high contrast) replace with Canvas, so it uses CanvasText there
   return (
     <details
       open={open}
@@ -20,7 +19,7 @@ const Folder = ({ folder, indent, open, trailingSlash }: FolderProps) => {
       )}
     >
       <summary className="list-none before:content-['▼'/''] before:inline-block before:mr-1 before:w-3 before:mx-1 cursor-pointer focus-ring">
-        <span className="mt-0.5 font-bold inline-flex gap-1 items-center cursor-pointer hover:text-accent">
+        <span className="mt-0.5 font-bold inline-flex gap-1 items-center cursor-pointer hover:text-accent forced-colors:hover:text-[Highlight] forced-colors:hover:underline underline-offset-4">
           <FolderIcon className="size-4" />
           <span>
             {folder.name}

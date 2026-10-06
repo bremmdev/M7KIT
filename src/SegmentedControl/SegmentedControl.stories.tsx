@@ -11,7 +11,7 @@ import { SegmentedControl } from "./SegmentedControl";
  * - Use the `onValueChange` prop to listen for changes in the selected button
  * - Use the `value` prop to provide a value for the selected button. This value will be passed to the `onValueChange` callback when the button is selected. If the `value` prop is not provided, the children of the button will be used as the value.
  * - 'aria-current' attribute is set to 'true' on the selected button to indicate the current selection to screen readers
- * - In forced colors mode (Windows high contrast), the selected button uses `HighlightText` on `Highlight`, with a `HighlightText` focus outline
+ * - In forced colors mode (Windows high contrast), the selected button uses `HighlightText` on `Highlight`, with a `HighlightText` focus outline. The other buttons get a `Highlight` border on hover
  *
  * ## Usage
  *
