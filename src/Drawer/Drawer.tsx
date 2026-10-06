@@ -108,6 +108,7 @@ export const Drawer = (props: DrawerProps) => {
 export const DrawerRoot = ({ children }: { children: Array<React.ReactElement<any>> }) => {
   return (
     <DrawerProvider>
+      {/* biome-ignore lint/complexity/noUselessFragments: DrawerProvider takes a single element, not an array */}
       <>{children}</>
     </DrawerProvider>
   );

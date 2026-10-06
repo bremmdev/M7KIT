@@ -11,11 +11,11 @@
  */
 import { spawnSync } from "node:child_process";
 import {
+  copyFileSync,
   createReadStream,
   existsSync,
   mkdirSync,
   readdirSync,
-  renameSync,
   rmSync,
   statSync,
   writeFileSync
@@ -151,8 +151,17 @@ async function takeScreenshots(baseUrl) {
       `${JSON.stringify({ generatedAt: new Date().toISOString(), screenshots }, null, 2)}\n`
     );
 
-    rmSync(outputDir, { recursive: true, force: true });
-    renameSync(tempDir, outputDir);
+    // Copied into the existing folder instead of replacing it: a running Storybook's file watcher loses track of a
+    // replaced folder (on Windows), and would keep showing the previous screenshots. The manifest goes last, so the
+    // story only picks up the new screenshots once all of them are in place
+    mkdirSync(outputDir, { recursive: true });
+    const newFiles = [...screenshots.map(({ file }) => file), "manifest.json"];
+    for (const file of readdirSync(outputDir)) {
+      if (!newFiles.includes(file)) rmSync(path.join(outputDir, file), { recursive: true, force: true });
+    }
+    for (const file of newFiles) {
+      copyFileSync(path.join(tempDir, file), path.join(outputDir, file));
+    }
   } finally {
     await browser.close();
     rmSync(tempDir, { recursive: true, force: true });

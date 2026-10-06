@@ -78,10 +78,8 @@ export const Default: Story = {
           <Info size={24} />
         </TooltipTrigger>
         <TooltipContent placement="bottom center">
-          <>
-            <h3 className="font-bold mb-2">Pricing details</h3>
-            <p>The price listed is exclusive of taxes and shipping costs and may vary based on your location.</p>
-          </>
+          <h3 className="font-bold mb-2">Pricing details</h3>
+          <p>The price listed is exclusive of taxes and shipping costs and may vary based on your location.</p>
         </TooltipContent>
       </Tooltip>
     </div>
@@ -111,10 +109,8 @@ export const Controlled: Story = {
             <Info size={24} />
           </TooltipTrigger>
           <TooltipContent placement="bottom left">
-            <>
-              <h3 className="font-bold mb-2">Pricing details</h3>
-              <p>The price listed is exclusive of taxes and shipping costs and may vary based on your location.</p>
-            </>
+            <h3 className="font-bold mb-2">Pricing details</h3>
+            <p>The price listed is exclusive of taxes and shipping costs and may vary based on your location.</p>
           </TooltipContent>
         </Tooltip>
       </div>
@@ -125,7 +121,7 @@ export const Controlled: Story = {
 export const TouchBehavior: Story = {
   tags: ["!autodocs"],
   args: {
-    touchBehavior: "tap",
+    touchBehavior: "tap"
   },
   render: (props) => {
     return (

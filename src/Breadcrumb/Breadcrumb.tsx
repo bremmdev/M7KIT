@@ -60,7 +60,7 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
   //focus the first link when the menu is opened
   useEffect(() => {
     if (show) {
-      menuRef.current && menuRef.current.querySelector("a")?.focus();
+      menuRef.current?.querySelector("a")?.focus();
     }
   }, [show]);
 
@@ -109,7 +109,7 @@ export const BreadcrumbMenu = (props: BreadcrumbMenuProps) => {
 export const BreadcrumbItem = (props: BreadcrumbItemProps) => {
   const { asChild = false, children, className, isCurrentPage, href, ...rest } = props;
 
-  const isLink = href ? true : false;
+  const isLink = !!href;
 
   const linkClassNames = cn(
     "text-foreground font-medium underline underline-offset-4 p-1 hover:text-accent focus-ring cursor-pointer",

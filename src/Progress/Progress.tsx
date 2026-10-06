@@ -4,102 +4,109 @@ import { cn } from "../utils/cn";
 import { getProgressClasses, getProgressFillStyle, validateValues } from "./Progress.utils";
 
 const ProgressLabel = (props: ProgressLabelProps) => {
-    const { label, labelId } = props;
-    return (
-        <span id={labelId} role="presentation" className="font-medium">
-            {label}
-        </span>
-    );
+  const { label, labelId } = props;
+  return (
+    <span id={labelId} role="presentation" className="font-medium">
+      {label}
+    </span>
+  );
 };
 
 const ProgressTrack = (props: ProgressTrackProps) => {
-    const { className, size, variant, rounded, value, min, max, indeterminate } = props;
-    // Forced colors (Windows high contrast) replace both backgrounds with Canvas, which hides the fill.
-    // The fill uses Highlight there, like native progress bars, and the fill variant's track gets a border to show its size
-    return (
-        <div
-            className={cn(
-                "relative w-full overflow-hidden",
-                getProgressClasses(size, variant),
-                {
-                    "rounded-full": rounded,
-                },
-                className,
-            )}
-        >
-            <div
-                className={cn("absolute left-0 top-0 h-full bg-accent transition-[width] duration-300 ease-out forced-colors:bg-[Highlight]", {
-                    "rounded-full": rounded,
-                    "bg-accent animate-indeterminate": indeterminate,
-                })}
-                style={getProgressFillStyle(value, min, max, indeterminate)}
-            />
-        </div>
-    );
+  const { className, size, variant, rounded, value, min, max, indeterminate } = props;
+  // Forced colors (Windows high contrast) replace both backgrounds with Canvas, which hides the fill.
+  // The fill uses Highlight there, like native progress bars, and the fill variant's track gets a border to show its size
+  return (
+    <div
+      className={cn(
+        "relative w-full overflow-hidden",
+        getProgressClasses(size, variant),
+        {
+          "rounded-full": rounded
+        },
+        className
+      )}
+    >
+      <div
+        className={cn(
+          "absolute left-0 top-0 h-full bg-accent transition-[width] duration-300 ease-out forced-colors:bg-[Highlight]",
+          {
+            "rounded-full": rounded,
+            "bg-accent animate-indeterminate": indeterminate
+          }
+        )}
+        style={getProgressFillStyle(value, min, max, indeterminate)}
+      />
+    </div>
+  );
 };
 
 export const Progress = (props: ProgressProps) => {
-    const {
-        "aria-label": ariaLabel,
-        className,
-        trackClassName,
-        value,
-        min = 0,
-        max = 100,
-        size = "md",
-        variant = "fill",
-        rounded = true,
-        getValueText,
-        label,
-        ...rest
-    } = props;
+  const {
+    "aria-label": ariaLabel,
+    className,
+    trackClassName,
+    value,
+    min = 0,
+    max = 100,
+    size = "md",
+    variant = "fill",
+    rounded = true,
+    getValueText,
+    label,
+    ...rest
+  } = props;
 
-    const labelId = useId();
+  const labelId = useId();
 
-    validateValues({
-        ariaLabel,
-        label,
-        min,
-        max,
-    });
+  validateValues({
+    ariaLabel,
+    label,
+    min,
+    max
+  });
 
-    // Check if the value is indeterminate as we don't want to set the aria-valuenow and aria-valuetext attributes when it is indeterminate
-    const isIndeterminate = value === undefined || value === null;
+  // Check if the value is indeterminate as we don't want to set the aria-valuenow and aria-valuetext attributes when it is indeterminate
+  const isIndeterminate = value === undefined || value === null;
 
-    // Clamp the value to the min and max values
-    const clamped = isIndeterminate
-        ? 0
-        : Math.min(Math.max(value, min), max);
+  // Clamp the value to the min and max values
+  const clamped = isIndeterminate ? 0 : Math.min(Math.max(value, min), max);
 
-    const percent = ((clamped - min) / (max - min)) * 100;
+  const percent = ((clamped - min) / (max - min)) * 100;
 
-    // Human readable value text with percentage as default
-    const valueText = getValueText?.(clamped, min, max) ?? `${Math.round(percent)}%`;
+  // Human readable value text with percentage as default
+  const valueText = getValueText?.(clamped, min, max) ?? `${Math.round(percent)}%`;
 
-    return (
-        <div
-            {...rest}
-            role="progressbar"
-            aria-label={!label ? ariaLabel : undefined}
-            aria-labelledby={label ? labelId : undefined}
-            aria-valuenow={isIndeterminate ? undefined : clamped}
-            aria-valuemin={min}
-            aria-valuemax={max}
-            aria-valuetext={isIndeterminate ? undefined : valueText}
-            className={cn(
-                "relative flex w-full flex-col gap-2",
-                className,
-            )}
-        >
-            <div className="flex items-center justify-between gap-2">
-                {label && <ProgressLabel label={label} labelId={labelId} />}
-                {!isIndeterminate && valueText && (
-                    <span aria-hidden="true" className="ml-auto block italic">
-                        {valueText}
-                    </span>
-                )}
-            </div>
-            <ProgressTrack size={size} variant={variant} rounded={rounded} value={clamped} min={min} max={max} className={trackClassName} indeterminate={isIndeterminate} />
-        </div>
-    );
+  return (
+    <div
+      {...rest}
+      role="progressbar"
+      aria-label={!label ? ariaLabel : undefined}
+      aria-labelledby={label ? labelId : undefined}
+      aria-valuenow={isIndeterminate ? undefined : clamped}
+      aria-valuemin={min}
+      aria-valuemax={max}
+      aria-valuetext={isIndeterminate ? undefined : valueText}
+      className={cn("relative flex w-full flex-col gap-2", className)}
+    >
+      <div className="flex items-center justify-between gap-2">
+        {label && <ProgressLabel label={label} labelId={labelId} />}
+        {!isIndeterminate && valueText && (
+          <span aria-hidden="true" className="ml-auto block italic">
+            {valueText}
+          </span>
+        )}
+      </div>
+      <ProgressTrack
+        size={size}
+        variant={variant}
+        rounded={rounded}
+        value={clamped}
+        min={min}
+        max={max}
+        className={trackClassName}
+        indeterminate={isIndeterminate}
+      />
+    </div>
+  );
 };

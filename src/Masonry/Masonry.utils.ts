@@ -69,7 +69,7 @@ export function getBreakpointColumns(columns: BreakpointColumns) {
 }
 
 export function validateColumns(columns: ColumnCount | BreakpointColumns) {
-  if (typeof columns == "number" && (columns < 1 || columns > 6))
+  if (typeof columns === "number" && (columns < 1 || columns > 6))
     throw new Error("The number of columns must be between 1 and 6");
   if (typeof columns !== "number") {
     //check any of the keys to see if the value is not between 1 and 6

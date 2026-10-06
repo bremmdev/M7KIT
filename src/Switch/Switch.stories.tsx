@@ -90,187 +90,231 @@ import { SwitchProps } from "./Switch.types";
  */
 
 const meta: Meta<typeof Switch> = {
-    component: Switch,
-    title: "Components/Switch",
-    tags: ["autodocs"]
+  component: Switch,
+  title: "Components/Switch",
+  tags: ["autodocs"]
 };
 export default meta;
 
 type Story = StoryObj<typeof Switch>;
 
-const Label = (props: { children: React.ReactNode, text?: string }) => (
-    <label className="flex items-center gap-4 font-medium">
-        {props.children}
-        <span>{props.text ?? "notifications"}</span>
-    </label>
+const Label = (props: { children: React.ReactNode; text?: string }) => (
+  <label className="flex items-center gap-4 font-medium">
+    {props.children}
+    <span>{props.text ?? "notifications"}</span>
+  </label>
 );
 
 const render = (props: SwitchProps) => (
-    <div className="relative flex flex-col items-center my-8">
-        <Label><Switch {...props} /></Label>
-    </div>
+  <div className="relative flex flex-col items-center my-8">
+    <Label>
+      <Switch {...props} />
+    </Label>
+  </div>
 );
 
 export const Default: Story = {
-    args: {
-        onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked),
-    },
-    render: (props) => render(props)
+  args: {
+    onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked)
+  },
+  render: (props) => render(props)
 };
 
 export const Sizes: Story = {
-    args: {
-        defaultChecked: false,
-        onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked),
-    },
-    render: (props) =>
-        <div className="flex flex-col gap-4 items-center my-8">
-            <Label><Switch {...props} size="sm" /></Label>
-            <Label><Switch {...props} size="md" /></Label>
-            <Label><Switch {...props} size="lg" /></Label>
-        </div>
+  args: {
+    defaultChecked: false,
+    onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked)
+  },
+  render: (props) => (
+    <div className="flex flex-col gap-4 items-center my-8">
+      <Label>
+        <Switch {...props} size="sm" />
+      </Label>
+      <Label>
+        <Switch {...props} size="md" />
+      </Label>
+      <Label>
+        <Switch {...props} size="lg" />
+      </Label>
+    </div>
+  )
 };
 
 export const Disabled: Story = {
-    args: {
-        defaultChecked: false,
-        disabled: true,
-        onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked)
-    },
-    render: (props) => render(props)
+  args: {
+    defaultChecked: false,
+    disabled: true,
+    onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked)
+  },
+  render: (props) => render(props)
 };
 
 export const DisabledFieldset: Story = {
-    render: (props) => {
-        const [disabled, setDisabled] = React.useState(true);
+  render: (props) => {
+    const [disabled, setDisabled] = React.useState(true);
 
-        // A disabled fieldset disables the inputs inside it natively, without the Switch's `disabled` prop
-        return (
-            <div className="flex flex-col items-center gap-4 my-8">
-                <fieldset disabled={disabled} className="flex flex-col gap-4">
-                    <legend className="mb-2 font-semibold">Preferences</legend>
-                    <Label><Switch {...props} defaultChecked /></Label>
-                    <Label text="newsletter"><Switch {...props} /></Label>
-                </fieldset>
-                <Button variant="secondary" onClick={() => setDisabled(!disabled)}>
-                    {disabled ? "Enable" : "Disable"} fieldset
-                </Button>
-            </div>
-        );
-    }
+    // A disabled fieldset disables the inputs inside it natively, without the Switch's `disabled` prop
+    return (
+      <div className="flex flex-col items-center gap-4 my-8">
+        <fieldset disabled={disabled} className="flex flex-col gap-4">
+          <legend className="mb-2 font-semibold">Preferences</legend>
+          <Label>
+            <Switch {...props} defaultChecked />
+          </Label>
+          <Label text="newsletter">
+            <Switch {...props} />
+          </Label>
+        </fieldset>
+        <Button variant="secondary" onClick={() => setDisabled(!disabled)}>
+          {disabled ? "Enable" : "Disable"} fieldset
+        </Button>
+      </div>
+    );
+  }
 };
 
 export const ReadOnly: Story = {
-    args: {
-        defaultChecked: true,
-        readOnly: true,
-        onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked)
-    },
-    render: (props) => render(props)
+  args: {
+    defaultChecked: true,
+    readOnly: true,
+    onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked)
+  },
+  render: (props) => render(props)
 };
 
 export const Controlled: Story = {
-    render: (props) => {
-        const [checked, setChecked] = React.useState(false);
+  render: (props) => {
+    const [checked, setChecked] = React.useState(false);
 
-        const handleCheckedChange = (checked: boolean) => {
-            setChecked(checked);
-            action("onCheckedChange")(checked);
-        };
+    const handleCheckedChange = (checked: boolean) => {
+      setChecked(checked);
+      action("onCheckedChange")(checked);
+    };
 
-        // The parent owns the state, so it can change it from outside without the user touching the switch
-        return (
-            <div className="flex flex-col items-center gap-4 my-8">
-                <Label><Switch {...props} checked={checked} onCheckedChange={handleCheckedChange} /></Label>
-                <Button variant="secondary" onClick={() => setChecked(!checked)}>
-                    {checked ? "Turn off" : "Turn on"} from outside
-                </Button>
-            </div>
-        );
-    }
+    // The parent owns the state, so it can change it from outside without the user touching the switch
+    return (
+      <div className="flex flex-col items-center gap-4 my-8">
+        <Label>
+          <Switch {...props} checked={checked} onCheckedChange={handleCheckedChange} />
+        </Label>
+        <Button variant="secondary" onClick={() => setChecked(!checked)}>
+          {checked ? "Turn off" : "Turn on"} from outside
+        </Button>
+      </div>
+    );
+  }
 };
 
 export const ThumbIndicators: Story = {
-    args: {
-        defaultChecked: false,
-        onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked)
-    },
-    render: (props) =>
-        <div className="flex flex-col gap-4 items-center my-8">
-            <Label><Switch {...props} thumbIndicators="check" /></Label>
-            <Label><Switch {...props} thumbIndicators="play" /></Label>
-        </div>
+  args: {
+    defaultChecked: false,
+    onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked)
+  },
+  render: (props) => (
+    <div className="flex flex-col gap-4 items-center my-8">
+      <Label>
+        <Switch {...props} thumbIndicators="check" />
+      </Label>
+      <Label>
+        <Switch {...props} thumbIndicators="play" />
+      </Label>
+    </div>
+  )
 };
 
 export const WithoutVisibleLabel: Story = {
-    args: {
-        "aria-label": "notifications",
-        onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked)
-    },
-    render: (props) =>
-        <div className="flex flex-col items-center my-8">
-            <Switch {...props} />
-        </div>
+  args: {
+    "aria-label": "notifications",
+    onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked)
+  },
+  render: (props) => (
+    <div className="flex flex-col items-center my-8">
+      <Switch {...props} />
+    </div>
+  )
 };
 
 export const WithDescription: Story = {
-    args: {
-        onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked)
-    },
-    render: (props) => {
-        const descriptionId = React.useId();
+  args: {
+    onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked)
+  },
+  render: (props) => {
+    const descriptionId = React.useId();
 
-        // The description is read after the name and state, e.g. "notifications, switch, off, Get an email when..."
-        return (
-            <div className="flex flex-col items-center gap-2 my-8">
-                <Label><Switch {...props} aria-describedby={descriptionId} /></Label>
-                <p id={descriptionId} className="text-sm">Get an email when someone mentions you.</p>
-            </div>
-        );
-    }
+    // The description is read after the name and state, e.g. "notifications, switch, off, Get an email when..."
+    return (
+      <div className="flex flex-col items-center gap-2 my-8">
+        <Label>
+          <Switch {...props} aria-describedby={descriptionId} />
+        </Label>
+        <p id={descriptionId} className="text-sm">
+          Get an email when someone mentions you.
+        </p>
+      </div>
+    );
+  }
 };
 
 export const InForm: Story = {
-    render: (props) => {
-        const [submitted, setSubmitted] = React.useState<string | null>(null);
+  render: (props) => {
+    const [submitted, setSubmitted] = React.useState<string | null>(null);
 
-        function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
-            event.preventDefault();
-            const data = Object.fromEntries(new FormData(event.currentTarget));
-            setSubmitted(JSON.stringify(data, null, 2));
-        }
-
-        // Switches that are off are left out of the FormData entirely; the one without `value` submits "on"
-        return (
-            <form onSubmit={handleSubmit} onReset={() => setSubmitted(null)} className="flex flex-col items-center gap-4 my-8">
-                <fieldset className="flex flex-col gap-4">
-                    <legend className="mb-2 font-semibold">Preferences</legend>
-                    <Label><Switch {...props} name="notifications" defaultChecked /></Label>
-                    <Label text="newsletter"><Switch {...props} name="newsletter" value="weekly" /></Label>
-                    <Label text="marketing (disabled)"><Switch {...props} name="marketing" defaultChecked disabled /></Label>
-                </fieldset>
-                <div className="flex gap-2">
-                    <Button type="submit">Submit</Button>
-                    <Button type="reset" variant="secondary">Reset</Button>
-                </div>
-                <output className="min-h-20 font-mono text-sm whitespace-pre">
-                    {submitted ? `Submitted: ${submitted}` : "Submit the form to see its data"}
-                </output>
-            </form>
-        );
+    function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(event.currentTarget));
+      setSubmitted(JSON.stringify(data, null, 2));
     }
+
+    // Switches that are off are left out of the FormData entirely; the one without `value` submits "on"
+    return (
+      <form
+        onSubmit={handleSubmit}
+        onReset={() => setSubmitted(null)}
+        className="flex flex-col items-center gap-4 my-8"
+      >
+        <fieldset className="flex flex-col gap-4">
+          <legend className="mb-2 font-semibold">Preferences</legend>
+          <Label>
+            <Switch {...props} name="notifications" defaultChecked />
+          </Label>
+          <Label text="newsletter">
+            <Switch {...props} name="newsletter" value="weekly" />
+          </Label>
+          <Label text="marketing (disabled)">
+            <Switch {...props} name="marketing" defaultChecked disabled />
+          </Label>
+        </fieldset>
+        <div className="flex gap-2">
+          <Button type="submit">Submit</Button>
+          <Button type="reset" variant="secondary">
+            Reset
+          </Button>
+        </div>
+        <output className="min-h-20 font-mono text-sm whitespace-pre">
+          {submitted ? `Submitted: ${submitted}` : "Submit the form to see its data"}
+        </output>
+      </form>
+    );
+  }
 };
 
 export const RightToLeft: Story = {
-    args: {
-        onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked)
-    },
-    // `dir` mirrors the switch: the thumb starts on the right and moves left when turned on.
-    // `lang` lets screen readers pronounce the Arabic labels correctly
-    render: (props) =>
-        <div dir="rtl" lang="ar" className="flex flex-col gap-4 items-center my-8">
-            <Label text="الإشعارات"><Switch {...props} /></Label>
-            <Label text="الإشعارات"><Switch {...props} defaultChecked /></Label>
-            <Label text="الإشعارات"><Switch {...props} defaultChecked thumbIndicators="check" /></Label>
-        </div>
+  args: {
+    onCheckedChange: (checked: boolean) => action("onCheckedChange")(checked)
+  },
+  // `dir` mirrors the switch: the thumb starts on the right and moves left when turned on.
+  // `lang` lets screen readers pronounce the Arabic labels correctly
+  render: (props) => (
+    <div dir="rtl" lang="ar" className="flex flex-col gap-4 items-center my-8">
+      <Label text="الإشعارات">
+        <Switch {...props} />
+      </Label>
+      <Label text="الإشعارات">
+        <Switch {...props} defaultChecked />
+      </Label>
+      <Label text="الإشعارات">
+        <Switch {...props} defaultChecked thumbIndicators="check" />
+      </Label>
+    </div>
+  )
 };

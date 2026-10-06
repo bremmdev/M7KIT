@@ -17,7 +17,10 @@ const NavigationButtons = (props: NavigationButtonProps) => {
         aria-label="previous item"
         onClick={() => onNavigate(0)}
       >
-        <CircleArrowLeft size={32} className="stroke-foreground hover:stroke-accent forced-colors:stroke-[ButtonText] forced-colors:group-enabled:hover:stroke-[Highlight] forced-colors:group-disabled:stroke-[GrayText]" />
+        <CircleArrowLeft
+          size={32}
+          className="stroke-foreground hover:stroke-accent forced-colors:stroke-[ButtonText] forced-colors:group-enabled:hover:stroke-[Highlight] forced-colors:group-disabled:stroke-[GrayText]"
+        />
       </button>
       <button
         className="group mx-auto rounded-full focus-ring disabled:opacity-50 disabled:bg-transparent forced-colors:disabled:opacity-100"
@@ -25,7 +28,10 @@ const NavigationButtons = (props: NavigationButtonProps) => {
         aria-label="next item"
         onClick={() => onNavigate(lastItemIdx)}
       >
-        <CircleArrowRight size={32} className="stroke-foreground hover:stroke-accent forced-colors:stroke-[ButtonText] forced-colors:group-enabled:hover:stroke-[Highlight] forced-colors:group-disabled:stroke-[GrayText]" />
+        <CircleArrowRight
+          size={32}
+          className="stroke-foreground hover:stroke-accent forced-colors:stroke-[ButtonText] forced-colors:group-enabled:hover:stroke-[Highlight] forced-colors:group-disabled:stroke-[GrayText]"
+        />
       </button>
     </div>
   );

@@ -52,7 +52,7 @@ export function handleTouchEnd(e: React.TouchEvent<HTMLDivElement>) {
 
     const tier = dropTarget.closest("[data-tierlist-tier-idx]");
     if (tier) {
-      targetTierIdx = parseInt((tier as HTMLElement).dataset.tierlistTierIdx || "-1");
+      targetTierIdx = parseInt((tier as HTMLElement).dataset.tierlistTierIdx || "-1", 10);
     }
   }
 

@@ -72,10 +72,11 @@ function getHorizontalBounds(
     case "left":
       // Tooltip right-aligned with trigger right edge
       return { left: buttonRect.right - tooltipWidth, right: buttonRect.right };
-    case "center":
+    case "center": {
       // Tooltip centered on trigger
       const centerLeft = buttonRect.left + (buttonRect.width - tooltipWidth) / 2;
       return { left: centerLeft, right: centerLeft + tooltipWidth };
+    }
     case "right":
       // Tooltip left-aligned with trigger left edge
       return { left: buttonRect.left, right: buttonRect.left + tooltipWidth };
@@ -111,7 +112,7 @@ export function determinePlacement(
   // Whether the tooltip never fits within the window bounds
   let neverFits: boolean = false;
 
-  let horizontalPosition: HorizontalPosition = placement.includes("left")
+  const horizontalPosition: HorizontalPosition = placement.includes("left")
     ? "left"
     : placement.includes("right")
       ? "right"

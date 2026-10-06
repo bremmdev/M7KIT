@@ -1,13 +1,13 @@
 /**
  * M7KIT Theme Configuration
- * 
+ *
  * Import this file in your Tailwind CSS v4 project to get access to all
  * m7kit utility classes (colors, animations, etc.)
- * 
+ *
  * Usage in your CSS:
  *   @import "tailwindcss";
  *   @import "m7kit/theme";
- * 
+ *
  * This gives you access to utilities like:
  *   - bg-accent, text-accent, border-l-accent, etc.
  *   - bg-surface, bg-surface-subtle, bg-surface-muted
@@ -52,7 +52,6 @@
   --animate-indeterminate: indeterminate 1.5s ease-out infinite;
 
   @keyframes blink {
-
     0%,
     100% {
       opacity: 1;

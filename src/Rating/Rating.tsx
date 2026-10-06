@@ -73,7 +73,9 @@ export const Rating = (props: RatingProps) => {
       },
       (_, i) => {
         const classes = ratingStyles[variant || "star"];
-        return <RatingItem key={i} size={size} strokeWidth={1} className={cn(classes, "fill-white", emptyForcedColors)} />;
+        return (
+          <RatingItem key={i} size={size} strokeWidth={1} className={cn(classes, "fill-white", emptyForcedColors)} />
+        );
       }
     );
   };

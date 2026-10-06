@@ -6,229 +6,227 @@ import { OverlayPlacement } from "../shared/Overlay/types";
 import { usePopover, PopoverProvider } from "./PopoverContext";
 import { cn } from "../utils/cn";
 import {
-    getPlacementClasses,
-    getBridgeClasses,
-    getArrowClasses,
-    getArrowPositionStyle,
-    determinePlacement
+  getPlacementClasses,
+  getBridgeClasses,
+  getArrowClasses,
+  getArrowPositionStyle,
+  determinePlacement
 } from "../Tooltip/Tooltip.utils";
 import { useOnClickOutside } from "../_hooks/useOnClickOutside";
 import { useFocusTrap } from "../_hooks/useFocusTrap";
 
 export const Popover = ({
-    children,
-    className,
-    fade = true,
-    open,
-    onOpenChange,
-    trapFocus = false,
-    ...rest
+  children,
+  className,
+  fade = true,
+  open,
+  onOpenChange,
+  trapFocus = false,
+  ...rest
 }: PopoverProps) => {
-
-    return (
-        <PopoverProvider
-            open={open}
-            onOpenChange={onOpenChange}
-            fade={fade}
-            trapFocus={trapFocus}
-        >
-            <div className={cn("relative w-fit text-foreground", className)} {...rest}>
-                {children}
-            </div>
-        </PopoverProvider>
-    );
+  return (
+    <PopoverProvider open={open} onOpenChange={onOpenChange} fade={fade} trapFocus={trapFocus}>
+      <div className={cn("relative w-fit text-foreground", className)} {...rest}>
+        {children}
+      </div>
+    </PopoverProvider>
+  );
 };
 
 const PopoverArrow = ({ placement }: { placement: OverlayPlacement }) => {
-    const { triggerWidth } = usePopover();
-    const isTop = placement.startsWith("top");
+  const { triggerWidth } = usePopover();
+  const isTop = placement.startsWith("top");
 
-    return (
-        <span
-            className={cn(
-                "absolute w-3 h-3 rotate-45 bg-surface-subtle",
-                // Border only on the sides pointing toward trigger
-                // 2px accent border when popover content has focus-visible (via group), matching focus-ring-inner outline width, also translate the arrow to match the focus-ring-inner outline width.
-                // In forced colors the outline is Highlight, so the arrow is too
-                isTop
-                    ? "border-b border-r border-neutral group-focus-visible:border-b-2 group-focus-visible:border-r-2 group-focus-visible:border-accent forced-colors:group-focus-visible:border-[Highlight] group-focus-visible:translate-y-px"
-                    : "border-t border-l border-neutral group-focus-visible:border-t-2 group-focus-visible:border-l-2 group-focus-visible:border-accent forced-colors:group-focus-visible:border-[Highlight] group-focus-visible:-translate-y-px",
-                getArrowClasses(placement)
-            )}
-            style={getArrowPositionStyle(placement, triggerWidth)}
-            aria-hidden
-        />
-    );
+  return (
+    <span
+      className={cn(
+        "absolute w-3 h-3 rotate-45 bg-surface-subtle",
+        // Border only on the sides pointing toward trigger
+        // 2px accent border when popover content has focus-visible (via group), matching focus-ring-inner outline width, also translate the arrow to match the focus-ring-inner outline width.
+        // In forced colors the outline is Highlight, so the arrow is too
+        isTop
+          ? "border-b border-r border-neutral group-focus-visible:border-b-2 group-focus-visible:border-r-2 group-focus-visible:border-accent forced-colors:group-focus-visible:border-[Highlight] group-focus-visible:translate-y-px"
+          : "border-t border-l border-neutral group-focus-visible:border-t-2 group-focus-visible:border-l-2 group-focus-visible:border-accent forced-colors:group-focus-visible:border-[Highlight] group-focus-visible:-translate-y-px",
+        getArrowClasses(placement)
+      )}
+      style={getArrowPositionStyle(placement, triggerWidth)}
+      aria-hidden
+    />
+  );
 };
 
 export const PopoverTitle = ({ as = "h3", children, className, ...rest }: PopoverTitleProps) => {
-    const Component = as as React.ElementType;
-    const { headingId, setHasTitleRendered } = usePopover();
+  const Component = as as React.ElementType;
+  const { headingId, setHasTitleRendered } = usePopover();
 
-    React.useEffect(() => {
-        setHasTitleRendered(true);
-        return () => setHasTitleRendered(false);
-    }, [setHasTitleRendered]);
+  React.useEffect(() => {
+    setHasTitleRendered(true);
+    return () => setHasTitleRendered(false);
+  }, [setHasTitleRendered]);
 
-    return (
-        <Component className={cn("text-lg font-bold", className)} id={headingId} {...rest}>
-            {children}
-        </Component>
-    );
+  return (
+    <Component className={cn("text-lg font-bold", className)} id={headingId} {...rest}>
+      {children}
+    </Component>
+  );
 };
 
 export const PopoverTrigger = ({ children, className, ...rest }: PopoverTriggerProps) => {
-    const {
-        open,
-        setOpen,
-        setTriggerWidth,
-        overlayId,
-        triggerId,
-        overlayTriggerRef,
-    } = usePopover();
+  const { open, setOpen, setTriggerWidth, overlayId, triggerId, overlayTriggerRef } = usePopover();
 
-    // Measure trigger width on mount, so we can position the arrow correctly
-    React.useEffect(() => {
-        if (overlayTriggerRef.current) {
-            setTriggerWidth(overlayTriggerRef.current.offsetWidth);
-        }
-    }, [setTriggerWidth]);
-
-    function handleClick() {
-        setOpen(!open);
+  // Measure trigger width on mount, so we can position the arrow correctly
+  React.useEffect(() => {
+    if (overlayTriggerRef.current) {
+      setTriggerWidth(overlayTriggerRef.current.offsetWidth);
     }
+  }, [setTriggerWidth]);
 
-    function handleKeyDown(e: React.KeyboardEvent<HTMLButtonElement>) {
-        if (e.key === "Escape" && open) {
-            e.preventDefault();
-            setOpen(false);
-        }
+  function handleClick() {
+    setOpen(!open);
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLButtonElement>) {
+    if (e.key === "Escape" && open) {
+      e.preventDefault();
+      setOpen(false);
     }
+  }
 
-    return (
-        <button
-            ref={overlayTriggerRef}
-            id={triggerId}
-            type="button"
-            onKeyDown={handleKeyDown}
-            onClick={handleClick}
-            aria-controls={open ? overlayId : undefined}
-            aria-expanded={open}
-            aria-haspopup="dialog"
-            className={cn(
-                // The hover background is replaced in forced colors (Windows high contrast), so hover shows as a Highlight border there
-                "focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground hover:bg-surface-muted forced-colors:hover:border-[Highlight]",
-                className
-            )}
-            {...rest}
-        >
-            {children}
-        </button>
-    );
+  return (
+    <button
+      ref={overlayTriggerRef}
+      id={triggerId}
+      type="button"
+      onKeyDown={handleKeyDown}
+      onClick={handleClick}
+      aria-controls={open ? overlayId : undefined}
+      aria-expanded={open}
+      aria-haspopup="dialog"
+      className={cn(
+        // The hover background is replaced in forced colors (Windows high contrast), so hover shows as a Highlight border there
+        "focus-ring cursor-pointer bg-surface-subtle border border-neutral rounded-md p-2 my-1 text-foreground hover:bg-surface-muted forced-colors:hover:border-[Highlight]",
+        className
+      )}
+      {...rest}
+    >
+      {children}
+    </button>
+  );
 };
 
 export const PopoverContent = ({ children, className, placement = "bottom center", ...rest }: PopoverContentProps) => {
-    const { fade, open, setOpen, overlayId, overlayContentRef, closeTimerRef, overlayTriggerRef, trapFocus, headingId, hasTitleRendered } = usePopover();
-    const [calculatedPlacement, setCalculatedPlacement] = React.useState<OverlayPlacement>(placement);
-    const [neverFits, setNeverFits] = React.useState(false);
+  const {
+    fade,
+    open,
+    setOpen,
+    overlayId,
+    overlayContentRef,
+    closeTimerRef,
+    overlayTriggerRef,
+    trapFocus,
+    headingId,
+    hasTitleRendered
+  } = usePopover();
+  const [calculatedPlacement, setCalculatedPlacement] = React.useState<OverlayPlacement>(placement);
+  const [neverFits, setNeverFits] = React.useState(false);
 
-    useFocusTrap(overlayContentRef, {
-        condition: open,
-        initialFocusElement: "firstOrContainer",
-        loop: trapFocus,
-        autoRestoreFocus: false,
-        onEscape: () => {
-            setOpen(false);
-            overlayTriggerRef.current?.focus();
+  useFocusTrap(overlayContentRef, {
+    condition: open,
+    initialFocusElement: "firstOrContainer",
+    loop: trapFocus,
+    autoRestoreFocus: false,
+    onEscape: () => {
+      setOpen(false);
+      overlayTriggerRef.current?.focus();
+    },
+    onTabOut: () => {
+      setOpen(false);
+      // Focus the trigger, then let the browser's natural Tab behavior
+      // move focus to the next element after the trigger
+      overlayTriggerRef.current?.focus();
+    }
+  });
+
+  // Delay close to allow parent's event handlers to run first. If the parent changes 'open' (e.g., via a toggle button), we respect that instead.
+  useOnClickOutside(
+    [overlayTriggerRef, overlayContentRef],
+    React.useCallback(() => {
+      if (open) {
+        if (closeTimerRef.current) {
+          clearTimeout(closeTimerRef.current);
+          closeTimerRef.current = null;
+        }
+        closeTimerRef.current = setTimeout(() => {
+          setOpen(false);
+        }, 100);
+      }
+    }, [open, setOpen, closeTimerRef])
+  );
+
+  // Clear pending close timer if open becomes true (e.g., via external control)
+  React.useEffect(() => {
+    if (open && closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+
+    // Cleanup on unmount
+    return () => {
+      if (closeTimerRef.current) {
+        clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = null;
+      }
+    };
+  }, [open, closeTimerRef]);
+
+  React.useLayoutEffect(() => {
+    if (!open) {
+      //reset placement and neverFits when popover is hidden, so we can calculate fresh on next show
+      setCalculatedPlacement(placement);
+      setNeverFits(false);
+      return;
+    }
+
+    const popoverContentRect = overlayContentRef.current?.getBoundingClientRect();
+    const popoverTriggerRect = overlayTriggerRef.current?.getBoundingClientRect();
+    const { innerHeight, innerWidth } = window;
+    if (!popoverContentRect || !popoverTriggerRect) return;
+    const { newPlacement, neverFits } = determinePlacement(
+      popoverContentRect,
+      popoverTriggerRect,
+      placement,
+      innerHeight,
+      innerWidth
+    );
+    setNeverFits(neverFits);
+    setCalculatedPlacement(newPlacement);
+  }, [open, placement]);
+
+  if (!open) return null;
+  return (
+    <div
+      className={cn(
+        "group absolute w-64 bg-surface-subtle border border-neutral rounded-md p-2 my-2 focus-ring-inner",
+        {
+          "animate-fade-in": fade
         },
-        onTabOut: () => {
-            setOpen(false);
-            // Focus the trigger, then let the browser's natural Tab behavior
-            // move focus to the next element after the trigger
-            overlayTriggerRef.current?.focus();
-        }
-    });
-
-    // Delay close to allow parent's event handlers to run first. If the parent changes 'open' (e.g., via a toggle button), we respect that instead.
-    useOnClickOutside(
-        [overlayTriggerRef, overlayContentRef],
-        React.useCallback(() => {
-            if (open) {
-                if (closeTimerRef.current) {
-                    clearTimeout(closeTimerRef.current);
-                    closeTimerRef.current = null;
-                }
-                closeTimerRef.current = setTimeout(() => {
-                    setOpen(false);
-                }, 100);
-            }
-        }, [open, setOpen, closeTimerRef])
-    );
-
-    // Clear pending close timer if open becomes true (e.g., via external control)
-    React.useEffect(() => {
-        if (open && closeTimerRef.current) {
-            clearTimeout(closeTimerRef.current);
-            closeTimerRef.current = null;
-        }
-
-        // Cleanup on unmount
-        return () => {
-            if (closeTimerRef.current) {
-                clearTimeout(closeTimerRef.current);
-                closeTimerRef.current = null;
-            }
-        };
-    }, [open, closeTimerRef]);
-
-    React.useLayoutEffect(() => {
-        if (!open) {
-            //reset placement and neverFits when popover is hidden, so we can calculate fresh on next show
-            setCalculatedPlacement(placement);
-            setNeverFits(false);
-            return;
-        }
-
-        const popoverContentRect = overlayContentRef.current?.getBoundingClientRect();
-        const popoverTriggerRect = overlayTriggerRef.current?.getBoundingClientRect();
-        const { innerHeight, innerWidth } = window;
-        if (!popoverContentRect || !popoverTriggerRect) return;
-        const { newPlacement, neverFits } = determinePlacement(
-            popoverContentRect,
-            popoverTriggerRect,
-            placement,
-            innerHeight,
-            innerWidth
-        );
-        setNeverFits(neverFits);
-        setCalculatedPlacement(newPlacement);
-    }, [open, placement]);
-
-    if (!open) return null;
-    return (
-        <div
-            className={cn(
-                "group absolute w-64 bg-surface-subtle border border-neutral rounded-md p-2 my-2 focus-ring-inner",
-                {
-                    "animate-fade-in": fade
-                },
-                {
-                    "max-w-[calc(100vw-2rem)]": neverFits
-                },
-                getPlacementClasses(calculatedPlacement),
-                getBridgeClasses(calculatedPlacement),
-                className
-            )}
-            role="dialog"
-            aria-labelledby={hasTitleRendered ? headingId : undefined}
-            aria-modal={trapFocus ? true : undefined}
-            id={overlayId}
-            ref={overlayContentRef}
-            tabIndex={-1}
-            {...rest}
-        >
-            <PopoverArrow placement={calculatedPlacement} />
-            {children}
-        </div>
-    );
+        {
+          "max-w-[calc(100vw-2rem)]": neverFits
+        },
+        getPlacementClasses(calculatedPlacement),
+        getBridgeClasses(calculatedPlacement),
+        className
+      )}
+      role="dialog"
+      aria-labelledby={hasTitleRendered ? headingId : undefined}
+      aria-modal={trapFocus ? true : undefined}
+      id={overlayId}
+      ref={overlayContentRef}
+      tabIndex={-1}
+      {...rest}
+    >
+      <PopoverArrow placement={calculatedPlacement} />
+      {children}
+    </div>
+  );
 };

@@ -135,7 +135,7 @@ export const SortableList = ({
     setDragStartIndex(null);
 
     // Notify parent
-    onReorder && onReorder(sortedItems.map((item) => item.value));
+    onReorder?.(sortedItems.map((item) => item.value));
   }
 
   function handleDragEnd() {
@@ -225,7 +225,7 @@ export const SortableList = ({
         sortedItems[draggedItemIndex].label
       } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
       setLastAnnouncement(message);
-      onReorder && onReorder(sortedItems.map((item) => item.value));
+      onReorder?.(sortedItems.map((item) => item.value));
     }
 
     setDraggedItemIndex(null);
@@ -289,7 +289,8 @@ export const SortableList = ({
               {
                 // In forced colors both items' colors are replaced, so the dragged item gets a Highlight border and outline to stay distinct.
                 // The outline makes it thicker without shifting the layout mid-drag
-                "border-accent bg-surface-muted forced-colors:border-[Highlight] forced-colors:outline-2 forced-colors:outline-[Highlight]": index === draggedItemIndex && draggedItemIndex !== null
+                "border-accent bg-surface-muted forced-colors:border-[Highlight] forced-colors:outline-2 forced-colors:outline-[Highlight]":
+                  index === draggedItemIndex && draggedItemIndex !== null
               }
             )}
             onDragOver={(e) => handleDragOver(e, index)}
