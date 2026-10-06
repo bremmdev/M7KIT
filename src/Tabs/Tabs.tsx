@@ -119,6 +119,8 @@ const Tab = ({ className, label, children }: TabProps) => {
     }
   };
 
+  // Forced colors (Windows high contrast) replace the accent of the selected tab's underline, and Chromium paints it
+  // in CanvasText or Highlight depending on how the tab was selected, so Highlight, the selection color, is set explicitly
   return (
     <button
       role="tab"
@@ -133,7 +135,8 @@ const Tab = ({ className, label, children }: TabProps) => {
       className={cn(
         "py-2 px-4 mb-[2px] focus-ring hover:bg-surface-subtle mr-1",
         {
-          "border-b-2 border-accent font-medium bg-surface-muted hover:bg-surface-muted": activeTab === label
+          "border-b-2 border-accent font-medium bg-surface-muted hover:bg-surface-muted forced-colors:border-[Highlight]":
+            activeTab === label
         },
         className
       )}

@@ -11,6 +11,8 @@
   - `GalleryStack`: the navigation arrows no longer disappear, and use `GrayText` while disabled
   - `SortableList`: the Edit Mode button gets a border, and the dragged item a `Highlight` border and outline
   - `Card`: keeps its border in dark mode (transparent there), so its edge stays visible
+  - `Tabs`: the underline of the selected tab uses `Highlight`, instead of a color that changed after clicking a tab
+  - The `Timeline` Custom Bullet story colors its icons with a class and a `CanvasText` override, instead of an accent color forced colors keep
   - Focus outlines are `Highlight`, the Windows focus color, in every component, including the `focus-ring` utilities in `m7kit/css`, `Switch` and `ThemeToggle`
   - Hover shows as a `Highlight` border or icon on `Button`, the `SortableList` Edit Mode button, the `Popover` trigger, the `GalleryStack` arrows and the `Drawer` close button, whose normal hover is a background change
 - Fix the `OTPInput` slot background and the `FolderStructure` container background, which used a misspelled class (`bg-surface-suble`) and were never applied
