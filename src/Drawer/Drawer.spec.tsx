@@ -30,7 +30,7 @@ const renderDrawer = () =>
             <input type="checkbox" />
             notifications
           </label>
-          <button>Save</button>
+          <button type="button">Save</button>
         </DrawerContent>
       </Drawer>
     </DrawerRoot>

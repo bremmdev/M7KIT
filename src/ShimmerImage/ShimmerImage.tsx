@@ -2,7 +2,7 @@ import { ShimmerImageProps } from "./ShimmerImage.types";
 import { cn } from "../utils/cn";
 
 export const ShimmerImage = (props: ShimmerImageProps) => {
-  const { className, rounded = false, src, ...rest } = props;
+  const { alt, className, rounded = false, src, ...rest } = props;
 
   return (
     <div
@@ -15,6 +15,7 @@ export const ShimmerImage = (props: ShimmerImageProps) => {
     >
       <img
         src={src}
+        alt={alt}
         className={cn(
           "",
           {

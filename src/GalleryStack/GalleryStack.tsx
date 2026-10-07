@@ -12,6 +12,7 @@ const NavigationButtons = (props: NavigationButtonProps) => {
   return (
     <div className={cn("absolute left-1/2 -translate-x-full -bottom-2 flex gap-2", className)}>
       <button
+        type="button"
         className="group mx-auto rounded-full focus-ring disabled:opacity-50 disabled:bg-transparent forced-colors:disabled:opacity-100"
         disabled={animationDirection !== "idle"}
         aria-label="previous item"
@@ -23,6 +24,7 @@ const NavigationButtons = (props: NavigationButtonProps) => {
         />
       </button>
       <button
+        type="button"
         className="group mx-auto rounded-full focus-ring disabled:opacity-50 disabled:bg-transparent forced-colors:disabled:opacity-100"
         disabled={animationDirection !== "idle"}
         aria-label="next item"

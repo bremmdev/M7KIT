@@ -21,6 +21,7 @@ const ReorderButton = ({
   ref: (el: HTMLButtonElement) => void;
 }) => (
   <button
+    type="button"
     aria-label={`Reorder ${label}. Item ${index + 1} of ${totalItems}.`}
     onKeyDown={onKeyDown}
     ref={ref}
@@ -37,7 +38,7 @@ export const SortableList = ({
   className,
   handlePosition = "start",
   items,
-  onReorder = () => { },
+  onReorder = () => {},
   title = "",
   titleElement = "h2",
   ...rest
@@ -125,8 +126,9 @@ export const SortableList = ({
 
     // only announce if dropped inside a valid zone AND order changed
     if (dragStartIndex !== null && draggedItemIndex !== null && dragStartIndex !== draggedItemIndex) {
-      const message = `Moved ${sortedItems[draggedItemIndex].label
-        } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
+      const message = `Moved ${
+        sortedItems[draggedItemIndex].label
+      } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
       setLastAnnouncement(message);
     }
 
@@ -220,8 +222,9 @@ export const SortableList = ({
 
   function handleTouchEnd() {
     if (dragStartIndex !== null && draggedItemIndex !== null && dragStartIndex !== draggedItemIndex) {
-      const message = `Moved ${sortedItems[draggedItemIndex].label
-        } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
+      const message = `Moved ${
+        sortedItems[draggedItemIndex].label
+      } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
       setLastAnnouncement(message);
       onReorder?.(sortedItems.map((item) => item.value));
     }

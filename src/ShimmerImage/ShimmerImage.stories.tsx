@@ -14,7 +14,7 @@ import profilePicture from "../_data/images/profile001.jpg";
  * <ShimmerImage
  *   src={profilePicture}
  *   width={300}
- *   alt="profile picture"
+ *   alt="Woman with freckles resting her chin on her hand"
  * />
  * ```
  *
@@ -28,7 +28,7 @@ import profilePicture from "../_data/images/profile001.jpg";
  * <ShimmerImage
  *   src={profilePicture.src}
  *   width={300}
- *   alt="profile picture"
+ *   alt="Woman with freckles resting her chin on her hand"
  * />
  *
  * ```
@@ -44,7 +44,9 @@ export default meta;
 type Story = StoryObj<typeof ShimmerImage>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    alt: "Woman with freckles resting her chin on her hand"
+  },
   render: (props) => (
     <div className="p-12">
       <ShimmerImage src={profilePicture} width={300} {...props} />
@@ -54,6 +56,7 @@ export const Default: Story = {
 
 export const Rounded: Story = {
   args: {
+    alt: "Woman with freckles resting her chin on her hand",
     rounded: true
   },
   render: (props) => (

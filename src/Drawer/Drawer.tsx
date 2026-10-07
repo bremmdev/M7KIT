@@ -13,6 +13,7 @@ const DrawerClose = () => {
   return (
     <div className={cn("sticky left-0 right-0 py-3 pr-6 top-0 flex bg-inherit items-center justify-end")}>
       <button
+        type="button"
         className="group focus-ring-inner hover:bg-surface-muted rounded-md transition-colors p-1"
         onClick={close}
         aria-label="close drawer"

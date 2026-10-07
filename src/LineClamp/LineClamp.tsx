@@ -16,6 +16,7 @@ export const LineClampTrigger = (props: LineClampTriggerProps) => {
 
   return !hideTrigger ? (
     <button
+      type="button"
       className={cn(
         "text-foreground font-medium underline underline-offset-4 p-1 hover:text-accent focus-ring-inner",
         className

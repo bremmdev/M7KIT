@@ -162,7 +162,9 @@ describe("Popover", () => {
     it("should close popover on click outside", () => {
       render(
         <div>
-          <button data-testid="outside">Outside</button>
+          <button type="button" data-testid="outside">
+            Outside
+          </button>
           <Popover>
             <PopoverTrigger>Open popover</PopoverTrigger>
             <PopoverContent>Popover content</PopoverContent>
@@ -209,7 +211,7 @@ describe("Popover", () => {
         <Popover open={true} onOpenChange={onOpenChange}>
           <PopoverTrigger>Open popover</PopoverTrigger>
           <PopoverContent>
-            <button>Focusable button</button>
+            <button type="button">Focusable button</button>
           </PopoverContent>
         </Popover>
       );
@@ -230,7 +232,7 @@ describe("Popover", () => {
         <Popover>
           <PopoverTrigger>Open popover</PopoverTrigger>
           <PopoverContent>
-            <button>Focusable button</button>
+            <button type="button">Focusable button</button>
           </PopoverContent>
         </Popover>
       );
@@ -279,8 +281,10 @@ describe("Popover", () => {
         <Popover>
           <PopoverTrigger>Open popover</PopoverTrigger>
           <PopoverContent>
-            <button data-testid="first-focusable">First</button>
-            <button>Second</button>
+            <button type="button" data-testid="first-focusable">
+              First
+            </button>
+            <button type="button">Second</button>
           </PopoverContent>
         </Popover>
       );
@@ -324,8 +328,12 @@ describe("Popover", () => {
         <Popover trapFocus={true} open={true}>
           <PopoverTrigger>Open popover</PopoverTrigger>
           <PopoverContent>
-            <button data-testid="first">First</button>
-            <button data-testid="last">Last</button>
+            <button type="button" data-testid="first">
+              First
+            </button>
+            <button type="button" data-testid="last">
+              Last
+            </button>
           </PopoverContent>
         </Popover>
       );
@@ -345,7 +353,9 @@ describe("Popover", () => {
         <Popover trapFocus={false}>
           <PopoverTrigger>Open popover</PopoverTrigger>
           <PopoverContent>
-            <button data-testid="only-button">Only button</button>
+            <button type="button" data-testid="only-button">
+              Only button
+            </button>
           </PopoverContent>
         </Popover>
       );
@@ -688,7 +698,9 @@ describe("Popover", () => {
 
       render(
         <div>
-          <button data-testid="outside">Outside</button>
+          <button type="button" data-testid="outside">
+            Outside
+          </button>
           <Popover onOpenChange={onOpenChange}>
             <PopoverTrigger>Open popover</PopoverTrigger>
             <PopoverContent>Popover content</PopoverContent>
