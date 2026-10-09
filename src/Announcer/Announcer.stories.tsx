@@ -15,8 +15,8 @@ import { AnnouncerInspector } from "../_stories/AnnouncerInspector";
 /**
  * `announce()` and `useAnnounce()` tell screen reader users about something that changed without moving focus: the
  * result of an action ("Profile saved"), a waiting state, progress, or an error. This is what WCAG 2.2 SC 4.1.3 Status
- * Messages asks for. `Switch`, `ThemeToggle` and `SortableList` use it too, so the whole page shares one pair of live
- * regions and one queue.
+ * Messages asks for. Multiple components can use the same component. `Switch`, `ThemeToggle` and `SortableList` use it too, 
+ * so the whole page shares one pair of live regions and one queue.
  *
  * ## Usage
  *
@@ -113,7 +113,7 @@ export const PoliteAndAssertive: Story = {
  * Setting the same text again is not a change, so a live region whose text is replaced stays silent. Here every
  * message is a new element, so the repeat is announced again.
  *
- * - **Twice at once**: two separate "Saved" elements, 250 ms apart.
+ * - **Twice at once**: two separate "Saved" elements, 250 ms apart. Without an id the old message is NOT replaced
  * - **With an id**, click a few times: each click is a new element, so it is announced again, and it replaces the
  *   previous one, so the region doesn't fill up with copies. This is what a read-only `Switch` does.
  */
@@ -407,29 +407,6 @@ export const InLibraryComponents: Story = {
         <label htmlFor="announcer-read-only-switch">Notifications (read-only)</label>
       </div>
       <SortableList title="Favorite fruits" titleElement="h3" items={["Apple", "Banana", "Cherry", "Date"]} />
-    </Scenario>
-  )
-};
-
-/**
- * A `SortableList` inside a Drawer: enter edit mode and move items with the arrow keys. The messages go to the regions
- * inside the Drawer, because the page behind it is inert.
- */
-export const SortableListInADrawer: Story = {
-  render: () => (
-    <Scenario>
-      <DrawerRoot>
-        <DrawerTrigger className="px-4 py-2 rounded-md bg-foreground text-foreground-inverse font-medium focus-ring">
-          Open a list in a Drawer
-        </DrawerTrigger>
-        <Drawer aria-label="Reorder">
-          <DrawerContent className={settingsDrawerClasses}>
-            <h2 className="text-2xl font-bold">Reorder</h2>
-            <SortableList title="Favorite vegetables" titleElement="h3" items={["Carrot", "Leek", "Onion", "Pea"]} />
-            <AnnouncerInspector title="Inspector (inside the Drawer)" />
-          </DrawerContent>
-        </Drawer>
-      </DrawerRoot>
     </Scenario>
   )
 };
