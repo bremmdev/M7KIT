@@ -14,6 +14,7 @@ import {
 } from "../Tooltip/Tooltip.utils";
 import { useOnClickOutside } from "../_hooks/useOnClickOutside";
 import { useFocusTrap } from "../_hooks/useFocusTrap";
+import { ensureLiveRegion } from "../Announcer/Announcer";
 
 export const Popover = ({
   children,
@@ -180,6 +181,14 @@ export const PopoverContent = ({ children, className, placement = "bottom center
       }
     };
   }, [open, closeTimerRef]);
+
+  // With trapFocus the popover is modal (aria-modal), and screen readers ignore the page behind it, so announcements go to
+  // live regions inside it. Create them as it opens: screen readers can miss a message in a region that was only just added
+  React.useEffect(() => {
+    if (open && trapFocus) {
+      ensureLiveRegion(overlayContentRef.current);
+    }
+  }, [open, trapFocus, overlayContentRef]);
 
   React.useLayoutEffect(() => {
     if (!open) {

@@ -126,6 +126,25 @@ Instead of changing the colors, individual components can also be overridden usi
 
 To enable dark mode, use a Theme Provider or JavaScript to add the `data-theme="dark"` attribute to the `html` element in your application.
 
+## Screen reader announcements
+
+`announce()` tells screen reader users about something that changed without moving focus, such as "Profile saved" or an error (WCAG 2.2 SC 4.1.3 Status Messages). It writes to two visually hidden live regions, one polite and one assertive, that the whole page shares with m7kit's own components. While a modal dialog is open, messages go to regions inside it, because screen readers can't hear the page behind it.
+
+```ts
+import { announce, useAnnounce } from "@bremmdev/m7kit";
+
+// Anywhere, also outside React
+announce("Profile saved");
+announce("Connection lost. Your changes are not saved.", { politeness: "assertive" });
+
+// In a component: creates the live regions on mount, inside the component's dialog if it has one
+const listRef = useRef<HTMLUListElement>(null);
+const announceFromList = useAnnounce(listRef);
+announceFromList(`Moved ${label} to position ${index + 1} of ${total}`, { id: listId });
+```
+
+Messages are polite by default. Use `assertive` only for errors and time-critical messages. A message with an `id` replaces a waiting message with the same `id`, so a burst only announces the latest. Add a `delay` to wait until a quick series stops, like an item moved with quick key presses: screen readers read every message they receive. See the [Announcer stories](https://m7kit.bremm.dev/?path=/docs/utilities-announcer--docs) for every option, when not to use it, and a live view of the regions.
+
 ## Notable Components
 
 ### Masonry

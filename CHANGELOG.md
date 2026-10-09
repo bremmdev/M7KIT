@@ -1,3 +1,10 @@
+# 0.64.0 - 2026-10-09
+
+- Add `announce()`, `clearAnnouncer()` and `useAnnounce()`: screen reader announcements through two shared, visually hidden live regions, one polite and one assertive. Each message is added as a new element, so messages don't overwrite each other. With `id` and `delay`, a quick series from one source is announced once, when it stops.
+- `SortableList` announces through the shared live regions instead of its own, and politely instead of assertively. Moving an item several times quickly only announces the final position
+- `Switch` and `ThemeToggle` merge rapid attempts to toggle a read-only switch into one "Read only" message
+- Add the **Utilities/Announcer** stories, with a live region inspector that shows where the regions are, whether screen readers can hear them, what they contain, and a timeline of messages and focus changes
+
 # 0.63.0 - 2026-10-06
 
 - Make hover easier to see in Windows high contrast mode (forced colors), following Fluent UI and React Spectrum:

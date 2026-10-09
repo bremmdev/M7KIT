@@ -3,6 +3,7 @@ import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ThemeToggle } from "./ThemeToggle";
 import { ThemeToggleProps } from "./ThemeToggle.types";
+import { clearAnnouncer } from "../Announcer";
 
 // The visual track/thumb is driven by data-checked on the root label, so it must stay in sync with the input
 const getRoot = (input: HTMLElement) => input.closest("label")!;
@@ -10,6 +11,11 @@ const getRoot = (input: HTMLElement) => input.closest("label")!;
 describe("ThemeToggle", () => {
   afterEach(() => {
     jest.restoreAllMocks();
+    // The shared live regions outlive each test: start every test without them
+    clearAnnouncer();
+    for (const wrapper of document.querySelectorAll("[data-m7kit-announcer]")) {
+      wrapper.remove();
+    }
   });
 
   describe("Semantics", () => {
@@ -394,11 +400,18 @@ describe("ThemeToggle", () => {
     it("should announce the read-only message when the user tries to toggle it", async () => {
       const user = userEvent.setup();
       render(<ThemeToggle readOnly />);
-      const liveRegion = document.querySelector("body > [role='status']") as HTMLElement;
+      // The shared polite live region, created on mount before the first message
+      const liveRegion = document.querySelector<HTMLElement>("body > [data-m7kit-announcer] > [aria-live='polite']")!;
       expect(liveRegion).toBeInTheDocument();
 
       await user.click(screen.getByRole("switch"));
       await waitFor(() => expect(liveRegion).toHaveTextContent("Read only"));
+      const first = liveRegion.lastElementChild;
+
+      // A repeated attempt is a new message, so it is announced again. It replaces the earlier one, which has the same id
+      await user.keyboard(" ");
+      await waitFor(() => expect(liveRegion.lastElementChild).not.toBe(first));
+      expect(liveRegion.children).toHaveLength(1);
     });
 
     it("should still submit its value with the form", () => {

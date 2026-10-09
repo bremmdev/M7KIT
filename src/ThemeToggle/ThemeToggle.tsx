@@ -13,7 +13,7 @@ import {
 import { useCheckboxFormReset } from "../shared/Toggle/useCheckboxFormReset";
 import { useCheckedDevWarnings } from "../shared/Toggle/useCheckedDevWarnings";
 import { useMergedRef } from "../utils/hooks/useMergedRef";
-import { announce, ensureLiveRegion } from "../utils/announce";
+import { useAnnounce } from "../Announcer/useAnnounce";
 import { Star, Cloud, Lock } from "lucide-react";
 
 const StarCluster = ({ size, blackAndWhite }: { size: ThemeToggleSize; blackAndWhite: boolean }) => {
@@ -73,12 +73,9 @@ export const ThemeToggle = (props: ThemeToggleProps) => {
   const readOnlyDescriptionId = React.useId();
   const describedBy = [readOnly && readOnlyDescriptionId, ariaDescribedBy].filter(Boolean).join(" ") || undefined;
 
-  // Create the live region before it's needed (inside the toggle's dialog, if any): screen readers can miss a message in a region that was only just added
-  React.useEffect(() => {
-    if (readOnly) {
-      ensureLiveRegion(inputRef.current);
-    }
-  }, [readOnly]);
+  // Creates the live regions on mount while read-only
+  const announce = useAnnounce(inputRef, { enabled: Boolean(readOnly) });
+  const announceId = React.useId();
 
   useCheckboxFormReset(inputRef, {
     isChecked,
@@ -100,7 +97,7 @@ export const ThemeToggle = (props: ThemeToggleProps) => {
     // Browsers ignore `readonly` on checkboxes, so block the change here. React then puts the rendered value back.
     // The state doesn't change, so screen readers say nothing: tell the user why their click or Space did nothing
     if (readOnly) {
-      announce(readOnlyMessage, event.currentTarget);
+      announce(readOnlyMessage, { id: announceId });
       return;
     }
 
@@ -145,6 +142,7 @@ export const ThemeToggle = (props: ThemeToggleProps) => {
           {...rest}
           ref={mergedRef}
           type="checkbox"
+          // biome-ignore lint/a11y/useAriaPropsForRole: the native checked state is exposed as the switch's state. ARIA in HTML: authors MUST NOT use aria-checked on input type=checkbox
           role="switch"
           checked={isChecked}
           disabled={disabled}

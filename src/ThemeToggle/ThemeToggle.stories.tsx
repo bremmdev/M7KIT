@@ -68,7 +68,7 @@ import { ThemeToggleProps } from "./ThemeToggle.types";
  * - **Keep the hidden label meaningful**: since nobody sees it to notice a mistake, check that `label` still matches what "on" means, and translate it with the rest of the interface.
  *
  * ### Things to look out for
- * - **Read-only**: `readOnly` sets `aria-readonly`, but screen readers like NVDA don't announce it on switches. So the toggle also gets `readOnlyMessage` (default "Read only") as its description, and announces it through a polite live region when the user tries to toggle it. Explain _why_ it can't be changed in visible text, linked with `aria-describedby`.
+ * - **Read-only**: `readOnly` sets `aria-readonly`, but screen readers like NVDA don't announce it on switches. So the toggle also gets `readOnlyMessage` (default "Read only") as its description, and announces it through the shared polite live region when the user tries to toggle it. Rapid attempts are merged into one message. Explain _why_ it can't be changed in visible text, linked with `aria-describedby`.
  * - **Label position in right-to-left layouts**: `labelPosition` follows the reading direction, like the rest of the toggle: `left` puts the label before the toggle, which is on the right in a right-to-left layout.
  *
  * ## Usage

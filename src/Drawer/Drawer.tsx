@@ -6,6 +6,7 @@ import { DrawerProvider } from "./DrawerContext";
 import { X } from "lucide-react";
 import { usePreventScroll } from "../_hooks/usePreventScroll";
 import { useFocusTrap } from "../_hooks/useFocusTrap";
+import { ensureLiveRegion } from "../Announcer/Announcer";
 
 const DrawerClose = () => {
   const { close } = useDrawer();
@@ -60,6 +61,10 @@ export const Drawer = (props: DrawerProps) => {
 
   React.useEffect(() => {
     if (isOpen && drawerRef.current) {
+      // The page behind the modal is inert, so announcements go to live regions inside the drawer.
+      // Create them as it opens: screen readers can miss a message in a region that was only just added
+      ensureLiveRegion(drawerRef.current);
+
       // Reset scroll position when the drawer is opened
       if (resetScroll) {
         drawerRef.current.scrollTop = 0;

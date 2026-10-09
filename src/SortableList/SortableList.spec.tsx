@@ -1,6 +1,11 @@
 // SortableList.test.tsx
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { act, render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { SortableList } from "./SortableList";
+import { clearAnnouncer } from "../Announcer";
+
+// The shared polite live region the list announces through
+const getPoliteRegion = () =>
+  document.querySelector<HTMLElement>("body > [data-m7kit-announcer] > [aria-live='polite']");
 
 describe("SortableList", () => {
   const defaultProps = {
@@ -10,6 +15,14 @@ describe("SortableList", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+  });
+
+  afterEach(() => {
+    // The shared live regions outlive each test: start every test without them
+    clearAnnouncer();
+    for (const wrapper of document.querySelectorAll("[data-m7kit-announcer]")) {
+      wrapper.remove();
+    }
   });
 
   describe("Rendering", () => {
@@ -132,8 +145,8 @@ describe("SortableList", () => {
     it("announces edit mode changes", async () => {
       render(<SortableList {...defaultProps} />);
 
-      // Get live region by assertive attribute using querySelector
-      const liveRegion = document.querySelector("[aria-live='assertive']");
+      // Created on mount, before the first message
+      const liveRegion = getPoliteRegion();
 
       fireEvent.click(screen.getByText("Enter Edit Mode"));
 
@@ -242,7 +255,7 @@ describe("SortableList", () => {
       const firstButton = screen.getByLabelText(/Reorder Apple/);
       fireEvent.keyDown(firstButton, { key: "ArrowDown" });
 
-      const liveRegion = document.querySelector("[aria-live='assertive']");
+      const liveRegion = getPoliteRegion();
 
       await waitFor(() => {
         expect(liveRegion).toHaveTextContent("Moved Apple to position 2 of 3");
@@ -295,7 +308,7 @@ describe("SortableList", () => {
 
       fireEvent.drop(secondItem);
 
-      const liveRegion = document.querySelector("[aria-live='assertive']") as HTMLElement;
+      const liveRegion = getPoliteRegion() as HTMLElement;
 
       await waitFor(() => {
         expect(liveRegion.textContent).toContain("Moved Apple to position");
@@ -325,6 +338,60 @@ describe("SortableList", () => {
   });
 
   describe("Accessibility", () => {
+    it("announces politely through the shared live regions, without a live region of its own", async () => {
+      const { container } = render(<SortableList {...defaultProps} />);
+
+      fireEvent.click(screen.getByText("Enter Edit Mode"));
+      await waitFor(() => expect(getPoliteRegion()).toHaveTextContent("Entered edit mode"));
+
+      expect(container.querySelector("[aria-live]")).toBeNull();
+      expect(document.querySelector("[data-m7kit-announcer] > [aria-live='assertive']")).toBeEmptyDOMElement();
+    });
+
+    it("only announces the latest position when items are moved quickly", async () => {
+      render(<SortableList {...defaultProps} />);
+      fireEvent.click(screen.getByText("Enter Edit Mode"));
+
+      // Two moves before the first is written: the second replaces the first, so only the final position is announced
+      fireEvent.keyDown(screen.getByLabelText(/Reorder Apple/), { key: "ArrowDown" });
+      fireEvent.keyDown(screen.getByLabelText(/Reorder Apple/), { key: "ArrowDown" });
+
+      await waitFor(() => expect(getPoliteRegion()).toHaveTextContent("Moved Apple to position 3 of 3"));
+      expect(getPoliteRegion()).not.toHaveTextContent("position 2 of 3");
+    });
+
+    // Screen readers read every message the region receives, also ones that are replaced later
+    it("waits until moves 200 ms apart stop, then only announces the final position", () => {
+      jest.useFakeTimers();
+      try {
+        render(<SortableList items={["Apple", "Banana", "Cherry", "Date"]} />);
+        const region = getPoliteRegion()!;
+        const added: string[] = [];
+        const record = (records: MutationRecord[]) => {
+          for (const mutation of records) {
+            for (const node of mutation.addedNodes) {
+              added.push(node.textContent ?? "");
+            }
+          }
+        };
+        const observer = new MutationObserver(record);
+        observer.observe(region, { childList: true });
+
+        fireEvent.click(screen.getByText("Enter Edit Mode"));
+        for (let move = 0; move < 3; move++) {
+          fireEvent.keyDown(screen.getByLabelText(/Reorder Apple/), { key: "ArrowDown" });
+          act(() => jest.advanceTimersByTime(200));
+        }
+        act(() => jest.advanceTimersByTime(1000));
+
+        record(observer.takeRecords());
+        observer.disconnect();
+        expect(added.filter((message) => message.startsWith("Moved"))).toEqual(["Moved Apple to position 4 of 4"]);
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+
     it("has proper ARIA attributes", () => {
       render(<SortableList {...defaultProps} title="Fruits" />);
 

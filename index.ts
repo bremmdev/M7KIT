@@ -1,5 +1,7 @@
 export { AnimatedCount } from "./src/AnimatedCount";
 export type { AnimatedCountProps } from "./src/AnimatedCount/AnimatedCount.types";
+export { announce, clearAnnouncer, useAnnounce } from "./src/Announcer";
+export type { AnnounceOptions, Politeness, UseAnnounceOptions } from "./src/Announcer/Announcer.types";
 export { Breadcrumb, BreadcrumbCurrentItem, BreadcrumbItem, BreadcrumbMenu } from "./src/Breadcrumb";
 export type { BreadcrumbProps, BreadcrumbMenuProps, BreadcrumbItemProps } from "./src/Breadcrumb/Breadcrumb.types";
 export { Button } from "./src/Button";

@@ -15,7 +15,7 @@ import { Cat, Dog, Fish, Rabbit, Squirrel } from "lucide-react";
  *
  * ## Features
  * - **Accessible keyboard control**: Enter Edit Mode and use the up and down arrow keys to reorder items.
- * - **Screen reader support**: Announces position updates, movement, and mode changes using `aria-live`.
+ * - **Screen reader support**: Announces position updates, movement, and mode changes through the shared announcer (see Utilities/Announcer).
  * - **Dynamic instructions**: Hidden text updates to guide assistive technology users.
  * - **Visual feedback**: The currently dragged item is highlighted for visual clarity.
  * - **Edit Mode toggle**: The Edit Mode button toggles between view and application modes, ensuring both simple display and interactive reordering.
@@ -29,7 +29,7 @@ import { Cat, Dog, Fish, Rabbit, Squirrel } from "lucide-react";
  * The component implements several accessibility best practices:
  *
  * - Uses `role="list"` and `aria-roledescription="Sortable List"` for clear semantics.
- * - When reordering via keyboard, all updates are announced through an `aria-live="assertive"` region.
+ * - Moves and mode changes are announced politely through the shared live regions (inside the list's dialog, if any). Focus moves to the moved item at the same time, and a polite message is read after its name instead of cutting it off. When an item is moved several times quickly, only the final position is announced, half a second after the last move: screen readers read every message they receive, so each step would be read out in turn.
  * - Including `role="application"` in Edit Mode ensures keyboard focus and arrow key overrides work properly in screen readers.
  * - The Edit Mode toggle button allows users to easily enter or exit keyboard reordering.
  * - Escape key exits Edit Mode and returns focus to the toggle button.

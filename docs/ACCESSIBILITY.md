@@ -1,6 +1,6 @@
 # Accessibility guidelines
 
-How this library meets the rules in [AGENTS.md](../AGENTS.md) in practice. Read this before changing the styles of a component.
+How this library meets the rules in [AGENTS.md](../AGENTS.md) in practice. Read this before changing the styles of a component, or before making a component announce something to screen readers.
 
 - [Color contrast](#color-contrast)
 - [Forced colors (Windows high contrast)](#forced-colors-windows-high-contrast)
@@ -11,6 +11,13 @@ How this library meets the rules in [AGENTS.md](../AGENTS.md) in practice. Read 
   - [How we compare to other libraries](#how-we-compare-to-other-libraries)
   - [Writing forced colors styles in Tailwind](#writing-forced-colors-styles-in-tailwind)
   - [Testing](#testing)
+- [Screen reader announcements](#screen-reader-announcements)
+  - [When to use it](#when-to-use-it)
+  - [How it works](#how-it-works)
+  - [Politeness](#politeness)
+  - [Dialogs](#dialogs)
+  - [How we compare to other libraries](#how-we-compare-to-other-libraries-1)
+  - [Testing announcements](#testing-announcements)
 
 ---
 
@@ -165,3 +172,66 @@ Checked in the published code of Fluent UI v9, React Spectrum S2, MUI 9 (includi
 - **Playwright:** `page.emulateMedia({ forcedColors: "active", colorScheme: "dark" })`. Screenshot every state (default, hover, focus, selected, disabled, read-only) normally and in both palettes. When you read a color with `getComputedStyle`, wait for transitions first: `transition-colors` also animates `outline-color` and `border-color`.
 - **Windows:** Settings → Accessibility → Contrast themes, or left Alt + left Shift + Print Screen. Real themes (Aquatic, Desert, Dusk, Night sky) have other colors than the emulation, so check at least one dark and one light theme before a release.
 - **Firefox:** Settings → General → Fonts → Colors… → "Override the colors specified by the page". Its details can differ from Chromium's.
+
+---
+
+## Screen reader announcements
+
+A status message (the result of an action, a waiting state, progress or an error) must reach screen reader users without moving focus (WCAG 2.2 SC 4.1.3). Components send them through the shared announcer in `src/Announcer` (`useAnnounce()`, or `announce()` outside React), never through a live region of their own. Apps get the same functions, so the whole page shares two regions and one queue.
+
+### When to use it
+
+| Situation                                                                                                     | Use                                                                                          |
+| ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Something changed that has no text for screen readers: a read-only switch that doesn't toggle, an item moved | The announcer                                                                                |
+| A visible message appears ("3 results")                                                                       | Make that element the live region (`role="status"`), rendered before the message             |
+| The state of a control changed (expanded, selected, checked)                                                  | An ARIA state on the control. Screen readers announce it, an announcement as well is heard twice |
+| The user has to act on it                                                                                     | Move focus to it (a dialog)                                                                  |
+| An error                                                                                                      | Visible error text next to the field that stays (WCAG 3.3.1). Optionally an announcement too |
+
+### How it works
+
+- **Two regions per container**, one polite and one assertive: `role="log"` with `aria-relevant="additions"` and no `aria-atomic`. They are visually hidden with inline styles, never with `display: none`, `hidden` or `aria-hidden`: hidden regions are never announced.
+- **Each message is a new child element.** Messages from different components can't overwrite each other, and a repeated message is announced again. `role="status"` and `role="alert"` are atomic, so they would read every message in the region again. Messages are removed after 7 s, so they aren't found later when browsing.
+- **One queue.** A message is written about 100 ms after `announce()`, then one every 250 ms, assertive first. A waiting message with the same `id` is replaced, so a burst only announces the latest. When it is written, an older message with the same `id` is removed. With a `delay`, a message waits longer before it is written, and a newer message with the same `id` starts the wait again. That's for a series spread out over time, like quick key presses: a message that has been written is in the screen reader's queue, and removing it doesn't take it out again.
+- **New regions wait.** Screen readers can miss a message in a region that was only just added, so a new pair waits 150 ms before its first message. `useAnnounce()` creates the pair on mount, and `Drawer` and a `Popover` with `trapFocus` create one when they open.
+- **One place writes** (`write()` in `Announcer.ts`), so the announcer can move to `ariaNotify()` once VoiceOver supports it reliably. In June 2026 it still failed on iOS.
+
+### Politeness
+
+Polite by default. Assertive only for errors and time-critical messages ("Connection lost", "Your session ends in 1 minute"):
+
+- WCAG lists "Using `role="alert"` or `aria-live="assertive"` on content which is not important and time-sensitive" as a failure of 4.1.3.
+- Assertive is unreliable anyway. In [Adrian Roselli's tests (January 2026)](https://adrianroselli.com/2026/01/live-region-support.html), NVDA, JAWS, Narrator, Orca and TalkBack treated it as polite. VoiceOver interrupts what it is reading, and screen readers may drop waiting polite messages (WAI-ARIA allows it).
+- The regions don't use `role="alert"`: NVDA says "alert" first, and Orca didn't announce it at all.
+
+`SortableList` announces its moves politely. Focus moves to the moved item at the same time, and a polite message is read after the item's name instead of cutting it off. Moves wait 500 ms (`delay`), so moving an item several times quickly only announces the final position.
+
+### Dialogs
+
+`showModal()` makes everything outside the dialog inert, and `aria-modal="true"` makes screen readers ignore it. That includes live regions, and `Drawer` also puts `inert` on `<body>`. So a message goes to the regions inside the open modal. They are picked when the message is written, not when `announce()` is called, so a message sent while a dialog closes goes to the page:
+
+1. the open dialog or `[aria-modal="true"]` element around `from`, unless another modal is open on top of it,
+2. otherwise the topmost open modal, also for a message from the page behind it,
+3. otherwise the end of `<body>`.
+
+In a dialog the pair is the first child, so it doesn't change which element is the consumer's `:last-child` (Tailwind's `space-*` and `divide-*`).
+
+### How we compare to other libraries
+
+Checked in their published source code in October 2026.
+
+| Choice                 | React Aria                     | Fluent UI v9                                      | Angular CDK                           | Primer                                 | This library                                        |
+| ---------------------- | ------------------------------ | ------------------------------------------------- | ------------------------------------- | -------------------------------------- | --------------------------------------------------- |
+| Delivery               | Function                       | Provider and hook (does nothing without provider) | Service                               | Custom element and function            | Function and hook                                   |
+| Regions                | 2, `role="log"`                | `ariaNotify()`, otherwise 1 assertive region      | 1, politeness switched per message    | 2                                      | 2, `role="log"`, per container                      |
+| Message                | Appended, removed after 7 s    | Queued, text replaced every 500 ms                | Text replaced after 100 ms            | Queued, text replaced, 150 ms apart    | Appended, 250 ms apart, removed after 7 s           |
+| Default politeness     | Assertive                      | Normal                                            | Polite                                | Polite                                 | Polite                                              |
+| Modal dialogs          | Left out of its own `aria-hidden` | None                                           | `aria-owns` from each modal           | Region inside the open `<dialog>`      | Regions inside the topmost open modal               |
+
+### Testing announcements
+
+- **Unit tests** (`src/Announcer/Announcer.spec.tsx`, with Jest fake timers) cover the regions, the timing, `id`, `clearAnnouncer()` and dialogs. jsdom has no accessibility tree, no `showModal()` and no `:modal`, so a `<dialog open data-modal>` stands in for a modal dialog.
+- **Storybook:** the **Utilities/Announcer** stories show every scenario with a live region inspector: where the regions are, whether screen readers can hear them, what they contain, and a timeline of messages and focus changes.
+- **Chromium:** the Chrome DevTools Protocol (`Accessibility.getPartialAXTree`) shows whether a region is exposed to screen readers or ignored, for example because it is inert behind a modal.
+- **Screen readers:** NVDA with Firefox and Chrome, JAWS with Chrome, Narrator with Edge, VoiceOver with Safari on macOS and iOS, and TalkBack with Chrome. Results differ between screen readers and between their versions.

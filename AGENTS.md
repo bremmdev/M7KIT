@@ -13,9 +13,10 @@ design-system consistency.
 
 ## Accessibility guidelines
 
-Read docs/ACCESSIBILITY.md before changing component styles. It records the choices this
-library has made for color contrast and forced colors (Windows high contrast), and how to
-implement and test them.
+Read docs/ACCESSIBILITY.md before changing component styles or making a component announce
+something to screen readers. It records the choices this library has made for color contrast,
+forced colors (Windows high contrast) and announcements, and how to implement and test them.
+Components announce status messages through the shared announcer (`useAnnounce()` in src/Announcer).
 
 ## Accessibility resources
 

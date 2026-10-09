@@ -4,6 +4,11 @@ import { SortableListProps } from "./SortableList.types";
 import { ChevronsUpDown, GripVertical, Settings } from "lucide-react";
 import { getItemsWithIdsAndLabels, extractTextFromNode } from "./SortableList.utils";
 import { useFocusTrap } from "../_hooks/useFocusTrap";
+import { useAnnounce } from "../Announcer/useAnnounce";
+
+// A move is announced once the moves stop for this long, with the final position. Screen readers read every message they
+// receive, so a quick series of moves would otherwise be read out position by position
+const MOVE_ANNOUNCE_DELAY = 500;
 
 const ReorderButton = ({
   handlePosition,
@@ -38,7 +43,7 @@ export const SortableList = ({
   className,
   handlePosition = "start",
   items,
-  onReorder = () => {},
+  onReorder = () => { },
   title = "",
   titleElement = "h2",
   ...rest
@@ -47,7 +52,6 @@ export const SortableList = ({
 
   const [dragStartIndex, setDragStartIndex] = React.useState<number | null>(null);
   const [draggedItemIndex, setDraggedItemIndex] = React.useState<number | null>(null);
-  const [lastAnnouncement, setLastAnnouncement] = React.useState<string | null>(null);
 
   const [touchStartY, setTouchStartY] = React.useState<number | null>(null);
   const dragHandleRefs = React.useRef<Array<HTMLButtonElement>>([]);
@@ -55,10 +59,14 @@ export const SortableList = ({
   const editModeButtonRef = React.useRef<HTMLButtonElement | null>(null);
   const containerRef = React.useRef<HTMLDivElement | null>(null);
 
+  // Announces through the shared live regions
+  const announce = useAnnounce(containerRef);
+  const moveAnnounceId = React.useId();
+
   const handleEscapeCallback = React.useCallback(() => {
     setEditMode(false);
-    setLastAnnouncement("Exited edit mode");
-  }, []);
+    announce("Exited edit mode");
+  }, [announce]);
 
   // Stable reference for useFocusTrap to prevent focus trap re-initialization
   const focusTrapOptions = React.useMemo(
@@ -126,10 +134,9 @@ export const SortableList = ({
 
     // only announce if dropped inside a valid zone AND order changed
     if (dragStartIndex !== null && draggedItemIndex !== null && dragStartIndex !== draggedItemIndex) {
-      const message = `Moved ${
-        sortedItems[draggedItemIndex].label
-      } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
-      setLastAnnouncement(message);
+      const message = `Moved ${sortedItems[draggedItemIndex].label
+        } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
+      announce(message, { id: moveAnnounceId, delay: MOVE_ANNOUNCE_DELAY });
     }
 
     setDraggedItemIndex(null);
@@ -162,7 +169,7 @@ export const SortableList = ({
 
     // Announce change (for screen readers)
     const message = `Moved ${movedItem.label} to position ${newIndex + 1} of ${sortedItems.length}`;
-    setLastAnnouncement(message);
+    announce(message, { id: moveAnnounceId, delay: MOVE_ANNOUNCE_DELAY });
 
     // We'll ensure that DOM and refs are stable before moving focus
     const focusTargetIndex = newIndex;
@@ -181,7 +188,7 @@ export const SortableList = ({
 
   function handleEditModeSwitch() {
     setEditMode(!editMode);
-    setLastAnnouncement(editMode ? "Exited edit mode" : "Entered edit mode");
+    announce(editMode ? "Exited edit mode" : "Entered edit mode");
     if (!editMode) {
       // focus first drag handle when entering edit mode
       setTimeout(() => {
@@ -222,10 +229,9 @@ export const SortableList = ({
 
   function handleTouchEnd() {
     if (dragStartIndex !== null && draggedItemIndex !== null && dragStartIndex !== draggedItemIndex) {
-      const message = `Moved ${
-        sortedItems[draggedItemIndex].label
-      } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
-      setLastAnnouncement(message);
+      const message = `Moved ${sortedItems[draggedItemIndex].label
+        } to position ${draggedItemIndex + 1} of ${sortedItems.length}`;
+      announce(message, { id: moveAnnounceId, delay: MOVE_ANNOUNCE_DELAY });
       onReorder?.(sortedItems.map((item) => item.value));
     }
 
@@ -327,9 +333,6 @@ export const SortableList = ({
           </li>
         ))}
       </ul>
-      <div aria-live="assertive" className="sr-only">
-        {lastAnnouncement}
-      </div>
     </div>
   );
 };

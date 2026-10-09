@@ -3,6 +3,7 @@ import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Switch } from "./Switch";
 import { SwitchProps } from "./Switch.types";
+import { clearAnnouncer } from "../Announcer";
 
 const renderSwitch = (props: SwitchProps = {}) =>
   render(
@@ -11,6 +12,10 @@ const renderSwitch = (props: SwitchProps = {}) =>
       notifications
     </label>
   );
+
+// The shared polite live region on the page, or inside a dialog
+const getPoliteRegion = (container: Element = document.body) =>
+  container.querySelector<HTMLElement>(":scope > [data-m7kit-announcer] > [aria-live='polite']");
 
 // The visual track/thumb is driven by data-checked on the wrapper, so it must stay in sync with the input
 const getWrapper = (input: HTMLElement) => input.parentElement!;
@@ -439,6 +444,13 @@ describe("Switch", () => {
   });
 
   describe("Read-only", () => {
+    afterEach(() => {
+      clearAnnouncer();
+      for (const wrapper of document.querySelectorAll("[data-m7kit-announcer]")) {
+        wrapper.remove();
+      }
+    });
+
     it("should not toggle or call callbacks (uncontrolled)", async () => {
       const user = userEvent.setup();
       const onChange = jest.fn();
@@ -554,19 +566,36 @@ describe("Switch", () => {
     it("should announce the read-only message when the user tries to toggle it", async () => {
       const user = userEvent.setup();
       renderSwitch({ readOnly: true, readOnlyMessage: "Read only" });
-      const liveRegion = document.querySelector("body > [role='status']") as HTMLElement;
+      // Created on mount, before the first message
+      const liveRegion = getPoliteRegion()!;
       expect(liveRegion).toBeInTheDocument();
 
       await user.click(screen.getByRole("switch"));
       await waitFor(() => expect(liveRegion).toHaveTextContent("Read only"));
+      const first = liveRegion.lastElementChild;
 
-      // Cleared first, so a repeated attempt is announced again
+      // A repeated attempt is a new message, so it is announced again. It replaces the earlier one, which has the same id
       await user.keyboard(" ");
-      expect(liveRegion).toHaveTextContent("");
-      await waitFor(() => expect(liveRegion).toHaveTextContent("Read only"));
+      await waitFor(() => expect(liveRegion.lastElementChild).not.toBe(first));
+      expect(liveRegion.children).toHaveLength(1);
+      expect(liveRegion).toHaveTextContent("Read only");
     });
 
-    // A modal dialog makes everything outside it inert, including a live region on <body>
+    it("should merge rapid attempts into one message", async () => {
+      const user = userEvent.setup();
+      renderSwitch({ readOnly: true });
+      const liveRegion = getPoliteRegion()!;
+
+      await user.click(screen.getByRole("switch"));
+      await user.click(screen.getByRole("switch"));
+      await user.click(screen.getByRole("switch"));
+      await waitFor(() => expect(liveRegion).toHaveTextContent("Read only"));
+      await new Promise((resolve) => setTimeout(resolve, 400));
+
+      expect(liveRegion.children).toHaveLength(1);
+    });
+
+    // A modal dialog makes everything outside it inert, including live regions on <body>
     it("should announce through a live region inside its dialog", async () => {
       const user = userEvent.setup();
       render(
@@ -577,7 +606,7 @@ describe("Switch", () => {
           </label>
         </dialog>
       );
-      const liveRegion = screen.getByTestId("dialog").querySelector(":scope > [role='status']") as HTMLElement;
+      const liveRegion = getPoliteRegion(screen.getByTestId("dialog"))!;
       expect(liveRegion).toBeInTheDocument();
 
       await user.click(screen.getByRole("switch"));
@@ -590,7 +619,7 @@ describe("Switch", () => {
           <Switch aria-label="notifications" readOnly />
         </dialog>
       );
-      expect(screen.getByTestId("dialog").querySelector(":scope > [role='status']")).toBeInTheDocument();
+      expect(getPoliteRegion(screen.getByTestId("dialog"))).toBeInTheDocument();
     });
 
     // As the last child it would make the real last item lose :last-child, e.g. get an extra space-y margin or divide-y border
@@ -602,7 +631,7 @@ describe("Switch", () => {
         </dialog>
       );
       const dialog = screen.getByTestId("dialog");
-      expect(dialog.firstElementChild).toHaveAttribute("role", "status");
+      expect(dialog.firstElementChild).toHaveAttribute("data-m7kit-announcer");
       expect(dialog.lastElementChild).toBe(screen.getByTestId("last"));
     });
 
@@ -613,22 +642,19 @@ describe("Switch", () => {
           <Switch aria-label="notifications" readOnly />
         </div>
       );
-      const liveRegion = screen.getByTestId("modal").querySelector(":scope > [role='status']") as HTMLElement;
+      const liveRegion = getPoliteRegion(screen.getByTestId("modal"))!;
 
       await user.click(screen.getByRole("switch"));
       await waitFor(() => expect(liveRegion).toHaveTextContent("Read only"));
     });
 
-    it("should not announce when the switch can be toggled", async () => {
+    it("should not create a live region or announce when the switch can be toggled", async () => {
       const user = userEvent.setup();
-      // The live region is shared and outlives each test, so start from an empty one
-      const liveRegion = document.querySelector("body > [role='status']");
-      if (liveRegion) liveRegion.textContent = "";
-
       renderSwitch();
       await user.click(screen.getByRole("switch"));
-      await new Promise((resolve) => setTimeout(resolve, 150));
-      expect(document.querySelector("body > [role='status']")?.textContent ?? "").toBe("");
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
+      expect(document.querySelector("[data-m7kit-announcer]")).toBeNull();
     });
 
     it("should still submit its value with the form", () => {
