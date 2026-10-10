@@ -79,8 +79,26 @@ describe("SortableList", () => {
       expect(reorderButton).toBeInTheDocument();
     });
 
-    it("uses aria-label from items when available", () => {
+    it("uses aria-label from items when ARIA allows one", () => {
       const items = [
+        <span key="1" role="img" aria-label="Apple">
+          🍎
+        </span>
+      ];
+
+      render(<SortableList items={items} />);
+
+      const editButton = screen.getByText("Enter Edit Mode");
+      fireEvent.click(editButton);
+
+      // Should use aria-label instead of text content
+      expect(screen.getByLabelText(/Reorder Apple/)).toBeInTheDocument();
+    });
+
+    it("ignores aria-label on items that can't be named, and warns", () => {
+      const spy = jest.spyOn(console, "warn").mockImplementation();
+      const items = [
+        // biome-ignore lint/a11y/useAriaPropsSupportedByRole: tests that an aria-label ARIA doesn't allow is ignored
         <div key="1" aria-label="Custom label">
           Different text
         </div>
@@ -91,8 +109,10 @@ describe("SortableList", () => {
       const editButton = screen.getByText("Enter Edit Mode");
       fireEvent.click(editButton);
 
-      // Should use aria-label instead of text content
-      expect(screen.getByLabelText(/Reorder Custom label/)).toBeInTheDocument();
+      // Screen readers often don't announce an aria-label on a div, so the text is used
+      expect(screen.getByLabelText(/Reorder Different text/)).toBeInTheDocument();
+      expect(spy).toHaveBeenCalledWith(expect.stringContaining('aria-label="Custom label" on <div>'));
+      spy.mockRestore();
     });
 
     it("renders handle at start by default", () => {

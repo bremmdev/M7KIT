@@ -1,3 +1,4 @@
+import React from "react";
 import { getItemsWithIdsAndLabels } from "./SortableList.utils";
 
 describe("getItemsWithIdsAndLabels", () => {
@@ -55,12 +56,45 @@ describe("getItemsWithIdsAndLabels", () => {
       expect(result[1].label).toBe("Apple Red");
     });
 
-    it("prefers aria-label over text content", () => {
-      const items = [<div aria-label="Orange fruit">🍊</div>, <span aria-label="Custom label">Actual text</span>];
+    it("prefers aria-label over text content where ARIA allows one", () => {
+      const Icon = (props: React.ComponentProps<"span">) => <span role="img" {...props} />;
+      const items = [
+        <span role="img" aria-label="Orange fruit">
+          🍊
+        </span>,
+        <a href="/custom" aria-label="Custom label">
+          Actual text
+        </a>,
+        <Icon aria-label="Star">⭐</Icon>
+      ];
       const result = getItemsWithIdsAndLabels(items);
 
       expect(result[0].label).toBe("Orange fruit");
       expect(result[1].label).toBe("Custom label");
+      // A component can render any element, so its aria-label is trusted
+      expect(result[2].label).toBe("Star");
+    });
+
+    it("ignores aria-label where ARIA doesn't allow one, and warns once", () => {
+      const spy = jest.spyOn(console, "warn").mockImplementation();
+      const items = [
+        // biome-ignore lint/a11y/useAriaPropsSupportedByRole: tests that an aria-label ARIA doesn't allow is ignored
+        <div aria-label="Orange fruit">🍊</div>,
+        // biome-ignore lint/a11y/useAriaPropsSupportedByRole: tests that an aria-label ARIA doesn't allow is ignored
+        <span aria-label="Ignored label">Actual text</span>,
+        <div role="presentation" aria-label="Presentational label">
+          Presentational text
+        </div>
+      ];
+      const result = getItemsWithIdsAndLabels(items);
+      getItemsWithIdsAndLabels(items);
+
+      expect(result[0].label).toBe("🍊");
+      expect(result[1].label).toBe("Actual text");
+      expect(result[2].label).toBe("Presentational text");
+      expect(spy).toHaveBeenCalledTimes(3);
+      expect(spy).toHaveBeenCalledWith(expect.stringContaining('aria-label="Ignored label" on <span>'));
+      spy.mockRestore();
     });
 
     it("excludes aria-hidden elements", () => {
@@ -123,7 +157,9 @@ describe("getItemsWithIdsAndLabels", () => {
         <div>
           <span aria-hidden="true">🗑️</span>
           <strong>Delete</strong>
-          <span aria-label="priority badge">⭐</span>
+          <span role="img" aria-label="priority badge">
+            ⭐
+          </span>
         </div>
       ];
       const result = getItemsWithIdsAndLabels(items);

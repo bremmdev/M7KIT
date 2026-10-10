@@ -15,7 +15,7 @@ import { AnnouncerInspector } from "../_stories/AnnouncerInspector";
 /**
  * `announce()` and `useAnnounce()` tell screen reader users about something that changed without moving focus: the
  * result of an action ("Profile saved"), a waiting state, progress, or an error. This is what WCAG 2.2 SC 4.1.3 Status
- * Messages asks for. Multiple components can use the same component. `Switch`, `ThemeToggle` and `SortableList` use it too, 
+ * Messages asks for. Multiple components can use the same component. `Switch`, `ThemeToggle` and `SortableList` use it too,
  * so the whole page shares one pair of live regions and one queue.
  *
  * ## Usage

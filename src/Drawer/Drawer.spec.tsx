@@ -91,6 +91,57 @@ describe("Drawer", () => {
     });
   });
 
+  describe("onOpen and onClose", () => {
+    // Inline callbacks, so every render passes new functions
+    const drawerWithCallbacks = (onOpen: () => void, onClose: () => void) => (
+      <DrawerRoot>
+        <DrawerTrigger>Open drawer</DrawerTrigger>
+        <Drawer aria-label="settings" data-testid="drawer" onOpen={() => onOpen()} onClose={() => onClose()}>
+          <DrawerContent>
+            <button type="button">Save</button>
+          </DrawerContent>
+        </Drawer>
+      </DrawerRoot>
+    );
+
+    it("should call onOpen when opening and onClose when closing, not on mount", async () => {
+      const user = userEvent.setup();
+      const onOpen = jest.fn();
+      const onClose = jest.fn();
+      render(drawerWithCallbacks(onOpen, onClose));
+      expect(onOpen).not.toHaveBeenCalled();
+      expect(onClose).not.toHaveBeenCalled();
+
+      await openDrawer(user);
+      expect(onOpen).toHaveBeenCalledTimes(1);
+
+      screen.getByRole("button", { name: "Save" }).focus();
+      await user.keyboard("{Escape}");
+      expect(onClose).toHaveBeenCalledTimes(1);
+      expect(onOpen).toHaveBeenCalledTimes(1);
+    });
+
+    it("should not call them again when re-rendered with new callbacks", async () => {
+      const user = userEvent.setup();
+      const onOpen = jest.fn();
+      const onClose = jest.fn();
+      const { rerender } = render(drawerWithCallbacks(onOpen, onClose));
+      rerender(drawerWithCallbacks(onOpen, onClose));
+      expect(onClose).not.toHaveBeenCalled();
+
+      await openDrawer(user);
+      rerender(drawerWithCallbacks(onOpen, onClose));
+      expect(onOpen).toHaveBeenCalledTimes(1);
+    });
+
+    it("should not call onClose on mount in Strict Mode", () => {
+      const onOpen = jest.fn();
+      const onClose = jest.fn();
+      render(drawerWithCallbacks(onOpen, onClose), { reactStrictMode: true });
+      expect(onClose).not.toHaveBeenCalled();
+    });
+  });
+
   // Clicks from the keyboard or from a <label> have clientX/clientY 0, which looks like a click outside the drawer
   describe("Clicks on the content", () => {
     it("should stay open when toggling a checkbox with Space", async () => {

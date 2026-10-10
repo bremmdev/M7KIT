@@ -1,3 +1,8 @@
+# Unreleased
+
+- `SortableList` only uses an item's `aria-label` for its reorder button where ARIA allows one, such as on an icon with `role="img"` or a link. On elements that can't be named, such as a `div` or `span`, screen readers often don't announce it, so the item's text is used instead and a warning is logged in development
+- `Drawer` only calls `onOpen` and `onClose` when it opens or closes. Before, inline callbacks were called again on every re-render, and React Strict Mode called `onClose` on mount
+
 # 0.64.0 - 2026-10-09
 
 - Add `announce()`, `clearAnnouncer()` and `useAnnounce()`: screen reader announcements through two shared, visually hidden live regions, one polite and one assertive. Each message is added as a new element, so messages don't overwrite each other. With `id` and `delay`, a quick series from one source is announced once, when it stops.

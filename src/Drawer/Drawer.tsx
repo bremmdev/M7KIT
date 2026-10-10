@@ -48,7 +48,7 @@ export const Drawer = (props: DrawerProps) => {
   const { children, className, onClose, onOpen, placement = "right", resetScroll = true, ...rest } = props;
 
   const { drawerRef, isOpen } = useDrawer();
-  const firstMountRef = React.useRef(true);
+  const prevIsOpenRef = React.useRef(isOpen);
 
   useDrawerEvents();
   usePreventScroll({
@@ -73,8 +73,10 @@ export const Drawer = (props: DrawerProps) => {
     }
   }, [isOpen, drawerRef, resetScroll]);
 
+  // Only call onOpen and onClose when isOpen changes: not on mount, and not when a re-render passes new (inline) callbacks
   React.useEffect(() => {
-    if (firstMountRef.current) return;
+    if (prevIsOpenRef.current === isOpen) return;
+    prevIsOpenRef.current = isOpen;
     if (isOpen && onOpen) {
       onOpen();
     }
@@ -82,13 +84,6 @@ export const Drawer = (props: DrawerProps) => {
       onClose();
     }
   }, [isOpen, onOpen, onClose]);
-
-  React.useEffect(() => {
-    if (firstMountRef.current) {
-      firstMountRef.current = false;
-      return;
-    }
-  }, [isOpen]);
 
   // Forced colors (Windows high contrast) replace the surface and the backdrop with Canvas, so the drawer gets a border there to show its edge.
   // outline-hidden still draws a transparent outline there, which is made visible, so it gets the Highlight focus color

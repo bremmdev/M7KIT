@@ -22,7 +22,7 @@ import { Cat, Dog, Fish, Rabbit, Squirrel } from "lucide-react";
  * - **Customizable layout**: Determines whether the drag handle appears at the start or end of each item via the `handlePosition` prop.
  * - **Optional title and heading level**: Use the `title` and `titleElement` to provide a title of the desired heading level. If not used, using `aria-label` on the component is recommended for accessibility.
  * - **Stable IDs**: Each item is assigned a unique, stable ID using `crypto.randomUUID()` to ensure consistent rendering and behavior.
- * - **Screenreader friendly labels**: When passing React nodes as items, the component extracts text content for better screen reader announcements.
+ * - **Screenreader friendly labels**: When passing React nodes as items, the component extracts text content for better screen reader announcements. An `aria-label` is used instead of the text where ARIA allows one, such as on an icon with `role="img"`, but not on a plain `div` or `span`, where screen readers often don't announce it.
  * - **Callback on reorder**: The `onReorder` prop allows parent components to respond to changes in item order.
  *
  * ## Accessibility

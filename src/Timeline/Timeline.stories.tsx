@@ -72,21 +72,21 @@ export const CustomBullet: Story = {
         lineClassName="bg-accent"
         bullet={<CircleDashed className="text-accent forced-colors:text-[CanvasText]" size={24} />}
       >
-        <h2 className="text-xl font-bold -my-[2px]">Heading 1</h2>
+        <h2 className="text-xl font-bold -my-0.5">Heading 1</h2>
         <p>Content 1</p>
       </Timeline.Item>
       <Timeline.Item
         bullet={<CircleDashed className="text-accent forced-colors:text-[CanvasText]" size={24} />}
         lineClassName="bg-accent"
       >
-        <h2 className="text-xl font-bold -my-[2px]">Heading 2</h2>
+        <h2 className="text-xl font-bold -my-0.5">Heading 2</h2>
         <img src={image} width="200" height="300" alt="Snowy mountain peak against a cloudy sky" className="my-2" />
       </Timeline.Item>
       <Timeline.Item
         bullet={<CircleDashed className="text-accent forced-colors:text-[CanvasText]" size={24} />}
         lineClassName="bg-accent"
       >
-        <h2 className="text-xl font-bold -my-[2px]">Heading 3</h2>
+        <h2 className="text-xl font-bold -my-0.5">Heading 3</h2>
         <p>Content 3</p>
       </Timeline.Item>
     </Timeline>
