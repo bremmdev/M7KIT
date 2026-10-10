@@ -104,7 +104,7 @@ export const TooltipTrigger = ({ children, className, ...rest }: TooltipTriggerP
     if (overlayTriggerRef.current) {
       setTriggerWidth(overlayTriggerRef.current.offsetWidth);
     }
-  }, [setTriggerWidth]);
+  }, [setTriggerWidth, overlayTriggerRef]);
 
   // Cleanup timers on unmount
   React.useEffect(() => {
@@ -326,7 +326,7 @@ export const TooltipContent = ({ children, className, placement = "bottom center
     );
     setNeverFits(neverFits);
     setCalculatedPlacement(newPlacement);
-  }, [open, placement]);
+  }, [open, placement, overlayContentRef, overlayTriggerRef]);
 
   if (!open) return null;
   return (

@@ -41,6 +41,7 @@ const MasonryImage = ({ idx }: { idx: number }) => (
   <div className="relative">
     <img
       src={image}
+      alt=""
       style={{ aspectRatio: Math.random() * (1.25 - 0.75) + 0.75 }}
       className="w-full col-span-1 rounded-xl"
     />

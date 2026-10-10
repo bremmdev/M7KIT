@@ -57,15 +57,15 @@ export default meta;
 type Story = StoryObj<typeof Marquee>;
 
 const items = [
-  <img src={AzureIcon} alt="Azure Icon" className="w-16 h-16" />,
-  <img src={FlaskIcon} alt="Flask Icon" className="w-16 h-16" />,
-  <img src={HtmxIcon} alt="Htmx Icon" className="w-16 h-16" />,
-  <img src={NextIcon} alt="Next Icon" className="w-16 h-16" />,
-  <img src={ReactIcon} alt="React Icon" className="w-16 h-16" />,
-  <img src={SanityIcon} alt="Sanity Icon" className="w-16 h-16" />,
-  <img src={StorybookIcon} alt="Storybook Icon" className="w-16 h-16" />,
-  <img src={TailwindIcon} alt="Tailwind Icon" className="w-16 h-16" />,
-  <img src={TypeScriptIcon} alt="TypeScript Icon" className="w-16 h-16" />
+  <img key="Azure" src={AzureIcon} alt="Azure Icon" className="w-16 h-16" />,
+  <img key="Flask" src={FlaskIcon} alt="Flask Icon" className="w-16 h-16" />,
+  <img key="Htmx" src={HtmxIcon} alt="Htmx Icon" className="w-16 h-16" />,
+  <img key="Next" src={NextIcon} alt="Next Icon" className="w-16 h-16" />,
+  <img key="React" src={ReactIcon} alt="React Icon" className="w-16 h-16" />,
+  <img key="Sanity" src={SanityIcon} alt="Sanity Icon" className="w-16 h-16" />,
+  <img key="Storybook" src={StorybookIcon} alt="Storybook Icon" className="w-16 h-16" />,
+  <img key="Tailwind" src={TailwindIcon} alt="Tailwind Icon" className="w-16 h-16" />,
+  <img key="TypeScript" src={TypeScriptIcon} alt="TypeScript Icon" className="w-16 h-16" />
 ];
 
 export const Default: Story = {

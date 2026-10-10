@@ -82,24 +82,29 @@ export const SortableList = ({
   // we only want to recalculate this when items change from the parent, not when sortedItems change due to reordering
   // we use a memoized string of all labels to compare sortedItems vs items for changes
   const parentLabels = React.useMemo(() => items.map(extractTextFromNode).join("|"), [items]);
+  const [prevParentLabels, setPrevParentLabels] = React.useState(parentLabels);
 
-  React.useEffect(() => {
+  // Adjust the state while rendering when the parent's items change (https://react.dev/learn/you-might-not-need-an-effect#adjusting-some-state-when-a-prop-changes).
+  // This runs only when parentLabels changes, so the user's own reordering is never reset by a re-render
+  if (parentLabels !== prevParentLabels) {
+    setPrevParentLabels(parentLabels);
+
     // Compare current vs incoming based on labels
     const localLabels = sortedItems.map((i) => i.label).join("|");
 
-    // Only reset if parent items are truly different, not when just a new array instance with same content
+    // Only reset if parent items are truly different, e.g. not when the parent passes back the order from onReorder
     if (localLabels !== parentLabels) {
-      setSortedItems((prev) => {
-        const newItems = getItemsWithIdsAndLabels(items);
+      const newItems = getItemsWithIdsAndLabels(items);
 
-        // Preserve matching items by label to keep DOM/node identity and focus
-        return newItems.map((newItem) => {
-          const existing = prev.find((p) => p.label === newItem.label);
+      // Preserve matching items by label to keep DOM/node identity and focus
+      setSortedItems(
+        newItems.map((newItem) => {
+          const existing = sortedItems.find((p) => p.label === newItem.label);
           return existing ?? newItem;
-        });
-      });
+        })
+      );
     }
-  }, [parentLabels]);
+  }
 
   function handleDragStart(e: React.DragEvent, index: number) {
     // only allow dragging if started from the grip handle

@@ -46,7 +46,7 @@ export const AnimatedCount = <T extends keyof JSX.IntrinsicElements>(props: Anim
       // Clean up the timeout
       return () => clearTimeout(timer);
     }
-  }, [currentCount, count, calculateInterval, duration, slowDownAt, step, start]);
+  }, [currentCount, count, calculateInterval, slowDownAt, step, start]);
 
   const Element = as as keyof JSX.IntrinsicElements;
 

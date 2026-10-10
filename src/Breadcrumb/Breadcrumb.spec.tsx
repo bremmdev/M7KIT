@@ -1,3 +1,4 @@
+import React from "react";
 import { render } from "@testing-library/react";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbCurrentItem } from "./Breadcrumb";
 
@@ -117,23 +118,29 @@ describe("Breadcrumb", () => {
     expect(getByText("Home").getAttribute("data-custom")).toBe("mycustom");
   });
 
-  it("should render custom link component instead of an anchor tag", () => {
-    const { getByText } = render(
+  it("should pass the link classes and aria-current to a custom link component", () => {
+    // Stands in for a router link, which takes `to` instead of `href`
+    const CustomLink = ({ to, ...rest }: React.ComponentProps<"a"> & { to: string }) => (
+      <a href={to} data-router-link {...rest} />
+    );
+
+    const { getByRole } = render(
       <Breadcrumb>
         <BreadcrumbItem asChild>
-          <a data-custom="mycustom">Home</a>
+          <CustomLink to="/">Home</CustomLink>
         </BreadcrumbItem>
-        <BreadcrumbItem asChild>
-          <a href="/getting-started" data-custom="mycustom">
-            Getting started
-          </a>
-        </BreadcrumbItem>
-        <BreadcrumbCurrentItem>Installation</BreadcrumbCurrentItem>
+        <BreadcrumbCurrentItem asChild>
+          <CustomLink to="/installation">Installation</CustomLink>
+        </BreadcrumbCurrentItem>
       </Breadcrumb>
     );
 
-    expect(getByText("Home").tagName).toBe("A");
-    expect(getByText("Home").getAttribute("data-custom")).toBe("mycustom");
+    const home = getByRole("link", { name: "Home" });
+    expect(home).toHaveAttribute("href", "/");
+    expect(home).toHaveAttribute("data-router-link");
+    expect(home).toHaveClass("underline");
+    expect(home).not.toHaveAttribute("aria-current");
+    expect(getByRole("link", { name: "Installation" })).toHaveAttribute("aria-current", "page");
   });
 
   it("should warn if BreadcrumbItem has more than one child when using asChild prop", () => {

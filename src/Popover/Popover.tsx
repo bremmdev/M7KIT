@@ -80,7 +80,7 @@ export const PopoverTrigger = ({ children, className, ...rest }: PopoverTriggerP
     if (overlayTriggerRef.current) {
       setTriggerWidth(overlayTriggerRef.current.offsetWidth);
     }
-  }, [setTriggerWidth]);
+  }, [setTriggerWidth, overlayTriggerRef]);
 
   function handleClick() {
     setOpen(!open);
@@ -211,7 +211,7 @@ export const PopoverContent = ({ children, className, placement = "bottom center
     );
     setNeverFits(neverFits);
     setCalculatedPlacement(newPlacement);
-  }, [open, placement]);
+  }, [open, placement, overlayContentRef, overlayTriggerRef]);
 
   if (!open) return null;
   return (

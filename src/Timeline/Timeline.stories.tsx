@@ -54,7 +54,7 @@ export const Default: Story = {
       </Timeline.Item>
       <Timeline.Item>
         <h2 className="text-xl font-bold -my-1">Heading 2</h2>
-        <img src={image} width="200" height="300" alt="image" className="my-2" />
+        <img src={image} width="200" height="300" alt="Snowy mountain peak against a cloudy sky" className="my-2" />
       </Timeline.Item>
       <Timeline.Item>
         <h2 className="text-xl font-bold -my-1">Heading 3</h2>
@@ -80,7 +80,7 @@ export const CustomBullet: Story = {
         lineClassName="bg-accent"
       >
         <h2 className="text-xl font-bold -my-[2px]">Heading 2</h2>
-        <img src={image} width="200" height="300" alt="image" className="my-2" />
+        <img src={image} width="200" height="300" alt="Snowy mountain peak against a cloudy sky" className="my-2" />
       </Timeline.Item>
       <Timeline.Item
         bullet={<CircleDashed className="text-accent forced-colors:text-[CanvasText]" size={24} />}

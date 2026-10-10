@@ -470,5 +470,18 @@ describe("SortableList", () => {
       expect(screen.getByText("D")).toBeInTheDocument();
       expect(screen.getByText("E")).toBeInTheDocument();
     });
+
+    it("keeps the user's order when the parent re-renders with the same items", () => {
+      const { rerender } = render(<SortableList items={["Apple", "Banana", "Cherry"]} />);
+
+      fireEvent.click(screen.getByText("Enter Edit Mode"));
+      fireEvent.keyDown(screen.getByLabelText(/Reorder Apple/), { key: "ArrowDown" });
+
+      // A new array instance with the same content, as a parent with an inline items prop would pass
+      rerender(<SortableList items={["Apple", "Banana", "Cherry"]} />);
+
+      const order = screen.getAllByRole("listitem").map((item) => item.textContent);
+      expect(order).toEqual(["Banana", "Apple", "Cherry"]);
+    });
   });
 });

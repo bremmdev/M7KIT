@@ -37,7 +37,7 @@ export const Tabs = ({ className, defaultValue = "", value = "", onValueChange, 
         setActiveTab(firstTab.dataset.tablabel!);
       }
     }
-  }, [tabsRef, activeTab, value, defaultValue]);
+  }, [activeTab, value, defaultValue]);
 
   return (
     <TabsContext.Provider value={{ activeTab, setActiveTab, onValueChange }}>
