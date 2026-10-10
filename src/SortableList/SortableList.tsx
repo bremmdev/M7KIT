@@ -287,10 +287,12 @@ export const SortableList = ({
         aria-roledescription="Sortable List"
         aria-describedby="sortable-list-instructions"
         aria-labelledby={title ? "sortable-list-title" : undefined}
+        // biome-ignore lint/a11y/noRedundantRoles: Safari/VoiceOver drops list semantics from a ul with list-style: none (set by Tailwind's preflight), the role restores them
         role="list"
         aria-label={ariaLabel ?? undefined}
       >
         {sortedItems.map((item, index) => (
+          // biome-ignore lint/a11y/noNoninteractiveElementInteractions: drag and touch are for pointer users, keyboard users reorder with the ReorderButton in edit mode
           <li
             key={item.label}
             draggable={true}

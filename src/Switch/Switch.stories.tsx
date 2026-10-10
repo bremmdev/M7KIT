@@ -99,6 +99,7 @@ export default meta;
 type Story = StoryObj<typeof Switch>;
 
 const Label = (props: { children: React.ReactNode; text?: string }) => (
+  // biome-ignore lint/a11y/noLabelWithoutControl: the Switch is passed in as children
   <label className="flex items-center gap-4 font-medium">
     {props.children}
     <span>{props.text ?? "notifications"}</span>

@@ -161,6 +161,7 @@ const TabContent = ({ className, label, children, ...rest }: TabContentProps) =>
       role="tabpanel"
       id={`panel-${label}`}
       aria-labelledby={`tab-${label}`}
+      // biome-ignore lint/a11y/noNoninteractiveTabindex: APG Tabs pattern: the tabpanel is focusable so keyboard users can reach panels that have no focusable content
       tabIndex={0}
       className={cn("animate-fade-in p-4 focus-ring", className, {
         hidden: activeTab !== label

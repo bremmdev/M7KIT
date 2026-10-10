@@ -330,6 +330,7 @@ export const TooltipContent = ({ children, className, placement = "bottom center
 
   if (!open) return null;
   return (
+    // biome-ignore lint/a11y/noNoninteractiveElementInteractions: keeps the tooltip open while the pointer is over it, so it is hoverable (WCAG 1.4.13)
     <div
       className={cn(
         "absolute w-64 bg-surface-subtle border border-neutral rounded-md p-2 my-2",

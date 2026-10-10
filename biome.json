@@ -49,6 +49,31 @@
       "a11y": "warn"
     }
   },
+  "overrides": [
+    {
+      "includes": ["**"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "noLabelWithoutControl": {
+              "level": "warn",
+              "options": { "inputComponents": ["Switch"] }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["**/*.spec.tsx"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "useJsxKeyInIterable": "off"
+          }
+        }
+      }
+    }
+  ],
   "assist": {
     "enabled": false
   }
