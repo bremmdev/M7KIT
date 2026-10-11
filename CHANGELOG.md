@@ -1,7 +1,25 @@
-# Unreleased
+# 0.65.0 - 2026-10-10
 
-- `SortableList` only uses an item's `aria-label` for its reorder button where ARIA allows one, such as on an icon with `role="img"` or a link. On elements that can't be named, such as a `div` or `span`, screen readers often don't announce it, so the item's text is used instead and a warning is logged in development
+- `SortableList` only uses an item's `aria-label` for its reorder button where ARIA allows one, such as on an icon with `role="img"` or a linfix k. On elements that can't be named, such as a `div` or `span`, screen readers often don't announce it, so the item's text is used instead and a warning is logged in development
 - `Drawer` only calls `onOpen` and `onClose` when it opens or closes. Before, inline callbacks were called again on every re-render, and React Strict Mode called `onClose` on mount
+- `BreadcrumbMenu` is a disclosure instead of an ARIA menu, following the APG Disclosure Navigation pattern.
+- Fix `BreadcrumbMenu`:
+  - A click or tap on a hidden link now opens it. Before, the list closed on `mousedown` and the click never reached the link
+  - A click elsewhere no longer moves focus to the button, so it goes where the user clicked
+  - Tab and Shift+Tab move through the links instead of being blocked, and the list closes when focus leaves it
+  - Escape on a link closes the list and puts focus on the button
+  - Down Arrow on the open button moves to the first link, and Home and End move to the first and last link
+  - Escape inside a `Drawer` or `Popover` closes only the list. Before, it also closed the `Drawer` or `Popover`
+  - In right-to-left text, the list opens under the button's start edge
+  - The focus ring of a link in the list is drawn inside its row, instead of over the list's border
+- Fix `Breadcrumb`:
+  - **Breaking:** `className` goes to the `<nav>`, like the other props, instead of the `<ol>`. Use it to replace the default `p-4` padding
+  - The other props, such as `id`, `ref`, `dir` and `aria-labelledby`, are passed to the `<nav>`. Before, they were dropped. With `aria-labelledby`, the default "breadcrumb" name is left out
+  - Children that render nothing no longer leave an empty list item and a stray separator
+  - The chevron separator flips in right-to-left text
+- Fix `BreadcrumbItem`:
+  - With `asChild`, the link's own `className` is kept, also when it is a function, like React Router's `NavLink` takes. A link's own `aria-current` is kept when the item isn't the current page
+  - An item without `href` passes its props, such as `id`, to its `<span>`
 
 # 0.64.0 - 2026-10-09
 
