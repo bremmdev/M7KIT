@@ -25,6 +25,6 @@ dist-ssr
 
 *.tgz
 
-/_vault
+.vault
 .claude
 src/_stories/high-contrast.tmp/
