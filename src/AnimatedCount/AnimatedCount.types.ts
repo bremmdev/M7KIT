@@ -8,11 +8,11 @@ export type AnimatedCountProps<T extends keyof JSX.IntrinsicElements = "span"> =
    */
   as?: T;
   /**
-   * The number to animate to
+   * The number to animate to. When it changes, the count animates from the number shown to the new one
    */
   count: number;
   /**
-   * Duration of the animation in milliseconds
+   * Duration of the animation in milliseconds, from `start` (or from the number shown when `count` changed) to `count`
    * @default 2000
    */
   duration?: number;
@@ -26,12 +26,13 @@ export type AnimatedCountProps<T extends keyof JSX.IntrinsicElements = "span"> =
    */
   slowDownFactor?: number;
   /**
-   * The number to start the animation from
+   * The number to start the animation from. When it changes, the animation starts again from it
    * @default 0
    */
   start?: number;
   /**
-   * The step to increment the count by, can be negative
+   * How much the count changes per step. The count always moves toward `count`, so the sign is ignored,
+   * and the last step stops at `count`. With decimals, every number is shown with them (0.5, 1.0, 1.5)
    * @default 1
    */
   step?: number;

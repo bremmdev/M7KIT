@@ -1,3 +1,12 @@
+# Unreleased
+
+- Fix `AnimatedCount`:
+  - It always counts toward `count`, so the sign of `step` doesn't matter. Before, counting down without `step={-1}` (or up with a negative `step`) never stopped
+  - The last step stops at `count`, also when `step` doesn't divide the distance to it. Before, `count={10} step={3}` ended on 12
+  - Fractional steps no longer add up floating point errors, and every number is shown with the same decimals. The width fits the decimals
+  - When `count` changes, it animates from the number shown to the new `count`, in `duration`. Before, a lower `count` left the old number on screen. A new `start` starts the animation again
+  - Other props, such as `id`, `aria-*`, `data-*`, `style` and event handlers, are passed to the element. Before, they were dropped. `style` is merged with the width, and its own `width` wins
+
 # 0.65.0 - 2026-10-10
 
 - `SortableList` only uses an item's `aria-label` for its reorder button where ARIA allows one, such as on an icon with `role="img"` or a linfix k. On elements that can't be named, such as a `div` or `span`, screen readers often don't announce it, so the item's text is used instead and a warning is logged in development

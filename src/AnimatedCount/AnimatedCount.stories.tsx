@@ -53,8 +53,7 @@ export const SlowDown: Story = {
 export const CountDown: Story = {
   args: {
     count: 0,
-    start: 100,
-    step: -1
+    start: 100
   },
   render: (props) => {
     return (
