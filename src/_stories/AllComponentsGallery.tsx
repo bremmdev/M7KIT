@@ -122,9 +122,13 @@ export const AllComponentsGallery = () => (
         <Tabs.List aria-label="Example tabs">
           <Tabs.Tab label="first">First</Tabs.Tab>
           <Tabs.Tab label="second">Second</Tabs.Tab>
+          <Tabs.Tab label="third" disabled>
+            Disabled
+          </Tabs.Tab>
         </Tabs.List>
         <Tabs.Content label="first">Content of the first tab</Tabs.Content>
         <Tabs.Content label="second">Content of the second tab</Tabs.Content>
+        <Tabs.Content label="third">Content of the third tab</Tabs.Content>
       </Tabs>
     </Section>
 

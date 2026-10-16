@@ -6,6 +6,13 @@
   - Fractional steps no longer add up floating point errors, and every number is shown with the same decimals. The width fits the decimals
   - When `count` changes, it animates from the number shown to the new `count`, in `duration`. Before, a lower `count` left the old number on screen. A new `start` starts the animation again
   - Other props, such as `id`, `aria-*`, `data-*`, `style` and event handlers, are passed to the element. Before, they were dropped. `style` is merged with the width, and its own `width` wins
+- Fix `Tabs`:
+  - The ids of tabs and panels are unique on the page and work with labels that contain spaces.
+  - `Tabs.Tab` passes its other props, such as `aria-label`, `disabled`, `onClick`, `data-*` and `ref`, to the `<button>`, and `Tabs.Root` passes them to its `<div>`.
+  - Disabled tabs are skipped by the arrow keys, Home and End, and are `GrayText` in forced colors
+  - When no enabled tab matches the value (no value, a value that matches no tab, or a tab that was removed or disabled), the first enabled tab is selected.
+  - The arrow keys, Home and End only move between tabs.
+  - `children` of `Tabs.Root` and `Tabs.List` accept any React node, such as a single tab or tabs created with `map()`
 
 # 0.65.0 - 2026-10-10
 

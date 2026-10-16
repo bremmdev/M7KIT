@@ -12,11 +12,11 @@ export interface TabsProps extends React.ComponentPropsWithRef<"div"> {
    * Callback when the active tab changes
    */
   onValueChange?: (value: string) => void;
-  children: Array<React.ReactElement<any>>;
+  children: React.ReactNode;
 }
 
 export interface TabListProps extends React.ComponentPropsWithRef<"div"> {
-  children: Array<React.ReactElement<TabProps>>;
+  children: React.ReactNode;
 }
 
 export interface TabProps extends React.ComponentPropsWithRef<"button"> {

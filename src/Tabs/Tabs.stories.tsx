@@ -9,9 +9,12 @@ import { Tabs } from "./Tabs";
  * - Automatically activates tabs and displays its associated panel when the tab receives focus
  * - Conforms to the WAI-ARIA Tab Panel Design Pattern
  * - Supports keyboard navigation
- * - allows a default selected tab
+ * - allows a default selected tab. Without one, or when it matches no enabled tab, the first enabled tab is selected, so the tabs can always be reached with the keyboard
  * - allows controlled and uncontrolled usage
- * - In forced colors mode (Windows high contrast), the underline of the selected tab uses `Highlight`, and unselected tabs get a `Highlight` underline on hover
+ * - Labels can contain spaces, and several `Tabs` on a page can use the same labels: the ids of tabs and panels are generated
+ * - Props such as `aria-label` (needed for a tab with only an icon), `disabled`, `onClick` and `ref` are passed to the tab's `<button>`
+ * - Disabled tabs are skipped by the arrow keys, Home and End
+ * - In forced colors mode (Windows high contrast), the underline of the selected tab uses `Highlight`, unselected tabs get a `Highlight` underline on hover, and disabled tabs are `GrayText`
  *
  * ## Usage
  *
@@ -96,6 +99,32 @@ export const Default: Story = {
             </a>
           </p>
         </Tabs.Content>
+      </Tabs.Root>
+    </div>
+  )
+};
+
+/**
+ * A disabled tab can't be selected, and the arrow keys, Home and End skip it.
+ */
+export const DisabledTab: Story = {
+  args: {},
+  render: () => (
+    <div className="p-4">
+      <h2 id="tabs-disabled-title" className="text-lg font-medium my-4 text-foreground">
+        Account
+      </h2>
+      <Tabs.Root defaultValue="profile" onValueChange={(val: string) => action("Tab changed")(val)}>
+        <Tabs.List aria-labelledby="tabs-disabled-title">
+          <Tabs.Tab label="profile">Profile</Tabs.Tab>
+          <Tabs.Tab label="billing" disabled>
+            Billing
+          </Tabs.Tab>
+          <Tabs.Tab label="notifications">Notifications</Tabs.Tab>
+        </Tabs.List>
+        <Tabs.Content label="profile">Your name, photo and contact details.</Tabs.Content>
+        <Tabs.Content label="billing">Your plan and invoices.</Tabs.Content>
+        <Tabs.Content label="notifications">Which emails and alerts you get.</Tabs.Content>
       </Tabs.Root>
     </div>
   )
