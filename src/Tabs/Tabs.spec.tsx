@@ -123,6 +123,82 @@ describe("Tabs", () => {
       expect(getAllByRole("tab")[0]).toHaveAttribute("aria-selected", "true");
       expect(getAllByRole("tabpanel")[0]).not.toHaveClass("hidden");
     });
+
+    it("should show the panel of the defaultValue", () => {
+      const { getAllByRole } = render(createTabsComponent("third"));
+      expect(getAllByRole("tab")[2]).toHaveAttribute("aria-selected", "true");
+      expect(getAllByRole("tabpanel", { hidden: true }).map((panel) => panel.classList.contains("hidden"))).toEqual([
+        true,
+        true,
+        false
+      ]);
+    });
+
+    it("should show the panel of a clicked tab", async () => {
+      const { getAllByRole } = render(createTabsComponent("first"));
+      await userEvent.click(getAllByRole("tab")[2]);
+      expect(getAllByRole("tab")[2]).toHaveAttribute("aria-selected", "true");
+      expect(getAllByRole("tabpanel", { hidden: true })[2]).not.toHaveClass("hidden");
+      expect(getAllByRole("tabpanel", { hidden: true })[0]).toHaveClass("hidden");
+    });
+
+    it("should keep its role and ids when other props are passed", () => {
+      const { getAllByRole } = render(
+        <Tabs.Root>
+          <Tabs.List aria-label="Tabs">
+            <Tabs.Tab label="first">First</Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Content label="first" id="custom" role="region" aria-labelledby="other" data-testid="panel">
+            First
+          </Tabs.Content>
+        </Tabs.Root>
+      );
+      const tab = getAllByRole("tab")[0];
+      const panel = getAllByRole("tabpanel")[0];
+      expect(panel).toHaveAttribute("data-testid", "panel");
+      expect(panel).toHaveAttribute("aria-labelledby", tab.id);
+      expect(tab).toHaveAttribute("aria-controls", panel.id);
+    });
+
+    it("should let a panel opt out of the tab order", () => {
+      const { getAllByRole } = render(
+        <Tabs.Root>
+          <Tabs.List aria-label="Tabs">
+            <Tabs.Tab label="first">First</Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Content label="first" tabIndex={-1}>
+            <a href="#top">Documentation</a>
+          </Tabs.Content>
+        </Tabs.Root>
+      );
+      expect(getAllByRole("tabpanel")[0]).toHaveAttribute("tabindex", "-1");
+    });
+  });
+
+  describe("Outside Tabs.Root", () => {
+    let consoleError: jest.SpyInstance;
+    beforeEach(() => {
+      consoleError = jest.spyOn(console, "error").mockImplementation(() => {});
+    });
+    afterEach(() => {
+      consoleError.mockRestore();
+    });
+
+    it("should throw a clear error for Tabs.List", () => {
+      expect(() => render(<Tabs.List aria-label="Tabs">{null}</Tabs.List>)).toThrow(
+        "Tabs.List must be used within Tabs.Root"
+      );
+    });
+
+    it("should throw a clear error for Tabs.Tab", () => {
+      expect(() => render(<Tabs.Tab label="first">First</Tabs.Tab>)).toThrow("Tabs.Tab must be used within Tabs.Root");
+    });
+
+    it("should throw a clear error for Tabs.Content", () => {
+      expect(() => render(<Tabs.Content label="first">First</Tabs.Content>)).toThrow(
+        "Tabs.Content must be used within Tabs.Root"
+      );
+    });
   });
 
   describe("Keyboard interaction", () => {
@@ -134,28 +210,81 @@ describe("Tabs", () => {
       expect(getAllByRole("tab")[1]).toHaveFocus();
     });
 
-    it("should focus the active tab on arrow right", async () => {
+    it("should focus the next tab on arrow right", async () => {
       const { getAllByRole } = render(TabsComponent2);
       await userEvent.keyboard("{tab}{arrowright}");
       expect(getAllByRole("tab")[2]).toHaveFocus();
     });
 
-    it("should focus the active tab on arrow left", async () => {
+    it("should focus the previous tab on arrow left", async () => {
       const { getAllByRole } = render(TabsComponent2);
       await userEvent.keyboard("{tab}{arrowleft}");
       expect(getAllByRole("tab")[0]).toHaveFocus();
     });
 
-    it("should focus the active tab on home", async () => {
+    it("should focus the first tab on home", async () => {
       const { getAllByRole } = render(TabsComponent2);
       await userEvent.keyboard("{tab}{home}");
       expect(getAllByRole("tab")[0]).toHaveFocus();
     });
 
-    it("should focus the active tab on end", async () => {
+    it("should focus the last tab on end", async () => {
       const { getAllByRole } = render(TabsComponent2);
       await userEvent.keyboard("{tab}{end}");
       expect(getAllByRole("tab")[2]).toHaveFocus();
+    });
+
+    it("should wrap from the last tab to the first on arrow right", async () => {
+      const { getAllByRole } = render(createTabsComponent("third"));
+      await userEvent.keyboard("{tab}{arrowright}");
+      expect(getAllByRole("tab")[0]).toHaveFocus();
+      expect(getAllByRole("tab")[0]).toHaveAttribute("aria-selected", "true");
+    });
+
+    it("should wrap from the first tab to the last on arrow left", async () => {
+      const { getAllByRole } = render(createTabsComponent("first"));
+      await userEvent.keyboard("{tab}{arrowleft}");
+      expect(getAllByRole("tab")[2]).toHaveFocus();
+      expect(getAllByRole("tab")[2]).toHaveAttribute("aria-selected", "true");
+    });
+
+    it("should select the focused tab, show its panel and hide the others", async () => {
+      const { getAllByRole } = render(createTabsComponent("first"));
+      await userEvent.keyboard("{tab}{arrowright}");
+      const tabs = getAllByRole("tab");
+      const panels = getAllByRole("tabpanel", { hidden: true });
+      expect(tabs.map((tab) => tab.getAttribute("aria-selected"))).toEqual(["false", "true", "false"]);
+      expect(tabs.map((tab) => tab.getAttribute("tabindex"))).toEqual(["-1", "0", "-1"]);
+      expect(panels.map((panel) => panel.classList.contains("hidden"))).toEqual([true, false, true]);
+    });
+
+    it("should only move between the tabs of its own Tabs when they are nested", async () => {
+      const { getByRole } = render(
+        <Tabs.Root defaultValue="outer-first">
+          <Tabs.List aria-label="Outer">
+            <Tabs.Tab label="outer-first">Outer first</Tabs.Tab>
+            <Tabs.Tab label="outer-second">Outer second</Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Content label="outer-first">
+            <Tabs.Root>
+              <Tabs.List aria-label="Inner">
+                <Tabs.Tab label="inner-first">Inner first</Tabs.Tab>
+                <Tabs.Tab label="inner-second">Inner second</Tabs.Tab>
+              </Tabs.List>
+              <Tabs.Content label="inner-first">Inner first</Tabs.Content>
+              <Tabs.Content label="inner-second">Inner second</Tabs.Content>
+            </Tabs.Root>
+          </Tabs.Content>
+          <Tabs.Content label="outer-second">Outer second</Tabs.Content>
+        </Tabs.Root>
+      );
+      expect(getByRole("tab", { name: "Inner first" })).toHaveAttribute("aria-selected", "true");
+      await userEvent.click(getByRole("tab", { name: "Inner first" }));
+      await userEvent.keyboard("{arrowright}");
+      expect(getByRole("tab", { name: "Inner second" })).toHaveFocus();
+      await userEvent.keyboard("{arrowright}");
+      expect(getByRole("tab", { name: "Inner first" })).toHaveFocus();
+      expect(getByRole("tab", { name: "Outer first" })).toHaveAttribute("aria-selected", "true");
     });
   });
 

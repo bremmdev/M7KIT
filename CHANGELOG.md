@@ -1,4 +1,4 @@
-# Unreleased
+# 0.66.0 - 2026-10-16
 
 - Fix `AnimatedCount`:
   - It always counts toward `count`, so the sign of `step` doesn't matter. Before, counting down without `step={-1}` (or up with a negative `step`) never stopped
@@ -17,6 +17,8 @@
   - Passing both `value` and `defaultValue` logs a warning in development and uses `value`. Before, it threw an error. `value` without `onValueChange`, and changing between controlled and uncontrolled, also log a warning
   - The arrow keys follow the order on screen in right-to-left text: Left Arrow moves to the next tab
   - The arrow keys, Home and End are ignored with Alt, Ctrl, Meta or Shift. Before, Alt+Left Arrow changed the tab instead of going back in the browser
+  - `Tabs.List`, `Tabs.Tab` and `Tabs.Content` throw a clear error when used outside `Tabs.Root`
+  - `Tabs.Content` keeps its role and the ids that link it to its tab when other props are passed, such as `id`. `tabIndex` can still be set, for example `-1` for a panel that starts with a link
 
 # 0.65.0 - 2026-10-10
 

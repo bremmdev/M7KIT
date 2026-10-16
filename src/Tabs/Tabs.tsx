@@ -19,6 +19,14 @@ type TabsContext = {
 
 const TabsContext = React.createContext<TabsContext | undefined>(undefined);
 
+const useTabsContext = (componentName: string) => {
+  const context = React.useContext(TabsContext);
+  if (!context) {
+    throw new Error(`${componentName} must be used within Tabs.Root`);
+  }
+  return context;
+};
+
 // A label is a value, not a valid id: it can contain spaces and another Tabs on the page can use the same label.
 //  The id of the Tabs keeps the ids unique, and  encodeURIComponent removes the whitespace without making two labels the same
 const getTabId = (baseId: string, label: string) => `${baseId}-tab-${encodeURIComponent(label)}`;
@@ -145,7 +153,7 @@ export const Tabs = ({ className, defaultValue, value, onValueChange, children, 
 Tabs.Root = Tabs;
 
 const TabList = ({ className, children, onKeyDown, ...rest }: TabListProps) => {
-  const { selectTab, tabs } = React.useContext(TabsContext) as TabsContext;
+  const { selectTab, tabs } = useTabsContext("Tabs.List");
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     onKeyDown?.(e);
@@ -197,7 +205,7 @@ const TabList = ({ className, children, onKeyDown, ...rest }: TabListProps) => {
 Tabs.List = TabList;
 
 const Tab = ({ className, label, disabled, onClick, ref, children, ...rest }: TabProps) => {
-  const { baseId, selectedTab, selectTab, registerTab } = React.useContext(TabsContext) as TabsContext;
+  const { baseId, selectedTab, selectTab, registerTab } = useTabsContext("Tabs.Tab");
 
   const tabRef = React.useRef<HTMLButtonElement>(null);
   const mergedRef = useMergedRef(tabRef, ref);
@@ -252,20 +260,22 @@ const Tab = ({ className, label, disabled, onClick, ref, children, ...rest }: Ta
 
 Tabs.Tab = Tab;
 
-const TabContent = ({ className, label, children, ...rest }: TabContentProps) => {
-  const { baseId, selectedTab } = React.useContext(TabsContext) as TabsContext;
+const TabContent = ({ className, label, tabIndex, children, ...rest }: TabContentProps) => {
+  const { baseId, selectedTab } = useTabsContext("Tabs.Content");
 
+  // The other props come first, so they can't replace the role and the ids that link the panel and its tab
   return (
     <div
+      {...rest}
       role="tabpanel"
       id={getPanelId(baseId, label)}
       aria-labelledby={getTabId(baseId, label)}
-      // biome-ignore lint/a11y/noNoninteractiveTabindex: APG Tabs pattern: the tabpanel is focusable so keyboard users can reach panels that have no focusable content
-      tabIndex={0}
+      // APG Tabs pattern: the tabpanel is focusable so keyboard users can reach panels that have no focusable content.
+      // A panel that starts with a focusable element can opt out with tabIndex={-1}
+      tabIndex={tabIndex ?? 0}
       className={cn("animate-fade-in p-4 focus-ring", className, {
         hidden: selectedTab !== label
       })}
-      {...rest}
     >
       {children}
     </div>
