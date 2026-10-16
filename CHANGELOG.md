@@ -13,6 +13,10 @@
   - When no enabled tab matches the value (no value, a value that matches no tab, or a tab that was removed or disabled), the first enabled tab is selected.
   - The arrow keys, Home and End only move between tabs.
   - `children` of `Tabs.Root` and `Tabs.List` accept any React node, such as a single tab or tabs created with `map()`
+  - **Breaking:** with `value`, the tabs are controlled: the selected tab only changes when `value` does, so update it in `onValueChange`. Before, a click or arrow key selected the tab even when `value` stayed the same. `value=""` is controlled too
+  - Passing both `value` and `defaultValue` logs a warning in development and uses `value`. Before, it threw an error. `value` without `onValueChange`, and changing between controlled and uncontrolled, also log a warning
+  - The arrow keys follow the order on screen in right-to-left text: Left Arrow moves to the next tab
+  - The arrow keys, Home and End are ignored with Alt, Ctrl, Meta or Shift. Before, Alt+Left Arrow changed the tab instead of going back in the browser
 
 # 0.65.0 - 2026-10-10
 

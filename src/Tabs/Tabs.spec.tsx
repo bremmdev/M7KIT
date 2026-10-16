@@ -4,10 +4,10 @@ import { render } from "@testing-library/react";
 import { Tabs } from "./Tabs";
 import userEvent from "@testing-library/user-event";
 
-const createTabsComponent = (defaultSelected: string, onValueChange?: () => void) => (
+const createTabsComponent = (defaultValue: string, onValueChange?: () => void) => (
   <>
     <h2 id="tabs-title">Tabs title</h2>
-    <Tabs.Root value={defaultSelected} onValueChange={onValueChange}>
+    <Tabs.Root defaultValue={defaultValue} onValueChange={onValueChange}>
       <Tabs.List className="TabsList" aria-labelledby="tabs-title">
         <Tabs.Tab className="TabsTrigger" label="first">
           Tab 1
@@ -118,7 +118,7 @@ describe("Tabs", () => {
       expect(getAllByRole("tabpanel")[0]).toHaveAttribute("tabindex", "0");
     });
 
-    it("should set first tab active if no defaultSelected is provided", () => {
+    it("should set first tab active if no defaultValue is provided", () => {
       const { getAllByRole } = render(createTabsComponent(""));
       expect(getAllByRole("tab")[0]).toHaveAttribute("aria-selected", "true");
       expect(getAllByRole("tabpanel")[0]).not.toHaveClass("hidden");
@@ -447,6 +447,180 @@ describe("Tabs", () => {
       await userEvent.keyboard("{tab}{arrowright}");
       expect(getAllByRole("tab")[1]).toHaveFocus();
       expect(getAllByRole("tab")[1]).toHaveAttribute("aria-selected", "true");
+    });
+  });
+
+  describe("Right-to-left", () => {
+    it("should move to the tab on the left with arrow left", async () => {
+      const { getAllByRole } = render(<div dir="rtl">{createTabsComponent("first")}</div>);
+      await userEvent.keyboard("{tab}{arrowleft}");
+      expect(getAllByRole("tab")[1]).toHaveFocus();
+      expect(getAllByRole("tab")[1]).toHaveAttribute("aria-selected", "true");
+    });
+
+    it("should move to the tab on the right with arrow right, and wrap", async () => {
+      const { getAllByRole } = render(<div dir="rtl">{createTabsComponent("first")}</div>);
+      await userEvent.keyboard("{tab}{arrowright}");
+      expect(getAllByRole("tab")[2]).toHaveFocus();
+    });
+
+    it("should follow the direction of a nested ltr section", async () => {
+      const { getAllByRole } = render(
+        <div dir="rtl">
+          <div dir="ltr">{createTabsComponent("first")}</div>
+        </div>
+      );
+      await userEvent.keyboard("{tab}{arrowright}");
+      expect(getAllByRole("tab")[1]).toHaveFocus();
+    });
+
+    it("should keep home and end on the first and last tab", async () => {
+      const { getAllByRole } = render(<div dir="rtl">{createTabsComponent("second")}</div>);
+      await userEvent.keyboard("{tab}{home}");
+      expect(getAllByRole("tab")[0]).toHaveFocus();
+      await userEvent.keyboard("{end}");
+      expect(getAllByRole("tab")[2]).toHaveFocus();
+    });
+  });
+
+  describe("Modifier keys", () => {
+    it.each(["Alt", "Control", "Meta", "Shift"])(
+      "should ignore the arrow keys, home and end with %s",
+      async (modifier) => {
+        const onValueChange = jest.fn();
+        const { getAllByRole } = render(createTabsComponent("second", onValueChange));
+        await userEvent.keyboard(`{tab}{${modifier}>}{arrowleft}{arrowright}{home}{end}{/${modifier}}`);
+        expect(getAllByRole("tab")[1]).toHaveFocus();
+        expect(getAllByRole("tab")[1]).toHaveAttribute("aria-selected", "true");
+        expect(onValueChange).not.toHaveBeenCalled();
+      }
+    );
+
+    it("should not prevent the default action of the key with a modifier", () => {
+      const { getAllByRole } = render(createTabsComponent("second"));
+      const event = new KeyboardEvent("keydown", { key: "ArrowLeft", altKey: true, bubbles: true, cancelable: true });
+      getAllByRole("tab")[1].dispatchEvent(event);
+      expect(event.defaultPrevented).toBe(false);
+    });
+  });
+
+  describe("Controlled", () => {
+    const ControlledTabs = ({ initialValue = "first", accept = true }: { initialValue?: string; accept?: boolean }) => {
+      const [value, setValue] = React.useState(initialValue);
+      return (
+        <>
+          <button type="button" onClick={() => setValue("third")}>
+            Show third
+          </button>
+          <Tabs.Root value={value} onValueChange={(next) => accept && setValue(next)}>
+            <Tabs.List aria-label="Tabs">
+              <Tabs.Tab label="first">First</Tabs.Tab>
+              <Tabs.Tab label="second">Second</Tabs.Tab>
+              <Tabs.Tab label="third">Third</Tabs.Tab>
+            </Tabs.List>
+            <Tabs.Content label="first">First</Tabs.Content>
+            <Tabs.Content label="second">Second</Tabs.Content>
+            <Tabs.Content label="third">Third</Tabs.Content>
+          </Tabs.Root>
+        </>
+      );
+    };
+
+    let warn: jest.SpyInstance;
+    beforeEach(() => {
+      warn = jest.spyOn(console, "warn").mockImplementation(() => {});
+    });
+    afterEach(() => {
+      warn.mockRestore();
+    });
+
+    it("should select the tab when the parent updates the value", async () => {
+      const { getAllByRole } = render(<ControlledTabs />);
+      await userEvent.click(getAllByRole("tab")[1]);
+      expect(getAllByRole("tab")[1]).toHaveAttribute("aria-selected", "true");
+    });
+
+    it("should keep the selected tab when the parent doesn't update the value", async () => {
+      const { getAllByRole } = render(<ControlledTabs accept={false} />);
+      await userEvent.click(getAllByRole("tab")[1]);
+      expect(getAllByRole("tab")[0]).toHaveAttribute("aria-selected", "true");
+      expect(getAllByRole("tabpanel")[0]).not.toHaveClass("hidden");
+      expect(getAllByRole("tabpanel")[1]).toHaveClass("hidden");
+    });
+
+    it("should follow a value changed by the parent", async () => {
+      const { getAllByRole, getByRole } = render(<ControlledTabs />);
+      await userEvent.click(getByRole("button", { name: "Show third" }));
+      expect(getAllByRole("tab")[2]).toHaveAttribute("aria-selected", "true");
+    });
+
+    it("should treat an empty string as a controlled value", async () => {
+      const onValueChange = jest.fn();
+      const { getAllByRole } = render(
+        <Tabs.Root value="" onValueChange={onValueChange}>
+          <Tabs.List aria-label="Tabs">
+            <Tabs.Tab label="first">First</Tabs.Tab>
+            <Tabs.Tab label="second">Second</Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Content label="first">First</Tabs.Content>
+          <Tabs.Content label="second">Second</Tabs.Content>
+        </Tabs.Root>
+      );
+      expect(getAllByRole("tab")[0]).toHaveAttribute("aria-selected", "true");
+      await userEvent.click(getAllByRole("tab")[1]);
+      expect(onValueChange).toHaveBeenCalledWith("second");
+      expect(getAllByRole("tab")[0]).toHaveAttribute("aria-selected", "true");
+    });
+
+    it("should warn instead of throwing when both value and defaultValue are passed, and use value", () => {
+      const { getAllByRole } = render(
+        <Tabs.Root value="second" defaultValue="first" onValueChange={() => {}}>
+          <Tabs.List aria-label="Tabs">
+            <Tabs.Tab label="first">First</Tabs.Tab>
+            <Tabs.Tab label="second">Second</Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Content label="first">First</Tabs.Content>
+          <Tabs.Content label="second">Second</Tabs.Content>
+        </Tabs.Root>
+      );
+      expect(getAllByRole("tab")[1]).toHaveAttribute("aria-selected", "true");
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining("both `value` and `defaultValue`"));
+    });
+
+    it("should warn when value is passed without onValueChange", () => {
+      render(
+        <Tabs.Root value="first">
+          <Tabs.List aria-label="Tabs">
+            <Tabs.Tab label="first">First</Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Content label="first">First</Tabs.Content>
+        </Tabs.Root>
+      );
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining("without `onValueChange`"));
+    });
+
+    it("should warn once when changing between controlled and uncontrolled", () => {
+      const createTabs = (value?: string) => (
+        <Tabs.Root value={value} onValueChange={() => {}}>
+          <Tabs.List aria-label="Tabs">
+            <Tabs.Tab label="first">First</Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Content label="first">First</Tabs.Content>
+        </Tabs.Root>
+      );
+      const { rerender } = render(createTabs(undefined));
+      rerender(createTabs("first"));
+      rerender(createTabs(undefined));
+      rerender(createTabs("first"));
+      const switchWarnings = warn.mock.calls.filter(([message]) =>
+        String(message).includes("uncontrolled to controlled")
+      );
+      expect(switchWarnings).toHaveLength(1);
+    });
+
+    it("should not warn for uncontrolled tabs", () => {
+      render(createTabsComponent("first"));
+      expect(warn).not.toHaveBeenCalled();
     });
   });
 });

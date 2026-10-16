@@ -1,15 +1,15 @@
 export interface TabsProps extends React.ComponentPropsWithRef<"div"> {
   /**
-   * The label of the default selected tab, only use this if the component is uncontrolled
-   * @default ''
+   * The label of the tab selected at first, for uncontrolled tabs. Without it, the first enabled tab is selected
    */
   defaultValue?: string;
   /**
-   * The label of the active tab, use this if the component is controlled
+   * The label of the selected tab, for controlled tabs. Update it in `onValueChange`. When it matches no enabled tab,
+   * the first enabled tab is shown
    */
   value?: string;
   /**
-   * Callback when the active tab changes
+   * Called with the label of the tab the user selects. In controlled tabs, the selected tab only changes when `value` does
    */
   onValueChange?: (value: string) => void;
   children: React.ReactNode;

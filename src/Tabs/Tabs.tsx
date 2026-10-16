@@ -24,6 +24,16 @@ const TabsContext = React.createContext<TabsContext | undefined>(undefined);
 const getTabId = (baseId: string, label: string) => `${baseId}-tab-${encodeURIComponent(label)}`;
 const getPanelId = (baseId: string, label: string) => `${baseId}-panel-${encodeURIComponent(label)}`;
 
+// The direction the element actually has, also inside a nested dir="ltr" section
+function isRtl(element: Element) {
+  try {
+    return element.matches(":dir(rtl)");
+  } catch {
+    // Browsers without :dir(), such as Chrome before 120
+    return getComputedStyle(element).direction === "rtl";
+  }
+}
+
 // The labels of the enabled tabs in the children. Used on the first render (and on the server), before the tabs have
 // registered themselves, so a tab is selected from the start. Tabs rendered by other components are found once they register
 function getTabLabels(children: React.ReactNode): Array<string> {
@@ -35,24 +45,68 @@ function getTabLabels(children: React.ReactNode): Array<string> {
   });
 }
 
-export const Tabs = ({ className, defaultValue = "", value = "", onValueChange, children, ...rest }: TabsProps) => {
-  if (value && defaultValue) {
-    throw new Error(
-      "Using both value and defaultValue is not recommended. Use value and onValueChange for controlled component, or defaultValue for uncontrolled component."
-    );
-  }
+/**
+ * Dev-only warnings for misuse of the controlled/uncontrolled API, like the ones React gives for native inputs.
+ * Each warning is logged at most once per instance
+ */
+const useValueDevWarnings = ({
+  value,
+  defaultValue,
+  onValueChange
+}: Pick<TabsProps, "value" | "defaultValue" | "onValueChange">) => {
+  const isControlled = value !== undefined;
+
+  const initialIsControlled = React.useRef(isControlled);
+  const warned = React.useRef(new Set<string>());
+
+  React.useEffect(() => {
+    if (process.env.NODE_ENV === "production") {
+      return;
+    }
+
+    const warnOnce = (key: string, message: string) => {
+      if (warned.current.has(key)) return;
+      warned.current.add(key);
+      console.warn(message);
+    };
+
+    if (isControlled !== initialIsControlled.current) {
+      const [from, to] = initialIsControlled.current ? ["controlled", "uncontrolled"] : ["uncontrolled", "controlled"];
+      warnOnce(
+        "mode-switch",
+        `Tabs is changing from ${from} to ${to}. This is likely caused by \`value\` changing between undefined and a string. ` +
+          "Decide between controlled or uncontrolled Tabs for the lifetime of the component."
+      );
+    }
+
+    if (isControlled && defaultValue !== undefined) {
+      warnOnce(
+        "both-props",
+        "Tabs received both `value` and `defaultValue`. `defaultValue` is ignored when `value` is provided. " +
+          "Use `value` with `onValueChange` for controlled Tabs, or `defaultValue` for uncontrolled Tabs."
+      );
+    }
+
+    if (isControlled && !onValueChange) {
+      warnOnce(
+        "read-only",
+        "Tabs received `value` without `onValueChange`, so the selected tab can never change. " +
+          "Use `defaultValue` for uncontrolled Tabs, or add `onValueChange`."
+      );
+    }
+  }, [isControlled, defaultValue, onValueChange]);
+};
+
+export const Tabs = ({ className, defaultValue, value, onValueChange, children, ...rest }: TabsProps) => {
+  useValueDevWarnings({ value, defaultValue, onValueChange });
 
   const baseId = React.useId();
 
-  const [activeTab, setActiveTab] = React.useState(value || defaultValue);
-  const [tabs, setTabs] = React.useState<Array<RegisteredTab>>([]);
+  const isControlled = value !== undefined;
+  const [internalValue, setInternalValue] = React.useState(defaultValue ?? "");
+  const activeTab = isControlled ? value : internalValue;
 
-  //Update the active tab when the value prop changes in a controlled component
-  React.useEffect(() => {
-    if (value && value !== activeTab && !defaultValue) {
-      setActiveTab(value);
-    }
-  }, [value, activeTab, defaultValue]);
+  const [tabs, setTabs] = React.useState<Array<RegisteredTab>>([]);
 
   // Tabs register themselves, in the order of the page, so the keyboard handling only moves between real tabs
   const registerTab = React.useCallback((tab: RegisteredTab) => {
@@ -70,9 +124,12 @@ export const Tabs = ({ className, defaultValue = "", value = "", onValueChange, 
   const labels = tabs.length > 0 ? tabs.filter((t) => !t.disabled).map((t) => t.label) : getTabLabels(children);
   const selectedTab = labels.includes(activeTab) ? activeTab : (labels[0] ?? activeTab);
 
+  // In controlled mode this is a request: the parent decides whether to select the tab
   const selectTab = (tab: string) => {
     if (tab === selectedTab) return;
-    setActiveTab(tab);
+    if (!isControlled) {
+      setInternalValue(tab);
+    }
     onValueChange?.(tab);
   };
 
@@ -94,18 +151,25 @@ const TabList = ({ className, children, onKeyDown, ...rest }: TabListProps) => {
     onKeyDown?.(e);
     if (e.defaultPrevented) return;
 
+    // Key combinations belong to the browser, the OS or the screen reader, such as Alt+Left Arrow, which goes back
+    // in browsers on Windows and Linux
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+
     // Only the enabled tabs: a disabled tab can't be focused, and other elements in the list aren't tabs
     const enabledTabs = tabs.filter((tab) => !tab.disabled);
     const currentIndex = enabledTabs.findIndex((tab) => tab.element === e.target);
     if (currentIndex === -1) return;
 
+    // The arrow keys follow the order on screen: in right-to-left text the next tab is on the left
+    const step = isRtl(e.currentTarget) ? -1 : 1;
+
     let nextIndex: number;
     switch (e.key) {
       case "ArrowRight":
-        nextIndex = (currentIndex + 1) % enabledTabs.length;
+        nextIndex = (currentIndex + step + enabledTabs.length) % enabledTabs.length;
         break;
       case "ArrowLeft":
-        nextIndex = (currentIndex - 1 + enabledTabs.length) % enabledTabs.length;
+        nextIndex = (currentIndex - step + enabledTabs.length) % enabledTabs.length;
         break;
       case "Home":
         nextIndex = 0;
