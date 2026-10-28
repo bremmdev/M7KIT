@@ -7,6 +7,7 @@ import {
   PRIMING_DELAY,
   QUEUE_DELAY,
   announce,
+  cancelAnnouncement,
   clearAnnouncer,
   ensureLiveRegion
 } from "./Announcer";
@@ -29,6 +30,26 @@ const advance = (ms: number) => act(() => jest.advanceTimersByTime(ms));
 const prime = (element?: Element | null) => {
   ensureLiveRegion(element);
   advance(PRIMING_DELAY);
+};
+
+// Every message that reaches a region, also ones that are replaced later: screen readers read each of them
+const recordAdditions = (politeness: "polite" | "assertive" = "polite") => {
+  const added: string[] = [];
+  const collect = (records: MutationRecord[]) => {
+    for (const record of records) {
+      for (const node of record.addedNodes) {
+        added.push(node.textContent ?? "");
+      }
+    }
+  };
+  const observer = new MutationObserver(collect);
+  observer.observe(getRegion(politeness)!, { childList: true });
+  return () => {
+    // Records not delivered yet (fake timers can hold back the observer's callback)
+    collect(observer.takeRecords());
+    observer.disconnect();
+    return added;
+  };
 };
 
 // jsdom doesn't implement showModal() or :modal. A dialog with data-modal stands in for one opened with showModal()
@@ -302,29 +323,6 @@ describe("Announcer", () => {
   });
 
   describe("Scenario: a quick series from one source, waiting until it stops (delay)", () => {
-    // Every message that reaches a region, also ones that are replaced later: screen readers read each of them
-    const recordAdditions = () => {
-      const added: string[] = [];
-      const observer = new MutationObserver((records) => {
-        for (const record of records) {
-          for (const node of record.addedNodes) {
-            added.push(node.textContent ?? "");
-          }
-        }
-      });
-      observer.observe(getRegion("polite")!, { childList: true });
-      return () => {
-        // Records not delivered yet (fake timers can hold back the observer's callback)
-        for (const record of observer.takeRecords()) {
-          for (const node of record.addedNodes) {
-            added.push(node.textContent ?? "");
-          }
-        }
-        observer.disconnect();
-        return added;
-      };
-    };
-
     it("should wait for the delay before writing", () => {
       prime();
       announce("Moved Apple to position 2 of 4", { delay: 500 });
@@ -705,6 +703,104 @@ describe("Announcer", () => {
       advance(QUEUE_DELAY);
       expect(messages("polite")).toEqual(["Step 2 of 3: shipping address"]);
       expect(heading).toHaveFocus();
+    });
+  });
+
+  describe("cancelAnnouncement", () => {
+    it("should drop the waiting message with the id, and still write the other messages", () => {
+      prime();
+      const stop = recordAdditions();
+      announce("Loading results", { id: "search" });
+      announce("Map updated", { id: "map" });
+      announce("Saved");
+
+      cancelAnnouncement("search");
+      advance(QUEUE_DELAY + MESSAGE_INTERVAL * 3);
+
+      expect(stop()).toEqual(["Map updated", "Saved"]);
+    });
+
+    it("should drop a delayed message before its wait is over", () => {
+      prime();
+      const stop = recordAdditions();
+      announce("Loading results", { id: "search", delay: 1000 });
+      advance(400);
+
+      cancelAnnouncement("search");
+      advance(2000);
+
+      expect(stop()).toEqual([]);
+    });
+
+    it("should keep the other messages on time", () => {
+      prime();
+      announce("Loading results", { id: "search" });
+      announce("Saved");
+
+      cancelAnnouncement("search");
+      advance(QUEUE_DELAY);
+
+      expect(messages("polite")).toEqual(["Saved"]);
+    });
+
+    it("should drop an assertive message too", () => {
+      prime();
+      const stop = recordAdditions("assertive");
+      announce("Connection lost", { politeness: "assertive", id: "connection" });
+
+      cancelAnnouncement("connection");
+      advance(QUEUE_DELAY + MESSAGE_INTERVAL);
+
+      expect(stop()).toEqual([]);
+    });
+
+    // Removing it would be silent (aria-relevant="additions"): the screen reader already has it
+    it("should leave a message that is already written until its timeout", () => {
+      prime();
+      announce("Loading results", { id: "search" });
+      advance(QUEUE_DELAY);
+
+      cancelAnnouncement("search");
+      expect(messages("polite")).toEqual(["Loading results"]);
+
+      advance(DEFAULT_TIMEOUT);
+      expect(messages("polite")).toEqual([]);
+    });
+
+    it("should let the id announce again afterwards, replacing its written message", () => {
+      prime();
+      announce("Loading results", { id: "search" });
+      advance(QUEUE_DELAY);
+      announce("Still loading", { id: "search" });
+      cancelAnnouncement("search");
+      advance(MESSAGE_INTERVAL);
+      expect(messages("polite")).toEqual(["Loading results"]);
+
+      announce("18 results", { id: "search" });
+      advance(QUEUE_DELAY);
+      expect(messages("polite")).toEqual(["18 results"]);
+    });
+
+    it("should drop a message that waits for a new pair of regions", () => {
+      announce("Loading results", { id: "search" });
+      // Written at 100 ms into a pair created then, which waits 150 ms
+      advance(QUEUE_DELAY);
+      expect(getWrappers()).toHaveLength(1);
+
+      cancelAnnouncement("search");
+      advance(PRIMING_DELAY + MESSAGE_INTERVAL);
+
+      expect(messages("polite")).toEqual([]);
+    });
+
+    it("should do nothing for an id without a waiting message", () => {
+      prime();
+      announce("Saved");
+
+      cancelAnnouncement("search");
+      advance(QUEUE_DELAY);
+
+      expect(messages("polite")).toEqual(["Saved"]);
     });
   });
 

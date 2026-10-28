@@ -16,8 +16,8 @@ export type AnnounceOptions = {
   from?: Element | null;
   /**
    * Identifies where the message comes from, for example one component instance. A message with the same `id` that is
-   * still waiting is replaced by the new one, so a burst only announces the latest. When it is
-   * written, an older message with the same `id` is removed from the live region
+   * still waiting is replaced by the new one, so a burst only announces the latest, and `cancelAnnouncement(id)` drops
+   * it. When it is written, an older message with the same `id` is removed from the live region
    */
   id?: string;
   /**

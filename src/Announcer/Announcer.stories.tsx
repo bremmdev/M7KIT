@@ -2,7 +2,7 @@ import React from "react";
 import { flushSync } from "react-dom";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { announce } from "./Announcer";
+import { announce, cancelAnnouncement } from "./Announcer";
 import { useAnnounce } from "./useAnnounce";
 import { Politeness } from "./Announcer.types";
 import { Button } from "../Button";
@@ -21,7 +21,7 @@ import { AnnouncerInspector } from "../_stories/AnnouncerInspector";
  * ## Usage
  *
  * ```tsx
- * import { announce, useAnnounce } from "@bremmdev/m7kit";
+ * import { announce, cancelAnnouncement, useAnnounce } from "@bremmdev/m7kit";
  *
  * // Anywhere, also outside React
  * announce("Profile saved");
@@ -31,6 +31,10 @@ import { AnnouncerInspector } from "../_stories/AnnouncerInspector";
  * const listRef = React.useRef<HTMLUListElement>(null);
  * const announceFromList = useAnnounce(listRef);
  * announceFromList(`Moved ${label} to position ${index + 1} of ${total}`, { id: listId });
+ *
+ * // A waiting message that is no longer true: the user stopped the upload
+ * announce("Uploading", { id: "upload", delay: 1000 });
+ * cancelAnnouncement("upload");
  * ```
  *
  * | Option | Default | |
@@ -41,7 +45,9 @@ import { AnnouncerInspector } from "../_stories/AnnouncerInspector";
  * | `delay` | | Milliseconds to wait before the message is written. A newer message with the same `id` starts the wait again, so a quick series is announced once, when it stops |
  * | `timeout` | `7000` | Milliseconds before the message is removed from its region |
  *
- * `clearAnnouncer(politeness?)` cancels waiting messages and empties the regions.
+ * `cancelAnnouncement(id)` drops the waiting message with that `id`, for when nothing needs to be said anymore, such as a
+ * delayed "Uploading" after the upload was stopped. A message that is already written stays.
+ * `clearAnnouncer(politeness?)` cancels all waiting messages and empties the regions.
  *
  * ## How it works
  *
@@ -387,6 +393,32 @@ export const RightAfterFocusMoves: Story = {
   render: () => (
     <Scenario inspector={<AnnouncerInspector logFocus />}>
       <DeleteWithFocusMove />
+    </Scenario>
+  )
+};
+
+/**
+ * `cancelAnnouncement(id)` drops the waiting message with that `id`. Messages with another `id` stay queued.
+ *
+ * - Click **Queue two messages**: both wait 3 seconds (`delay`). Then click **Cancel "Report ready"** within those 3
+ *   seconds: only "Draft saved" reaches the timeline.
+ * - Cancel **after** the 3 seconds: nothing changes. A message that is already written stays until its timeout,
+ *   because the screen reader already has it and removing it is silent.
+ */
+export const CancelAWaitingMessage: Story = {
+  render: () => (
+    <Scenario>
+      <Button
+        onClick={() => {
+          announce("Report ready", { id: "report-demo", delay: 3000 });
+          announce("Draft saved", { id: "draft-demo", delay: 3000 });
+        }}
+      >
+        Queue two messages, written in 3 seconds
+      </Button>
+      <Button variant="secondary" onClick={() => cancelAnnouncement("report-demo")}>
+        Cancel "Report ready"
+      </Button>
     </Scenario>
   )
 };

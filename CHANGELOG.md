@@ -1,3 +1,7 @@
+## 0.67.0 - 2026-10-28
+
+- `cancelAnnouncement(id)` drops a waiting announcement with that `id`, for when nothing needs to be said anymore, for example a delayed "Uploading" after the upload was stopped. Messages from other sources stay queued, and a message that is already written stays
+
 # 0.66.0 - 2026-10-16
 
 - Fix `AnimatedCount`:

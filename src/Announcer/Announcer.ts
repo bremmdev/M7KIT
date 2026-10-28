@@ -259,6 +259,21 @@ export const announce = (message: string, options: AnnounceOptions = {}) => {
 };
 
 /**
+ * Cancels the waiting message with this `id`, for when it turns out nothing needs to be said, such as a delayed
+ * "Uploading" message after the upload was stopped. Messages from other sources stay queued. A message that is already
+ * written stays until its timeout: the screen reader already has it, and removing it is silent.
+ *
+ * @example
+ * announce("Uploading", { id: "upload", delay: 1000 });
+ * // The user stops the upload before the message is written
+ * cancelAnnouncement("upload");
+ */
+export const cancelAnnouncement = (id: string) => {
+  queue = queue.filter((item) => item.id !== id);
+  schedule();
+};
+
+/**
  * Cancels waiting messages and empties the live regions, for one politeness or both.
  */
 export const clearAnnouncer = (politeness?: Politeness) => {
